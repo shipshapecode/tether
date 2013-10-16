@@ -1,6 +1,5 @@
 (function() {
-  var $, defaults, isIE, methods, pluginName;
-  pluginName = 'drop';
+  var $, debounce, drop, isIE, jQueryMethods;
   $ = jQuery;
   isIE = !!/msie [\w.]+/.exec(navigator.userAgent.toLowerCase());
   $.fn.extend({
@@ -16,105 +15,218 @@
           return /(auto|scroll)/.test($.css(this, 'overflow') + $.css(this, 'overflow-y') + $.css(this, 'overflow-x'));
         }).eq(0);
       }
-      return /fixed/.test(this.css('position')) || (!scrollParent.length ? $(document) : scrollParent);
+      return /fixed/.test(this.css('position')) || (!scrollParent.length ? $('html') : scrollParent);
     }
   });
-  defaults = {
-    trigger: 'click'
+  debounce = 0;
+  if (isIE) {
+    debounce = 100;
+  }
+  $(function() {
+    var resizePending;
+    drop.updateBodyClasses();
+    $(document).on('openDrop.drop, closeDrop.drop', function(event) {
+      return drop.updateBodyClasses();
+    });
+    resizePending = false;
+    return $(window).on('resize', function() {
+      if (resizePending) {
+        return;
+      }
+      resizePending = true;
+      return setTimeout(function() {
+        resizePending = false;
+        return $.each(drop.dropTargets, function(i, $target) {
+          if ($target.drop('isOpened')) {
+            return $target.drop('positionDrop');
+          }
+        });
+      }, debounce);
+    });
+  });
+  drop = {
+    baseClassNames: {
+      drop: 'drop',
+      opened: 'drop-opened',
+      closed: 'drop-closed',
+      allClosed: 'drop-all-closed'
+    },
+    defaults: {
+      trigger: 'click',
+      attach: 'bottomLeft',
+      constrainToScrollParent: true,
+      constrainToWindow: true,
+      className: '',
+      closedOnInit: true,
+      dropTag: 'div',
+      content: 'drop'
+    },
+    dropTargets: [],
+    updateBodyClasses: function() {
+      var anyOpen;
+      anyOpen = false;
+      $.each(drop.dropTargets, function(i, $target) {
+        if ($target.drop('isOpened')) {
+          return anyOpen = true;
+        }
+      });
+      if (anyOpen) {
+        return $('body').addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.allClosed);
+      } else {
+        return $('body').removeClass(drop.baseClassNames.opened).addClass(drop.baseClassNames.allClosed);
+      }
+    }
   };
-  methods = {
+  jQueryMethods = {
     init: function(opts) {
       return this.each(function() {
-        var $el, options;
-        $el = $(this);
-        options = $.extend({}, defaults, opts);
-        $el.data(pluginName, options);
-        return $el[pluginName]('drop');
+        var $target, options;
+        $target = $(this);
+        options = $.extend({}, drop.defaults, opts);
+        $target.data('drop', options);
+        drop.dropTargets.push($target);
+        return $target.drop('drop');
       });
     },
     drop: function() {
-      var $el, options;
-      $el = $(this);
-      options = $el.data(pluginName);
-      $el[pluginName]('setupDrop');
-      $el[pluginName]('setupEvents');
-      return $el[pluginName]('positionDrop');
+      var $target, options;
+      $target = $(this);
+      options = $target.data().drop;
+      $target.drop('setupDrop');
+      return $target.drop('setupEvents');
     },
     setupDrop: function() {
-      var $el, options;
-      $el = $(this);
-      options = $el.data(pluginName);
-      options.$drop = $('<div class="drop" style="display: none; background: pink; position: absolute; padding: 20px">stuff</div>');
+      var $target, options;
+      $target = $(this);
+      options = $target.data().drop;
+      options.$drop = $(document.createElement(options.dropTag));
+      options.$drop.addClass(drop.baseClassNames.drop);
+      options.$drop.addClass(options.className);
+      if (options.closedOnInit) {
+        options.$drop.addClass(drop.baseClassNames.closed);
+      }
+      options.$drop.append(options.content);
       $('body').append(options.$drop);
-      return $el;
+      return $target;
     },
     setupEvents: function() {
-      var $el, $scrollParent, options;
-      $el = $(this);
-      options = $el.data(pluginName);
-      $scrollParent = $el.scrollParent();
+      var $scrollParent, $target, options;
+      $target = $(this);
+      options = $target.data().drop;
+      $scrollParent = $target.scrollParent();
       $scrollParent.bind('scroll.drop', function() {
-        return $el[pluginName]('positionDrop');
+        return $target.drop('positionDrop');
+      });
+      $(window).bind('scroll.drop', function() {
+        return $target.drop('positionDrop');
       });
       if (options.trigger === 'click') {
-        $el.bind('click.drop', function() {
-          return $el[pluginName]('toggleDrop');
+        $target.bind('click.drop', function() {
+          return $target.drop('toggleDrop');
         });
-        $scrollParent.bind('click.drop', function(event) {
-          if ($(event.target).is($el[0]) || $el.find(event.target).length) {
+        $(document).bind('click.drop', function(event) {
+          if (!$target.drop('isOpened')) {
             return;
           }
-          return $el[pluginName]('hideDrop');
+          if ($(event.target).is(options.$drop[0]) || options.$drop.find(event.target).length) {
+            return;
+          }
+          if ($(event.target).is($target[0]) || $target.find(event.target).length) {
+            return;
+          }
+          return $target.drop('closeDrop');
         });
       }
-      return $el;
+      return $target;
     },
     toggleDrop: function() {
-      var $el, options;
-      $el = $(this);
-      options = $el.data(pluginName);
-      if (options.$drop.is(':hidden')) {
-        $el[pluginName]('showDrop');
+      var $target, options;
+      $target = $(this);
+      options = $target.data().drop;
+      if ($target.drop('isOpened')) {
+        $target.drop('closeDrop');
       } else {
-        $el[pluginName]('hideDrop');
+        $target.drop('openDrop');
       }
-      return $el;
+      return $target;
     },
-    showDrop: function() {
-      var $el, options;
-      $el = $(this);
-      options = $el.data(pluginName);
-      options.$drop.show();
-      return $el;
+    isOpened: function() {
+      return $(this).data().drop.$drop.hasClass(drop.baseClassNames.opened);
     },
-    hideDrop: function() {
-      var $el, options;
-      $el = $(this);
-      options = $el.data(pluginName);
-      options.$drop.hide();
-      return $el;
+    openDrop: function() {
+      var $target, options;
+      $target = $(this);
+      options = $target.data().drop;
+      $target.drop('positionDrop');
+      options.$drop.addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.closed);
+      $(document).trigger({
+        type: 'openDrop',
+        $drop: $target
+      });
+      return $target;
+    },
+    closeDrop: function() {
+      var $target, options;
+      $target = $(this);
+      options = $target.data().drop;
+      options.$drop.addClass(drop.baseClassNames.closed).removeClass(drop.baseClassNames.opened);
+      $(document).trigger({
+        type: 'closeDrop',
+        $drop: $target
+      });
+      return $target;
     },
     positionDrop: function() {
-      var $el, $scrollParent, options, scrollParentOffset, targetOffset;
-      $el = $(this);
-      options = $el.data(pluginName);
-      targetOffset = $el.offset();
-      $scrollParent = $el.scrollParent();
+      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, windowConstrainedTop, windowScrollLeft, windowScrollTop, _ref;
+      $target = $(this);
+      options = $target.data().drop;
+      targetOffset = $target.offset();
+      $scrollParent = $target.scrollParent();
       scrollParentOffset = $scrollParent.offset();
-      options.$drop.css({
-        top: Math.min(Math.max(targetOffset.top + $el.outerHeight(), scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - options.$drop.outerHeight()),
-        left: Math.min(Math.max(targetOffset.left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - options.$drop.outerWidth())
-      });
-      return $el;
+      targetOuterHeight = $target.outerHeight();
+      targetOuterWidth = $target.outerWidth();
+      dropOuterHeight = options.$drop.outerHeight();
+      dropOuterWidth = options.$drop.outerWidth();
+      windowScrollTop = $(window).scrollTop();
+      windowScrollLeft = $(window).scrollLeft();
+      if ((_ref = options.attach) === 'bottomLeft' || _ref === 'bottomRight') {
+        top = targetOffset.top + targetOuterHeight;
+        if (options.attach === 'bottomLeft') {
+          left = targetOffset.left;
+        }
+        if (options.attach === 'bottomRight') {
+          left = targetOffset.left + targetOuterWidth - dropOuterWidth;
+        }
+        if (options.constrainToScrollParent) {
+          top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight);
+          left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth);
+        }
+      }
+      if (options.constrainToWindow) {
+        windowConstrainedTop = Math.min(Math.max(top, windowScrollTop), $(window).height() + windowScrollTop - dropOuterHeight);
+        left = Math.min(Math.max(left, windowScrollLeft), $(window).width() + windowScrollLeft - dropOuterWidth);
+        if (top !== windowConstrainedTop) {
+          top = targetOffset.top - dropOuterHeight;
+        }
+      }
+      oldTop = parseInt(options.$drop.css('top'), 10);
+      oldLeft = parseInt(options.$drop.css('left'), 10);
+      if (oldTop === top && oldLeft === left) {
+        return $target;
+      }
+      options.$drop[0].style.top = top + 'px';
+      options.$drop[0].style.left = left + 'px';
+      return $target;
     }
   };
-  $.fn[pluginName] = function(options) {
-    if (methods[options]) {
-      return methods[options].apply(this, Array.prototype.slice.call(arguments, 1));
+  window.drop = drop;
+  $.fn.drop = function(options) {
+    if (jQueryMethods[options]) {
+      return jQueryMethods[options].apply(this, Array.prototype.slice.call(arguments, 1));
     } else if (typeof options === 'object' || !options) {
-      return methods.init.apply(this, arguments);
+      return jQueryMethods.init.apply(this, arguments);
     } else {
-      return $.error("jQuery." + pluginName + ": Method " + options + " does not exist");
+      return $.error("jQuery.drop: Method " + options + " does not exist");
     }
   };
 }).call(this);
