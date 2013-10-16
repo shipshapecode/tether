@@ -110,6 +110,7 @@ methods =
 
         $el
 
+
 $.fn[pluginName] = (options) ->
     if methods[options]
         methods[options].apply this, Array::slice.call(arguments, 1)
