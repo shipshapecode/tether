@@ -91,4 +91,9 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 <script src="../drop.js"></script>
 <script>
     $('.dropdown-link').drop();
+    $(function(){
+        $(document).on('openDrop closeDrop', function(event) {
+            log('event', 'type', event.type, 'drop', event.$drop[0]);
+        });
+    });
 </script>
