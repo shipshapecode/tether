@@ -13,13 +13,4 @@
     display: none; }
 
 .drop {
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -o-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  border-radius: 3px;
-  background: pink;
-  padding: 20px;
-  height: 100px;
-  width: 100px; }
+  background: white; }
