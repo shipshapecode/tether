@@ -4,7 +4,7 @@ pluginName = 'drop'
 
 
 $ = jQuery
-isIE = !!/msie [\w.]+/.exec navigator.userAgent.toLowerCase()
+isIE = not not /msie [\w.]+/.exec navigator.userAgent.toLowerCase()
 
 
 # Extracted from jQuery UI Core (to remove dependency)
