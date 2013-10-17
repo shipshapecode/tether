@@ -161,9 +161,9 @@ jQueryMethods =
 
         $scrollParent = $target.scrollParent()
 
+        scrollPending = false
         position = -> $target.drop 'positionDrop' if $target.drop 'isOpened'
 
-        scrollPending = false
         $scrollParent.on 'scroll.drop', ->
             return if scrollPending
             scrollPending = true
@@ -177,9 +177,6 @@ jQueryMethods =
                     scrollPending = false
                     position()
                 , debounce
-
-        $scrollParent.bind 'scroll.drop', ->
-
 
         if options.trigger is 'click'
             $target.bind 'click.drop', -> $target.drop 'toggleDrop'

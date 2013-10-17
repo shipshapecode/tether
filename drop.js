@@ -162,12 +162,12 @@
       $target = $(this);
       options = $target.data().drop;
       $scrollParent = $target.scrollParent();
+      scrollPending = false;
       position = function() {
         if ($target.drop('isOpened')) {
           return $target.drop('positionDrop');
         }
       };
-      scrollPending = false;
       $scrollParent.on('scroll.drop', function() {
         if (scrollPending) {
           return;
@@ -183,7 +183,6 @@
           }, debounce);
         }
       });
-      $scrollParent.bind('scroll.drop', function() {});
       if (options.trigger === 'click') {
         $target.bind('click.drop', function() {
           return $target.drop('toggleDrop');
