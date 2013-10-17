@@ -251,7 +251,6 @@
     },
     positionDrop: function() {
       var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, leftMax, leftMin, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, topMax, topMin, wasConstrained, windowScrollLeft, windowScrollTop, _ref, _ref2;
-      log('positionDrop');
       $target = $(this);
       options = $target.data().drop;
       targetOffset = $target.offset();

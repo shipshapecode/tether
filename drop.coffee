@@ -258,8 +258,6 @@ jQueryMethods =
                 .addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
 
     positionDrop: ->
-        log 'positionDrop'
-
         $target = $ @
         options = $target.data().drop
 
