@@ -1,12 +1,66 @@
-body {
-    font-family: "Helvetica Neue", sans-serif;
-    color: #444;
-    margin: 20px;
+.drop {
+    border-radius: 3px;
+    background: pink;
+    padding: 20px;
+    height: 100px;
+    width: 100px;
 }
-a {
-    cursor: pointer;
-    color: blue;
+
+.drop-target.drop-opened {
+    outline: 2px solid;
 }
+
+.body {
+    position: relative;
+    margin-right: 200px;
+}
+
+.page {
+    max-width: 100%;
+    width: 1080px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.navigation {
+    background: blue;
+    color: #fff;
+    height: 30px;
+    padding: 10px;
+    margin-right: 200px;
+}
+
+.navigation .item {
+    padding: 0 10px;
+}
+
+.navigation .item a {
+    color: inherit;
+}
+
+.right-sidebar {
+    position: fixed;
+    height: 50%;
+    width: 200px;
+    background: #eee;
+    overflow: auto;
+    right: 0;
+}
+
+.right-sidebar .item {
+    padding: 10px;
+}
+
+.right-sidebar-top {
+    top: 0;
+}
+
+.right-sidebar-bottom {
+    top: 50%;
+    background: #ccc;
+}
+
 .scroll-container {
     overflow: auto;
     background: #eee;
@@ -15,19 +69,10 @@ a {
     margin-right: 20px;
     height: 200px;
     width: 200px;
-    float: left;
 }
-.fixed-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-}
+
 .absolute-container {
     position: absolute;
     top: 20px;
     right: 300px;
-}
-.fixed-container-2 {
-    top: 20px;
-    right: 600px;
 }
