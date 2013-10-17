@@ -40,25 +40,42 @@
     });
   };
   $(function() {
-    var resizePending;
+    var resizePending, scrollPending;
     drop.updateBodyClasses();
     $(document).on('openDrop.drop, closeDrop.drop', function(event) {
       return drop.updateBodyClasses();
     });
     resizePending = false;
-    return $(window).on('resize', function() {
+    $(window).on('resize', function() {
       if (resizePending) {
         return;
       }
       resizePending = true;
-      return setTimeout(function() {
+      if (debounce === 0) {
         resizePending = false;
-        return $.each(drop.dropTargets, function(i, $target) {
-          if ($target.drop('isOpened')) {
-            return $target.drop('positionDrop');
-          }
-        });
-      }, debounce);
+        return drop.positionAll();
+      } else {
+        return setTimeout(function() {
+          resizePending = false;
+          return drop.positionAll();
+        }, debounce);
+      }
+    });
+    scrollPending = false;
+    return $(window).on('scroll.drop', function() {
+      if (scrollPending) {
+        return;
+      }
+      scrollPending = true;
+      if (debounce === 0) {
+        scrollPending = false;
+        return drop.positionAll();
+      } else {
+        return setTimeout(function() {
+          scrollPending = false;
+          return drop.positionAll();
+        }, debounce);
+      }
     });
   });
   drop = {
@@ -80,6 +97,13 @@
       content: 'drop'
     },
     dropTargets: [],
+    positionAll: function() {
+      return $.each(drop.dropTargets, function(i, $target) {
+        if ($target.drop('isOpened')) {
+          return $target.drop('positionDrop');
+        }
+      });
+    },
     updateBodyClasses: function() {
       var anyOpen;
       anyOpen = false;
@@ -134,16 +158,32 @@
       return $target;
     },
     setupEvents: function() {
-      var $scrollParent, $target, options;
+      var $scrollParent, $target, options, position, scrollPending;
       $target = $(this);
       options = $target.data().drop;
       $scrollParent = $target.scrollParent();
-      $scrollParent.bind('scroll.drop', function() {
-        return $target.drop('positionDrop');
+      position = function() {
+        if ($target.drop('isOpened')) {
+          return $target.drop('positionDrop');
+        }
+      };
+      scrollPending = false;
+      $scrollParent.on('scroll.drop', function() {
+        if (scrollPending) {
+          return;
+        }
+        scrollPending = true;
+        if (debounce === 0) {
+          scrollPending = false;
+          return position();
+        } else {
+          return setTimeout(function() {
+            scrollPending = false;
+            return position();
+          }, debounce);
+        }
       });
-      $(window).bind('scroll.drop', function() {
-        return $target.drop('positionDrop');
-      });
+      $scrollParent.bind('scroll.drop', function() {});
       if (options.trigger === 'click') {
         $target.bind('click.drop', function() {
           return $target.drop('toggleDrop');
@@ -212,6 +252,7 @@
     },
     positionDrop: function() {
       var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, leftMax, leftMin, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, topMax, topMin, wasConstrained, windowScrollLeft, windowScrollTop, _ref, _ref2;
+      log('positionDrop');
       $target = $(this);
       options = $target.data().drop;
       targetOffset = $target.offset();

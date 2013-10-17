@@ -53,15 +53,28 @@ $ ->
     resizePending = false
     $(window).on 'resize', ->
         return if resizePending
-
         resizePending = true
-        setTimeout ->
+        if debounce is 0
             resizePending = false
-            $.each drop.dropTargets, (i, $target) ->
-                if $target.drop 'isOpened'
-                    $target.drop 'positionDrop'
-        , debounce
+            drop.positionAll()
+        else
+            setTimeout ->
+                resizePending = false
+                drop.positionAll()
+            , debounce
 
+    scrollPending = false
+    $(window).on 'scroll.drop', ->
+        return if scrollPending
+        scrollPending = true
+        if debounce is 0
+            scrollPending = false
+            drop.positionAll()
+        else
+            setTimeout ->
+                scrollPending = false
+                drop.positionAll()
+            , debounce
 
 drop =
 
@@ -83,6 +96,11 @@ drop =
         content: 'drop'
 
     dropTargets: []
+
+    positionAll: ->
+        $.each drop.dropTargets, (i, $target) ->
+            if $target.drop 'isOpened'
+                $target.drop 'positionDrop'
 
     updateBodyClasses: ->
         anyOpen = false
@@ -143,8 +161,25 @@ jQueryMethods =
 
         $scrollParent = $target.scrollParent()
 
-        $scrollParent.bind 'scroll.drop', -> $target.drop 'positionDrop'
-        $(window).bind 'scroll.drop', -> $target.drop 'positionDrop'
+        position = -> $target.drop 'positionDrop' if $target.drop 'isOpened'
+
+        scrollPending = false
+        $scrollParent.on 'scroll.drop', ->
+            return if scrollPending
+            scrollPending = true
+
+            if debounce is 0
+                scrollPending = false
+                position()
+
+            else
+                setTimeout ->
+                    scrollPending = false
+                    position()
+                , debounce
+
+        $scrollParent.bind 'scroll.drop', ->
+
 
         if options.trigger is 'click'
             $target.bind 'click.drop', -> $target.drop 'toggleDrop'
@@ -226,6 +261,8 @@ jQueryMethods =
                 .addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
 
     positionDrop: ->
+        log 'positionDrop'
+
         $target = $ @
         options = $target.data().drop
 
