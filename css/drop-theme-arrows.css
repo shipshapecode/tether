@@ -1,71 +1,73 @@
-.drop.drop-theme-arrows .drop-content {
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -o-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -khtml-border-radius: 5px;
-  border-radius: 5px;
-  font-family: "Helvetica Neue", sans-serif;
-  background: black;
-  color: white;
-  padding: 1em;
+.drop.drop-theme-arrows {
   max-width: 100%;
-  font-size: 1.1em;
-  line-height: 1.5em; }
-  .drop.drop-theme-arrows .drop-content:before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-width: 16px;
-    border-style: solid; }
-  .drop.drop-theme-arrows .drop-content.drop-attached-bottom-left {
+  max-height: 100%; }
+  .drop.drop-theme-arrows .drop-content {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+    font-family: "Helvetica Neue", sans-serif;
+    background: black;
+    color: white;
+    padding: 1em;
+    font-size: 1.1em;
+    line-height: 1.5em; }
+    .drop.drop-theme-arrows .drop-content:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-width: 16px;
+      border-style: solid; }
+  .drop.drop-theme-arrows.drop-attached-bottom-left .drop-content {
     margin-top: 16px; }
-    .drop.drop-theme-arrows .drop-content.drop-attached-bottom-left:before {
+    .drop.drop-theme-arrows.drop-attached-bottom-left .drop-content:before {
       bottom: 100%;
       left: 16px;
       border-bottom-color: black; }
-  .drop.drop-theme-arrows .drop-content.drop-attached-bottom-right {
+  .drop.drop-theme-arrows.drop-attached-bottom-right .drop-content {
     margin-top: 16px; }
-    .drop.drop-theme-arrows .drop-content.drop-attached-bottom-right:before {
+    .drop.drop-theme-arrows.drop-attached-bottom-right .drop-content:before {
       bottom: 100%;
       right: 16px;
       border-bottom-color: black; }
-  .drop.drop-theme-arrows .drop-content.drop-attached-top-left {
+  .drop.drop-theme-arrows.drop-attached-top-left .drop-content {
     margin-top: 16px; }
-    .drop.drop-theme-arrows .drop-content.drop-attached-top-left:before {
+    .drop.drop-theme-arrows.drop-attached-top-left .drop-content:before {
       top: 100%;
       left: 16px;
       border-top-color: black; }
-  .drop.drop-theme-arrows .drop-content.drop-attached-top-right {
+  .drop.drop-theme-arrows.drop-attached-top-right .drop-content {
     margin-top: 16px; }
-    .drop.drop-theme-arrows .drop-content.drop-attached-top-right:before {
+    .drop.drop-theme-arrows.drop-attached-top-right .drop-content:before {
       top: 100%;
       right: 16px;
       border-top-color: black; }
-  .drop.drop-theme-arrows .drop-content.drop-attached-left-top {
+  .drop.drop-theme-arrows.drop-attached-left-top .drop-content {
     margin-left: -16px; }
-    .drop.drop-theme-arrows .drop-content.drop-attached-left-top:before {
+    .drop.drop-theme-arrows.drop-attached-left-top .drop-content:before {
       top: 16px;
       left: 100%;
       border-left-color: black; }
-  .drop.drop-theme-arrows .drop-content.drop-attached-right-top {
+  .drop.drop-theme-arrows.drop-attached-right-top .drop-content {
     margin-left: 16px; }
-    .drop.drop-theme-arrows .drop-content.drop-attached-right-top:before {
+    .drop.drop-theme-arrows.drop-attached-right-top .drop-content:before {
       top: 16px;
       right: 100%;
       border-right-color: black; }
-  .drop.drop-theme-arrows .drop-content.drop-attached-left-bottom {
+  .drop.drop-theme-arrows.drop-attached-left-bottom .drop-content {
     margin-left: -16px; }
-    .drop.drop-theme-arrows .drop-content.drop-attached-left-bottom:before {
+    .drop.drop-theme-arrows.drop-attached-left-bottom .drop-content:before {
       bottom: 16px;
       left: 100%;
       border-left-color: black; }
-  .drop.drop-theme-arrows .drop-content.drop-attached-right-bottom {
+  .drop.drop-theme-arrows.drop-attached-right-bottom .drop-content {
     margin-left: 16px; }
-    .drop.drop-theme-arrows .drop-content.drop-attached-right-bottom:before {
+    .drop.drop-theme-arrows.drop-attached-right-bottom .drop-content:before {
       bottom: 16px;
       right: 100%;
       border-right-color: black; }
