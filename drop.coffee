@@ -213,7 +213,8 @@ jQueryMethods =
         $target = $ @
         options = $target.data().drop
 
-        $('body').append options.$drop
+        unless options.$drop.parent().length
+            $('body').append options.$drop
 
         $target.drop 'positionDrop'
 
@@ -239,12 +240,9 @@ jQueryMethods =
             .addClass(drop.baseClassNames.closed)
             .removeClass(drop.baseClassNames.opened)
 
-        # TODO - support transitions here in the future
-        # options.$drop
-        #     .addClass(drop.baseClassNames.closed)
-        #     .removeClass(drop.baseClassNames.opened)
-
-        options.$drop.remove()
+        options.$drop
+            .addClass(drop.baseClassNames.closed)
+            .removeClass(drop.baseClassNames.opened)
 
         options.$drop.trigger
             type: 'closeDrop'

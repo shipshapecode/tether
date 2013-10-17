@@ -220,7 +220,9 @@
       var $target, options;
       $target = $(this);
       options = $target.data().drop;
-      $('body').append(options.$drop);
+      if (!options.$drop.parent().length) {
+        $('body').append(options.$drop);
+      }
       $target.drop('positionDrop');
       $target.addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.closed);
       options.$drop.addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.closed);
@@ -235,7 +237,7 @@
       $target = $(this);
       options = $target.data().drop;
       $target.addClass(drop.baseClassNames.closed).removeClass(drop.baseClassNames.opened);
-      options.$drop.remove();
+      options.$drop.addClass(drop.baseClassNames.closed).removeClass(drop.baseClassNames.opened);
       options.$drop.trigger({
         type: 'closeDrop',
         $drop: $target
