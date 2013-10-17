@@ -1,11 +1,3 @@
-.drop {
-    border-radius: 3px;
-    background: pink;
-    padding: 20px;
-    height: 100px;
-    width: 100px;
-}
-
 .drop-target.drop-opened {
     outline: 2px solid;
 }
