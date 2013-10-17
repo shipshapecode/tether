@@ -304,9 +304,12 @@ jQueryMethods =
 
         # Constraints
 
-        if options.constrainToScrollParent and not $scrollParent.is('html')
-            top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight)
-            left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth)
+        unless $scrollParent.is('html')
+            if options.constrainToScrollParent or options.attachFirst in ['left', 'right']
+                top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight)
+
+            if options.constrainToScrollParent or options.attachFirst in ['top', 'bottom']
+                left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth)
 
         if options.constrainToWindow
             wasConstrained = false

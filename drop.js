@@ -250,7 +250,7 @@
       });
     },
     positionDrop: function() {
-      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, leftMax, leftMin, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, topMax, topMin, wasConstrained, windowScrollLeft, windowScrollTop, _ref, _ref2;
+      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, leftMax, leftMin, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, topMax, topMin, wasConstrained, windowScrollLeft, windowScrollTop, _ref, _ref2, _ref3, _ref4;
       $target = $(this);
       options = $target.data().drop;
       targetOffset = $target.offset();
@@ -286,9 +286,13 @@
       if (options.attachSecond === 'bottom') {
         top = targetOffset.top + targetOuterHeight - dropOuterHeight;
       }
-      if (options.constrainToScrollParent && !$scrollParent.is('html')) {
-        top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight);
-        left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth);
+      if (!$scrollParent.is('html')) {
+        if (options.constrainToScrollParent || ((_ref = options.attachFirst) === 'left' || _ref === 'right')) {
+          top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight);
+        }
+        if (options.constrainToScrollParent || ((_ref2 = options.attachFirst) === 'top' || _ref2 === 'bottom')) {
+          left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth);
+        }
       }
       if (options.constrainToWindow) {
         wasConstrained = false;
@@ -296,7 +300,7 @@
         topMax = $(window).height() + windowScrollTop - dropOuterHeight;
         leftMin = windowScrollLeft;
         leftMax = $(window).width() + windowScrollLeft - dropOuterWidth;
-        if ((_ref = options.attachFirst) === 'top' || _ref === 'bottom') {
+        if ((_ref3 = options.attachFirst) === 'top' || _ref3 === 'bottom') {
           if (top < topMin) {
             wasConstrained = true;
             top = topMin;
@@ -310,7 +314,7 @@
             $target.drop('attach', 'top', options.attachSecond);
           }
         }
-        if ((_ref2 = options.attachFirst) === 'left' || _ref2 === 'right') {
+        if ((_ref4 = options.attachFirst) === 'left' || _ref4 === 'right') {
           if (left < leftMin) {
             wasConstrained = true;
             left = leftMin;
