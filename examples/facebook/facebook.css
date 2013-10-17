@@ -4,7 +4,7 @@
 
 .body {
     position: relative;
-    margin-right: 200px;
+    margin-right: 300px;
 }
 
 .page {
@@ -18,26 +18,38 @@
 .navigation {
     background: blue;
     color: #fff;
-    height: 30px;
-    padding: 10px;
-    margin-right: 200px;
+    margin-right: 300px;
+    margin-bottom: 30px;
 }
 
-.navigation .item {
-    padding: 0 10px;
+.navigation .item a {
+    padding: 30px 20px;
+    display: inline-block;
 }
 
 .navigation .item a {
     color: inherit;
 }
 
+.navigation .drop-target.drop-opened {
+    background: #fff;
+    color: blue;
+    outline: none;
+}
+
 .right-sidebar {
     position: fixed;
     height: 50%;
-    width: 200px;
+    width: 300px;
     background: #eee;
     overflow: auto;
     right: 0;
+}
+
+.right-sidebar .drop-target.drop-opened {
+    background: blue;
+    color: #fff;
+    outline: none;
 }
 
 .right-sidebar .item a {
