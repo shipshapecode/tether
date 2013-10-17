@@ -39,6 +39,11 @@ $.fn.extend
         return (/fixed/).test(this.css('position')) or (if not scrollParent.length then $('html') else scrollParent)
 
 
+$.fn.removeClassPrefix = (prefix) ->
+    $(@).attr 'class', (index, className) ->
+        className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '')
+
+
 $ ->
 
     drop.updateBodyClasses()
