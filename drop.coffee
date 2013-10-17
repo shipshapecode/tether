@@ -17,6 +17,7 @@ Drop - Finally a dropdown which understands where it is.
 
 $ = jQuery
 isIE = not not /msie [\w.]+/.exec navigator.userAgent.toLowerCase()
+debounce = if isIE then 100 else 0
 
 
 # Extracted from jQuery UI Core (to remove dependency)
@@ -37,9 +38,6 @@ $.fn.extend
 
         return (/fixed/).test(this.css('position')) or (if not scrollParent.length then $('html') else scrollParent)
 
-debounce = 0
-if isIE
-    debounce = 100
 
 $ ->
 
