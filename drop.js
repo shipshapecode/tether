@@ -154,7 +154,6 @@
         options.$drop.addClass(drop.baseClassNames.closed);
       }
       options.$drop.append(options.content);
-      $('body').append(options.$drop);
       return $target;
     },
     setupEvents: function() {
@@ -220,9 +219,10 @@
       var $target, options;
       $target = $(this);
       options = $target.data().drop;
+      $('body').append(options.$drop);
       $target.drop('positionDrop');
-      options.$drop.addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.closed);
       $target.addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.closed);
+      options.$drop.addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.closed);
       options.$drop.trigger({
         type: 'openDrop',
         $drop: $target
@@ -233,8 +233,8 @@
       var $target, options;
       $target = $(this);
       options = $target.data().drop;
-      options.$drop.addClass(drop.baseClassNames.closed).removeClass(drop.baseClassNames.opened);
       $target.addClass(drop.baseClassNames.closed).removeClass(drop.baseClassNames.opened);
+      options.$drop.remove();
       options.$drop.trigger({
         type: 'closeDrop',
         $drop: $target
