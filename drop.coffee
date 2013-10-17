@@ -94,6 +94,7 @@ drop =
         closedOnInit: true
         dropTag: 'div'
         content: 'drop'
+        prerender: false # TODO - this would allow drop to be rendered before being opened
 
     dropTargets: []
 

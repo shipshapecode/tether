@@ -94,7 +94,8 @@
       className: '',
       closedOnInit: true,
       dropTag: 'div',
-      content: 'drop'
+      content: 'drop',
+      prerender: false
     },
     dropTargets: [],
     positionAll: function() {
