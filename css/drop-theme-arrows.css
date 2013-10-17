@@ -8,6 +8,7 @@
     -ms-border-radius: 5px;
     -khtml-border-radius: 5px;
     border-radius: 5px;
+    position: relative;
     font-family: "Helvetica Neue", sans-serif;
     background: black;
     color: white;
@@ -24,49 +25,49 @@
       border-width: 16px;
       border-style: solid; }
   .drop.drop-theme-arrows.drop-attached-bottom-left .drop-content {
-    margin-top: 16px; }
+    top: 16px; }
     .drop.drop-theme-arrows.drop-attached-bottom-left .drop-content:before {
       bottom: 100%;
       left: 16px;
       border-bottom-color: black; }
   .drop.drop-theme-arrows.drop-attached-bottom-right .drop-content {
-    margin-top: 16px; }
+    top: 16px; }
     .drop.drop-theme-arrows.drop-attached-bottom-right .drop-content:before {
       bottom: 100%;
       right: 16px;
       border-bottom-color: black; }
   .drop.drop-theme-arrows.drop-attached-top-left .drop-content {
-    margin-top: 16px; }
+    top: 16px; }
     .drop.drop-theme-arrows.drop-attached-top-left .drop-content:before {
       top: 100%;
       left: 16px;
       border-top-color: black; }
   .drop.drop-theme-arrows.drop-attached-top-right .drop-content {
-    margin-top: 16px; }
+    top: 16px; }
     .drop.drop-theme-arrows.drop-attached-top-right .drop-content:before {
       top: 100%;
       right: 16px;
       border-top-color: black; }
   .drop.drop-theme-arrows.drop-attached-left-top .drop-content {
-    margin-left: -16px; }
+    left: -16px; }
     .drop.drop-theme-arrows.drop-attached-left-top .drop-content:before {
       top: 16px;
       left: 100%;
       border-left-color: black; }
   .drop.drop-theme-arrows.drop-attached-right-top .drop-content {
-    margin-left: 16px; }
+    left: 16px; }
     .drop.drop-theme-arrows.drop-attached-right-top .drop-content:before {
       top: 16px;
       right: 100%;
       border-right-color: black; }
   .drop.drop-theme-arrows.drop-attached-left-bottom .drop-content {
-    margin-left: -16px; }
+    left: -16px; }
     .drop.drop-theme-arrows.drop-attached-left-bottom .drop-content:before {
       bottom: 16px;
       left: 100%;
       border-left-color: black; }
   .drop.drop-theme-arrows.drop-attached-right-bottom .drop-content {
-    margin-left: 16px; }
+    left: 16px; }
     .drop.drop-theme-arrows.drop-attached-right-bottom .drop-content:before {
       bottom: 16px;
       right: 100%;

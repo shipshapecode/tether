@@ -11,6 +11,7 @@ $color: #fff
 
     .drop-content
         +border-radius(5px)
+        position: relative
         font-family: "Helvetica Neue", sans-serif
         background: $backgroundColor
         color: $color
@@ -29,7 +30,7 @@ $color: #fff
             border-style: solid
 
     &.drop-attached-bottom-left .drop-content
-        margin-top: $arrowSize
+        top: $arrowSize
 
         &:before
             bottom: 100%
@@ -37,7 +38,7 @@ $color: #fff
             border-bottom-color: $backgroundColor
 
     &.drop-attached-bottom-right .drop-content
-        margin-top: $arrowSize
+        top: $arrowSize
 
         &:before
             bottom: 100%
@@ -45,7 +46,7 @@ $color: #fff
             border-bottom-color: $backgroundColor
 
     &.drop-attached-top-left .drop-content
-        margin-top: $arrowSize
+        top: $arrowSize
 
         &:before
             top: 100%
@@ -53,7 +54,7 @@ $color: #fff
             border-top-color: $backgroundColor
 
     &.drop-attached-top-right .drop-content
-        margin-top: $arrowSize
+        top: $arrowSize
 
         &:before
             top: 100%
@@ -61,7 +62,7 @@ $color: #fff
             border-top-color: $backgroundColor
 
     &.drop-attached-left-top .drop-content
-        margin-left: - $arrowSize
+        left: - $arrowSize
 
         &:before
             top: $arrowSize
@@ -69,7 +70,7 @@ $color: #fff
             border-left-color: $backgroundColor
 
     &.drop-attached-right-top .drop-content
-        margin-left: $arrowSize
+        left: $arrowSize
 
         &:before
             top: $arrowSize
@@ -77,7 +78,7 @@ $color: #fff
             border-right-color: $backgroundColor
 
     &.drop-attached-left-bottom .drop-content
-        margin-left: - $arrowSize
+        left: - $arrowSize
 
         &:before
             bottom: $arrowSize
@@ -85,7 +86,7 @@ $color: #fff
             border-left-color: $backgroundColor
 
     &.drop-attached-right-bottom .drop-content
-        margin-left: $arrowSize
+        left: $arrowSize
 
         &:before
             bottom: $arrowSize
