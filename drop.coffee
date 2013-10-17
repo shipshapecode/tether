@@ -277,6 +277,8 @@ jQueryMethods =
             left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth)
 
         if options.constrainToWindow
+            wasConstrained = false
+
             topMin = windowScrollTop
             topMax = $(window).height() + windowScrollTop - dropOuterHeight
 
@@ -286,11 +288,13 @@ jQueryMethods =
             if options.attachFirst in ['top', 'bottom']
 
                 if top < topMin
+                    wasConstrained = true
                     top = topMin
                     top = targetOffset.top + targetOuterHeight
                     $target.drop('attach', 'bottom', options.attachSecond)
 
                 if top > topMax
+                    wasConstrained = true
                     top = topMax
                     top = targetOffset.top - dropOuterHeight
                     $target.drop('attach', 'top', options.attachSecond)
@@ -298,14 +302,18 @@ jQueryMethods =
             if options.attachFirst in ['left', 'right']
 
                 if left < leftMin
+                    wasConstrained = true
                     left = leftMin
                     left = targetOffset.left + targetOuterWidth
-                    $target.drop('attach', 'right', option.attachSecond)
+                    $target.drop('attach', 'right', options.attachSecond)
 
-                if left > leftMax
+                else if left > leftMax
+                    wasConstrained = true
                     left = leftMax
                     left = targetOffset.left - dropOuterWidth
-                    $target.drop('attach', 'left', option.attachSecond)
+                    $target.drop('attach', 'left', options.attachSecond)
+
+            $target.drop('attach', options.attachFirst, options.attachSecond) unless wasConstrained
 
             top = Math.min(Math.max(top, topMin), topMax)
             left = Math.min(Math.max(left, leftMin), leftMax)

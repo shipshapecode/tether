@@ -211,7 +211,7 @@
       });
     },
     positionDrop: function() {
-      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, leftMax, leftMin, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, topMax, topMin, windowScrollLeft, windowScrollTop, _ref, _ref2;
+      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, leftMax, leftMin, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, topMax, topMin, wasConstrained, windowScrollLeft, windowScrollTop, _ref, _ref2;
       $target = $(this);
       options = $target.data().drop;
       targetOffset = $target.offset();
@@ -252,17 +252,20 @@
         left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth);
       }
       if (options.constrainToWindow) {
+        wasConstrained = false;
         topMin = windowScrollTop;
         topMax = $(window).height() + windowScrollTop - dropOuterHeight;
         leftMin = windowScrollLeft;
         leftMax = $(window).width() + windowScrollLeft - dropOuterWidth;
         if ((_ref = options.attachFirst) === 'top' || _ref === 'bottom') {
           if (top < topMin) {
+            wasConstrained = true;
             top = topMin;
             top = targetOffset.top + targetOuterHeight;
             $target.drop('attach', 'bottom', options.attachSecond);
           }
           if (top > topMax) {
+            wasConstrained = true;
             top = topMax;
             top = targetOffset.top - dropOuterHeight;
             $target.drop('attach', 'top', options.attachSecond);
@@ -270,15 +273,19 @@
         }
         if ((_ref2 = options.attachFirst) === 'left' || _ref2 === 'right') {
           if (left < leftMin) {
+            wasConstrained = true;
             left = leftMin;
             left = targetOffset.left + targetOuterWidth;
-            $target.drop('attach', 'right', option.attachSecond);
-          }
-          if (left > leftMax) {
+            $target.drop('attach', 'right', options.attachSecond);
+          } else if (left > leftMax) {
+            wasConstrained = true;
             left = leftMax;
             left = targetOffset.left - dropOuterWidth;
-            $target.drop('attach', 'left', option.attachSecond);
+            $target.drop('attach', 'left', options.attachSecond);
           }
+        }
+        if (!wasConstrained) {
+          $target.drop('attach', options.attachFirst, options.attachSecond);
         }
         top = Math.min(Math.max(top, topMin), topMax);
         left = Math.min(Math.max(left, leftMin), leftMax);
