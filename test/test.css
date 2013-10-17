@@ -1,15 +1,3 @@
-/* Test Drop Theme */
-
-.drop {
-    border-radius: 3px;
-    background: pink;
-    padding: 20px;
-    height: 100px;
-    width: 100px;
-}
-
-/* Theme Page Styles */
-
 body {
     font-family: "Helvetica Neue", sans-serif;
     color: #444;
