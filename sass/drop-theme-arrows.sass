@@ -1,0 +1,90 @@
+@import compass/css3
+@import compass/utilities/general/clearfix
+
+$arrowSize: 16px
+$backgroundColor: #000
+$color: #fff
+
+.drop.drop-theme-arrows
+    +border-radius(5px)
+    font-family: "Helvetica Neue", sans-serif
+    background: $backgroundColor
+    color: $color
+    padding: 1em
+    max-width: 100%
+    font-size: 1.1em
+    line-height: 1.5em
+
+    &:before
+        content: ""
+        display: block
+        position: absolute
+        width: 0
+        height: 0
+        border-color: transparent
+        border-width: $arrowSize
+        border-style: solid
+
+    &.drop-attached-bottom-left
+        margin-top: $arrowSize
+
+        &:before
+            bottom: 100%
+            left: $arrowSize
+            border-bottom-color: $backgroundColor
+
+    &.drop-attached-bottom-right
+        margin-top: $arrowSize
+
+        &:before
+            bottom: 100%
+            right: $arrowSize
+            border-bottom-color: $backgroundColor
+
+    &.drop-attached-top-left
+        margin-top: $arrowSize
+
+        &:before
+            top: 100%
+            left: $arrowSize
+            border-top-color: $backgroundColor
+
+    &.drop-attached-top-right
+        margin-top: $arrowSize
+
+        &:before
+            top: 100%
+            right: $arrowSize
+            border-top-color: $backgroundColor
+
+    &.drop-attached-left-top
+        margin-left: - $arrowSize
+
+        &:before
+            top: $arrowSize
+            left: 100%
+            border-left-color: $backgroundColor
+
+    &.drop-attached-right-top
+        margin-left: $arrowSize
+
+        &:before
+            top: $arrowSize
+            right: 100%
+            border-right-color: $backgroundColor
+
+    &.drop-attached-left-bottom
+        margin-left: - $arrowSize
+
+        &:before
+            bottom: $arrowSize
+            left: 100%
+            border-left-color: $backgroundColor
+
+    &.drop-attached-right-bottom
+        margin-left: $arrowSize
+
+        &:before
+            bottom: $arrowSize
+            right: 100%
+            border-right-color: $backgroundColor

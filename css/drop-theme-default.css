@@ -1,0 +1,18 @@
+.drop.drop-theme-default {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Helvetica Neue", sans-serif;
+  background: white;
+  color: inherit;
+  padding: 1em;
+  max-width: 100%;
+  font-size: 1.1em;
+  line-height: 1.5em; }
