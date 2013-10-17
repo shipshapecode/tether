@@ -1,4 +1,19 @@
 (function() {
+  /*
+  
+  Drop - Finally a dropdown which understands where it is.
+  
+      - Attach to 8 different locations
+      - Attach options diagram:
+  
+              topLeft  topRight
+                   |    |
+         leftTop --TARGET-- rightTop
+      leftBottom --TARGET-- rightBottom
+                   |    |
+            bottomLeft bottomRight
+  
+  */
   var $, debounce, drop, isIE, jQueryMethods;
   $ = jQuery;
   isIE = !!/msie [\w.]+/.exec(navigator.userAgent.toLowerCase());
@@ -52,8 +67,8 @@
       allClosed: 'drop-all-closed'
     },
     defaults: {
-      trigger: 'click',
       attach: 'bottomLeft',
+      trigger: 'click',
       constrainToScrollParent: true,
       constrainToWindow: true,
       className: '',
@@ -177,7 +192,7 @@
       return $target;
     },
     positionDrop: function() {
-      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, windowConstrainedTop, windowScrollLeft, windowScrollTop, _ref;
+      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, windowConstrainedTop, windowScrollLeft, windowScrollTop, _ref, _ref10, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
       $target = $(this);
       options = $target.data().drop;
       targetOffset = $target.offset();
@@ -191,22 +206,42 @@
       windowScrollLeft = $(window).scrollLeft();
       if ((_ref = options.attach) === 'bottomLeft' || _ref === 'bottomRight') {
         top = targetOffset.top + targetOuterHeight;
-        if (options.attach === 'bottomLeft') {
-          left = targetOffset.left;
-        }
-        if (options.attach === 'bottomRight') {
-          left = targetOffset.left + targetOuterWidth - dropOuterWidth;
-        }
-        if (options.constrainToScrollParent) {
-          top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight);
-          left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth);
-        }
+      }
+      if ((_ref2 = options.attach) === 'topLeft' || _ref2 === 'topRight') {
+        top = targetOffset.top - dropOuterHeight;
+      }
+      if ((_ref3 = options.attach) === 'bottomLeft' || _ref3 === 'topLeft') {
+        left = targetOffset.left;
+      }
+      if ((_ref4 = options.attach) === 'bottomRight' || _ref4 === 'topRight') {
+        left = targetOffset.left + targetOuterWidth - dropOuterWidth;
+      }
+      if ((_ref5 = options.attach) === 'rightTop' || _ref5 === 'rightBottom') {
+        left = targetOffset.left + targetOuterWidth;
+      }
+      if ((_ref6 = options.attach) === 'leftTop' || _ref6 === 'leftBottom') {
+        left = targetOffset.left - dropOuterWidth;
+      }
+      if ((_ref7 = options.attach) === 'rightTop' || _ref7 === 'leftTop') {
+        top = targetOffset.top;
+      }
+      if ((_ref8 = options.attach) === 'rightBottom' || _ref8 === 'leftBottom') {
+        top = targetOffset.top + targetOuterHeight - dropOuterHeight;
+      }
+      if (options.constrainToScrollParent) {
+        top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight);
+        left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth);
       }
       if (options.constrainToWindow) {
         windowConstrainedTop = Math.min(Math.max(top, windowScrollTop), $(window).height() + windowScrollTop - dropOuterHeight);
         left = Math.min(Math.max(left, windowScrollLeft), $(window).width() + windowScrollLeft - dropOuterWidth);
         if (top !== windowConstrainedTop) {
-          top = targetOffset.top - dropOuterHeight;
+          if ((_ref9 = options.attach) === 'bottomLeft' || _ref9 === 'bottomRight') {
+            top = targetOffset.top - dropOuterHeight;
+          }
+          if ((_ref10 = options.attach) === 'topLeft' || _ref10 === 'topRight') {
+            top = targetOffset.top + targetOuterHeight;
+          }
         }
       }
       oldTop = parseInt(options.$drop.css('top'), 10);

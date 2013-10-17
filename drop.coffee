@@ -1,4 +1,18 @@
-# Finally a dropdown which understands where it is.
+###
+
+Drop - Finally a dropdown which understands where it is.
+
+    - Attach to 8 different locations
+    - Attach options diagram:
+
+            topLeft  topRight
+                 |    |
+       leftTop --TARGET-- rightTop
+    leftBottom --TARGET-- rightBottom
+                 |    |
+          bottomLeft bottomRight
+
+###
 
 
 $ = jQuery
@@ -54,8 +68,8 @@ drop =
         allClosed: 'drop-all-closed'
 
     defaults:
-        trigger: 'click'
         attach: 'bottomLeft'
+        trigger: 'click'
         constrainToScrollParent: true
         constrainToWindow: true
         className: ''
@@ -198,25 +212,50 @@ jQueryMethods =
         windowScrollTop = $(window).scrollTop()
         windowScrollLeft = $(window).scrollLeft()
 
+        # Above and below target
+
         if options.attach in ['bottomLeft', 'bottomRight']
             top = targetOffset.top + targetOuterHeight
 
-            if options.attach is 'bottomLeft'
-                left = targetOffset.left
+        if options.attach in ['topLeft', 'topRight']
+            top = targetOffset.top - dropOuterHeight
 
-            if options.attach is 'bottomRight'
-                left = targetOffset.left + targetOuterWidth - dropOuterWidth
+        if options.attach in ['bottomLeft', 'topLeft']
+            left = targetOffset.left
 
-            if options.constrainToScrollParent
-                top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight)
-                left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth)
+        if options.attach in ['bottomRight', 'topRight']
+            left = targetOffset.left + targetOuterWidth - dropOuterWidth
+
+        # Left and right of target
+
+        if options.attach in ['rightTop', 'rightBottom']
+            left = targetOffset.left + targetOuterWidth
+
+        if options.attach in ['leftTop', 'leftBottom']
+            left = targetOffset.left - dropOuterWidth
+
+        if options.attach in ['rightTop', 'leftTop']
+            top = targetOffset.top
+
+        if options.attach in ['rightBottom', 'leftBottom']
+            top = targetOffset.top + targetOuterHeight - dropOuterHeight
+
+        # Constraints
+
+        if options.constrainToScrollParent
+            top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight)
+            left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth)
 
         if options.constrainToWindow
             windowConstrainedTop = Math.min(Math.max(top, windowScrollTop), $(window).height() + windowScrollTop - dropOuterHeight)
             left = Math.min(Math.max(left, windowScrollLeft), $(window).width() + windowScrollLeft - dropOuterWidth)
 
             if top isnt windowConstrainedTop
-                top = targetOffset.top - dropOuterHeight
+                if options.attach in ['bottomLeft', 'bottomRight']
+                    top = targetOffset.top - dropOuterHeight
+
+                if options.attach in ['topLeft', 'topRight']
+                    top = targetOffset.top + targetOuterHeight
 
         oldTop = parseInt(options.$drop.css('top'), 10)
         oldLeft = parseInt(options.$drop.css('left'), 10)
