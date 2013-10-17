@@ -1,4 +1,4 @@
-.drop.drop-theme-arrows {
+.drop.drop-theme-arrows .drop-content {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -o-border-radius: 5px;
@@ -12,7 +12,7 @@
   max-width: 100%;
   font-size: 1.1em;
   line-height: 1.5em; }
-  .drop.drop-theme-arrows:before {
+  .drop.drop-theme-arrows .drop-content:before {
     content: "";
     display: block;
     position: absolute;
@@ -21,51 +21,51 @@
     border-color: transparent;
     border-width: 16px;
     border-style: solid; }
-  .drop.drop-theme-arrows.drop-attached-bottom-left {
+  .drop.drop-theme-arrows .drop-content.drop-attached-bottom-left {
     margin-top: 16px; }
-    .drop.drop-theme-arrows.drop-attached-bottom-left:before {
+    .drop.drop-theme-arrows .drop-content.drop-attached-bottom-left:before {
       bottom: 100%;
       left: 16px;
       border-bottom-color: black; }
-  .drop.drop-theme-arrows.drop-attached-bottom-right {
+  .drop.drop-theme-arrows .drop-content.drop-attached-bottom-right {
     margin-top: 16px; }
-    .drop.drop-theme-arrows.drop-attached-bottom-right:before {
+    .drop.drop-theme-arrows .drop-content.drop-attached-bottom-right:before {
       bottom: 100%;
       right: 16px;
       border-bottom-color: black; }
-  .drop.drop-theme-arrows.drop-attached-top-left {
+  .drop.drop-theme-arrows .drop-content.drop-attached-top-left {
     margin-top: 16px; }
-    .drop.drop-theme-arrows.drop-attached-top-left:before {
+    .drop.drop-theme-arrows .drop-content.drop-attached-top-left:before {
       top: 100%;
       left: 16px;
       border-top-color: black; }
-  .drop.drop-theme-arrows.drop-attached-top-right {
+  .drop.drop-theme-arrows .drop-content.drop-attached-top-right {
     margin-top: 16px; }
-    .drop.drop-theme-arrows.drop-attached-top-right:before {
+    .drop.drop-theme-arrows .drop-content.drop-attached-top-right:before {
       top: 100%;
       right: 16px;
       border-top-color: black; }
-  .drop.drop-theme-arrows.drop-attached-left-top {
+  .drop.drop-theme-arrows .drop-content.drop-attached-left-top {
     margin-left: -16px; }
-    .drop.drop-theme-arrows.drop-attached-left-top:before {
+    .drop.drop-theme-arrows .drop-content.drop-attached-left-top:before {
       top: 16px;
       left: 100%;
       border-left-color: black; }
-  .drop.drop-theme-arrows.drop-attached-right-top {
+  .drop.drop-theme-arrows .drop-content.drop-attached-right-top {
     margin-left: 16px; }
-    .drop.drop-theme-arrows.drop-attached-right-top:before {
+    .drop.drop-theme-arrows .drop-content.drop-attached-right-top:before {
       top: 16px;
       right: 100%;
       border-right-color: black; }
-  .drop.drop-theme-arrows.drop-attached-left-bottom {
+  .drop.drop-theme-arrows .drop-content.drop-attached-left-bottom {
     margin-left: -16px; }
-    .drop.drop-theme-arrows.drop-attached-left-bottom:before {
+    .drop.drop-theme-arrows .drop-content.drop-attached-left-bottom:before {
       bottom: 16px;
       left: 100%;
       border-left-color: black; }
-  .drop.drop-theme-arrows.drop-attached-right-bottom {
+  .drop.drop-theme-arrows .drop-content.drop-attached-right-bottom {
     margin-left: 16px; }
-    .drop.drop-theme-arrows.drop-attached-right-bottom:before {
+    .drop.drop-theme-arrows .drop-content.drop-attached-right-bottom:before {
       bottom: 16px;
       right: 100%;
       border-right-color: black; }

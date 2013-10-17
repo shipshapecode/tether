@@ -81,6 +81,7 @@
   drop = {
     baseClassNames: {
       drop: 'drop',
+      dropContent: 'drop-content',
       opened: 'drop-opened',
       closed: 'drop-closed',
       allClosed: 'drop-all-closed',
@@ -93,7 +94,6 @@
       constrainToWindow: true,
       className: '',
       closedOnInit: true,
-      dropTag: 'div',
       content: 'drop',
       prerender: false
     },
@@ -147,14 +147,17 @@
       var $target, options;
       $target = $(this);
       options = $target.data().drop;
-      options.$drop = $(document.createElement(options.dropTag));
+      options.$drop = $(document.createElement('div'));
       options.$drop.addClass(drop.baseClassNames.drop);
       options.$drop.addClass(options.className);
+      options.$dropContent = $(document.createElement('div'));
+      options.$dropContent.addClass(drop.baseClassNames.dropContent);
+      options.$dropContent.append(options.content);
+      options.$drop.append(options.$dropContent);
       $target.drop('attach', options.attachFirst, options.attachSecond);
       if (options.closedOnInit) {
         options.$drop.addClass(drop.baseClassNames.closed);
       }
-      options.$drop.append(options.content);
       return $target;
     },
     setupEvents: function() {
