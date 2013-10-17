@@ -5,12 +5,12 @@ Drop - Finally a dropdown which understands where it is.
     - Attach to 8 different locations
     - Attach options diagram:
 
-            topLeft  topRight
+           top-left  top-right
                  |    |
-       leftTop --TARGET-- rightTop
-    leftBottom --TARGET-- rightBottom
+      left-top --TARGET-- right-top
+   left-bottom --TARGET-- right-bottom
                  |    |
-          bottomLeft bottomRight
+         bottom-left bottom-right
 
 ###
 
@@ -62,6 +62,7 @@ $ ->
                     $target.drop 'positionDrop'
         , debounce
 
+
 drop =
 
     baseClassNames:
@@ -69,9 +70,10 @@ drop =
         opened: 'drop-opened'
         closed: 'drop-closed'
         allClosed: 'drop-all-closed'
+        attachPrefix: 'drop-attached-'
 
     defaults:
-        attach: 'bottomLeft'
+        attach: 'bottom-left'
         trigger: 'click'
         constrainToScrollParent: true
         constrainToWindow: true
@@ -97,9 +99,16 @@ jQueryMethods =
 
     init: (opts) -> this.each ->
         $target = $ @
-        options = $.extend {}, drop.defaults, opts
-        $target.data 'drop', options
         drop.dropTargets.push $target
+
+        options = $.extend {}, drop.defaults, opts
+
+        if options.attach and not (options.attachFirst or options.attachSecond)
+            attachSplit = options.attach.split('-')
+            options.attachFirst = attachSplit[0]
+            options.attachSecond = attachSplit[1]
+
+        $target.data 'drop', options
         $target.drop 'drop'
 
     drop: ->
@@ -109,7 +118,6 @@ jQueryMethods =
         $target.drop 'setupDrop'
         $target.drop 'setupEvents'
 
-
     setupDrop: ->
         $target = $ @
         options = $target.data().drop
@@ -117,6 +125,8 @@ jQueryMethods =
         options.$drop = $ document.createElement options.dropTag
         options.$drop.addClass drop.baseClassNames.drop
         options.$drop.addClass options.className
+
+        $target.drop 'attach', options.attachFirst, options.attachSecond
 
         if options.closedOnInit
             options.$drop.addClass drop.baseClassNames.closed
@@ -178,7 +188,11 @@ jQueryMethods =
             .addClass(drop.baseClassNames.opened)
             .removeClass(drop.baseClassNames.closed)
 
-        $(document).trigger
+        $target
+            .addClass(drop.baseClassNames.opened)
+            .removeClass(drop.baseClassNames.closed)
+
+        options.$drop.trigger
             type: 'openDrop'
             $drop: $target
 
@@ -192,11 +206,24 @@ jQueryMethods =
             .addClass(drop.baseClassNames.closed)
             .removeClass(drop.baseClassNames.opened)
 
-        $(document).trigger
+        $target
+            .addClass(drop.baseClassNames.closed)
+            .removeClass(drop.baseClassNames.opened)
+
+        options.$drop.trigger
             type: 'closeDrop'
             $drop: $target
 
         $target
+
+    attach: (attachFirst, attachSecond) ->
+        $target = $ @
+        options = $target.data().drop
+
+        $([$target[0], options.$drop[0]]).each ->
+            $(@)
+                .removeClassPrefix(drop.baseClassNames.attachPrefix)
+                .addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
 
     positionDrop: ->
         $target = $ @
@@ -217,48 +244,71 @@ jQueryMethods =
 
         # Above and below target
 
-        if options.attach in ['bottomLeft', 'bottomRight']
+        if options.attachFirst is 'bottom'
             top = targetOffset.top + targetOuterHeight
 
-        if options.attach in ['topLeft', 'topRight']
+        if options.attachFirst is 'top'
             top = targetOffset.top - dropOuterHeight
 
-        if options.attach in ['bottomLeft', 'topLeft']
+        if options.attachSecond is 'left'
             left = targetOffset.left
 
-        if options.attach in ['bottomRight', 'topRight']
+        if options.attachSecond is 'right'
             left = targetOffset.left + targetOuterWidth - dropOuterWidth
 
         # Left and right of target
 
-        if options.attach in ['rightTop', 'rightBottom']
+        if options.attachFirst is 'right'
             left = targetOffset.left + targetOuterWidth
 
-        if options.attach in ['leftTop', 'leftBottom']
+        if options.attachFirst is 'left'
             left = targetOffset.left - dropOuterWidth
 
-        if options.attach in ['rightTop', 'leftTop']
+        if options.attachSecond is 'top'
             top = targetOffset.top
 
-        if options.attach in ['rightBottom', 'leftBottom']
+        if options.attachSecond is 'bottom'
             top = targetOffset.top + targetOuterHeight - dropOuterHeight
 
         # Constraints
 
-        if options.constrainToScrollParent
+        if options.constrainToScrollParent and not $scrollParent.is('html')
             top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight)
             left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth)
 
         if options.constrainToWindow
-            windowConstrainedTop = Math.min(Math.max(top, windowScrollTop), $(window).height() + windowScrollTop - dropOuterHeight)
-            left = Math.min(Math.max(left, windowScrollLeft), $(window).width() + windowScrollLeft - dropOuterWidth)
+            topMin = windowScrollTop
+            topMax = $(window).height() + windowScrollTop - dropOuterHeight
 
-            if top isnt windowConstrainedTop
-                if options.attach in ['bottomLeft', 'bottomRight']
-                    top = targetOffset.top - dropOuterHeight
+            leftMin = windowScrollLeft
+            leftMax = $(window).width() + windowScrollLeft - dropOuterWidth
 
-                if options.attach in ['topLeft', 'topRight']
+            if options.attachFirst in ['top', 'bottom']
+
+                if top < topMin
+                    top = topMin
                     top = targetOffset.top + targetOuterHeight
+                    $target.drop('attach', 'bottom', options.attachSecond)
+
+                if top > topMax
+                    top = topMax
+                    top = targetOffset.top - dropOuterHeight
+                    $target.drop('attach', 'top', options.attachSecond)
+
+            if options.attachFirst in ['left', 'right']
+
+                if left < leftMin
+                    left = leftMin
+                    left = targetOffset.left + targetOuterWidth
+                    $target.drop('attach', 'right', option.attachSecond)
+
+                if left > leftMax
+                    left = leftMax
+                    left = targetOffset.left - dropOuterWidth
+                    $target.drop('attach', 'left', option.attachSecond)
+
+            top = Math.min(Math.max(top, topMin), topMax)
+            left = Math.min(Math.max(left, leftMin), leftMax)
 
         oldTop = parseInt(options.$drop.css('top'), 10)
         oldLeft = parseInt(options.$drop.css('left'), 10)

@@ -6,17 +6,18 @@
       - Attach to 8 different locations
       - Attach options diagram:
   
-              topLeft  topRight
+             top-left  top-right
                    |    |
-         leftTop --TARGET-- rightTop
-      leftBottom --TARGET-- rightBottom
+        left-top --TARGET-- right-top
+     left-bottom --TARGET-- right-bottom
                    |    |
-            bottomLeft bottomRight
+           bottom-left bottom-right
   
   */
   var $, debounce, drop, isIE, jQueryMethods;
   $ = jQuery;
   isIE = !!/msie [\w.]+/.exec(navigator.userAgent.toLowerCase());
+  debounce = isIE ? 100 : 0;
   $.fn.extend({
     scrollParent: function() {
       var scrollParent;
@@ -33,10 +34,11 @@
       return /fixed/.test(this.css('position')) || (!scrollParent.length ? $('html') : scrollParent);
     }
   });
-  debounce = 0;
-  if (isIE) {
-    debounce = 100;
-  }
+  $.fn.removeClassPrefix = function(prefix) {
+    return $(this).attr('class', function(index, className) {
+      return className.replace(new RegExp("\\b" + prefix + "\\S+", 'g'), '');
+    });
+  };
   $(function() {
     var resizePending;
     drop.updateBodyClasses();
@@ -64,10 +66,11 @@
       drop: 'drop',
       opened: 'drop-opened',
       closed: 'drop-closed',
-      allClosed: 'drop-all-closed'
+      allClosed: 'drop-all-closed',
+      attachPrefix: 'drop-attached-'
     },
     defaults: {
-      attach: 'bottomLeft',
+      attach: 'bottom-left',
       trigger: 'click',
       constrainToScrollParent: true,
       constrainToWindow: true,
@@ -95,11 +98,16 @@
   jQueryMethods = {
     init: function(opts) {
       return this.each(function() {
-        var $target, options;
+        var $target, attachSplit, options;
         $target = $(this);
-        options = $.extend({}, drop.defaults, opts);
-        $target.data('drop', options);
         drop.dropTargets.push($target);
+        options = $.extend({}, drop.defaults, opts);
+        if (options.attach && !(options.attachFirst || options.attachSecond)) {
+          attachSplit = options.attach.split('-');
+          options.attachFirst = attachSplit[0];
+          options.attachSecond = attachSplit[1];
+        }
+        $target.data('drop', options);
         return $target.drop('drop');
       });
     },
@@ -117,6 +125,7 @@
       options.$drop = $(document.createElement(options.dropTag));
       options.$drop.addClass(drop.baseClassNames.drop);
       options.$drop.addClass(options.className);
+      $target.drop('attach', options.attachFirst, options.attachSecond);
       if (options.closedOnInit) {
         options.$drop.addClass(drop.baseClassNames.closed);
       }
@@ -174,7 +183,8 @@
       options = $target.data().drop;
       $target.drop('positionDrop');
       options.$drop.addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.closed);
-      $(document).trigger({
+      $target.addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.closed);
+      options.$drop.trigger({
         type: 'openDrop',
         $drop: $target
       });
@@ -185,14 +195,23 @@
       $target = $(this);
       options = $target.data().drop;
       options.$drop.addClass(drop.baseClassNames.closed).removeClass(drop.baseClassNames.opened);
-      $(document).trigger({
+      $target.addClass(drop.baseClassNames.closed).removeClass(drop.baseClassNames.opened);
+      options.$drop.trigger({
         type: 'closeDrop',
         $drop: $target
       });
       return $target;
     },
+    attach: function(attachFirst, attachSecond) {
+      var $target, options;
+      $target = $(this);
+      options = $target.data().drop;
+      return $([$target[0], options.$drop[0]]).each(function() {
+        return $(this).removeClassPrefix(drop.baseClassNames.attachPrefix).addClass("" + drop.baseClassNames.attachPrefix + attachFirst + "-" + attachSecond);
+      });
+    },
     positionDrop: function() {
-      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, windowConstrainedTop, windowScrollLeft, windowScrollTop, _ref, _ref10, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var $scrollParent, $target, dropOuterHeight, dropOuterWidth, left, leftMax, leftMin, oldLeft, oldTop, options, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, topMax, topMin, windowScrollLeft, windowScrollTop, _ref, _ref2;
       $target = $(this);
       options = $target.data().drop;
       targetOffset = $target.offset();
@@ -204,45 +223,65 @@
       dropOuterWidth = options.$drop.outerWidth();
       windowScrollTop = $(window).scrollTop();
       windowScrollLeft = $(window).scrollLeft();
-      if ((_ref = options.attach) === 'bottomLeft' || _ref === 'bottomRight') {
+      if (options.attachFirst === 'bottom') {
         top = targetOffset.top + targetOuterHeight;
       }
-      if ((_ref2 = options.attach) === 'topLeft' || _ref2 === 'topRight') {
+      if (options.attachFirst === 'top') {
         top = targetOffset.top - dropOuterHeight;
       }
-      if ((_ref3 = options.attach) === 'bottomLeft' || _ref3 === 'topLeft') {
+      if (options.attachSecond === 'left') {
         left = targetOffset.left;
       }
-      if ((_ref4 = options.attach) === 'bottomRight' || _ref4 === 'topRight') {
+      if (options.attachSecond === 'right') {
         left = targetOffset.left + targetOuterWidth - dropOuterWidth;
       }
-      if ((_ref5 = options.attach) === 'rightTop' || _ref5 === 'rightBottom') {
+      if (options.attachFirst === 'right') {
         left = targetOffset.left + targetOuterWidth;
       }
-      if ((_ref6 = options.attach) === 'leftTop' || _ref6 === 'leftBottom') {
+      if (options.attachFirst === 'left') {
         left = targetOffset.left - dropOuterWidth;
       }
-      if ((_ref7 = options.attach) === 'rightTop' || _ref7 === 'leftTop') {
+      if (options.attachSecond === 'top') {
         top = targetOffset.top;
       }
-      if ((_ref8 = options.attach) === 'rightBottom' || _ref8 === 'leftBottom') {
+      if (options.attachSecond === 'bottom') {
         top = targetOffset.top + targetOuterHeight - dropOuterHeight;
       }
-      if (options.constrainToScrollParent) {
+      if (options.constrainToScrollParent && !$scrollParent.is('html')) {
         top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight);
         left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth);
       }
       if (options.constrainToWindow) {
-        windowConstrainedTop = Math.min(Math.max(top, windowScrollTop), $(window).height() + windowScrollTop - dropOuterHeight);
-        left = Math.min(Math.max(left, windowScrollLeft), $(window).width() + windowScrollLeft - dropOuterWidth);
-        if (top !== windowConstrainedTop) {
-          if ((_ref9 = options.attach) === 'bottomLeft' || _ref9 === 'bottomRight') {
-            top = targetOffset.top - dropOuterHeight;
-          }
-          if ((_ref10 = options.attach) === 'topLeft' || _ref10 === 'topRight') {
+        topMin = windowScrollTop;
+        topMax = $(window).height() + windowScrollTop - dropOuterHeight;
+        leftMin = windowScrollLeft;
+        leftMax = $(window).width() + windowScrollLeft - dropOuterWidth;
+        if ((_ref = options.attachFirst) === 'top' || _ref === 'bottom') {
+          if (top < topMin) {
+            top = topMin;
             top = targetOffset.top + targetOuterHeight;
+            $target.drop('attach', 'bottom', options.attachSecond);
+          }
+          if (top > topMax) {
+            top = topMax;
+            top = targetOffset.top - dropOuterHeight;
+            $target.drop('attach', 'top', options.attachSecond);
           }
         }
+        if ((_ref2 = options.attachFirst) === 'left' || _ref2 === 'right') {
+          if (left < leftMin) {
+            left = leftMin;
+            left = targetOffset.left + targetOuterWidth;
+            $target.drop('attach', 'right', option.attachSecond);
+          }
+          if (left > leftMax) {
+            left = leftMax;
+            left = targetOffset.left - dropOuterWidth;
+            $target.drop('attach', 'left', option.attachSecond);
+          }
+        }
+        top = Math.min(Math.max(top, topMin), topMax);
+        left = Math.min(Math.max(left, leftMin), leftMax);
       }
       oldTop = parseInt(options.$drop.css('top'), 10);
       oldLeft = parseInt(options.$drop.css('left'), 10);
