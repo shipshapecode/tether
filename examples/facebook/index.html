@@ -160,7 +160,7 @@
             $('.drop-target').each(function(){
                 $(this).drop({
                     attach: $(this).data().attach,
-                    constrainToScrollParent: $(this).data().constraintoscrollparent
+                    constrainToScrollParent: !!$(this).data().constraintoscrollparent
                 });
             });
             $(function(){
