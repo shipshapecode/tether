@@ -36,7 +36,7 @@
   });
   $.fn.removeClassPrefix = function(prefix) {
     return $(this).attr('class', function(index, className) {
-      return className.replace(new RegExp("\\b" + prefix + "\\S+", 'g'), '');
+      return className.replace(new RegExp("\\b" + prefix + "\\S+", 'g'), '').replace(/\s+/g, ' ');
     });
   };
   $(function() {

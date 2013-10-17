@@ -41,7 +41,7 @@ $.fn.extend
 
 $.fn.removeClassPrefix = (prefix) ->
     $(@).attr 'class', (index, className) ->
-        className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '')
+        className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
 
 
 $ ->
