@@ -245,7 +245,7 @@ jQueryMethods =
 
     positionDrop: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         targetOffset = $target.offset()
         $scrollParent = scrollParent($target)
@@ -307,7 +307,6 @@ jQueryMethods =
             leftMax = $(window).width() + windowScrollLeft - dropOuterWidth
 
             if options.attachFirst in ['top', 'bottom']
-
                 if top < topMin
                     wasConstrained = true
                     top = topMin
@@ -321,7 +320,6 @@ jQueryMethods =
                     $target.drop('attach', 'top', options.attachSecond)
 
             if options.attachFirst in ['left', 'right']
-
                 if left < leftMin
                     wasConstrained = true
                     left = leftMin
@@ -339,13 +337,12 @@ jQueryMethods =
             top = Math.min(Math.max(top, topMin), topMax)
             left = Math.min(Math.max(left, leftMin), leftMax)
 
-        oldTop = parseInt(options.$drop.css('top'), 10)
-        oldLeft = parseInt(options.$drop.css('left'), 10)
+        top += 'px'
+        left += 'px'
 
-        return $target if oldTop is top and oldLeft is left
-
-        options.$drop[0].style.top = top + 'px'
-        options.$drop[0].style.left = left + 'px'
+        unless options.$drop.css('top') is top and options.$drop.css('left') is left
+            options.$drop[0].style.top = top
+            options.$drop[0].style.left = left
 
         $target
 
