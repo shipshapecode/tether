@@ -17,7 +17,21 @@ Drop - Finally a dropdown which understands where it is.
 
 $ = jQuery
 isIE = /msie [\w.]+/.test navigator.userAgent.toLowerCase()
-debounce = if isIE then 100 else 0
+
+DEBOUNCE = if isIE then 100 else 0
+debounce = (fn, time=DEBOUNCE) ->
+    pending = false
+
+    return ->
+        return if pending
+
+        args = arguments
+
+        pending = true
+        setTimeout =>
+            pending = false
+            fn.apply @, args
+        , time
 
 # Extracted from jQuery UI Core (to remove dependency)
 # https://github.com/jquery/jquery-ui/blob/24756a978a977d7abbef5e5bce403837a01d964f/ui/jquery.ui.core.js#L60
@@ -43,41 +57,17 @@ scrollParent = ($el) ->
     else
         return $('html')
 
-removeClassPrefix = ($el, prefix) ->
+removePrefixedClasses = ($el, prefix) ->
     $el.attr 'class', (index, className) ->
         className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
 
 $ ->
-
     drop.updateBodyClasses()
 
     $(document).on 'openDrop.drop, closeDrop.drop', (event) -> drop.updateBodyClasses()
 
-    resizePending = false
-    $(window).on 'resize', ->
-        return if resizePending
-        resizePending = true
-        if debounce is 0
-            resizePending = false
-            drop.positionAll()
-        else
-            setTimeout ->
-                resizePending = false
-                drop.positionAll()
-            , debounce
-
-    scrollPending = false
-    $(window).on 'scroll.drop', ->
-        return if scrollPending
-        scrollPending = true
-        if debounce is 0
-            scrollPending = false
-            drop.positionAll()
-        else
-            setTimeout ->
-                scrollPending = false
-                drop.positionAll()
-            , debounce
+    $(window).on 'resize', debounce(-> drop.positionAll())
+    $(window).on 'scroll.drop', debounce(-> drop.positionAll())
 
 drop =
 
@@ -174,7 +164,7 @@ jQueryMethods =
             return if scrollPending
             scrollPending = true
 
-            if debounce is 0
+            if DEBOUNCE is 0
                 scrollPending = false
                 position()
 
@@ -182,7 +172,7 @@ jQueryMethods =
                 setTimeout ->
                     scrollPending = false
                     position()
-                , debounce
+                , DEBOUNCE
 
         if options.trigger is 'click'
             $target.bind 'click.drop', -> $target.drop 'toggleDrop'
@@ -263,7 +253,7 @@ jQueryMethods =
 
         $([$target[0], options.$drop[0]]).each ->
             $el = $(@)
-            removeClassPrefix($el, drop.baseClassNames.attachPrefix)
+            removePrefixedClasses($el, drop.baseClassNames.attachPrefix)
             $el.addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
 
     positionDrop: ->
