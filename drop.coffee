@@ -43,8 +43,8 @@ scrollParent = ($el) ->
     else
         return $('html')
 
-$.fn.removeClassPrefix = (prefix) ->
-    $(@).attr 'class', (index, className) ->
+removeClassPrefix = ($el, prefix) ->
+    $el.attr 'class', (index, className) ->
         className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
 
 $ ->
@@ -262,9 +262,9 @@ jQueryMethods =
         options = $target.data().drop
 
         $([$target[0], options.$drop[0]]).each ->
-            $(@)
-                .removeClassPrefix(drop.baseClassNames.attachPrefix)
-                .addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
+            $el = $(@)
+            removeClassPrefix($el, drop.baseClassNames.attachPrefix)
+            $el.addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
 
     positionDrop: ->
         $target = $ @
