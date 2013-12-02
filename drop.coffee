@@ -23,20 +23,26 @@ debounce = if isIE then 100 else 0
 # https://github.com/jquery/jquery-ui/blob/24756a978a977d7abbef5e5bce403837a01d964f/ui/jquery.ui.core.js#L60
 $.fn.extend
     scrollParent: ->
+        position = @css('position')
+
+        if position is 'fixed'
+            return true
+
         scrollParent = undefined
 
-        if (isIE and @css('position') in ['static', 'relative']) or @css('position') is 'absolute'
-            scrollParent = @parents().filter(=>
-                $.css(this, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test(@css('overflow') + @css('overflow-y') + @css('overflow-x'))
+        if position is 'absolute' or (isIE and position in ['static', 'relative'])
+            scrollParent = @parents().filter(->
+                $.css(@, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
             ).first()
-
         else
-            scrollParent = @parents().filter(=>
-                /(auto|scroll)/.test(@css('overflow') + @css('overflow-y') + @css('overflow-x'))
+            scrollParent = @parents().filter(->
+                /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
             ).first()
 
-        return @css('position') is 'fixed' or (if scrollParent.length then scrollParent else $('html'))
-
+        if scrollParent.length
+            return scrollParent
+        else
+            return $('html')
 
 $.fn.removeClassPrefix = (prefix) ->
     $(@).attr 'class', (index, className) ->
