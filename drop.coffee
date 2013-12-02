@@ -347,8 +347,7 @@ jQueryMethods =
         $target
 
 
-window.drop = drop
-
+window.Drop = drop
 
 $.fn.drop = (options) ->
     if jQueryMethods[options]
