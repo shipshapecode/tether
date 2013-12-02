@@ -21,28 +21,27 @@ debounce = if isIE then 100 else 0
 
 # Extracted from jQuery UI Core (to remove dependency)
 # https://github.com/jquery/jquery-ui/blob/24756a978a977d7abbef5e5bce403837a01d964f/ui/jquery.ui.core.js#L60
-$.fn.extend
-    scrollParent: ->
-        position = @css('position')
+scrollParent = ($el) ->
+    position = $el.css('position')
 
-        if position is 'fixed'
-            return true
+    if position is 'fixed'
+        return true
 
-        scrollParent = undefined
+    scrollParent = undefined
 
-        if position is 'absolute' or (isIE and position in ['static', 'relative'])
-            scrollParent = @parents().filter(->
-                $.css(@, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
-            ).first()
-        else
-            scrollParent = @parents().filter(->
-                /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
-            ).first()
+    if position is 'absolute' or (isIE and position in ['static', 'relative'])
+        scrollParent = $el.parents().filter(->
+            $.css(@, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
+        ).first()
+    else
+        scrollParent = $el.parents().filter(->
+            /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
+        ).first()
 
-        if scrollParent.length
-            return scrollParent
-        else
-            return $('html')
+    if scrollParent.length
+        return scrollParent
+    else
+        return $('html')
 
 $.fn.removeClassPrefix = (prefix) ->
     $(@).attr 'class', (index, className) ->
@@ -166,7 +165,7 @@ jQueryMethods =
         $target = $ @
         options = $target.data().drop
 
-        $scrollParent = $target.scrollParent()
+        $scrollParent = scrollParent($target)
 
         scrollPending = false
         position = -> $target.drop 'positionDrop' if $target.drop 'isOpened'
@@ -272,7 +271,7 @@ jQueryMethods =
         options = $target.data().drop
 
         targetOffset = $target.offset()
-        $scrollParent = $target.scrollParent()
+        $scrollParent = scrollParent($target)
         scrollParentOffset = $scrollParent.offset()
 
         targetOuterHeight = $target.outerHeight()
