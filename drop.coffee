@@ -16,9 +16,8 @@ Drop - Finally a dropdown which understands where it is.
 
 
 $ = jQuery
-isIE = not not /msie [\w.]+/.exec navigator.userAgent.toLowerCase()
+isIE = /msie [\w.]+/.test navigator.userAgent.toLowerCase()
 debounce = if isIE then 100 else 0
-
 
 # Extracted from jQuery UI Core (to remove dependency)
 # https://github.com/jquery/jquery-ui/blob/24756a978a977d7abbef5e5bce403837a01d964f/ui/jquery.ui.core.js#L60
@@ -26,23 +25,22 @@ $.fn.extend
     scrollParent: ->
         scrollParent = undefined
 
-        if (isIE and (/(static|relative)/).test(@css('position'))) or (/absolute/).test(@css('position'))
-            scrollParent = @parents().filter(->
-                (/(relative|absolute|fixed)/).test($.css(this, 'position')) and (/(auto|scroll)/).test($.css(this, 'overflow') + $.css(this, 'overflow-y') + $.css(this, 'overflow-x'))
-            ).eq(0)
+        if (isIE and @css('position') in ['static', 'relative']) or @css('position') is 'absolute'
+            scrollParent = @parents().filter(=>
+                $.css(this, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test(@css('overflow') + @css('overflow-y') + @css('overflow-x'))
+            ).first()
 
         else
-            scrollParent = @parents().filter(->
-                (/(auto|scroll)/).test $.css(this, 'overflow') + $.css(this, 'overflow-y') + $.css(this, 'overflow-x')
-            ).eq(0)
+            scrollParent = @parents().filter(=>
+                /(auto|scroll)/.test(@css('overflow') + @css('overflow-y') + @css('overflow-x'))
+            ).first()
 
-        return (/fixed/).test(this.css('position')) or (if not scrollParent.length then $('html') else scrollParent)
+        return @css('position') is 'fixed' or (if scrollParent.length then scrollParent else $('html'))
 
 
 $.fn.removeClassPrefix = (prefix) ->
     $(@).attr 'class', (index, className) ->
         className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
-
 
 $ ->
 
