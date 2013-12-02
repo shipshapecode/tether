@@ -70,7 +70,6 @@ $ ->
     $(window).on 'scroll.drop', debounce(-> drop.positionAll())
 
 drop =
-
     baseClassNames:
         drop: 'drop'
         dropContent: 'drop-content'
@@ -99,17 +98,18 @@ drop =
     updateBodyClasses: ->
         anyOpen = false
 
-        $.each drop.dropTargets, (i, $target) -> anyOpen = true if $target.drop 'isOpened'
+        $.each drop.dropTargets, (i, $target) ->
+            if $target.drop 'isOpened'
+                anyOpen = true
+                return false
 
         if anyOpen
             $('body').addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.allClosed)
         else
             $('body').removeClass(drop.baseClassNames.opened).addClass(drop.baseClassNames.allClosed)
 
-
 jQueryMethods =
-
-    init: (opts) -> this.each ->
+    init: (opts) -> @each ->
         $target = $ @
         drop.dropTargets.push $target
 
@@ -134,11 +134,11 @@ jQueryMethods =
         $target = $ @
         options = $target.data().drop
 
-        options.$drop = $ document.createElement 'div'
+        options.$drop = $ '<div>'
         options.$drop.addClass drop.baseClassNames.drop
         options.$drop.addClass options.className
 
-        options.$dropContent = $ document.createElement 'div'
+        options.$dropContent = $ '<div>'
         options.$dropContent.addClass drop.baseClassNames.dropContent
         options.$dropContent.append options.content
 
@@ -157,22 +157,9 @@ jQueryMethods =
 
         $scrollParent = scrollParent($target)
 
-        scrollPending = false
         position = -> $target.drop 'positionDrop' if $target.drop 'isOpened'
 
-        $scrollParent.on 'scroll.drop', ->
-            return if scrollPending
-            scrollPending = true
-
-            if DEBOUNCE is 0
-                scrollPending = false
-                position()
-
-            else
-                setTimeout ->
-                    scrollPending = false
-                    position()
-                , DEBOUNCE
+        $scrollParent.on 'scroll.drop', debounce(position)
 
         if options.trigger is 'click'
             $target.bind 'click.drop', -> $target.drop 'toggleDrop'
@@ -204,7 +191,7 @@ jQueryMethods =
         $target
 
     isOpened: ->
-        $(@).data().drop.$drop.hasClass(drop.baseClassNames.opened)
+        $(@).data('drop').$drop.hasClass(drop.baseClassNames.opened)
 
     openDrop: ->
         $target = $ @
@@ -249,7 +236,7 @@ jQueryMethods =
 
     attach: (attachFirst, attachSecond) ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         $([$target[0], options.$drop[0]]).each ->
             $el = $(@)
