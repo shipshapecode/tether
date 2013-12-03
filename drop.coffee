@@ -121,18 +121,18 @@ jQueryMethods =
             options.attachSecond = attachSplit[1]
 
         $target.data 'drop', options
-        $target.drop 'drop'
+        $target.drop 'setup'
 
-    drop: ->
+    setup: ->
         $target = $ @
         options = $target.data().drop
 
-        $target.drop 'setupDrop'
+        $target.drop 'setupElements'
         $target.drop 'setupEvents'
 
-    setupDrop: ->
+    setupElements: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         options.$drop = $ '<div>'
         options.$drop.addClass drop.baseClassNames.drop
@@ -153,7 +153,7 @@ jQueryMethods =
 
     setupEvents: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         $scrollParent = scrollParent($target)
 
@@ -162,7 +162,7 @@ jQueryMethods =
         $scrollParent.on 'scroll.drop', debounce(position)
 
         if options.trigger is 'click'
-            $target.bind 'click.drop', -> $target.drop 'toggleDrop'
+            $target.bind 'click.drop', -> $target.drop 'toggle'
 
             $(document).bind 'click.drop', (event) ->
                 return unless $target.drop 'isOpened'
@@ -175,27 +175,27 @@ jQueryMethods =
                 if $(event.target).is($target[0]) or $target.find(event.target).length
                     return
 
-                $target.drop 'closeDrop'
+                $target.drop 'close'
 
         $target
 
-    toggleDrop: ->
+    toggle: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         if $target.drop 'isOpened'
-            $target.drop 'closeDrop'
+            $target.drop 'close'
         else
-            $target.drop 'openDrop'
+            $target.drop 'open'
 
         $target
 
     isOpened: ->
         $(@).data('drop').$drop.hasClass(drop.baseClassNames.opened)
 
-    openDrop: ->
+    open: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         unless options.$drop.parent().length
             $('body').append options.$drop
@@ -216,9 +216,9 @@ jQueryMethods =
 
         $target
 
-    closeDrop: ->
+    close: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         $target
             .addClass(drop.baseClassNames.closed)
@@ -345,7 +345,6 @@ jQueryMethods =
             options.$drop[0].style.left = left
 
         $target
-
 
 window.Drop = drop
 
