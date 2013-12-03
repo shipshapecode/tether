@@ -121,11 +121,6 @@ jQueryMethods =
             options.attachSecond = attachSplit[1]
 
         $target.data 'drop', options
-        $target.drop 'setup'
-
-    setup: ->
-        $target = $ @
-        options = $target.data().drop
 
         $target.drop 'setupElements'
         $target.drop 'setupEvents'
