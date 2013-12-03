@@ -16,68 +16,60 @@ Drop - Finally a dropdown which understands where it is.
 
 
 $ = jQuery
-isIE = not not /msie [\w.]+/.exec navigator.userAgent.toLowerCase()
-debounce = if isIE then 100 else 0
+isIE = /msie [\w.]+/.test navigator.userAgent.toLowerCase()
 
+DEBOUNCE = if isIE then 100 else 0
+debounce = (fn, time=DEBOUNCE) ->
+    pending = false
+
+    return ->
+        return if pending
+
+        args = arguments
+
+        pending = true
+        setTimeout =>
+            pending = false
+            fn.apply @, args
+        , time
 
 # Extracted from jQuery UI Core (to remove dependency)
 # https://github.com/jquery/jquery-ui/blob/24756a978a977d7abbef5e5bce403837a01d964f/ui/jquery.ui.core.js#L60
-$.fn.extend
-    scrollParent: ->
-        scrollParent = undefined
+scrollParent = ($el) ->
+    position = $el.css('position')
 
-        if (isIE and (/(static|relative)/).test(@css('position'))) or (/absolute/).test(@css('position'))
-            scrollParent = @parents().filter(->
-                (/(relative|absolute|fixed)/).test($.css(this, 'position')) and (/(auto|scroll)/).test($.css(this, 'overflow') + $.css(this, 'overflow-y') + $.css(this, 'overflow-x'))
-            ).eq(0)
+    if position is 'fixed'
+        return true
 
-        else
-            scrollParent = @parents().filter(->
-                (/(auto|scroll)/).test $.css(this, 'overflow') + $.css(this, 'overflow-y') + $.css(this, 'overflow-x')
-            ).eq(0)
+    scrollParent = undefined
 
-        return (/fixed/).test(this.css('position')) or (if not scrollParent.length then $('html') else scrollParent)
+    if position is 'absolute' or (isIE and position in ['static', 'relative'])
+        scrollParent = $el.parents().filter(->
+            $.css(@, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
+        ).first()
+    else
+        scrollParent = $el.parents().filter(->
+            /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
+        ).first()
 
+    if scrollParent.length
+        return scrollParent
+    else
+        return $('html')
 
-$.fn.removeClassPrefix = (prefix) ->
-    $(@).attr 'class', (index, className) ->
+removePrefixedClasses = ($el, prefix) ->
+    $el.attr 'class', (index, className) ->
         className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
 
-
 $ ->
-
     drop.updateBodyClasses()
 
     $(document).on 'openDrop.drop, closeDrop.drop', (event) -> drop.updateBodyClasses()
 
-    resizePending = false
-    $(window).on 'resize', ->
-        return if resizePending
-        resizePending = true
-        if debounce is 0
-            resizePending = false
-            drop.positionAll()
-        else
-            setTimeout ->
-                resizePending = false
-                drop.positionAll()
-            , debounce
-
-    scrollPending = false
-    $(window).on 'scroll.drop', ->
-        return if scrollPending
-        scrollPending = true
-        if debounce is 0
-            scrollPending = false
-            drop.positionAll()
-        else
-            setTimeout ->
-                scrollPending = false
-                drop.positionAll()
-            , debounce
+    $(window).on 'resize', debounce(-> drop.positionAll())
+    $(window).on 'scroll.drop', debounce(-> drop.positionAll())
 
 drop =
-
     baseClassNames:
         drop: 'drop'
         dropContent: 'drop-content'
@@ -106,17 +98,18 @@ drop =
     updateBodyClasses: ->
         anyOpen = false
 
-        $.each drop.dropTargets, (i, $target) -> anyOpen = true if $target.drop 'isOpened'
+        $.each drop.dropTargets, (i, $target) ->
+            if $target.drop 'isOpened'
+                anyOpen = true
+                return false
 
         if anyOpen
             $('body').addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.allClosed)
         else
             $('body').removeClass(drop.baseClassNames.opened).addClass(drop.baseClassNames.allClosed)
 
-
 jQueryMethods =
-
-    init: (opts) -> this.each ->
+    init: (opts) -> @each ->
         $target = $ @
         drop.dropTargets.push $target
 
@@ -128,24 +121,24 @@ jQueryMethods =
             options.attachSecond = attachSplit[1]
 
         $target.data 'drop', options
-        $target.drop 'drop'
+        $target.drop 'setup'
 
-    drop: ->
+    setup: ->
         $target = $ @
         options = $target.data().drop
 
-        $target.drop 'setupDrop'
+        $target.drop 'setupElements'
         $target.drop 'setupEvents'
 
-    setupDrop: ->
+    setupElements: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
-        options.$drop = $ document.createElement 'div'
+        options.$drop = $ '<div>'
         options.$drop.addClass drop.baseClassNames.drop
         options.$drop.addClass options.className
 
-        options.$dropContent = $ document.createElement 'div'
+        options.$dropContent = $ '<div>'
         options.$dropContent.addClass drop.baseClassNames.dropContent
         options.$dropContent.append options.content
 
@@ -160,29 +153,16 @@ jQueryMethods =
 
     setupEvents: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
-        $scrollParent = $target.scrollParent()
+        $scrollParent = scrollParent($target)
 
-        scrollPending = false
         position = -> $target.drop 'positionDrop' if $target.drop 'isOpened'
 
-        $scrollParent.on 'scroll.drop', ->
-            return if scrollPending
-            scrollPending = true
-
-            if debounce is 0
-                scrollPending = false
-                position()
-
-            else
-                setTimeout ->
-                    scrollPending = false
-                    position()
-                , debounce
+        $scrollParent.on 'scroll.drop', debounce(position)
 
         if options.trigger is 'click'
-            $target.bind 'click.drop', -> $target.drop 'toggleDrop'
+            $target.bind 'click.drop', -> $target.drop 'toggle'
 
             $(document).bind 'click.drop', (event) ->
                 return unless $target.drop 'isOpened'
@@ -195,27 +175,27 @@ jQueryMethods =
                 if $(event.target).is($target[0]) or $target.find(event.target).length
                     return
 
-                $target.drop 'closeDrop'
+                $target.drop 'close'
 
         $target
 
-    toggleDrop: ->
+    toggle: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         if $target.drop 'isOpened'
-            $target.drop 'closeDrop'
+            $target.drop 'close'
         else
-            $target.drop 'openDrop'
+            $target.drop 'open'
 
         $target
 
     isOpened: ->
-        $(@).data().drop.$drop.hasClass(drop.baseClassNames.opened)
+        $(@).data('drop').$drop.hasClass(drop.baseClassNames.opened)
 
-    openDrop: ->
+    open: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         unless options.$drop.parent().length
             $('body').append options.$drop
@@ -236,9 +216,9 @@ jQueryMethods =
 
         $target
 
-    closeDrop: ->
+    close: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         $target
             .addClass(drop.baseClassNames.closed)
@@ -256,19 +236,19 @@ jQueryMethods =
 
     attach: (attachFirst, attachSecond) ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         $([$target[0], options.$drop[0]]).each ->
-            $(@)
-                .removeClassPrefix(drop.baseClassNames.attachPrefix)
-                .addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
+            $el = $(@)
+            removePrefixedClasses($el, drop.baseClassNames.attachPrefix)
+            $el.addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
 
     positionDrop: ->
         $target = $ @
-        options = $target.data().drop
+        options = $target.data('drop')
 
         targetOffset = $target.offset()
-        $scrollParent = $target.scrollParent()
+        $scrollParent = scrollParent($target)
         scrollParentOffset = $scrollParent.offset()
 
         targetOuterHeight = $target.outerHeight()
@@ -327,7 +307,6 @@ jQueryMethods =
             leftMax = $(window).width() + windowScrollLeft - dropOuterWidth
 
             if options.attachFirst in ['top', 'bottom']
-
                 if top < topMin
                     wasConstrained = true
                     top = topMin
@@ -341,7 +320,6 @@ jQueryMethods =
                     $target.drop('attach', 'top', options.attachSecond)
 
             if options.attachFirst in ['left', 'right']
-
                 if left < leftMin
                     wasConstrained = true
                     left = leftMin
@@ -359,19 +337,16 @@ jQueryMethods =
             top = Math.min(Math.max(top, topMin), topMax)
             left = Math.min(Math.max(left, leftMin), leftMax)
 
-        oldTop = parseInt(options.$drop.css('top'), 10)
-        oldLeft = parseInt(options.$drop.css('left'), 10)
+        top += 'px'
+        left += 'px'
 
-        return $target if oldTop is top and oldLeft is left
-
-        options.$drop[0].style.top = top + 'px'
-        options.$drop[0].style.left = left + 'px'
+        unless options.$drop.css('top') is top and options.$drop.css('left') is left
+            options.$drop[0].style.top = top
+            options.$drop[0].style.left = left
 
         $target
 
-
-window.drop = drop
-
+window.Drop = drop
 
 $.fn.drop = (options) ->
     if jQueryMethods[options]
