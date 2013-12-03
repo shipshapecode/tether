@@ -1,0 +1,30 @@
+.element {
+    width: 200px;
+    height: 200px;
+    background-color: #fe8;
+    position: absolute;
+    z-index: 6;
+}
+
+.target {
+    width: 300px;
+    height: 50px;
+    background-color: #4e9;
+}
+
+.container {
+    height: 300px;
+    overflow: scroll;
+    border: 2px solid #CCC;
+}
+
+body > .container {
+    position: absolute;
+    top: 200px;
+    left: 600px;
+}
+
+.pad {
+    height: 200px;
+    width: 100px;
+}
