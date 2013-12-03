@@ -62,14 +62,14 @@ removePrefixedClasses = ($el, prefix) ->
         className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
 
 $ ->
-    drop.updateBodyClasses()
+    Drop.updateBodyClasses()
 
-    $(document).on 'openDrop.drop, closeDrop.drop', (event) -> drop.updateBodyClasses()
+    $(document).on 'openDrop.drop, closeDrop.drop', (event) -> Drop.updateBodyClasses()
 
-    $(window).on 'resize', debounce(-> drop.positionAll())
-    $(window).on 'scroll.drop', debounce(-> drop.positionAll())
+    $(window).on 'resize', debounce(-> Drop.positionAll())
+    $(window).on 'scroll.drop', debounce(-> Drop.positionAll())
 
-drop =
+Drop =
     baseClassNames:
         drop: 'drop'
         dropContent: 'drop-content'
@@ -91,29 +91,29 @@ drop =
     dropTargets: []
 
     positionAll: ->
-        $.each drop.dropTargets, (i, $target) ->
+        $.each Drop.dropTargets, (i, $target) ->
             if $target.drop 'isOpened'
                 $target.drop 'positionDrop'
 
     updateBodyClasses: ->
         anyOpen = false
 
-        $.each drop.dropTargets, (i, $target) ->
+        $.each Drop.dropTargets, (i, $target) ->
             if $target.drop 'isOpened'
                 anyOpen = true
                 return false
 
         if anyOpen
-            $('body').addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.allClosed)
+            $('body').addClass(Drop.baseClassNames.opened).removeClass(Drop.baseClassNames.allClosed)
         else
-            $('body').removeClass(drop.baseClassNames.opened).addClass(drop.baseClassNames.allClosed)
+            $('body').removeClass(Drop.baseClassNames.opened).addClass(Drop.baseClassNames.allClosed)
 
 jQueryMethods =
     init: (opts) -> @each ->
         $target = $ @
-        drop.dropTargets.push $target
+        Drop.dropTargets.push $target
 
-        options = $.extend {}, drop.defaults, opts
+        options = $.extend {}, Drop.defaults, opts
 
         if options.attach and not (options.attachFirst or options.attachSecond)
             attachSplit = options.attach.split('-')
@@ -130,11 +130,11 @@ jQueryMethods =
         options = $target.data('drop')
 
         options.$drop = $ '<div>'
-        options.$drop.addClass drop.baseClassNames.drop
+        options.$drop.addClass Drop.baseClassNames.drop
         options.$drop.addClass options.className
 
         options.$dropContent = $ '<div>'
-        options.$dropContent.addClass drop.baseClassNames.dropContent
+        options.$dropContent.addClass Drop.baseClassNames.dropContent
         options.$dropContent.append options.content
 
         options.$drop.append options.$dropContent
@@ -142,7 +142,7 @@ jQueryMethods =
         $target.drop 'attach', options.attachFirst, options.attachSecond
 
         if options.closedOnInit
-            options.$drop.addClass drop.baseClassNames.closed
+            options.$drop.addClass Drop.baseClassNames.closed
 
         $target
 
@@ -198,12 +198,12 @@ jQueryMethods =
         $target.drop 'positionDrop'
 
         $target
-            .addClass(drop.baseClassNames.opened)
-            .removeClass(drop.baseClassNames.closed)
+            .addClass(Drop.baseClassNames.opened)
+            .removeClass(Drop.baseClassNames.closed)
 
         options.$drop
-            .addClass(drop.baseClassNames.opened)
-            .removeClass(drop.baseClassNames.closed)
+            .addClass(Drop.baseClassNames.opened)
+            .removeClass(Drop.baseClassNames.closed)
 
         options.$drop.trigger
             type: 'openDrop'
@@ -216,12 +216,12 @@ jQueryMethods =
         options = $target.data('drop')
 
         $target
-            .addClass(drop.baseClassNames.closed)
-            .removeClass(drop.baseClassNames.opened)
+            .addClass(Drop.baseClassNames.closed)
+            .removeClass(Drop.baseClassNames.opened)
 
         options.$drop
-            .addClass(drop.baseClassNames.closed)
-            .removeClass(drop.baseClassNames.opened)
+            .addClass(Drop.baseClassNames.closed)
+            .removeClass(Drop.baseClassNames.opened)
 
         options.$drop.trigger
             type: 'closeDrop'
@@ -235,8 +235,8 @@ jQueryMethods =
 
         $([$target[0], options.$drop[0]]).each ->
             $el = $(@)
-            removePrefixedClasses($el, drop.baseClassNames.attachPrefix)
-            $el.addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
+            removePrefixedClasses($el, Drop.baseClassNames.attachPrefix)
+            $el.addClass("#{ Drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
 
     positionDrop: ->
         $target = $ @
@@ -341,7 +341,7 @@ jQueryMethods =
 
         $target
 
-window.Drop = drop
+window.Drop = Drop
 
 $.fn.drop = (options) ->
     if jQueryMethods[options]
