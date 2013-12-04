@@ -1,6 +1,7 @@
 (function() {
   var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addOffset, attachmentToOffset, autoToFixedAttachment, isIE, offsetToPx, parseAttachment, parseOffset, position, scrollParent, tethers,
-    __slice = [].slice;
+    __slice = [].slice,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   isIE = /msie [\w.]+/.test(navigator.userAgent.toLowerCase());
 
@@ -42,7 +43,7 @@
 
   $(window).on('resize', position);
 
-  $(window).on('scroll.drop', position);
+  $(window).on('scroll', position);
 
   MIRROR_LR = {
     middle: 'middle',
@@ -129,8 +130,14 @@
 
   Tether = (function() {
     function Tether(options) {
-      var _ref,
-        _this = this;
+      this.position = __bind(this.position, this);
+      tethers.push(this);
+      this.history = [];
+      this.setOptions(options);
+    }
+
+    Tether.prototype.setOptions = function(options) {
+      var _ref;
       this.options = options;
       _ref = this.options, this.element = _ref.element, this.target = _ref.target;
       this.$element = $(this.element);
@@ -139,14 +146,13 @@
       this.attachment = parseAttachment(this.options.attachment);
       this.offset = parseOffset(this.options.offset);
       this.targetOffset = parseOffset(this.options.targetOffset);
+      if (this.scrollParent != null) {
+        this.scrollParent.off('scroll', this.position);
+      }
       this.scrollParent = scrollParent($(this.target));
-      this.scrollParent.on('scroll', (function() {
-        return _this.position();
-      }));
-      tethers.push(this);
-      this.history = [];
-      this.position();
-    }
+      this.scrollParent.on('scroll', this.position);
+      return this.position();
+    };
 
     Tether.prototype.position = function() {
       var elementPos, height, left, next, offset, targetAttachment, targetOffset, targetPos, top, width;
@@ -175,9 +181,7 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
-      if (this.history.length) {
-        this.move(next);
-      }
+      this.move(next);
       this.history.unshift(next);
       if (this.history.length > 3) {
         return this.history.pop();

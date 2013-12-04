@@ -32,7 +32,7 @@ position = ->
     tether.position()
 
 $(window).on 'resize', position
-$(window).on 'scroll.drop', position
+$(window).on 'scroll', position
 
 MIRROR_LR =
   middle: 'middle'
@@ -102,7 +102,14 @@ parseAttachment = parseOffset = (value) ->
 # targetAttachment (auto auto)
 # targetOffset (0 0)
 class Tether
-  constructor: (@options) ->
+  constructor: (options) ->
+    tethers.push @
+
+    @history = []
+
+    @setOptions options
+
+  setOptions: (@options) ->
     {@element, @target} = @options
 
     @$element = $ @element
@@ -113,17 +120,15 @@ class Tether
     @offset = parseOffset @options.offset
     @targetOffset = parseOffset @options.targetOffset
 
+    if @scrollParent?
+      @scrollParent.off 'scroll', @position
+
     @scrollParent = scrollParent $ @target
-
-    @scrollParent.on 'scroll', (=> @position())
-
-    tethers.push @
-
-    @history = []
-  
+    @scrollParent.on 'scroll', @position
+ 
     @position()
 
-  position: ->
+  position: =>
     # Turn 'auto' attachments into the appropriate corner or edge
     targetAttachment = autoToFixedAttachment(@targetAttachment, @attachment)
 
@@ -158,8 +163,7 @@ class Tether
         right: pageXOffset - left - width + innerWidth
     }
 
-    if @history.length
-      @move next
+    @move next
 
     @history.unshift next
 
