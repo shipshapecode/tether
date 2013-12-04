@@ -1,0 +1,69 @@
+@import compass/css3
+
+html, body
+    height: 100%
+
+body
+    margin: 0
+    font-family: "proxima-nova", "Helvetica Neue", sans-serif
+
+.button
+    display: inline-block
+    border: 2px solid #333
+    color: #333
+    padding: 1em 1.25em
+    font-weight: 500
+    text-transform: uppercase
+    letter-spacing: 3px
+    text-decoration: none
+    cursor: pointer
+    width: 140px
+    font-size: .8em
+    line-height: 1.3em
+
+.button.dark
+    background: #333
+    color: #fff
+
+table.showcase
+    height: 100%
+    width: 100%
+    position: relative
+
+    &:after
+        content: ""
+        display: block
+        position: absolute
+        opacity: 0.5
+        left: 0
+        right: 0
+        bottom: 20px
+        margin: auto
+        height: 0
+        width: 0
+        border-width: 18px
+        border-style: solid
+        border-color: transparent
+        border-top-color: inherit
+
+    &.last-showcase:after
+        display: none
+
+    .showcase-inner
+        margin: 40px auto 60px
+        padding: 10px
+
+        h1
+            font-size: 50px
+            text-align: center
+            font-weight: 300
+
+        h2
+            font-size: 24px
+            text-align: center
+            font-weight: 300
+            margin: 1em 0 1em
+            padding: 0 10%
+
+        p
+            text-align: center
