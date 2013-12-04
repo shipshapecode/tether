@@ -164,8 +164,14 @@
     }
 
     Tether.prototype.setOptions = function(options) {
-      var _ref;
+      var defaults, _ref;
       this.options = options;
+      defaults = {
+        offset: '0 0',
+        targetOffset: '0 0',
+        targetAttachment: 'auto auto'
+      };
+      this.options = $.extend(defaults, this.options);
       _ref = this.options, this.element = _ref.element, this.target = _ref.target;
       this.$element = $(this.element);
       this.$target = $(this.target);

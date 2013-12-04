@@ -111,6 +111,10 @@ createContext = (options) ->
             @$drop.addClass drop.classNames.closed
 
         setupTether: ->
+            # Tether expects two attachment points, one in the target element, one in the
+            # drop.  We use a single one, and use the order as well, to allow us to put
+            # the drop on either side of any of the four corners.  This magic converts between
+            # the two:
             dropAttach = @options.attach.split(' ')
             dropAttach[0] = MIRROR_ATTACH[dropAttach[0]]
             dropAttach = dropAttach.join(' ')

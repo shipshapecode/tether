@@ -127,6 +127,13 @@ class Tether
     @setOptions options
 
   setOptions: (@options) ->
+    defaults =
+      offset: '0 0'
+      targetOffset: '0 0'
+      targetAttachment: 'auto auto'
+
+    @options = $.extend defaults, @options
+      
     {@element, @target} = @options
 
     @$element = $ @element
