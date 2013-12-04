@@ -1,12 +1,12 @@
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addOffset, attachmentToOffset, autoToFixedAttachment, isIE, offsetToPx, parseAttachment, parseOffset, position, scrollParent, tethers,
+  var DEBOUNCE, MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, getScrollParent, isIE, offsetToPx, parseAttachment, parseOffset, position, tethers,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   isIE = /msie [\w.]+/.test(navigator.userAgent.toLowerCase());
 
-  scrollParent = function($el) {
-    var position;
+  getScrollParent = function($el) {
+    var position, scrollParent;
     position = $el.css('position');
     if (position === 'fixed') {
       return true;
@@ -29,6 +29,29 @@
     }
   };
 
+  DEBOUNCE = 16;
+
+  debounce = function(fn, time) {
+    var pending;
+    if (time == null) {
+      time = DEBOUNCE;
+    }
+    pending = false;
+    return function() {
+      var args,
+        _this = this;
+      if (pending) {
+        return;
+      }
+      args = arguments;
+      pending = true;
+      return setTimeout(function() {
+        pending = false;
+        return fn.apply(_this, args);
+      }, time);
+    };
+  };
+
   tethers = [];
 
   position = function() {
@@ -40,6 +63,10 @@
     }
     return _results;
   };
+
+  if (isIE) {
+    position = debounce(position);
+  }
 
   $(window).on('resize', position);
 
@@ -111,10 +138,10 @@
 
   offsetToPx = function(offset, element) {
     if (typeof offset.left === 'string' && offset.left.indexOf('%') !== -1) {
-      offset.left = parseFloat(offset.left, 10) / 100 * $(element).width();
+      offset.left = parseFloat(offset.left, 10) / 100 * $(element).outerWidth();
     }
     if (typeof offset.top === 'string' && offset.top.indexOf('%') !== -1) {
-      offset.top = parseFloat(offset.top, 10) / 100 * $(element).height();
+      offset.top = parseFloat(offset.top, 10) / 100 * $(element).outerHeight();
     }
     return offset;
   };
@@ -149,13 +176,28 @@
       if (this.scrollParent != null) {
         this.scrollParent.off('scroll', this.position);
       }
-      this.scrollParent = scrollParent($(this.target));
+      this.scrollParent = getScrollParent($(this.target));
       this.scrollParent.on('scroll', this.position);
+      if (this.options.enabled !== false) {
+        this.enable();
+      }
       return this.position();
+    };
+
+    Tether.prototype.enable = function() {
+      this.enabled = true;
+      return this.position();
+    };
+
+    Tether.prototype.disable = function() {
+      return this.enabled = false;
     };
 
     Tether.prototype.position = function() {
       var elementPos, height, left, next, offset, targetAttachment, targetOffset, targetPos, top, width;
+      if (!this.enabled) {
+        return;
+      }
       targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
       offset = offsetToPx(attachmentToOffset(this.attachment), this.element);
       targetOffset = offsetToPx(attachmentToOffset(targetAttachment), this.target);
@@ -208,7 +250,12 @@
           }
         }
       }
-      css = {};
+      css = {
+        top: '',
+        left: '',
+        right: '',
+        bottom: ''
+      };
       transcribe = function(same, pos) {
         if (same.top) {
           css.top = "" + pos.top + "px";

@@ -2,34 +2,51 @@ isIE = /msie [\w.]+/.test navigator.userAgent.toLowerCase()
 
 # Extracted from jQuery UI Core (to remove dependency)
 # https://github.com/jquery/jquery-ui/blob/24756a978a977d7abbef5e5bce403837a01d964f/ui/jquery.ui.core.js#L60
-scrollParent = ($el) ->
-    position = $el.css('position')
+getScrollParent = ($el) ->
+  position = $el.css('position')
 
-    if position is 'fixed'
-        return true
+  if position is 'fixed'
+    return true
 
-    scrollParent = undefined
+  scrollParent = undefined
 
-    if position is 'absolute' or (isIE and position in ['static', 'relative'])
-        scrollParent = $el.parents().filter(->
-            $.css(@, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
-        ).first()
-    else
-        scrollParent = $el.parents().filter(->
-            /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
-        ).first()
+  if position is 'absolute' or (isIE and position in ['static', 'relative'])
+    scrollParent = $el.parents().filter(->
+        $.css(@, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
+    ).first()
+  else
+    scrollParent = $el.parents().filter(->
+        /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
+    ).first()
 
-    if scrollParent.length
-        return scrollParent
-    else
-        return $('html')
+  if scrollParent.length
+    return scrollParent
+  else
+    return $('html')
 
+DEBOUNCE = 16
+debounce = (fn, time=DEBOUNCE) ->
+  pending = false
+
+  return ->
+    return if pending
+
+    args = arguments
+
+    pending = true
+    setTimeout =>
+      pending = false
+      fn.apply @, args
+    , time
 
 tethers = []
 
 position = ->
   for tether in tethers
     tether.position()
+
+if isIE
+  position = debounce position
 
 $(window).on 'resize', position
 $(window).on 'scroll', position
@@ -84,9 +101,9 @@ addOffset = (offsets...) ->
 
 offsetToPx = (offset, element) ->
   if typeof offset.left is 'string' and offset.left.indexOf('%') isnt -1
-    offset.left = parseFloat(offset.left, 10)/100 * $(element).width()
+    offset.left = parseFloat(offset.left, 10)/100 * $(element).outerWidth()
   if typeof offset.top is 'string' and offset.top.indexOf('%') isnt -1
-    offset.top = parseFloat(offset.top, 10)/100 * $(element).height()
+    offset.top = parseFloat(offset.top, 10)/100 * $(element).outerHeight()
 
   offset
 
@@ -123,12 +140,25 @@ class Tether
     if @scrollParent?
       @scrollParent.off 'scroll', @position
 
-    @scrollParent = scrollParent $ @target
+    @scrollParent = getScrollParent $ @target
     @scrollParent.on 'scroll', @position
- 
+
+    unless @options.enabled is false
+      @enable()
+
     @position()
 
+  enable: ->
+    @enabled = true
+
+    @position()
+
+  disable: ->
+    @enabled = false
+
   position: =>
+    return unless @enabled
+
     # Turn 'auto' attachments into the appropriate corner or edge
     targetAttachment = autoToFixedAttachment(@targetAttachment, @attachment)
 
@@ -187,7 +217,7 @@ class Tether
         if not found
           same[type][key] = true
      
-    css = {}
+    css = {top: '', left: '', right: '', bottom: ''}
 
     transcribe = (same, pos) ->
       if same.top

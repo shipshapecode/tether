@@ -16,50 +16,25 @@ drop - Finally a dropdown which understands where it is.
 
 
 $ = jQuery
-isIE = /msie [\w.]+/.test navigator.userAgent.toLowerCase()
-
-DEBOUNCE = if isIE then 100 else 0
-debounce = (fn, time=DEBOUNCE) ->
-    pending = false
-
-    return ->
-        return if pending
-
-        args = arguments
-
-        pending = true
-        setTimeout =>
-            pending = false
-            fn.apply @, args
-        , time
-
-# Extracted from jQuery UI Core (to remove dependency)
-# https://github.com/jquery/jquery-ui/blob/24756a978a977d7abbef5e5bce403837a01d964f/ui/jquery.ui.core.js#L60
-scrollParent = ($el) ->
-    position = $el.css('position')
-
-    if position is 'fixed'
-        return true
-
-    scrollParent = undefined
-
-    if position is 'absolute' or (isIE and position in ['static', 'relative'])
-        scrollParent = $el.parents().filter(->
-            $.css(@, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
-        ).first()
-    else
-        scrollParent = $el.parents().filter(->
-            /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
-        ).first()
-
-    if scrollParent.length
-        return scrollParent
-    else
-        return $('html')
 
 removePrefixedClasses = ($el, prefix) ->
     $el.attr 'class', (index, className) ->
         className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
+
+sortAttach = (str) ->
+    [first, second] = str.split(' ')
+
+    if first in ['left', 'right']
+        [first, second] = [second, first]
+
+    [first, second].join(' ')
+
+MIRROR_ATTACH =
+    left: 'right'
+    right: 'left'
+    top: 'bottom'
+    bottom: 'top'
+    middle: 'middle'
 
 allDrops = []
 
@@ -83,7 +58,7 @@ createContext = (options) ->
             attachPrefix: 'drop-attached-'
 
         defaults:
-            attach: 'bottom-left'
+            attach: 'bottom left'
             trigger: 'click'
             constrainToScrollParent: true
             constrainToWindow: true
@@ -95,19 +70,12 @@ createContext = (options) ->
 
     $(document).on 'dropopen.drop, dropclose.drop', -> drop.updateBodyClasses()
 
-    $(window).on 'resize', debounce(-> drop.positionAll())
-    $(window).on 'scroll.drop', debounce(-> drop.positionAll())
-
-    drop.positionAll = ->
-        for drop in drop.drops when drop.isOpened()
-            drop.position()
-
     drop.updateBodyClasses = ->
         # There is only one body, so despite the context concept, we still iterate through all
         # drops created in any context before applying the class.
 
         anyOpen = false
-        for drop in allDrops when drop.isOpened()
+        for _drop in allDrops when _drop.isOpened()
             anyOpen = true
             break
 
@@ -125,18 +93,14 @@ createContext = (options) ->
             drop.drops.push @
             allDrops.push @
 
-            if @options.attach and not (@options.attachFirst or @options.attachSecond)
-                attachSplit = options.attach.split('-')
-                @options.attachFirst = attachSplit[0]
-                @options.attachSecond = attachSplit[1]
-
             @setupElements()
             @setupEvents()
+            @setupTether()
 
         setupElements: ->
             @$drop = $ '<div>'
             @$drop.addClass drop.classNames.drop
-            @$drop.addClass options.className
+            @$drop.addClass @options.className
 
             @$dropContent = $ '<div>'
             @$dropContent.addClass drop.classNames.dropContent
@@ -144,18 +108,23 @@ createContext = (options) ->
 
             @$drop.append @$dropContent
 
-            @attach @options.attachFirst, @options.attachSecond
+            @$drop.addClass drop.classNames.closed
 
-            if @options.closedOnInit
-                @$drop.addClass drop.classNames.closed
+        setupTether: ->
+            dropAttach = @options.attach.split(' ')
+            dropAttach[0] = MIRROR_ATTACH[dropAttach[0]]
+            dropAttach = dropAttach.join(' ')
+
+            @tether = new Tether
+                element: @$drop[0]
+                target: @$target[0]
+                attachment: sortAttach(dropAttach)
+                targetAttachment: sortAttach(@options.attach)
+                offset: '0 0'
+                targetOffset: '0 0'
+                enabled: false
 
         setupEvents: ->
-            $scrollParent = scrollParent(@$target)
-
-            position = => @position() if @isOpened()
-
-            $scrollParent.on 'scroll.drop', debounce(position)
-
             if @options.trigger is 'click'
                 @$target.bind 'click.drop', => @toggle()
 
@@ -176,7 +145,7 @@ createContext = (options) ->
             @$drop.hasClass(drop.classNames.opened)
 
         toggle: ->
-            if @isOpened
+            if @isOpened()
                 @close()
             else
                 @open()
@@ -184,8 +153,6 @@ createContext = (options) ->
         open: ->
             unless @$drop.parent().length
                 $('body').append @$drop
-
-            @position()
 
             @$target
                 .addClass(drop.classNames.opened)
@@ -198,6 +165,8 @@ createContext = (options) ->
             @$drop.trigger
                 type: 'dropopen'
                 drop: @
+
+            @tether.enable()
 
         close: ->
             @$target
@@ -212,13 +181,12 @@ createContext = (options) ->
                 type: 'dropclose'
                 drop: @
 
-        attach: (attachFirst, attachSecond) ->
-            $([@$target[0], @$drop[0]]).each ->
-                $el = $(@)
-                removePrefixedClasses($el, drop.classNames.attachPrefix)
-                $el.addClass("#{ drop.classNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
+            @tether.disable()
 
+        # TODO Add classes
         position: ->
+            return
+
             targetOffset = @$target.offset()
             $scrollParent = scrollParent(@$target)
             scrollParentOffset = @$scrollParent.offset()
@@ -231,36 +199,6 @@ createContext = (options) ->
 
             windowScrollTop = $(window).scrollTop()
             windowScrollLeft = $(window).scrollLeft()
-
-            # Above and below target
-
-            if @options.attachFirst is 'bottom'
-                top = targetOffset.top + targetOuterHeight
-
-            if @options.attachFirst is 'top'
-                top = targetOffset.top - dropOuterHeight
-
-            if @options.attachSecond is 'left'
-                left = targetOffset.left
-
-            if @options.attachSecond is 'right'
-                left = targetOffset.left + targetOuterWidth - dropOuterWidth
-
-            # Left and right of target
-
-            if @options.attachFirst is 'right'
-                left = targetOffset.left + targetOuterWidth
-
-            if @options.attachFirst is 'left'
-                left = targetOffset.left - dropOuterWidth
-
-            if @options.attachSecond is 'top'
-                top = targetOffset.top
-
-            if @options.attachSecond is 'bottom'
-                top = targetOffset.top + targetOuterHeight - dropOuterHeight
-
-            # Constraints
 
             unless $scrollParent.is('html')
                 if @options.constrainToScrollParent or @options.attachFirst in ['left', 'right']
@@ -309,13 +247,6 @@ createContext = (options) ->
 
                 top = Math.min(Math.max(top, topMin), topMax)
                 left = Math.min(Math.max(left, leftMin), leftMax)
-
-            top += 'px'
-            left += 'px'
-
-            unless @$drop.css('top') is top and @$drop.css('left') is left
-                @$drop[0].style.top = top
-                @$drop[0].style.left = left
 
     drop
 

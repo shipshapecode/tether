@@ -5,6 +5,7 @@ module.exports = (grunt) ->
       compile:
         files:
           'tether.js': 'tether.coffee'
+          'drop.js': 'drop.coffee'
 
     watch:
       coffee:
