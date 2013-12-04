@@ -133,6 +133,8 @@
         _this = this;
       this.options = options;
       _ref = this.options, this.element = _ref.element, this.target = _ref.target;
+      this.$element = $(this.element);
+      this.$target = $(this.target);
       this.targetAttachment = parseAttachment(this.options.targetAttachment);
       this.attachment = parseAttachment(this.options.attachment);
       this.offset = parseOffset(this.options.offset);
@@ -142,24 +144,101 @@
         return _this.position();
       }));
       tethers.push(this);
+      this.history = [];
       this.position();
     }
 
     Tether.prototype.position = function() {
-      var left, offset, targetAttachment, targetOffset, targetPos, top;
+      var elementPos, height, left, next, offset, targetAttachment, targetOffset, targetPos, top, width;
       targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
       offset = offsetToPx(attachmentToOffset(this.attachment), this.element);
       targetOffset = offsetToPx(attachmentToOffset(targetAttachment), this.target);
       offset = addOffset(offset, offsetToPx(this.offset, this.element));
       targetOffset = addOffset(targetOffset, offsetToPx(this.targetOffset, this.target));
-      targetPos = $(this.target).offset();
+      targetPos = this.$target.offset();
+      elementPos = this.$element.offset();
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
-      console.log(top, left);
-      return $(this.element).css({
-        top: "" + top + "px",
-        left: "" + left + "px"
-      });
+      width = this.$element.outerWidth();
+      height = this.$element.outerHeight();
+      next = {
+        page: {
+          top: top,
+          bottom: document.body.scrollHeight - top - height,
+          left: left,
+          right: document.body.scrollWidth - left - width
+        },
+        viewport: {
+          top: top - pageYOffset,
+          bottom: pageYOffset - top - height + innerHeight,
+          left: left - pageXOffset,
+          right: pageXOffset - left - width + innerWidth
+        }
+      };
+      if (this.history.length) {
+        this.move(next);
+      }
+      this.history.unshift(next);
+      if (this.history.length > 3) {
+        return this.history.pop();
+      }
+    };
+
+    Tether.prototype.move = function(position) {
+      var css, found, key, point, same, transcribe, type, val, write, _i, _len, _ref;
+      same = {};
+      for (type in position) {
+        same[type] = {};
+        for (key in position[type]) {
+          found = false;
+          _ref = this.history;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            point = _ref[_i];
+            if (point[type][key] !== position[type][key]) {
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            same[type][key] = true;
+          }
+        }
+      }
+      css = {};
+      transcribe = function(same, pos) {
+        if (same.top) {
+          css.top = "" + pos.top + "px";
+        } else {
+          css.bottom = "" + pos.bottom + "px";
+        }
+        if (same.left) {
+          return css.left = "" + pos.left + "px";
+        } else {
+          return css.right = "" + pos.right + "px";
+        }
+      };
+      if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
+        css.position = 'absolute';
+        transcribe(same.page, position.page);
+      } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
+        css.position = 'fixed';
+        transcribe(same.viewport, position.viewport);
+      } else {
+        css.position = 'absolute';
+        css.top = "" + position.page.top + "px";
+        css.left = "" + position.page.left + "px";
+      }
+      write = false;
+      for (key in css) {
+        val = css[key];
+        if (this.$element.css(key) !== val) {
+          write = true;
+          break;
+        }
+      }
+      if (write) {
+        return this.$element.css(css);
+      }
     };
 
     return Tether;

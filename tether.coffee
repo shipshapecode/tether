@@ -105,6 +105,9 @@ class Tether
   constructor: (@options) ->
     {@element, @target} = @options
 
+    @$element = $ @element
+    @$target = $ @target
+
     @targetAttachment = parseAttachment @options.targetAttachment
     @attachment = parseAttachment @options.attachment
     @offset = parseOffset @options.offset
@@ -115,6 +118,8 @@ class Tether
     @scrollParent.on 'scroll', (=> @position())
 
     tethers.push @
+
+    @history = []
   
     @position()
 
@@ -130,15 +135,87 @@ class Tether
     offset = addOffset offset, offsetToPx(@offset, @element)
     targetOffset = addOffset targetOffset, offsetToPx(@targetOffset, @target)
 
-    targetPos = $(@target).offset()
+    targetPos = @$target.offset()
+    elementPos = @$element.offset()
 
     # It's now our goal to make (element position + offset) == (target position + target offset)
     left = targetPos.left + targetOffset.left - offset.left
     top = targetPos.top + targetOffset.top - offset.top
 
-    console.log top, left
-    $(@element).css
-      top: "#{ top }px"
-      left: "#{ left }px"
+    width = @$element.outerWidth()
+    height = @$element.outerHeight()
+
+    next = {
+      page:
+        top: top
+        bottom: document.body.scrollHeight - top - height
+        left: left
+        right: document.body.scrollWidth - left - width
+      viewport:
+        top: top - pageYOffset
+        bottom: pageYOffset - top - height + innerHeight
+        left: left - pageXOffset
+        right: pageXOffset - left - width + innerWidth
+    }
+
+    if @history.length
+      @move next
+
+    @history.unshift next
+
+    if @history.length > 3
+      @history.pop()
+
+  move: (position) ->
+    same = {}
+
+    for type of position
+      same[type] = {}
+
+      for key of position[type]
+        found = false
+
+        for point in @history
+          unless point[type][key] is position[type][key]
+            found = true
+            break
+
+        if not found
+          same[type][key] = true
+     
+    css = {}
+
+    transcribe = (same, pos) ->
+      if same.top
+        css.top = "#{ pos.top }px"
+      else
+        css.bottom = "#{ pos.bottom }px"
+
+      if same.left
+        css.left = "#{ pos.left }px"
+      else
+        css.right = "#{ pos.right }px"
+
+    if (same.page.top or same.page.bottom) and (same.page.left or same.page.right)
+      css.position = 'absolute'
+      transcribe same.page, position.page
+
+    else if (same.viewport.top or same.viewport.bottom) and (same.viewport.left or same.viewport.right)
+      css.position = 'fixed'
+      transcribe same.viewport, position.viewport
+
+    else
+      css.position = 'absolute'
+      css.top = "#{ position.page.top }px"
+      css.left = "#{ position.page.left }px"
+
+    write = false
+    for key, val of css
+      if @$element.css(key) isnt val
+        write = true
+        break
+
+    if write
+      @$element.css css
 
 window.Tether = Tether

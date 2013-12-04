@@ -18,8 +18,12 @@
     border: 2px solid #CCC;
 }
 
+body {
+    height: 1000px;
+}
+
 body > .container {
-    position: absolute;
+    position: fixed;
     top: 200px;
     left: 600px;
 }
