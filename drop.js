@@ -15,15 +15,9 @@ drop - Finally a dropdown which understands where it is.
 
 
 (function() {
-  var $, MIRROR_ATTACH, allDrops, createContext, removePrefixedClasses, sortAttach;
+  var $, MIRROR_ATTACH, allDrops, createContext, sortAttach;
 
   $ = jQuery;
-
-  removePrefixedClasses = function($el, prefix) {
-    return $el.attr('class', function(index, className) {
-      return className.replace(new RegExp("\\b" + prefix + "\\S+", 'g'), '').replace(/\s+/g, ' ');
-    });
-  };
 
   sortAttach = function(str) {
     var first, second, _ref, _ref1;

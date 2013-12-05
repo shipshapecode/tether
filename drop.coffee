@@ -17,10 +17,6 @@ drop - Finally a dropdown which understands where it is.
 
 $ = jQuery
 
-removePrefixedClasses = ($el, prefix) ->
-    $el.attr 'class', (index, className) ->
-        className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
-
 sortAttach = (str) ->
     [first, second] = str.split(' ')
 
