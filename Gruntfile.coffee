@@ -6,10 +6,11 @@ module.exports = (grunt) ->
         files:
           'tether.js': 'tether.coffee'
           'drop.js': 'drop.coffee'
+          'docs/welcome/js/welcome.js': 'docs/welcome/coffee/welcome.coffee'
 
     watch:
       coffee:
-        files: ['*.coffee', 'sass/*']
+        files: ['*.coffee', 'sass/*', 'docs/welcome/coffee/*.coffee', 'docs/welcome/sass/*.sass']
         tasks: ['coffee', 'uglify', 'compass']
 
     uglify:
@@ -24,6 +25,10 @@ module.exports = (grunt) ->
         options:
           sassDir: 'sass'
           cssDir: 'css'
+      welcomeDocs:
+        options:
+          sassDir: 'docs/welcome/sass'
+          cssDir: 'docs/welcome/css'
 
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
