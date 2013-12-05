@@ -19,17 +19,9 @@ getBounds = (tether, to) ->
 
   to
 
-constrain = true
-
 Tether.modules.push
   position: ({top, left, targetAttachment}) ->
     return unless @options.constraints
-    return unless constrain
-
-    moved = false
-    mirror = (att, dimention) ->
-      moved = true
-      att[dimention] = MIRROR_ATTACH[att[dimention]]
 
     height = @$element.outerHeight()
     width = @$element.outerWidth()

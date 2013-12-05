@@ -1,5 +1,5 @@
 (function() {
-  var MIRROR_ATTACH, constrain, getBounds;
+  var MIRROR_ATTACH, getBounds;
 
   MIRROR_ATTACH = {
     left: 'right',
@@ -24,23 +24,13 @@
     return to;
   };
 
-  constrain = true;
-
   Tether.modules.push({
     position: function(_arg) {
-      var bounds, changeAttachment, changeTargetAttachment, constraint, height, left, mirror, moved, pin, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _len, _ref;
+      var bounds, changeAttachment, changeTargetAttachment, constraint, height, left, pin, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _len, _ref;
       top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
       if (!this.options.constraints) {
         return;
       }
-      if (!constrain) {
-        return;
-      }
-      moved = false;
-      mirror = function(att, dimention) {
-        moved = true;
-        return att[dimention] = MIRROR_ATTACH[att[dimention]];
-      };
       height = this.$element.outerHeight();
       width = this.$element.outerWidth();
       targetHeight = this.$target.outerHeight();
