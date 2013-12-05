@@ -2,7 +2,7 @@ init = ->
     setupDemo()
 
 setupDemo = ->
-    $button = $('.button.demo')
+    $target = $('.drop-target-demo')
 
     positions = [
         'top left'
@@ -19,7 +19,7 @@ setupDemo = ->
 
     for position in positions
         drops[position] = new Drop
-            target: $button[0]
+            target: $target[0]
             className: 'drop-theme-arrows'
             attach: position
             constrainToScrollParent: true
@@ -31,25 +31,21 @@ setupDemo = ->
 
     openIndex = 0
     frames = 0
-    frameLengthMS = 6
+    frameLengthMS = 10
 
     openAllDrops = ->
         for position, drop of drops
             drop.open()
-
-        drops['top right'].close()
-        drops['bottom left'].close()
 
     openNextDrop = ->
         for position, drop of drops
             drop.close()
 
         drops[positions[openIndex]].open()
-        drops[positions[(openIndex + 4) % positions.length]].open()
 
         openIndex = (openIndex + 1) % positions.length
 
-        if frames > 40
+        if frames > 20
             return openAllDrops()
 
         frames += 1

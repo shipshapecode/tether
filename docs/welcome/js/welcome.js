@@ -6,14 +6,14 @@
   };
 
   setupDemo = function() {
-    var $button, frameLengthMS, frames, openAllDrops, openIndex, openNextDrop, position, positions, _i, _len;
-    $button = $('.button.demo');
+    var $target, frameLengthMS, frames, openAllDrops, openIndex, openNextDrop, position, positions, _i, _len;
+    $target = $('.drop-target-demo');
     positions = ['top left', 'left top', 'left bottom', 'bottom left', 'bottom right', 'right bottom', 'right top', 'top right'];
     window.drops = {};
     for (_i = 0, _len = positions.length; _i < _len; _i++) {
       position = positions[_i];
       drops[position] = new Drop({
-        target: $button[0],
+        target: $target[0],
         className: 'drop-theme-arrows',
         attach: position,
         constrainToScrollParent: true,
@@ -26,15 +26,15 @@
     }
     openIndex = 0;
     frames = 0;
-    frameLengthMS = 6;
+    frameLengthMS = 10;
     openAllDrops = function() {
-      var drop;
+      var drop, _results;
+      _results = [];
       for (position in drops) {
         drop = drops[position];
-        drop.open();
+        _results.push(drop.open());
       }
-      drops['top right'].close();
-      return drops['bottom left'].close();
+      return _results;
     };
     openNextDrop = function() {
       var drop;
@@ -43,9 +43,8 @@
         drop.close();
       }
       drops[positions[openIndex]].open();
-      drops[positions[(openIndex + 4) % positions.length]].open();
       openIndex = (openIndex + 1) % positions.length;
-      if (frames > 40) {
+      if (frames > 20) {
         return openAllDrops();
       }
       frames += 1;

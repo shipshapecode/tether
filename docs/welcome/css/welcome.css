@@ -5,6 +5,9 @@ body {
   margin: 0;
   font-family: "proxima-nova", "Helvetica Neue", sans-serif; }
 
+.drop.drop-theme-arrows .drop-content {
+  font-family: inherit; }
+
 .button {
   display: inline-block;
   border: 2px solid #333333;
@@ -55,12 +58,18 @@ table.showcase {
       font-size: 24px;
       text-align: center;
       font-weight: 300;
-      margin: 1em 0 1em;
-      padding: 0 10%; }
+      margin: 1em 0 1em; }
     table.showcase .showcase-inner p {
       text-align: center; }
-  table.showcase.hero .button.demo.drop-target {
-    width: 10rem;
-    height: 8rem;
-    line-height: 8rem;
-    margin: 5rem auto; }
+  table.showcase.hero {
+    text-align: center; }
+    table.showcase.hero .drop-target-demo {
+      display: -moz-inline-stack;
+      display: inline-block;
+      vertical-align: middle;
+      *vertical-align: auto;
+      zoom: 1;
+      *display: inline;
+      border: 2px dotted black;
+      margin: 5rem auto;
+      padding: 3rem; }

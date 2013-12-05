@@ -7,6 +7,9 @@ body
     margin: 0
     font-family: "proxima-nova", "Helvetica Neue", sans-serif
 
+.drop.drop-theme-arrows .drop-content
+    font-family: inherit
+
 .button
     display: inline-block
     border: 2px solid #333
@@ -63,15 +66,15 @@ table.showcase
             text-align: center
             font-weight: 300
             margin: 1em 0 1em
-            padding: 0 10%
 
         p
             text-align: center
 
     &.hero
+        text-align: center
 
-        .button.demo.drop-target
-            width: 10rem
-            height: 8rem
-            line-height: 8rem
+        .drop-target-demo
+            +inline-block
+            border: 2px dotted #000
             margin: 5rem auto
+            padding: 3rem
