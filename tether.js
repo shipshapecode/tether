@@ -156,6 +156,8 @@
   };
 
   Tether = (function() {
+    Tether.modules = [];
+
     function Tether(options) {
       this.position = __bind(this.position, this);
       tethers.push(this);
@@ -200,7 +202,7 @@
     };
 
     Tether.prototype.position = function() {
-      var elementPos, height, left, next, offset, targetAttachment, targetOffset, targetPos, top, width;
+      var elementPos, height, left, module, next, offset, ret, targetAttachment, targetOffset, targetPos, top, width, _i, _len, _ref;
       if (!this.enabled) {
         return;
       }
@@ -213,6 +215,24 @@
       elementPos = this.$element.offset();
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
+      _ref = Tether.modules;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        module = _ref[_i];
+        ret = module.position.call(this, {
+          left: left,
+          top: top,
+          targetAttachment: targetAttachment,
+          targetPos: targetPos,
+          elementPos: elementPos
+        });
+        if (ret == null) {
+          continue;
+        } else if (ret === false) {
+          return false;
+        } else {
+          top = ret.top, left = ret.left;
+        }
+      }
       width = this.$element.outerWidth();
       height = this.$element.outerHeight();
       next = {

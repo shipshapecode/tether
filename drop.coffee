@@ -115,6 +115,21 @@ createContext = (options) ->
             dropAttach[0] = MIRROR_ATTACH[dropAttach[0]]
             dropAttach = dropAttach.join(' ')
 
+            constraints = []
+            if @options.constrainToScrollParent
+              constraints.push
+                to: 'scrollParent'
+                pin: true
+                changeAttachment: true
+                changeTargetAttachment: false
+
+            if @options.constrainToWindow
+              constraints.push
+                to: 'window'
+                pin: true
+                changeAttachment: true
+                changeTargetAttachment: false
+
             @tether = new Tether
                 element: @$drop[0]
                 target: @$target[0]
@@ -123,6 +138,7 @@ createContext = (options) ->
                 offset: '0 0'
                 targetOffset: '0 0'
                 enabled: false
+                constraints: constraints
 
         setupEvents: ->
             if @options.trigger is 'click'

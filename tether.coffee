@@ -119,6 +119,8 @@ parseAttachment = parseOffset = (value) ->
 # targetAttachment (auto auto)
 # targetOffset (0 0)
 class Tether
+  @modules: []
+
   constructor: (options) ->
     tethers.push @
 
@@ -183,6 +185,16 @@ class Tether
     # It's now our goal to make (element position + offset) == (target position + target offset)
     left = targetPos.left + targetOffset.left - offset.left
     top = targetPos.top + targetOffset.top - offset.top
+
+    for module in Tether.modules
+      ret = module.position.call(@, {left, top, targetAttachment, targetPos, elementPos})
+
+      if not ret?
+        continue
+      else if ret is false
+        return false
+      else
+        {top, left} = ret
 
     width = @$element.outerWidth()
     height = @$element.outerHeight()

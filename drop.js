@@ -115,10 +115,27 @@ drop - Finally a dropdown which understands where it is.
       };
 
       DropInstance.prototype.setupTether = function() {
-        var dropAttach;
+        var constraints, dropAttach;
         dropAttach = this.options.attach.split(' ');
         dropAttach[0] = MIRROR_ATTACH[dropAttach[0]];
         dropAttach = dropAttach.join(' ');
+        constraints = [];
+        if (this.options.constrainToScrollParent) {
+          constraints.push({
+            to: 'scrollParent',
+            pin: true,
+            changeAttachment: true,
+            changeTargetAttachment: false
+          });
+        }
+        if (this.options.constrainToWindow) {
+          constraints.push({
+            to: 'window',
+            pin: true,
+            changeAttachment: true,
+            changeTargetAttachment: false
+          });
+        }
         return this.tether = new Tether({
           element: this.$drop[0],
           target: this.$target[0],
@@ -126,7 +143,8 @@ drop - Finally a dropdown which understands where it is.
           targetAttachment: sortAttach(this.options.attach),
           offset: '0 0',
           targetOffset: '0 0',
-          enabled: false
+          enabled: false,
+          constraints: constraints
         });
       };
 
