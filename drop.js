@@ -204,67 +204,6 @@ drop - Finally a dropdown which understands where it is.
         return this.tether.disable();
       };
 
-      DropInstance.prototype.position = function() {
-        var $scrollParent, dropOuterHeight, dropOuterWidth, left, leftMax, leftMin, scrollParentOffset, targetOffset, targetOuterHeight, targetOuterWidth, top, topMax, topMin, wasConstrained, windowScrollLeft, windowScrollTop, _ref, _ref1, _ref2, _ref3;
-        return;
-        targetOffset = this.$target.offset();
-        $scrollParent = scrollParent(this.$target);
-        scrollParentOffset = this.$scrollParent.offset();
-        targetOuterHeight = this.$target.outerHeight();
-        targetOuterWidth = this.$target.outerWidth();
-        dropOuterHeight = this.$drop.outerHeight();
-        dropOuterWidth = this.$drop.outerWidth();
-        windowScrollTop = $(window).scrollTop();
-        windowScrollLeft = $(window).scrollLeft();
-        if (!$scrollParent.is('html')) {
-          if (this.options.constrainToScrollParent || ((_ref = this.options.attachFirst) === 'left' || _ref === 'right')) {
-            top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight);
-          }
-          if (this.options.constrainToScrollParent || ((_ref1 = this.options.attachFirst) === 'top' || _ref1 === 'bottom')) {
-            left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth);
-          }
-        }
-        if (this.options.constrainToWindow) {
-          wasConstrained = false;
-          topMin = windowScrollTop;
-          topMax = $(window).height() + windowScrollTop - dropOuterHeight;
-          leftMin = windowScrollLeft;
-          leftMax = $(window).width() + windowScrollLeft - dropOuterWidth;
-          if ((_ref2 = this.options.attachFirst) === 'top' || _ref2 === 'bottom') {
-            if (top < topMin) {
-              wasConstrained = true;
-              top = topMin;
-              top = targetOffset.top + targetOuterHeight;
-              this.attach('bottom', this.options.attachSecond);
-            }
-            if (top > topMax) {
-              wasConstrained = true;
-              top = topMax;
-              top = targetOffset.top - dropOuterHeight;
-              this.attach('top', this.options.attachSecond);
-            }
-          }
-          if ((_ref3 = this.options.attachFirst) === 'left' || _ref3 === 'right') {
-            if (left < leftMin) {
-              wasConstrained = true;
-              left = leftMin;
-              left = targetOffset.left + targetOuterWidth;
-              this.attach('right', this.options.attachSecond);
-            } else if (left > leftMax) {
-              wasConstrained = true;
-              left = leftMax;
-              left = targetOffset.left - dropOuterWidth;
-              this.attach('left', this.options.attachSecond);
-            }
-          }
-          if (!wasConstrained) {
-            this.attach(this.options.attachFirst, this.options.attachSecond);
-          }
-          top = Math.min(Math.max(top, topMin), topMax);
-          return left = Math.min(Math.max(left, leftMin), leftMax);
-        }
-      };
-
       return DropInstance;
 
     })();
