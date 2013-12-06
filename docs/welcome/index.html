@@ -11,26 +11,71 @@
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
     <!-- Drop themes -->
+    <link rel="stylesheet" href="/drop/css/drop.css" />
     <link rel="stylesheet" href="/drop/css/drop-theme-default.css" />
     <link rel="stylesheet" href="/drop/css/drop-theme-arrows.css" />
 
-    <!-- Welcom docs styles -->
+    <!-- Welcome docs styles -->
     <link rel="stylesheet" href="/drop/docs/welcome/css/prism.css" />
     <link rel="stylesheet" href="/drop/docs/welcome/css/welcome.css" />
 </head>
 <body>
-    <table class="showcase hero"><tr><td>
+    <div class="hero-wrap">
+        <table class="showcase hero"><tr><td>
+            <div class="showcase-inner">
+                <div class="drop-target drop-target-demo">
+                    <h1>Tether</h1>
+                    <h2>Marrying DOM elements for life.</h2>
+                    <p>
+                        <a class="button" href="http://github.com/hubspot/drop">★ On Github</a>
+                    </p>
+                </div>
+            </div>
+        </td></tr></table>
+    </div>
+
+    <div class="browser-demo-start-point"></div>
+
+    <table class="showcase browser-demo"><tr><td>
         <div class="showcase-inner">
-            <h1>Drop</h1>
-            <h2>Dropdowns or something...</h2>
-            <p>
-                <a class="button" href="http://github.com/hubspot/drop">★ On Github</a> &nbsp;&nbsp;
-                <a class="button dark" href="https://github.com/HubSpot/drop/releases">Download</a>
-            </p>
+            <div class="section-copy" data-section="intro">
+                <h2>What?</h2>
+                <p>Tether can be used for many types of floating elements on a page.</p>
+            </div>
+            <div class="section-copy" data-section="explain">
+                <h2>&nbsp;</h2>
+                <p>In this example we're showing an action menu <em>tethered</em> to a list item.</p>
+            </div>
+            <div class="section-copy" data-section="resize">
+                <h2>Resillient</h2>
+                <p>Tether keeps your element <em>tethered</em> on resize and scroll events.</p>
+            </div>
+            <div class="section-copy" data-section="outro">
+                <h2>Demo</h2>
+                <p>Interact with this demo to learn more.</p>
+            </div>
+            <div class="browser-demo-inner">
+                <div class="browser-window">
+                    <div class="browser-titlebar">
+                        <div class="browser-dots"><b></b><b></b><b></b></div>
+                    </div>
+                    <div class="browser-frame">
+                        <iframe src="browser-demo.html"></iframe>
+                    </div>
+                </div>
+            </div>
         </div>
     </td></tr></table>
 
-    <table class="showcase last-showcase share"><tr><td>
+    <table class="showcase browser-demo-section no-next-arrow" data-section="intro"><tr><td></td></tr></table>
+    <table class="showcase browser-demo-section no-next-arrow" data-section="explain"><tr><td></td></tr></table>
+    <table class="showcase browser-demo-section no-next-arrow" data-section="resize"><tr><td></td></tr></table>
+    <table class="showcase browser-demo-section no-next-arrow" data-section="outro"><tr><td></td></tr></table>
+    <table class="showcase browser-demo-section no-next-arrow" data-section="__empty"><tr><td></td></tr></table>
+
+    <div class="browser-demo-stop-point"></div>
+
+    <table class="showcase last-showcase no-next-arrow share"><tr><td>
         <div class="showcase-inner">
             <h1>Share</h1>
             <h2>Help us spread the word.</h2>
@@ -82,7 +127,9 @@
 
     <!-- Javascript -->
     <script src="/drop/docs/welcome/js/jquery.js"></script>
+    <script src="/drop/docs/welcome/js/log.js"></script>
     <script src="/drop/drop.js"></script>
+    <script src="/drop/tether.js"></script>
     <script src="/drop/docs/welcome/js/welcome.js"></script>
 
     <!-- HubSpot analytics -->
