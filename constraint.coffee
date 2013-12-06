@@ -29,41 +29,59 @@ Tether.modules.push
     targetWidth = @$target.outerWidth()
 
     for constraint in @options.constraints
-      {to, changeAttachment, changeTargetAttachment, pin} = constraint
+      {to, changeAttach, changeAttachY, changeAttachX, pin, pinX, pinY} = constraint
 
       bounds = getBounds @, to
 
-      if changeTargetAttachment
+      changeAttachY ?= changeAttach
+      changeAttachX ?= changeAttach
+
+      if changeAttachY in ['target', 'both', 'together']
         if (top < bounds[1] and targetAttachment.top is 'top')
           top += targetHeight
+
+          if (changeAttachY is 'together' and @attachment.top is 'bottom')
+            top += height
 
         if (top + height > bounds[3] and targetAttachment.top is 'bottom')
           top -= targetHeight
 
+          if (changeAttachY is 'together' and @attachment.top is 'top')
+            top -= height
+
+      if changeAttachX in ['target', 'both']
         if (left < bounds[0] and targetAttachment.left is 'left')
           left += targetWidth
+
+          if changeAttachX is 'together'
+            left += width
 
         if (left + width > bounds[2] and targetAttachment.left is 'right')
           left -= targetWidth
 
-      if changeAttachment
+          if changeAttachX is 'together'
+            left -= width
+
+      if changeAttachY in ['element', 'both']
         if (top < bounds[1] and @attachment.top is 'bottom')
           top += height
 
         if (top + height > bounds[3] and @attachment.top is 'top')
           top -= height
 
+      if changeAttachX in ['element', 'both']
         if (left < bounds[0] and @attachment.left is 'right')
           left += width
 
         if (left + width > bounds[2] and @attachment.left is 'left')
           left -= width
 
-      if pin
+      if pin or pinY
         top = Math.max(top, bounds[1])
         if top + height > bounds[3]
           top = bounds[3] - height
 
+      if pin or pinX
         left = Math.max(left, bounds[0])
         if left + width > bounds[2]
           left = bounds[2] - width

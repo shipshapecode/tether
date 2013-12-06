@@ -26,7 +26,7 @@
 
   Tether.modules.push({
     position: function(_arg) {
-      var bounds, changeAttachment, changeTargetAttachment, constraint, height, left, pin, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _len, _ref;
+      var bounds, changeAttach, changeAttachX, changeAttachY, constraint, height, left, pin, pinX, pinY, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _len, _ref;
       top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
       if (!this.options.constraints) {
         return;
@@ -38,29 +38,51 @@
       _ref = this.options.constraints;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         constraint = _ref[_i];
-        to = constraint.to, changeAttachment = constraint.changeAttachment, changeTargetAttachment = constraint.changeTargetAttachment, pin = constraint.pin;
+        to = constraint.to, changeAttach = constraint.changeAttach, changeAttachY = constraint.changeAttachY, changeAttachX = constraint.changeAttachX, pin = constraint.pin, pinX = constraint.pinX, pinY = constraint.pinY;
         bounds = getBounds(this, to);
-        if (changeTargetAttachment) {
+        if (changeAttachY == null) {
+          changeAttachY = changeAttach;
+        }
+        if (changeAttachX == null) {
+          changeAttachX = changeAttach;
+        }
+        if (changeAttachY === 'target' || changeAttachY === 'both' || changeAttachY === 'together') {
           if (top < bounds[1] && targetAttachment.top === 'top') {
             top += targetHeight;
+            if (changeAttachY === 'together' && this.attachment.top === 'bottom') {
+              top += height;
+            }
           }
           if (top + height > bounds[3] && targetAttachment.top === 'bottom') {
             top -= targetHeight;
+            if (changeAttachY === 'together' && this.attachment.top === 'top') {
+              top -= height;
+            }
           }
+        }
+        if (changeAttachX === 'target' || changeAttachX === 'both') {
           if (left < bounds[0] && targetAttachment.left === 'left') {
             left += targetWidth;
+            if (changeAttachX === 'together') {
+              left += width;
+            }
           }
           if (left + width > bounds[2] && targetAttachment.left === 'right') {
             left -= targetWidth;
+            if (changeAttachX === 'together') {
+              left -= width;
+            }
           }
         }
-        if (changeAttachment) {
+        if (changeAttachY === 'element' || changeAttachY === 'both') {
           if (top < bounds[1] && this.attachment.top === 'bottom') {
             top += height;
           }
           if (top + height > bounds[3] && this.attachment.top === 'top') {
             top -= height;
           }
+        }
+        if (changeAttachX === 'element' || changeAttachX === 'both') {
           if (left < bounds[0] && this.attachment.left === 'right') {
             left += width;
           }
@@ -68,11 +90,13 @@
             left -= width;
           }
         }
-        if (pin) {
+        if (pin || pinY) {
           top = Math.max(top, bounds[1]);
           if (top + height > bounds[3]) {
             top = bounds[3] - height;
           }
+        }
+        if (pin || pinX) {
           left = Math.max(left, bounds[0]);
           if (left + width > bounds[2]) {
             left = bounds[2] - width;

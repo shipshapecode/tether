@@ -124,16 +124,14 @@ drop - Finally a dropdown which understands where it is.
           constraints.push({
             to: 'scrollParent',
             pin: true,
-            changeAttachment: true,
-            changeTargetAttachment: false
+            changeAttachY: 'together'
           });
         }
         if (this.options.constrainToWindow) {
           constraints.push({
             to: 'window',
             pin: true,
-            changeAttachment: true,
-            changeTargetAttachment: false
+            changeAttachY: 'together'
           });
         }
         return this.tether = new Tether({

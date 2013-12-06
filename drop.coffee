@@ -120,15 +120,13 @@ createContext = (options) ->
               constraints.push
                 to: 'scrollParent'
                 pin: true
-                changeAttachment: true
-                changeTargetAttachment: false
+                changeAttachY: 'together'
 
             if @options.constrainToWindow
               constraints.push
                 to: 'window'
                 pin: true
-                changeAttachment: true
-                changeTargetAttachment: false
+                changeAttachY: 'together'
 
             @tether = new Tether
                 element: @$drop[0]
