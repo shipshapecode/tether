@@ -1,6 +1,6 @@
 ###
 
-Drop - Finally a dropdown which understands where it is.
+drop - Finally a dropdown which understands where it is.
 
     - Attach to 8 different locations
     - Attach options diagram:
@@ -61,297 +61,265 @@ removePrefixedClasses = ($el, prefix) ->
     $el.attr 'class', (index, className) ->
         className.replace(new RegExp("\\b#{ prefix }\\S+", 'g'), '').replace(/\s+/g, ' ')
 
-$ ->
-    drop.updateBodyClasses()
+allDrops = []
 
-    $(document).on 'openDrop.drop, closeDrop.drop', (event) -> drop.updateBodyClasses()
+# Drop can be included in external libraries.  Calling createContext gives you a fresh
+# copy of drop which won't interact with other copies on the page (beyond calling the document events).
+createContext = (options) ->
+    drop = ->
+        new DropInstance arguments...
+
+    $.extend drop,
+        createContext: createContext
+        drops: []
+
+    defaults =
+        classNames:
+            drop: 'drop'
+            dropContent: 'drop-content'
+            opened: 'drop-opened'
+            closed: 'drop-closed'
+            allClosed: 'drop-all-closed'
+            attachPrefix: 'drop-attached-'
+
+        defaults:
+            attach: 'bottom-left'
+            trigger: 'click'
+            constrainToScrollParent: true
+            constrainToWindow: true
+            className: ''
+            closedOnInit: true
+            content: 'drop'
+
+    $.extend true, drop, defaults, options
+
+    $(document).on 'dropopen.drop, dropclose.drop', -> drop.updateBodyClasses()
 
     $(window).on 'resize', debounce(-> drop.positionAll())
     $(window).on 'scroll.drop', debounce(-> drop.positionAll())
 
-drop =
-    baseClassNames:
-        drop: 'drop'
-        dropContent: 'drop-content'
-        opened: 'drop-opened'
-        closed: 'drop-closed'
-        allClosed: 'drop-all-closed'
-        attachPrefix: 'drop-attached-'
+    drop.positionAll = ->
+        for drop in drop.drops when drop.isOpened()
+            drop.position()
 
-    defaults:
-        attach: 'bottom-left'
-        trigger: 'click'
-        constrainToScrollParent: true
-        constrainToWindow: true
-        className: ''
-        closedOnInit: true
-        content: 'drop'
-        prerender: false # TODO - this would allow drop to be rendered before being opened
+    drop.updateBodyClasses = ->
+        # There is only one body, so despite the context concept, we still iterate through all
+        # drops created in any context before applying the class.
 
-    dropTargets: []
-
-    positionAll: ->
-        $.each drop.dropTargets, (i, $target) ->
-            if $target.drop 'isOpened'
-                $target.drop 'positionDrop'
-
-    updateBodyClasses: ->
         anyOpen = false
-
-        $.each drop.dropTargets, (i, $target) ->
-            if $target.drop 'isOpened'
-                anyOpen = true
-                return false
+        for drop in allDrops when drop.isOpened()
+            anyOpen = true
+            break
 
         if anyOpen
-            $('body').addClass(drop.baseClassNames.opened).removeClass(drop.baseClassNames.allClosed)
+            $('body').addClass(drop.classNames.opened).removeClass(drop.classNames.allClosed)
         else
-            $('body').removeClass(drop.baseClassNames.opened).addClass(drop.baseClassNames.allClosed)
+            $('body').removeClass(drop.classNames.opened).addClass(drop.classNames.allClosed)
 
-jQueryMethods =
-    init: (opts) -> @each ->
-        $target = $ @
-        drop.dropTargets.push $target
+    class DropInstance
+        constructor: (@options) ->
+            @options = $.extend {}, @options.defaults, @options
 
-        options = $.extend {}, drop.defaults, opts
+            @$target = $ @options.target
 
-        if options.attach and not (options.attachFirst or options.attachSecond)
-            attachSplit = options.attach.split('-')
-            options.attachFirst = attachSplit[0]
-            options.attachSecond = attachSplit[1]
+            drop.drops.push @
+            allDrops.push @
 
-        $target.data 'drop', options
-        $target.drop 'setup'
+            if @options.attach and not (@options.attachFirst or @options.attachSecond)
+                attachSplit = options.attach.split('-')
+                @options.attachFirst = attachSplit[0]
+                @options.attachSecond = attachSplit[1]
 
-    setup: ->
-        $target = $ @
-        options = $target.data().drop
+            @setupElements()
+            @setupEvents()
 
-        $target.drop 'setupElements'
-        $target.drop 'setupEvents'
+        setupElements: ->
+            @$drop = $ '<div>'
+            @$drop.addClass drop.classNames.drop
+            @$drop.addClass options.className
 
-    setupElements: ->
-        $target = $ @
-        options = $target.data('drop')
+            @$dropContent = $ '<div>'
+            @$dropContent.addClass drop.classNames.dropContent
+            @$dropContent.append @options.content
 
-        options.$drop = $ '<div>'
-        options.$drop.addClass drop.baseClassNames.drop
-        options.$drop.addClass options.className
+            @$drop.append @$dropContent
 
-        options.$dropContent = $ '<div>'
-        options.$dropContent.addClass drop.baseClassNames.dropContent
-        options.$dropContent.append options.content
+            @attach @options.attachFirst, @options.attachSecond
 
-        options.$drop.append options.$dropContent
+            if @options.closedOnInit
+                @$drop.addClass drop.classNames.closed
 
-        $target.drop 'attach', options.attachFirst, options.attachSecond
+        setupEvents: ->
+            $scrollParent = scrollParent(@$target)
 
-        if options.closedOnInit
-            options.$drop.addClass drop.baseClassNames.closed
+            position = => @position() if @isOpened()
 
-        $target
+            $scrollParent.on 'scroll.drop', debounce(position)
 
-    setupEvents: ->
-        $target = $ @
-        options = $target.data('drop')
+            if @options.trigger is 'click'
+                @$target.bind 'click.drop', => @toggle()
 
-        $scrollParent = scrollParent($target)
+                $(document).bind 'click.drop', (event) =>
+                    return unless @isOpened
 
-        position = -> $target.drop 'positionDrop' if $target.drop 'isOpened'
+                    # Clicking inside dropdown
+                    if $(event.target).is(@$drop[0]) or @$drop.find(event.target).length
+                        return
 
-        $scrollParent.on 'scroll.drop', debounce(position)
+                    # Clicking target
+                    if $(event.target).is(@$target[0]) or @$target.find(event.target).length
+                        return
 
-        if options.trigger is 'click'
-            $target.bind 'click.drop', -> $target.drop 'toggle'
+                    @close()
 
-            $(document).bind 'click.drop', (event) ->
-                return unless $target.drop 'isOpened'
+        isOpened: ->
+            @$drop.hasClass(drop.classNames.opened)
 
-                # Clicking inside dropdown
-                if $(event.target).is(options.$drop[0]) or options.$drop.find(event.target).length
-                    return
+        toggle: ->
+            if @isOpened
+                @close()
+            else
+                @open()
 
-                # Clicking target
-                if $(event.target).is($target[0]) or $target.find(event.target).length
-                    return
+        open: ->
+            unless @$drop.parent().length
+                $('body').append @$drop
 
-                $target.drop 'close'
+            @position()
 
-        $target
+            @$target
+                .addClass(drop.classNames.opened)
+                .removeClass(drop.classNames.closed)
 
-    toggle: ->
-        $target = $ @
-        options = $target.data('drop')
+            @$drop
+                .addClass(drop.classNames.opened)
+                .removeClass(drop.classNames.closed)
 
-        if $target.drop 'isOpened'
-            $target.drop 'close'
-        else
-            $target.drop 'open'
+            @$drop.trigger
+                type: 'dropopen'
+                drop: @
 
-        $target
+        close: ->
+            @$target
+                .addClass(drop.classNames.closed)
+                .removeClass(drop.classNames.opened)
 
-    isOpened: ->
-        $(@).data('drop').$drop.hasClass(drop.baseClassNames.opened)
+            @$drop
+                .addClass(drop.classNames.closed)
+                .removeClass(drop.classNames.opened)
 
-    open: ->
-        $target = $ @
-        options = $target.data('drop')
+            @$drop.trigger
+                type: 'dropclose'
+                drop: @
 
-        unless options.$drop.parent().length
-            $('body').append options.$drop
+        attach: (attachFirst, attachSecond) ->
+            $([@$target[0], @$drop[0]]).each ->
+                $el = $(@)
+                removePrefixedClasses($el, drop.classNames.attachPrefix)
+                $el.addClass("#{ drop.classNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
 
-        $target.drop 'positionDrop'
+        position: ->
+            targetOffset = @$target.offset()
+            $scrollParent = scrollParent(@$target)
+            scrollParentOffset = @$scrollParent.offset()
 
-        $target
-            .addClass(drop.baseClassNames.opened)
-            .removeClass(drop.baseClassNames.closed)
+            targetOuterHeight = @$target.outerHeight()
+            targetOuterWidth = @$target.outerWidth()
 
-        options.$drop
-            .addClass(drop.baseClassNames.opened)
-            .removeClass(drop.baseClassNames.closed)
+            dropOuterHeight = @$drop.outerHeight()
+            dropOuterWidth = @$drop.outerWidth()
 
-        options.$drop.trigger
-            type: 'openDrop'
-            $drop: $target
+            windowScrollTop = $(window).scrollTop()
+            windowScrollLeft = $(window).scrollLeft()
 
-        $target
+            # Above and below target
 
-    close: ->
-        $target = $ @
-        options = $target.data('drop')
+            if @options.attachFirst is 'bottom'
+                top = targetOffset.top + targetOuterHeight
 
-        $target
-            .addClass(drop.baseClassNames.closed)
-            .removeClass(drop.baseClassNames.opened)
+            if @options.attachFirst is 'top'
+                top = targetOffset.top - dropOuterHeight
 
-        options.$drop
-            .addClass(drop.baseClassNames.closed)
-            .removeClass(drop.baseClassNames.opened)
+            if @options.attachSecond is 'left'
+                left = targetOffset.left
 
-        options.$drop.trigger
-            type: 'closeDrop'
-            $drop: $target
+            if @options.attachSecond is 'right'
+                left = targetOffset.left + targetOuterWidth - dropOuterWidth
 
-        $target
+            # Left and right of target
 
-    attach: (attachFirst, attachSecond) ->
-        $target = $ @
-        options = $target.data('drop')
+            if @options.attachFirst is 'right'
+                left = targetOffset.left + targetOuterWidth
 
-        $([$target[0], options.$drop[0]]).each ->
-            $el = $(@)
-            removePrefixedClasses($el, drop.baseClassNames.attachPrefix)
-            $el.addClass("#{ drop.baseClassNames.attachPrefix }#{ attachFirst }-#{ attachSecond }")
+            if @options.attachFirst is 'left'
+                left = targetOffset.left - dropOuterWidth
 
-    positionDrop: ->
-        $target = $ @
-        options = $target.data('drop')
+            if @options.attachSecond is 'top'
+                top = targetOffset.top
 
-        targetOffset = $target.offset()
-        $scrollParent = scrollParent($target)
-        scrollParentOffset = $scrollParent.offset()
+            if @options.attachSecond is 'bottom'
+                top = targetOffset.top + targetOuterHeight - dropOuterHeight
 
-        targetOuterHeight = $target.outerHeight()
-        targetOuterWidth = $target.outerWidth()
+            # Constraints
 
-        dropOuterHeight = options.$drop.outerHeight()
-        dropOuterWidth = options.$drop.outerWidth()
+            unless $scrollParent.is('html')
+                if @options.constrainToScrollParent or @options.attachFirst in ['left', 'right']
+                    top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight)
 
-        windowScrollTop = $(window).scrollTop()
-        windowScrollLeft = $(window).scrollLeft()
+                if @options.constrainToScrollParent or @options.attachFirst in ['top', 'bottom']
+                    left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth)
 
-        # Above and below target
+            if @options.constrainToWindow
+                wasConstrained = false
 
-        if options.attachFirst is 'bottom'
-            top = targetOffset.top + targetOuterHeight
+                topMin = windowScrollTop
+                topMax = $(window).height() + windowScrollTop - dropOuterHeight
 
-        if options.attachFirst is 'top'
-            top = targetOffset.top - dropOuterHeight
+                leftMin = windowScrollLeft
+                leftMax = $(window).width() + windowScrollLeft - dropOuterWidth
 
-        if options.attachSecond is 'left'
-            left = targetOffset.left
+                if @options.attachFirst in ['top', 'bottom']
+                    if top < topMin
+                        wasConstrained = true
+                        top = topMin
+                        top = targetOffset.top + targetOuterHeight
+                        @attach 'bottom', @options.attachSecond
 
-        if options.attachSecond is 'right'
-            left = targetOffset.left + targetOuterWidth - dropOuterWidth
+                    if top > topMax
+                        wasConstrained = true
+                        top = topMax
+                        top = targetOffset.top - dropOuterHeight
+                        @attach 'top', @options.attachSecond
 
-        # Left and right of target
+                if @options.attachFirst in ['left', 'right']
+                    if left < leftMin
+                        wasConstrained = true
+                        left = leftMin
+                        left = targetOffset.left + targetOuterWidth
+                        @attach 'right', @options.attachSecond
 
-        if options.attachFirst is 'right'
-            left = targetOffset.left + targetOuterWidth
+                    else if left > leftMax
+                        wasConstrained = true
+                        left = leftMax
+                        left = targetOffset.left - dropOuterWidth
+                        @attach 'left', @options.attachSecond
 
-        if options.attachFirst is 'left'
-            left = targetOffset.left - dropOuterWidth
+                unless wasConstrained
+                    @attach @options.attachFirst, @options.attachSecond
 
-        if options.attachSecond is 'top'
-            top = targetOffset.top
+                top = Math.min(Math.max(top, topMin), topMax)
+                left = Math.min(Math.max(left, leftMin), leftMax)
 
-        if options.attachSecond is 'bottom'
-            top = targetOffset.top + targetOuterHeight - dropOuterHeight
+            top += 'px'
+            left += 'px'
 
-        # Constraints
+            unless @$drop.css('top') is top and @$drop.css('left') is left
+                @$drop[0].style.top = top
+                @$drop[0].style.left = left
 
-        unless $scrollParent.is('html')
-            if options.constrainToScrollParent or options.attachFirst in ['left', 'right']
-                top = Math.min(Math.max(top, scrollParentOffset.top), scrollParentOffset.top + $scrollParent.outerHeight() - dropOuterHeight)
+    drop
 
-            if options.constrainToScrollParent or options.attachFirst in ['top', 'bottom']
-                left = Math.min(Math.max(left, scrollParentOffset.left), scrollParentOffset.left + $scrollParent.outerWidth() - dropOuterWidth)
+window.Drop = createContext()
 
-        if options.constrainToWindow
-            wasConstrained = false
-
-            topMin = windowScrollTop
-            topMax = $(window).height() + windowScrollTop - dropOuterHeight
-
-            leftMin = windowScrollLeft
-            leftMax = $(window).width() + windowScrollLeft - dropOuterWidth
-
-            if options.attachFirst in ['top', 'bottom']
-                if top < topMin
-                    wasConstrained = true
-                    top = topMin
-                    top = targetOffset.top + targetOuterHeight
-                    $target.drop('attach', 'bottom', options.attachSecond)
-
-                if top > topMax
-                    wasConstrained = true
-                    top = topMax
-                    top = targetOffset.top - dropOuterHeight
-                    $target.drop('attach', 'top', options.attachSecond)
-
-            if options.attachFirst in ['left', 'right']
-                if left < leftMin
-                    wasConstrained = true
-                    left = leftMin
-                    left = targetOffset.left + targetOuterWidth
-                    $target.drop('attach', 'right', options.attachSecond)
-
-                else if left > leftMax
-                    wasConstrained = true
-                    left = leftMax
-                    left = targetOffset.left - dropOuterWidth
-                    $target.drop('attach', 'left', options.attachSecond)
-
-            $target.drop('attach', options.attachFirst, options.attachSecond) unless wasConstrained
-
-            top = Math.min(Math.max(top, topMin), topMax)
-            left = Math.min(Math.max(left, leftMin), leftMax)
-
-        top += 'px'
-        left += 'px'
-
-        unless options.$drop.css('top') is top and options.$drop.css('left') is left
-            options.$drop[0].style.top = top
-            options.$drop[0].style.left = left
-
-        $target
-
-window.Drop = drop
-
-$.fn.drop = (options) ->
-    if jQueryMethods[options]
-        jQueryMethods[options].apply this, Array::slice.call(arguments, 1)
-    else if typeof options is 'object' or not options
-        jQueryMethods.init.apply this, arguments
-    else
-        $.error "jQuery.drop: Method #{ options } does not exist"
+$ ->
+    Drop.updateBodyClasses()
