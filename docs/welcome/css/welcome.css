@@ -57,11 +57,17 @@ table.showcase {
       font-size: 50px;
       text-align: center;
       font-weight: 300; }
+      @media (max-width: 567px) {
+        table.showcase .showcase-inner h1 {
+          font-size: 40px; } }
     table.showcase .showcase-inner h2 {
       font-size: 24px;
       text-align: center;
       font-weight: 300;
       margin: 1em 0 1em; }
+      @media (max-width: 567px) {
+        table.showcase .showcase-inner h2 {
+          font-size: 14px; } }
     table.showcase .showcase-inner p {
       text-align: center; }
   table.showcase.hero {
@@ -76,6 +82,9 @@ table.showcase {
       border: 2px dotted black;
       margin: 5rem auto;
       padding: 3rem; }
+      @media (max-width: 567px) {
+        table.showcase.hero .drop-target-demo {
+          padding: 1rem; } }
   table.showcase.browser-demo {
     background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #723362), color-stop(100%, #9d223c));
     background-image: -webkit-linear-gradient(top left, #723362 0%, #9d223c 100%);
@@ -109,6 +118,14 @@ table.showcase {
       bottom: 120px;
       margin: 0;
       padding: 0; }
+      @media (max-width: 1200px) {
+        table.showcase.browser-demo .showcase-inner {
+          left: 10%;
+          right: 10%; } }
+      @media (max-width: 567px) {
+        table.showcase.browser-demo .showcase-inner {
+          bottom: 90px;
+          top: 180px; } }
     table.showcase.browser-demo .browser-demo-inner {
       height: 100%;
       width: 100%; }
@@ -130,15 +147,24 @@ table.showcase {
         filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
         opacity: 1;
         top: -150px; }
+        @media (max-width: 567px) {
+          table.showcase.browser-demo .section-copy.active {
+            top: -130px; } }
       table.showcase.browser-demo .section-copy h2 {
         font-size: 40px;
         font-weight: bold;
         line-height: 1;
         margin: 0 0 15px; }
+        @media (max-width: 567px) {
+          table.showcase.browser-demo .section-copy h2 {
+            font-size: 30px; } }
       table.showcase.browser-demo .section-copy p {
         font-size: 26px;
         font-weight: 300;
         margin: 0; }
+        @media (max-width: 567px) {
+          table.showcase.browser-demo .section-copy p {
+            font-size: 16px; } }
     table.showcase.browser-demo .browser-window {
       -webkit-border-radius: 4px;
       -moz-border-radius: 4px;

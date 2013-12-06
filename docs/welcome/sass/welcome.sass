@@ -64,11 +64,17 @@ table.showcase
             text-align: center
             font-weight: 300
 
+            @media (max-width: 567px)
+                font-size: 40px
+
         h2
             font-size: 24px
             text-align: center
             font-weight: 300
             margin: 1em 0 1em
+
+            @media (max-width: 567px)
+                font-size: 14px
 
         p
             text-align: center
@@ -81,6 +87,9 @@ table.showcase
             border: 2px dotted #000
             margin: 5rem auto
             padding: 3rem
+
+            @media (max-width: 567px)
+                padding: 1rem
 
     &.browser-demo
         +background-image(linear-gradient(top left, #723362 0%, #9d223c 100%))
@@ -118,6 +127,14 @@ table.showcase
             margin: 0
             padding: 0
 
+            @media (max-width: 1200px)
+                left: 10%
+                right: 10%
+
+            @media (max-width: 567px)
+                bottom: 90px
+                top: 180px
+
         .browser-demo-inner
             height: 100%
             width: 100%
@@ -137,16 +154,25 @@ table.showcase
                 +opacity(1)
                 top: -150px
 
+                @media (max-width: 567px)
+                    top: -130px
+
             h2
                 font-size: 40px
                 font-weight: bold
                 line-height: 1
                 margin: 0 0 15px
 
+                @media (max-width: 567px)
+                    font-size: 30px
+
             p
                 font-size: 26px
                 font-weight: 300
                 margin: 0
+
+                @media (max-width: 567px)
+                    font-size: 16px
 
         .browser-window
             +border-radius(4px)

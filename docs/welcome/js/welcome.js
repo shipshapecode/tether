@@ -1,5 +1,7 @@
 (function() {
-  var init, setupBrowserDemo, setupHero;
+  var init, isMobile, setupBrowserDemo, setupHero;
+
+  isMobile = $(window).width() < 567;
 
   init = function() {
     setupHero();
@@ -10,6 +12,9 @@
     var $target, frameLengthMS, frames, openAllDrops, openIndex, openNextDrop, position, positions, _i, _len;
     $target = $('.drop-target-demo');
     positions = ['top left', 'left top', 'left bottom', 'bottom left', 'bottom right', 'right bottom', 'right top', 'top right'];
+    if (isMobile) {
+      positions = ['top left', 'bottom left', 'bottom right', 'top right'];
+    }
     window.drops = {};
     for (_i = 0, _len = positions.length; _i < _len; _i++) {
       position = positions[_i];
@@ -51,7 +56,12 @@
       frames += 1;
       return setTimeout(openNextDrop, frameLengthMS * frames);
     };
-    return openNextDrop();
+    if (isMobile) {
+      drops['top left'].open();
+      return drops['bottom right'].open();
+    } else {
+      return openNextDrop();
+    }
   };
 
   setupBrowserDemo = function() {
@@ -112,7 +122,11 @@
       $('.section-copy').removeClass('active');
       $(".section-copy[data-section=\"" + section + "\"]").addClass('active');
       openExampleItem = function() {
-        return $iframe.contents().find('.item:eq(2)').data().drop.open();
+        if (isMobile) {
+          return $iframe.contents().find('.item:first').data().drop.open();
+        } else {
+          return $iframe.contents().find('.item:eq(2)').data().drop.open();
+        }
       };
       closeAllItems = function() {
         return $iframe.contents().find('.item').each(function() {

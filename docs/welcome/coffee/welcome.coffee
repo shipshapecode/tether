@@ -1,3 +1,5 @@
+isMobile = $(window).width() < 567
+
 init = ->
     setupHero()
     setupBrowserDemo()
@@ -15,6 +17,14 @@ setupHero = ->
         'right top'
         'top right'
     ]
+
+    if isMobile
+        positions = [
+            'top left'
+            'bottom left'
+            'bottom right'
+            'top right'
+        ]
 
     window.drops = {}
 
@@ -53,10 +63,12 @@ setupHero = ->
 
         setTimeout openNextDrop, frameLengthMS * frames
 
-    openNextDrop()
+    if isMobile
+        drops['top left'].open()
+        drops['bottom right'].open()
 
-    # $(document).on 'dropopen closedrop', (event) ->
-    #     log 'event', 'type', event.type, 'drop', event
+    else
+        openNextDrop()
 
 setupBrowserDemo = ->
     $browserDemo = $('.browser-demo.showcase')
@@ -129,7 +141,10 @@ setupBrowserDemo = ->
         $(""".section-copy[data-section="#{ section }"]""").addClass('active')
 
         openExampleItem = ->
-            $iframe.contents().find('.item:eq(2)').data().drop.open()
+            if isMobile
+                $iframe.contents().find('.item:first').data().drop.open()
+            else
+                $iframe.contents().find('.item:eq(2)').data().drop.open()
 
         closeAllItems = ->
             $iframe.contents().find('.item').each -> $(@).data().drop.close() or true
