@@ -73,7 +73,7 @@
   $(window).on('scroll', position);
 
   MIRROR_LR = {
-    middle: 'middle',
+    center: 'center',
     left: 'right',
     right: 'left'
   };
@@ -88,6 +88,7 @@
     top: '0',
     left: '0',
     middle: '50%',
+    center: '50%',
     bottom: '100%',
     right: '100%'
   };
@@ -201,6 +202,47 @@
       return this.enabled = false;
     };
 
+    Tether.prototype.updateAttachClasses = function(elementAttach, targetAttach) {
+      var side, sides, _i, _j, _len, _len1;
+      if (elementAttach == null) {
+        elementAttach = this.attachment;
+      }
+      if (targetAttach == null) {
+        targetAttach = this.targetAttachment;
+      }
+      sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
+      for (_i = 0, _len = sides.length; _i < _len; _i++) {
+        side = sides[_i];
+        this.$element.removeClass("tether-target-on-" + side);
+      }
+      if (elementAttach.top) {
+        this.$element.addClass("tether-target-on-" + elementAttach.top);
+      }
+      if (elementAttach.left) {
+        this.$element.addClass("tether-target-on-" + elementAttach.left);
+      }
+      for (_j = 0, _len1 = sides.length; _j < _len1; _j++) {
+        side = sides[_j];
+        this.$target.removeClass("tether-element-on-" + side);
+      }
+      if (targetAttach.top) {
+        this.$target.addClass("tether-element-on-" + targetAttach.top);
+      }
+      if (targetAttach.left) {
+        return this.$target.addClass("tether-element-on-" + targetAttach.left);
+      }
+    };
+
+    Tether.prototype.addClass = function(classes) {
+      this.$element.addClass(classes);
+      return this.$target.addClass(classes);
+    };
+
+    Tether.prototype.removeClass = function(classes) {
+      this.$element.removeClass(classes);
+      return this.$target.removeClass(classes);
+    };
+
     Tether.prototype.position = function() {
       var elementPos, height, left, module, next, offset, ret, targetAttachment, targetOffset, targetPos, top, width, _i, _len, _ref;
       if (!this.enabled) {
@@ -211,6 +253,7 @@
       targetOffset = offsetToPx(attachmentToOffset(targetAttachment), this.target);
       offset = addOffset(offset, offsetToPx(this.offset, this.element));
       targetOffset = addOffset(targetOffset, offsetToPx(this.targetOffset, this.target));
+      this.updateAttachClasses(this.attachment, targetAttachment);
       targetPos = this.$target.offset();
       elementPos = this.$element.offset();
       left = targetPos.left + targetOffset.left - offset.left;

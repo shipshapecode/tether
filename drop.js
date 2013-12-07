@@ -123,17 +123,20 @@ drop - Finally a dropdown which understands where it is.
         if (this.options.constrainToScrollParent) {
           constraints.push({
             to: 'scrollParent',
-            pin: true,
-            changeAttachY: 'together'
+            pin: 'top, bottom',
+            changeAttach: 'together none'
           });
         }
-        if (this.options.constrainToWindow) {
+        if (this.options.constrainToWindow !== false) {
           constraints.push({
             to: 'window',
             pin: true,
-            changeAttachY: 'together'
+            changeAttach: 'together'
           });
         }
+        constraints.push({
+          to: 'scrollParent'
+        });
         return this.tether = new Tether({
           element: this.$drop[0],
           target: this.$target[0],

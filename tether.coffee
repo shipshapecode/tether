@@ -52,7 +52,7 @@ $(window).on 'resize', position
 $(window).on 'scroll', position
 
 MIRROR_LR =
-  middle: 'middle'
+  center: 'center'
   left: 'right'
   right: 'left'
 
@@ -65,6 +65,7 @@ OFFSET_MAP =
   top: '0'
   left: '0'
   middle: '50%'
+  center: '50%'
   bottom: '100%'
   right: '100%'
 
@@ -165,6 +166,25 @@ class Tether
   disable: ->
     @enabled = false
 
+  updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->
+    sides = ['left', 'top', 'bottom', 'right', 'middle', 'center']
+  
+    @$element.removeClass "tether-target-on-#{ side }" for side in sides
+    @$element.addClass "tether-target-on-#{ elementAttach.top }" if elementAttach.top
+    @$element.addClass "tether-target-on-#{ elementAttach.left }" if elementAttach.left
+
+    @$target.removeClass "tether-element-on-#{ side }" for side in sides
+    @$target.addClass "tether-element-on-#{ targetAttach.top }" if targetAttach.top
+    @$target.addClass "tether-element-on-#{ targetAttach.left }" if targetAttach.left
+
+  addClass: (classes) ->
+    @$element.addClass classes
+    @$target.addClass classes
+
+  removeClass: (classes) ->
+    @$element.removeClass classes
+    @$target.removeClass classes
+
   position: =>
     return unless @enabled
 
@@ -178,6 +198,8 @@ class Tether
     # Add the manually provided offset
     offset = addOffset offset, offsetToPx(@offset, @element)
     targetOffset = addOffset targetOffset, offsetToPx(@targetOffset, @target)
+
+    @updateAttachClasses @attachment, targetAttachment
 
     targetPos = @$target.offset()
     elementPos = @$element.offset()

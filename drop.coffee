@@ -119,14 +119,18 @@ createContext = (options) ->
             if @options.constrainToScrollParent
               constraints.push
                 to: 'scrollParent'
-                pin: true
-                changeAttachY: 'together'
+                pin: 'top, bottom'
+                changeAttach: 'together none'
 
-            if @options.constrainToWindow
+            if @options.constrainToWindow isnt false
               constraints.push
                 to: 'window'
                 pin: true
-                changeAttachY: 'together'
+                changeAttach: 'together'
+
+            # To get 'out of bounds' classes
+            constraints.push
+              to: 'scrollParent'
 
             @tether = new Tether
                 element: @$drop[0]

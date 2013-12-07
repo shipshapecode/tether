@@ -28,62 +28,144 @@ Tether.modules.push
     targetHeight = @$target.outerHeight()
     targetWidth = @$target.outerWidth()
 
+    tAttachment = {}
+    eAttachment = {}
+
+    @removeClass 'tether-pinned tether-out-of-bounds'
+    for side in ['left', 'right', 'top', 'bottom']
+      @removeClass "tether-pinned-#{ side } tether-out-of-bounds-#{ side }"
+
     for constraint in @options.constraints
-      {to, changeAttach, changeAttachY, changeAttachX, pin, pinX, pinY} = constraint
+      {to, changeAttach, pin} = constraint
+
+      changeAttach ?= ''
+
+      if ' ' in changeAttach
+        [changeAttachY, changeAttachX] = changeAttach.split(' ')
+      else
+        changeAttachX = changeAttachY = changeAttach
 
       bounds = getBounds @, to
 
-      changeAttachY ?= changeAttach
-      changeAttachX ?= changeAttach
-
-      if changeAttachY in ['target', 'both', 'together']
+      if changeAttachY in ['target', 'both']
         if (top < bounds[1] and targetAttachment.top is 'top')
           top += targetHeight
-
-          if (changeAttachY is 'together' and @attachment.top is 'bottom')
-            top += height
+          tAttachment.top = 'bottom'
 
         if (top + height > bounds[3] and targetAttachment.top is 'bottom')
           top -= targetHeight
+          tAttachment.top = 'top'
 
-          if (changeAttachY is 'together' and @attachment.top is 'top')
-            top -= height
+      if changeAttachY is 'together'
+        if (top < bounds[1] and targetAttachment.top is 'top' and @attachment.top is 'bottom')
+          top += targetHeight
+          tAttachment.top = 'bottom'
+
+          top += height
+          eAttachment.top = 'top'
+
+        if (top + height > bounds[3] and targetAttachment.top is 'bottom' and @attachment.top is 'top')
+          top -= targetHeight
+          tAttachment.top = 'top'
+
+          top -= height
+          eAttachment.top = 'bottom'
 
       if changeAttachX in ['target', 'both']
         if (left < bounds[0] and targetAttachment.left is 'left')
           left += targetWidth
-
-          if changeAttachX is 'together'
-            left += width
+          tAttachment.left = 'right'
 
         if (left + width > bounds[2] and targetAttachment.left is 'right')
           left -= targetWidth
+          tAttachment.left = 'left'
 
-          if changeAttachX is 'together'
-            left -= width
+      if changeAttachX is 'together'
+        if (left < bounds[0] and targetAttachment.left is 'left' and @attachment.left is 'right')
+          left += targetWidth
+          tAttachment.left = 'right'
+
+          left += width
+          eAttachment.left = 'left'
+
+        if (left + width > bounds[2] and targetAttachment.left is 'right' and @attachment.left is 'left')
+          left -= targetWidth
+          tAttachment.left = 'left'
+
+          left -= width
+          eAttachment.left = 'right'
 
       if changeAttachY in ['element', 'both']
         if (top < bounds[1] and @attachment.top is 'bottom')
           top += height
+          eAttachment.top = 'top'
 
         if (top + height > bounds[3] and @attachment.top is 'top')
           top -= height
+          eAttachment.top = 'bottom'
 
       if changeAttachX in ['element', 'both']
         if (left < bounds[0] and @attachment.left is 'right')
           left += width
+          eAttachment.left = 'left'
 
         if (left + width > bounds[2] and @attachment.left is 'left')
           left -= width
+          eAttachment.left = 'right'
 
-      if pin or pinY
-        top = Math.max(top, bounds[1])
-        if top + height > bounds[3]
+      if typeof pin is 'string'
+        pin = (p.trim() for p in pin.split ',')
+      else if pin is true
+        pin = ['top', 'left', 'right', 'bottom']
+      
+      pin or= []
+
+      pinned = []
+      oob = []
+      if top < bounds[1]
+        if 'top' in pin
+          top = bounds[1]
+          pinned.push 'top'
+        else
+          oob.push 'top'
+
+      if top + height > bounds[3]
+        if 'bottom' in pin
           top = bounds[3] - height
+          pinned.push 'bottom'
+        else
+          oob.push 'bottom'
 
-      if pin or pinX
-        left = Math.max(left, bounds[0])
-        if left + width > bounds[2]
+      if left < bounds[0]
+        if 'left' in pin
+          left = bounds[0]
+          pinned.push 'left'
+        else
+          oob.push 'left'
+
+      if left + width > bounds[2]
+        if 'right' in pin
           left = bounds[2] - width
+          pinned.push 'right'
+        else
+          oob.push 'right'
+
+      if pinned.length
+        @addClass 'tether-pinned'
+        for side in pinned
+          @addClass "tether-pinned-#{ side }"
+
+      if oob.length
+        @addClass 'tether-out-of-bounds'
+        for side in oob
+          @addClass "tether-out-of-bounds-#{ side }"
+
+      if 'left' in pinned or 'right' in pinned
+        eAttachment.left = tAttachment.left = false
+      if 'top' in pinned or 'bottom' in pinned
+        eAttachment.top = tAttachment.top = false
+
+      if tAttachment.top? or tAttachment.left? or eAttachment.top? or eAttachment.left?
+        @updateAttachClasses $.extend({}, @attachment, eAttachment), $.extend({}, targetAttachment, tAttachment)
 
     {top, left}
