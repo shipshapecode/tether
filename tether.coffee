@@ -159,11 +159,13 @@ class Tether
     @position()
 
   enable: ->
+    @addClass 'tether-enabled'
     @enabled = true
 
     @position()
 
   disable: ->
+    @removeClass 'tether-enabled'
     @enabled = false
 
   updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->

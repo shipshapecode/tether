@@ -31,6 +31,7 @@ MIRROR_ATTACH =
     top: 'bottom'
     bottom: 'top'
     middle: 'middle'
+    center: 'center'
 
 allDrops = []
 
@@ -45,22 +46,12 @@ createContext = (options) ->
         drops: []
 
     defaults =
-        classNames:
-            drop: 'drop'
-            dropContent: 'drop-content'
-            opened: 'drop-opened'
-            closed: 'drop-closed'
-            allClosed: 'drop-all-closed'
-            attachPrefix: 'drop-attached-'
-
         defaults:
             attach: 'bottom left'
-            trigger: 'click'
+            openOn: 'click'
             constrainToScrollParent: true
             constrainToWindow: true
             className: ''
-            closedOnInit: true
-            content: 'drop'
 
     $.extend true, drop, defaults, options
 
@@ -76,9 +67,9 @@ createContext = (options) ->
             break
 
         if anyOpen
-            $('body').addClass(drop.classNames.opened).removeClass(drop.classNames.allClosed)
+            $('body').addClass('drop-opened')
         else
-            $('body').removeClass(drop.classNames.opened).addClass(drop.classNames.allClosed)
+            $('body').removeClass('drop-opened')
 
     class DropInstance
         constructor: (@options) ->
@@ -95,16 +86,16 @@ createContext = (options) ->
 
         setupElements: ->
             @$drop = $ '<div>'
-            @$drop.addClass drop.classNames.drop
+            @$drop.addClass 'drop'
             @$drop.addClass @options.className
 
             @$dropContent = $ '<div>'
-            @$dropContent.addClass drop.classNames.dropContent
+            @$dropContent.addClass 'drop-content'
             @$dropContent.append @options.content
 
             @$drop.append @$dropContent
 
-            @$drop.addClass drop.classNames.closed
+            @$drop.addClass 'drop-closed'
 
         setupTether: ->
             # Tether expects two attachment points, one in the target element, one in the
@@ -143,10 +134,13 @@ createContext = (options) ->
                 constraints: constraints
 
         setupEvents: ->
-            if @options.trigger is 'click'
-                @$target.bind 'click.drop', => @toggle()
+            return unless @options.openOn
+            events = @options.openOn.split ' '
 
-                $(document).bind 'click.drop', (event) =>
+            if 'click' in events
+                @$target.bind 'click', => @toggle()
+
+                $(document).bind 'click', (event) =>
                     return unless @isOpened
 
                     # Clicking inside dropdown
@@ -159,8 +153,12 @@ createContext = (options) ->
 
                     @close()
 
+            if 'hover' in events
+                @$target.bind 'mouseover', => @open()
+                @$target.bind 'mouseout', => @close()
+
         isOpened: ->
-            @$drop.hasClass(drop.classNames.opened)
+            @$drop.hasClass('drop-opened')
 
         toggle: ->
             if @isOpened()
@@ -172,13 +170,15 @@ createContext = (options) ->
             unless @$drop.parent().length
                 $('body').append @$drop
 
+            @addClass 'drop-opened'
+
             @$target
-                .addClass(drop.classNames.opened)
-                .removeClass(drop.classNames.closed)
+                .addClass('drop-opened')
+                .removeClass('drop-closed')
 
             @$drop
-                .addClass(drop.classNames.opened)
-                .removeClass(drop.classNames.closed)
+                .addClass('drop-opened')
+                .removeClass('drop-closed')
 
             @$drop.trigger
                 type: 'dropopen'
@@ -188,12 +188,12 @@ createContext = (options) ->
 
         close: ->
             @$target
-                .addClass(drop.classNames.closed)
-                .removeClass(drop.classNames.opened)
+                .addClass('drop-closed')
+                .removeClass('drop-open')
 
             @$drop
-                .addClass(drop.classNames.closed)
-                .removeClass(drop.classNames.opened)
+                .addClass('drop-closed')
+                .removeClass('drop-open')
 
             @$drop.trigger
                 type: 'dropclose'
@@ -201,7 +201,6 @@ createContext = (options) ->
 
             @tether.disable()
 
-        # TODO Add classes
     drop
 
 window.Drop = createContext()

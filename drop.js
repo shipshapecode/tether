@@ -15,7 +15,8 @@ drop - Finally a dropdown which understands where it is.
 
 
 (function() {
-  var $, MIRROR_ATTACH, allDrops, createContext, sortAttach;
+  var $, MIRROR_ATTACH, allDrops, createContext, sortAttach,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   $ = jQuery;
 
@@ -33,7 +34,8 @@ drop - Finally a dropdown which understands where it is.
     right: 'left',
     top: 'bottom',
     bottom: 'top',
-    middle: 'middle'
+    middle: 'middle',
+    center: 'center'
   };
 
   allDrops = [];
@@ -52,22 +54,12 @@ drop - Finally a dropdown which understands where it is.
       drops: []
     });
     defaults = {
-      classNames: {
-        drop: 'drop',
-        dropContent: 'drop-content',
-        opened: 'drop-opened',
-        closed: 'drop-closed',
-        allClosed: 'drop-all-closed',
-        attachPrefix: 'drop-attached-'
-      },
       defaults: {
         attach: 'bottom left',
-        trigger: 'click',
+        openOn: 'click',
         constrainToScrollParent: true,
         constrainToWindow: true,
-        className: '',
-        closedOnInit: true,
-        content: 'drop'
+        className: ''
       }
     };
     $.extend(true, drop, defaults, options);
@@ -86,9 +78,9 @@ drop - Finally a dropdown which understands where it is.
         break;
       }
       if (anyOpen) {
-        return $('body').addClass(drop.classNames.opened).removeClass(drop.classNames.allClosed);
+        return $('body').addClass('drop-opened');
       } else {
-        return $('body').removeClass(drop.classNames.opened).addClass(drop.classNames.allClosed);
+        return $('body').removeClass('drop-opened');
       }
     };
     DropInstance = (function() {
@@ -105,13 +97,13 @@ drop - Finally a dropdown which understands where it is.
 
       DropInstance.prototype.setupElements = function() {
         this.$drop = $('<div>');
-        this.$drop.addClass(drop.classNames.drop);
+        this.$drop.addClass('drop');
         this.$drop.addClass(this.options.className);
         this.$dropContent = $('<div>');
-        this.$dropContent.addClass(drop.classNames.dropContent);
+        this.$dropContent.addClass('drop-content');
         this.$dropContent.append(this.options.content);
         this.$drop.append(this.$dropContent);
-        return this.$drop.addClass(drop.classNames.closed);
+        return this.$drop.addClass('drop-closed');
       };
 
       DropInstance.prototype.setupTether = function() {
@@ -150,12 +142,17 @@ drop - Finally a dropdown which understands where it is.
       };
 
       DropInstance.prototype.setupEvents = function() {
-        var _this = this;
-        if (this.options.trigger === 'click') {
-          this.$target.bind('click.drop', function() {
+        var events,
+          _this = this;
+        if (!this.options.openOn) {
+          return;
+        }
+        events = this.options.openOn.split(' ');
+        if (__indexOf.call(events, 'click') >= 0) {
+          this.$target.bind('click', function() {
             return _this.toggle();
           });
-          return $(document).bind('click.drop', function(event) {
+          $(document).bind('click', function(event) {
             if (!_this.isOpened) {
               return;
             }
@@ -168,10 +165,18 @@ drop - Finally a dropdown which understands where it is.
             return _this.close();
           });
         }
+        if (__indexOf.call(events, 'hover') >= 0) {
+          this.$target.bind('mouseover', function() {
+            return _this.open();
+          });
+          return this.$target.bind('mouseout', function() {
+            return _this.close();
+          });
+        }
       };
 
       DropInstance.prototype.isOpened = function() {
-        return this.$drop.hasClass(drop.classNames.opened);
+        return this.$drop.hasClass('drop-opened');
       };
 
       DropInstance.prototype.toggle = function() {
@@ -186,8 +191,9 @@ drop - Finally a dropdown which understands where it is.
         if (!this.$drop.parent().length) {
           $('body').append(this.$drop);
         }
-        this.$target.addClass(drop.classNames.opened).removeClass(drop.classNames.closed);
-        this.$drop.addClass(drop.classNames.opened).removeClass(drop.classNames.closed);
+        this.addClass('drop-opened');
+        this.$target.addClass('drop-opened').removeClass('drop-closed');
+        this.$drop.addClass('drop-opened').removeClass('drop-closed');
         this.$drop.trigger({
           type: 'dropopen',
           drop: this
@@ -196,8 +202,8 @@ drop - Finally a dropdown which understands where it is.
       };
 
       DropInstance.prototype.close = function() {
-        this.$target.addClass(drop.classNames.closed).removeClass(drop.classNames.opened);
-        this.$drop.addClass(drop.classNames.closed).removeClass(drop.classNames.opened);
+        this.$target.addClass('drop-closed').removeClass('drop-open');
+        this.$drop.addClass('drop-closed').removeClass('drop-open');
         this.$drop.trigger({
           type: 'dropclose',
           drop: this

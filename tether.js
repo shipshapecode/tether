@@ -194,11 +194,13 @@
     };
 
     Tether.prototype.enable = function() {
+      this.addClass('tether-enabled');
       this.enabled = true;
       return this.position();
     };
 
     Tether.prototype.disable = function() {
+      this.removeClass('tether-enabled');
       return this.enabled = false;
     };
 
