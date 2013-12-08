@@ -115,12 +115,6 @@ parseAttachment = parseOffset = (value) ->
 
   {top, left}
 
-# element
-# attachment (top left)
-# offset (0 0)
-# target
-# targetAttachment (auto auto)
-# targetOffset (0 0)
 class Tether
   @modules: []
 
@@ -271,7 +265,7 @@ class Tether
     # nobody uses overflow: visible, so it's not worth the trouble.
     #
     # We could also travel up the DOM and try each containing context, rather than only
-    # looking at the body.
+    # looking at the body, but we're gonna get diminishing returns.
 
     @move next
 
