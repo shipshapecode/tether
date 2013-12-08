@@ -28,7 +28,7 @@ createContext = (options) ->
     createContext: createContext
     drops: []
 
-  defaults =
+  defaultOptions =
     defaults:
       attach: 'bottom left'
       openOn: 'click'
@@ -36,7 +36,7 @@ createContext = (options) ->
       constrainToWindow: true
       className: ''
 
-  $.extend true, drop, defaults, options
+  $.extend true, drop, defaultOptions, options
 
   $(document).on 'dropopen.drop, dropclose.drop', -> drop.updateBodyClasses()
 

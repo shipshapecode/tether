@@ -104,9 +104,9 @@ addOffset = (offsets...) ->
 
 offsetToPx = (offset, element) ->
   if typeof offset.left is 'string' and offset.left.indexOf('%') isnt -1
-    offset.left = parseFloat(offset.left, 10)/100 * $(element).outerWidth()
+    offset.left = parseFloat(offset.left, 10) / 100 * $(element).outerWidth()
   if typeof offset.top is 'string' and offset.top.indexOf('%') isnt -1
-    offset.top = parseFloat(offset.top, 10)/100 * $(element).outerHeight()
+    offset.top = parseFloat(offset.top, 10) / 100 * $(element).outerHeight()
 
   offset
 

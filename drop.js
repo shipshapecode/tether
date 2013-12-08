@@ -25,7 +25,7 @@
   allDrops = [];
 
   createContext = function(options) {
-    var DropInstance, defaults, drop;
+    var DropInstance, defaultOptions, drop;
     drop = function() {
       return (function(func, args, ctor) {
         ctor.prototype = func.prototype;
@@ -37,7 +37,7 @@
       createContext: createContext,
       drops: []
     });
-    defaults = {
+    defaultOptions = {
       defaults: {
         attach: 'bottom left',
         openOn: 'click',
@@ -46,7 +46,7 @@
         className: ''
       }
     };
-    $.extend(true, drop, defaults, options);
+    $.extend(true, drop, defaultOptions, options);
     $(document).on('dropopen.drop, dropclose.drop', function() {
       return drop.updateBodyClasses();
     });
