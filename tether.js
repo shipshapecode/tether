@@ -248,7 +248,7 @@
     };
 
     Tether.prototype.position = function() {
-      var elementPos, height, left, module, next, offset, ret, targetAttachment, targetOffset, targetPos, top, width, _i, _len, _ref;
+      var $offsetParent, elementPos, height, left, module, next, offset, offsetPosition, ret, scrollLeft, scrollTop, targetAttachment, targetOffset, targetPos, top, width, _i, _len, _ref;
       if (!this.enabled) {
         return;
       }
@@ -296,6 +296,22 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
+      $offsetParent = this.$target.offsetParent();
+      offsetPosition = $offsetParent.offset();
+      offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width();
+      offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height();
+      if (next.page.top >= offsetPosition.top && next.page.bottom >= offsetPosition.bottom) {
+        if (next.page.left >= offsetPosition.left && next.page.right >= offsetPosition.right) {
+          scrollTop = $offsetParent.scrollTop();
+          scrollLeft = $offsetParent.scrollLeft();
+          next.offset = {
+            top: next.page.top - offsetPosition.top + scrollTop,
+            left: next.page.left - offsetPosition.left + scrollLeft,
+            right: next.page.right - offsetPosition.right - scrollLeft,
+            bottom: next.page.bottom - offsetPosition.bottom - scrollTop
+          };
+        }
+      }
       this.move(next);
       this.history.unshift(next);
       if (this.history.length > 3) {
@@ -304,7 +320,7 @@
     };
 
     Tether.prototype.move = function(position) {
-      var css, found, key, point, same, transcribe, type, val, write, _i, _len, _ref;
+      var $offsetParent, css, found, key, moved, point, same, transcribe, type, val, write, _i, _len, _ref, _ref1;
       same = {};
       for (type in position) {
         same[type] = {};
@@ -313,7 +329,7 @@
           _ref = this.history;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             point = _ref[_i];
-            if (point[type][key] !== position[type][key]) {
+            if (((_ref1 = point[type]) != null ? _ref1[key] : void 0) !== position[type][key]) {
               found = true;
               break;
             }
@@ -341,16 +357,30 @@
           return css.right = "" + pos.right + "px";
         }
       };
+      moved = false;
       if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
         css.position = 'absolute';
         transcribe(same.page, position.page);
       } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
         css.position = 'fixed';
         transcribe(same.viewport, position.viewport);
+      } else if ((same.offset != null) && (same.offset.top || same.offset.bottom) && (same.offset.left || same.offset.right)) {
+        css.position = 'absolute';
+        $offsetParent = this.$target.offsetParent();
+        if (this.$element.offsetParent()[0] !== $offsetParent[0]) {
+          this.$element.detach();
+          $offsetParent.append(this.$element);
+        }
+        transcribe(same.offset, position.offset);
+        moved = true;
       } else {
         css.position = 'absolute';
         css.top = "" + position.page.top + "px";
         css.left = "" + position.page.left + "px";
+      }
+      if (!moved && !this.$element.parent().is('body')) {
+        this.$element.detach();
+        $(document.body).append(this.$element);
       }
       write = false;
       for (key in css) {

@@ -69,6 +69,7 @@
 }
 
 .scroll-container {
+    position: relative; 
     overflow: auto;
     background: #eee;
     padding: 20px;

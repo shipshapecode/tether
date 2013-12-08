@@ -238,6 +238,24 @@ class Tether
         right: pageXOffset - left - width + innerWidth
     }
 
+    $offsetParent = @$target.offsetParent()
+    offsetPosition = $offsetParent.offset()
+
+    offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width()
+    offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height()
+
+    if next.page.top >= offsetPosition.top and next.page.bottom >= offsetPosition.bottom
+      if next.page.left >= offsetPosition.left and next.page.right >= offsetPosition.right
+
+        scrollTop = $offsetParent.scrollTop()
+        scrollLeft = $offsetParent.scrollLeft()
+
+        next.offset =
+          top: next.page.top - offsetPosition.top + scrollTop
+          left: next.page.left - offsetPosition.left + scrollLeft
+          right: next.page.right - offsetPosition.right - scrollLeft
+          bottom: next.page.bottom - offsetPosition.bottom - scrollTop
+
     @move next
 
     @history.unshift next
@@ -255,7 +273,7 @@ class Tether
         found = false
 
         for point in @history
-          unless point[type][key] is position[type][key]
+          unless point[type]?[key] is position[type][key]
             found = true
             break
 
@@ -275,6 +293,7 @@ class Tether
       else
         css.right = "#{ pos.right }px"
 
+    moved = false
     if (same.page.top or same.page.bottom) and (same.page.left or same.page.right)
       css.position = 'absolute'
       transcribe same.page, position.page
@@ -283,10 +302,27 @@ class Tether
       css.position = 'fixed'
       transcribe same.viewport, position.viewport
 
+    else if same.offset? and (same.offset.top or same.offset.bottom) and (same.offset.left or same.offset.right)
+      css.position = 'absolute'
+
+      $offsetParent = @$target.offsetParent()
+
+      if @$element.offsetParent()[0] isnt $offsetParent[0]
+        @$element.detach()
+        $offsetParent.append @$element
+
+      transcribe same.offset, position.offset
+
+      moved = true
+
     else
       css.position = 'absolute'
       css.top = "#{ position.page.top }px"
       css.left = "#{ position.page.left }px"
+
+    if not moved and not @$element.parent().is('body')
+      @$element.detach()
+      $(document.body).append @$element
 
     write = false
     for key, val of css
