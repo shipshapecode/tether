@@ -8,7 +8,7 @@ getScrollParent = ($el) ->
   position = $el.css('position')
 
   if position is 'fixed'
-    return true
+    return $el
 
   scrollParent = undefined
 
@@ -225,12 +225,19 @@ class Tether
     width = @$element.outerWidth()
     height = @$element.outerHeight()
 
+    # We describe the position three different ways to give the optimizer
+    # a chance to decide the best possible way to position the element
+    # with the fewest repaints.
     next = {
+      # It's position relative to the page (absolute positioning when
+      # the element is a child of the body)
       page:
         top: top
         bottom: document.body.scrollHeight - top - height
         left: left
         right: document.body.scrollWidth - left - width
+
+      # It's position relative to the viewport (fixed positioning)
       viewport:
         top: top - pageYOffset
         bottom: pageYOffset - top - height + innerHeight
@@ -246,10 +253,13 @@ class Tether
 
     if next.page.top >= offsetPosition.top and next.page.bottom >= offsetPosition.bottom
       if next.page.left >= offsetPosition.left and next.page.right >= offsetPosition.right
+        # We're within the visible part of the target's scroll parent
 
         scrollTop = $offsetParent.scrollTop()
         scrollLeft = $offsetParent.scrollLeft()
 
+        # It's position relative to the target's offset parent (absolute positioning when
+        # the element is moved to be a child of the target's offset parent).
         next.offset =
           top: next.page.top - offsetPosition.top + scrollTop
           left: next.page.left - offsetPosition.left + scrollLeft

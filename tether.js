@@ -11,7 +11,7 @@
     var position, scrollParent;
     position = $el.css('position');
     if (position === 'fixed') {
-      return true;
+      return $el;
     }
     scrollParent = void 0;
     if (position === 'absolute' || (isIE && (position === 'static' || position === 'relative'))) {
