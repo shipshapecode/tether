@@ -1,3 +1,5 @@
+$ = jQuery
+
 MIRROR_ATTACH =
     left: 'right'
     right: 'left'

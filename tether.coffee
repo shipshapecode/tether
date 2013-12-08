@@ -1,3 +1,5 @@
+$ = jQuery
+
 isIE = /msie [\w.]+/.test navigator.userAgent.toLowerCase()
 
 # Extracted from jQuery UI Core (to remove dependency)

@@ -1,19 +1,3 @@
-/*
-
-drop - Finally a dropdown which understands where it is.
-
-    - Attach to 8 different locations
-    - Attach options diagram:
-
-           top-left  top-right
-                 |    |
-      left-top --TARGET-- right-top
-   left-bottom --TARGET-- right-bottom
-                 |    |
-         bottom-left bottom-right
-*/
-
-
 (function() {
   var $, MIRROR_ATTACH, allDrops, createContext, sortAttach,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -113,14 +97,16 @@ drop - Finally a dropdown which understands where it is.
         dropAttach = dropAttach.join(' ');
         constraints = [];
         if (this.options.constrainToScrollParent) {
-          constraints.push({
+          constraints.push;
+          ({
             to: 'scrollParent',
             pin: 'top, bottom',
             attachment: 'together none'
           });
         }
         if (this.options.constrainToWindow !== false) {
-          constraints.push({
+          constraints.push;
+          ({
             to: 'window',
             pin: true,
             attachment: 'together'

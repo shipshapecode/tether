@@ -1,7 +1,9 @@
 (function() {
-  var DEBOUNCE, MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, getScrollParent, isIE, offsetToPx, parseAttachment, parseOffset, position, tethers,
+  var $, DEBOUNCE, MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, getScrollParent, isIE, offsetToPx, parseAttachment, parseOffset, position, tethers,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+  $ = jQuery;
 
   isIE = /msie [\w.]+/.test(navigator.userAgent.toLowerCase());
 
