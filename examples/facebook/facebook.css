@@ -1,4 +1,4 @@
-.drop-target.drop-opened {
+.drop-target.drop-open {
     outline: 2px solid;
 }
 
@@ -31,7 +31,7 @@
     color: inherit;
 }
 
-.navigation .drop-target.drop-opened {
+.navigation .drop-target.drop-open {
     background: #fff;
     color: blue;
     outline: none;
@@ -46,7 +46,7 @@
     right: 0;
 }
 
-.right-sidebar .drop-target.drop-opened {
+.right-sidebar .drop-target.drop-open {
     background: blue;
     color: #fff;
     outline: none;

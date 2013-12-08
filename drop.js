@@ -62,15 +62,15 @@
         break;
       }
       if (anyOpen) {
-        return $('body').addClass('drop-opened');
+        return $('body').addClass('drop-open');
       } else {
-        return $('body').removeClass('drop-opened');
+        return $('body').removeClass('drop-open');
       }
     };
     DropInstance = (function() {
       function DropInstance(options) {
         this.options = options;
-        this.options = $.extend({}, this.options.defaults, this.options);
+        this.options = $.extend({}, drop.defaults, this.options);
         this.$target = $(this.options.target);
         drop.drops.push(this);
         allDrops.push(this);
@@ -97,16 +97,14 @@
         dropAttach = dropAttach.join(' ');
         constraints = [];
         if (this.options.constrainToScrollParent) {
-          constraints.push;
-          ({
+          constraints.push({
             to: 'scrollParent',
             pin: 'top, bottom',
             attachment: 'together none'
           });
         }
         if (this.options.constrainToWindow !== false) {
-          constraints.push;
-          ({
+          constraints.push({
             to: 'window',
             pin: true,
             attachment: 'together'
@@ -139,7 +137,7 @@
             return _this.toggle();
           });
           $(document).bind('click', function(event) {
-            if (!_this.isOpened) {
+            if (!_this.isOpened()) {
               return;
             }
             if ($(event.target).is(_this.$drop[0]) || _this.$drop.find(event.target).length) {
@@ -162,7 +160,7 @@
       };
 
       DropInstance.prototype.isOpened = function() {
-        return this.$drop.hasClass('drop-opened');
+        return this.$drop.hasClass('drop-open');
       };
 
       DropInstance.prototype.toggle = function() {
@@ -177,9 +175,8 @@
         if (!this.$drop.parent().length) {
           $('body').append(this.$drop);
         }
-        this.addClass('drop-opened');
-        this.$target.addClass('drop-opened').removeClass('drop-closed');
-        this.$drop.addClass('drop-opened').removeClass('drop-closed');
+        this.$target.addClass('drop-open');
+        this.$drop.addClass('drop-open');
         this.$drop.trigger({
           type: 'dropopen',
           drop: this
@@ -188,8 +185,8 @@
       };
 
       DropInstance.prototype.close = function() {
-        this.$target.addClass('drop-closed').removeClass('drop-open');
-        this.$drop.addClass('drop-closed').removeClass('drop-open');
+        this.$target.removeClass('drop-open');
+        this.$drop.removeClass('drop-open');
         this.$drop.trigger({
           type: 'dropclose',
           drop: this

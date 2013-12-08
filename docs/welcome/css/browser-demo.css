@@ -34,7 +34,7 @@ html, body {
         height: 64px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         cursor: pointer; }
-        .browser-demo .bottom .left .item:hover, .browser-demo .bottom .left .item.drop-opened {
+        .browser-demo .bottom .left .item:hover, .browser-demo .bottom .left .item.drop-open {
           background: rgba(0, 0, 0, 0.1);
           border-bottom: 1px solid rgba(0, 0, 0, 0); }
         .browser-demo .bottom .left .item:last-child {

@@ -1,13 +1,10 @@
 .drop, .drop:after, .drop:before, .drop *, .drop *:after, .drop *:before {
-  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
 .drop {
   position: absolute;
   display: none; }
-  .drop.drop-opened {
+  .drop.drop-open {
     display: block; }
-  .drop.drop-closed {
-    display: none; }
