@@ -120,13 +120,13 @@ createContext = (options) ->
               constraints.push
                 to: 'scrollParent'
                 pin: 'top, bottom'
-                changeAttach: 'together none'
+                attachment: 'together none'
 
             if @options.constrainToWindow isnt false
               constraints.push
                 to: 'window'
                 pin: true
-                changeAttach: 'together'
+                attachment: 'together'
 
             # To get 'out of bounds' classes
             constraints.push

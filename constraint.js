@@ -27,7 +27,7 @@
 
   Tether.modules.push({
     position: function(_arg) {
-      var bounds, changeAttach, changeAttachX, changeAttachY, constraint, eAttachment, height, left, oob, p, pin, pinned, side, tAttachment, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2;
+      var attachment, bounds, changeAttachX, changeAttachY, constraint, eAttachment, height, left, oob, p, pin, pinned, side, tAttachment, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2;
       top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
       if (!this.options.constraints) {
         return;
@@ -47,14 +47,14 @@
       _ref1 = this.options.constraints;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         constraint = _ref1[_j];
-        to = constraint.to, changeAttach = constraint.changeAttach, pin = constraint.pin;
-        if (changeAttach == null) {
-          changeAttach = '';
+        to = constraint.to, attachment = constraint.attachment, pin = constraint.pin;
+        if (attachment == null) {
+          attachment = '';
         }
-        if (__indexOf.call(changeAttach, ' ') >= 0) {
-          _ref2 = changeAttach.split(' '), changeAttachY = _ref2[0], changeAttachX = _ref2[1];
+        if (__indexOf.call(attachment, ' ') >= 0) {
+          _ref2 = attachment.split(' '), changeAttachY = _ref2[0], changeAttachX = _ref2[1];
         } else {
-          changeAttachX = changeAttachY = changeAttach;
+          changeAttachX = changeAttachY = attachment;
         }
         bounds = getBounds(this, to);
         if (changeAttachY === 'target' || changeAttachY === 'both') {

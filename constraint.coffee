@@ -36,14 +36,14 @@ Tether.modules.push
       @removeClass "tether-pinned-#{ side } tether-out-of-bounds-#{ side }"
 
     for constraint in @options.constraints
-      {to, changeAttach, pin} = constraint
+      {to, attachment, pin} = constraint
 
-      changeAttach ?= ''
+      attachment ?= ''
 
-      if ' ' in changeAttach
-        [changeAttachY, changeAttachX] = changeAttach.split(' ')
+      if ' ' in attachment
+        [changeAttachY, changeAttachX] = attachment.split(' ')
       else
-        changeAttachX = changeAttachY = changeAttach
+        changeAttachX = changeAttachY = attachment
 
       bounds = getBounds @, to
 

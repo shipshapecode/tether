@@ -124,14 +124,14 @@ drop - Finally a dropdown which understands where it is.
           constraints.push({
             to: 'scrollParent',
             pin: 'top, bottom',
-            changeAttach: 'together none'
+            attachment: 'together none'
           });
         }
         if (this.options.constrainToWindow !== false) {
           constraints.push({
             to: 'window',
             pin: true,
-            changeAttach: 'together'
+            attachment: 'together'
           });
         }
         constraints.push({
