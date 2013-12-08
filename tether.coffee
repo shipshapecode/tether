@@ -266,6 +266,13 @@ class Tether
           right: next.page.right - offsetPosition.right - scrollLeft
           bottom: next.page.bottom - offsetPosition.bottom - scrollTop
 
+    # There is one more optimization we could make here, if the parents are overflow: visible,
+    # we don't really care if we're within their bounding box or not.  Realistically though,
+    # nobody uses overflow: visible, so it's not worth the trouble.
+    #
+    # We could also travel up the DOM and try each containing context, rather than only
+    # looking at the body.
+
     @move next
 
     @history.unshift next
