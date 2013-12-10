@@ -27,9 +27,12 @@ Tether.modules.push
           abutted.push side
 
     sides = ['left', 'top', 'right', 'bottom']
+    @removeClass "tether-abutted"
     for side in sides
       @removeClass "tether-abutted-#{ side }"
 
+    if abutted.length
+      @addClass "tether-abutted"
     for side in abutted
       @addClass "tether-abutted-#{ side }"
 
