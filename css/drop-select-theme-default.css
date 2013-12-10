@@ -14,9 +14,13 @@
     font-family: inherit;
     color: inherit; }
   .drop.drop-select-theme-default .drop-select-options {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
     margin: 0;
     padding: 0; }
     .drop.drop-select-theme-default .drop-select-options .drop-select-option {
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      -webkit-touch-callout: none;
       position: relative;
       list-style: none;
       margin: 0;
@@ -29,7 +33,7 @@
         left: 1em;
         font-family: "Times", "Times New Roman", serif;
         content: "\2714"; }
-      .drop.drop-select-theme-default .drop-select-options .drop-select-option.drop-select-option-highlight {
+      .drop.drop-select-theme-default .drop-select-options .drop-select-option:hover, .drop.drop-select-theme-default .drop-select-options .drop-select-option.drop-select-option-highlight {
         background: #63a2f1;
         color: white; }
       .drop.drop-select-theme-default .drop-select-options .drop-select-option:first-child {
@@ -57,6 +61,13 @@
   -ms-border-radius: 0.25em;
   -o-border-radius: 0.25em;
   border-radius: 0.25em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-touch-callout: none;
   position: relative;
   padding: 0.5em 3em 0.5em 1em;
   background: #f6f6f6;
