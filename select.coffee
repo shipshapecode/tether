@@ -10,12 +10,12 @@ lastKeysPressed = ''
 lastKeysTimeout = undefined
 
 $(window).on 'keydown keypress', (e) ->
+    clearTimeout lastKeysTimeout
+
     $focusedTarget = $('.drop-select-target-focused:first')
     return unless $focusedTarget.length and $focusedTarget.data('select')
 
     select = $focusedTarget.data('select')
-
-    clearTimeout lastKeysTimeout
 
     if select.dropSelect.isOpened() and e.keyCode is ESCAPE
         select.dropSelect.close()
