@@ -8,6 +8,7 @@ module.exports = (grunt) ->
           'drop.js': 'drop.coffee'
           'constraint.js': 'constraint.coffee'
           'abutment.js': 'abutment.coffee'
+          'shift.js': 'shift.coffee'
           'docs/welcome/js/welcome.js': 'docs/welcome/coffee/welcome.coffee'
 
     watch:
