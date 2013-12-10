@@ -327,10 +327,11 @@ class Tether
         @$element.detach()
         $offsetParent.append @$element
 
+      offset = $.extend {}, position.offset
       for side in ['top', 'left', 'bottom', 'right']
-        position.offset[side] -= parseFloat($offsetParent.css("border-#{ side }-width"), 10)
+        offset[side] -= parseFloat($offsetParent.css("border-#{ side }-width"), 10)
 
-      transcribe same.offset, position.offset
+      transcribe same.offset, offset
 
       moved = true
 
