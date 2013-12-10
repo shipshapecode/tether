@@ -109,17 +109,24 @@
     };
 
     Select.prototype.createDrop = function() {
-      var _this = this;
+      var _ref,
+        _this = this;
       this.dropSelect = new DropSelect({
         target: this.$target[0],
         className: 'drop-select-theme-default',
         attach: 'bottom left',
         constrainToWindow: true,
-        constrainToScrollParent: true,
+        constrainToScrollParent: ((_ref = this.options) != null ? _ref.autoAlign : void 0) !== true,
         trigger: 'click'
       });
       return this.dropSelect.$drop.on('dropopen', function() {
-        return _this.setOptionHighlight(_this.getSelectedOption()[0]);
+        var $selectedOption, offset, _ref1;
+        $selectedOption = _this.getSelectedOption();
+        if (((_ref1 = _this.options) != null ? _ref1.autoAlign : void 0) === true) {
+          offset = _this.dropSelect.$drop.offset().top - ($selectedOption.offset().top + $selectedOption.outerHeight());
+          _this.dropSelect.tether.offset.top = -offset;
+        }
+        return _this.setOptionHighlight($selectedOption[0]);
       });
     };
 

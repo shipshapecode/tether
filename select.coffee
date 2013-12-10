@@ -100,11 +100,15 @@ class Select
             className: 'drop-select-theme-default'
             attach: 'bottom left'
             constrainToWindow: true
-            constrainToScrollParent: true
+            constrainToScrollParent: (@options?.autoAlign isnt true)
             trigger: 'click'
 
         @dropSelect.$drop.on 'dropopen', =>
-            @setOptionHighlight @getSelectedOption()[0]
+            $selectedOption = @getSelectedOption()
+            if @options?.autoAlign is true
+                offset = @dropSelect.$drop.offset().top - ($selectedOption.offset().top + $selectedOption.outerHeight())
+                @dropSelect.tether.offset.top = - offset
+            @setOptionHighlight $selectedOption[0]
 
     renderDrop: ->
         $dropSelectOptions = $ '<ul class="drop-select-options"></ul>'

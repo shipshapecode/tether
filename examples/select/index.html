@@ -64,7 +64,8 @@
         </div>
 
         <div class="scroll-parent">
-            <select class="drop-select" placeholder="Select a snack...">
+            Align dropdown items to target on open (like a real select):<br/>
+            <select data-auto-align="true" class="drop-select" placeholder="Select a snack...">
                 <option value="potato-chips">Potato chips</option>
                 <option selected="true" value="chips-and-salsa">Chips and salsa</option>
                 <option value="cookies">Cookies</option>
@@ -110,7 +111,10 @@
         <script src="../../constraint.js"></script>
         <script>
             $('select.drop-select').each(function(){
-                new Select({ el: this });
+                new Select({
+                    el: this,
+                    autoAlign: $(this).attr('data-auto-align') === 'true'
+                });
             });
         </script>
     </body>
