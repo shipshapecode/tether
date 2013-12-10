@@ -78,12 +78,13 @@ class Select
         @$target.on 'focus', =>
             @$target.addClass('drop-select-target-focused')
 
-        @$target.on 'blur', =>
+        @$target.on 'blur', (e) =>
             if @dropSelect.isOpened()
-                setTimeout (-> @dropSelect.close()), 0
+                log e.relatedTarget, $(e.relatedTarget).parents(@dropSelect.$drop).length
+                if e.relatedTarget and not $(e.relatedTarget).parents('.drop:first').is(@dropSelect.$drop)
+                    @dropSelect.close()
             else
-                @dropSelect.close()
-            @$target.removeClass('drop-select-target-focused')
+                @$target.removeClass('drop-select-target-focused')
 
         @$select.after(@$target).hide()
 
@@ -109,6 +110,9 @@ class Select
                 offset = @dropSelect.$drop.offset().top - ($selectedOption.offset().top + $selectedOption.outerHeight())
                 @dropSelect.tether.offset.top = - offset
             @setOptionHighlight $selectedOption[0]
+
+        @dropSelect.$drop.on 'dropclose', =>
+            @$target.removeClass('drop-select-target-focused')
 
     renderDrop: ->
         $dropSelectOptions = $ '<ul class="drop-select-options"></ul>'

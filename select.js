@@ -86,15 +86,15 @@
       this.$target.on('focus', function() {
         return _this.$target.addClass('drop-select-target-focused');
       });
-      this.$target.on('blur', function() {
+      this.$target.on('blur', function(e) {
         if (_this.dropSelect.isOpened()) {
-          setTimeout((function() {
-            return this.dropSelect.close();
-          }), 0);
+          log(e.relatedTarget, $(e.relatedTarget).parents(_this.dropSelect.$drop).length);
+          if (e.relatedTarget && !$(e.relatedTarget).parents('.drop:first').is(_this.dropSelect.$drop)) {
+            return _this.dropSelect.close();
+          }
         } else {
-          _this.dropSelect.close();
+          return _this.$target.removeClass('drop-select-target-focused');
         }
-        return _this.$target.removeClass('drop-select-target-focused');
       });
       return this.$select.after(this.$target).hide();
     };
@@ -119,7 +119,7 @@
         constrainToScrollParent: ((_ref = this.options) != null ? _ref.autoAlign : void 0) !== true,
         trigger: 'click'
       });
-      return this.dropSelect.$drop.on('dropopen', function() {
+      this.dropSelect.$drop.on('dropopen', function() {
         var $selectedOption, offset, _ref1;
         $selectedOption = _this.getSelectedOption();
         if (((_ref1 = _this.options) != null ? _ref1.autoAlign : void 0) === true) {
@@ -127,6 +127,9 @@
           _this.dropSelect.tether.offset.top = -offset;
         }
         return _this.setOptionHighlight($selectedOption[0]);
+      });
+      return this.dropSelect.$drop.on('dropclose', function() {
+        return _this.$target.removeClass('drop-select-target-focused');
       });
     };
 
