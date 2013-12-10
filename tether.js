@@ -251,11 +251,11 @@
         return;
       }
       targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
+      this.updateAttachClasses(this.attachment, targetAttachment);
       offset = offsetToPx(attachmentToOffset(this.attachment), this.element);
       targetOffset = offsetToPx(attachmentToOffset(targetAttachment), this.target);
       offset = addOffset(offset, offsetToPx(this.offset, this.element));
       targetOffset = addOffset(targetOffset, offsetToPx(this.targetOffset, this.target));
-      this.updateAttachClasses(this.attachment, targetAttachment);
       targetPos = this.$target.offset();
       elementPos = this.$element.offset();
       left = targetPos.left + targetOffset.left - offset.left;

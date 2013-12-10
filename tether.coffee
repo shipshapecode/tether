@@ -192,6 +192,8 @@ class Tether
     # Turn 'auto' attachments into the appropriate corner or edge
     targetAttachment = autoToFixedAttachment(@targetAttachment, @attachment)
 
+    @updateAttachClasses @attachment, targetAttachment
+
     # Get an actual px offset from the attachment
     offset = offsetToPx attachmentToOffset(@attachment), @element
     targetOffset = offsetToPx attachmentToOffset(targetAttachment), @target
@@ -199,8 +201,6 @@ class Tether
     # Add the manually provided offset
     offset = addOffset offset, offsetToPx(@offset, @element)
     targetOffset = addOffset targetOffset, offsetToPx(@targetOffset, @target)
-
-    @updateAttachClasses @attachment, targetAttachment
 
     targetPos = @$target.offset()
     elementPos = @$element.offset()
