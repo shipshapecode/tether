@@ -179,7 +179,7 @@ class Select
         @setOptionHighlight $newSelection[0]
 
     selectOption: (option) ->
-        @$select.val($(option).data('value'))
+        @$select.val $(option).data('value')
         @renderDrop()
         @renderTarget()
 
