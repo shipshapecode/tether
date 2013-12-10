@@ -37,7 +37,7 @@ $color: #fff
             left: $arrowSize
             border-bottom-color: $backgroundColor
 
-    &.drop-attached-bottom-right .drop-content
+    &.tether-target-on-top.tether-target-on-right.tether-element-on-bottom .drop-content
         margin-top: $arrowSize
 
         &:before
@@ -45,7 +45,7 @@ $color: #fff
             right: $arrowSize
             border-bottom-color: $backgroundColor
 
-    &.drop-attached-top-left .drop-content
+    &.tether-target-on-bottom.tether-target-on-left.tether-element-on-top .drop-content
         margin-bottom: $arrowSize
 
         &:before
@@ -53,7 +53,7 @@ $color: #fff
             left: $arrowSize
             border-top-color: $backgroundColor
 
-    &.drop-attached-top-right .drop-content
+    &.tether-target-on-bottom.tether-target-on-right.tether-element-on-top .drop-content
         margin-bottom: $arrowSize
 
         &:before
@@ -61,7 +61,9 @@ $color: #fff
             right: $arrowSize
             border-top-color: $backgroundColor
 
-    &.drop-attached-left-top .drop-content
+    // Side corners
+
+    &.tether-target-on-top.tether-target-on-right.tether-element-on-left .drop-content
         margin-right: $arrowSize
 
         &:before
@@ -69,7 +71,7 @@ $color: #fff
             left: 100%
             border-left-color: $backgroundColor
 
-    &.drop-attached-right-top .drop-content
+    &.tether-target-on-top.tether-target-on-left.tether-element-on-right .drop-content
         margin-left: $arrowSize
 
         &:before
@@ -77,7 +79,7 @@ $color: #fff
             right: 100%
             border-right-color: $backgroundColor
 
-    &.drop-attached-left-bottom .drop-content
+    &.tether-target-on-bottom.tether-target-on-right.tether-element-on-left .drop-content
         margin-right: $arrowSize
 
         &:before
@@ -85,7 +87,7 @@ $color: #fff
             left: 100%
             border-left-color: $backgroundColor
 
-    &.drop-attached-right-bottom .drop-content
+    &.tether-target-on-bottom.tether-target-on-left.tether-element-on-right .drop-content
         margin-left: $arrowSize
 
         &:before
