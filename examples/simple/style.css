@@ -14,8 +14,9 @@
 
 .container {
     height: 300px;
+    margin-top: 200px;
     overflow: scroll;
-    border: 2px solid #CCC;
+    border: 20px solid #CCC;
 }
 
 body {
@@ -24,11 +25,14 @@ body {
 
 body > .container {
     position: fixed;
-    top: 200px;
     left: 600px;
 }
 
 .pad {
     height: 200px;
     width: 100px;
+}
+
+.tether-out-of-bounds.element {
+    -display: none;
 }

@@ -12,7 +12,8 @@
     </head>
     <body>
 
-        <div class="element"></div>
+        <div class="element">
+        </div>
 
         <div class="container">
             <div class="pad"></div>
@@ -23,14 +24,21 @@
 
         <script src="../resources/js/jquery.js"></script>
         <script src="../../tether.js"></script>
+        <script src="../../constraint.js"></script>
+        <script src="../../abutment.js"></script>
         <script>
             new Tether({
                 element: $('.element')[0],
-                attachment: 'middle right',
+                attachment: 'bottom middle',
                 offset: '0 0',
                 target: $('.target')[0],
-                targetAttachment: 'middle left',
-                targetOffset: '0 -10px'
+                targetAttachment: 'top middle',
+                targetOffset: '0 0',
+                constraints: [{
+                  to: 'scrollParent',
+                  attachment: 'together',
+                  pin: 'top'
+                }]
             });
         </script>
     </body>

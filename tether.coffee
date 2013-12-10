@@ -41,11 +41,15 @@ debounce = (fn, time=DEBOUNCE) ->
       fn.apply @, args
     , time
 
+    true
+
 tethers = []
 
 position = ->
   for tether in tethers
     tether.position()
+
+  true
 
 if isIE
   position = debounce position
@@ -208,7 +212,7 @@ class Tether
     for module in Tether.modules
       ret = module.position.call(@, {left, top, targetAttachment, targetPos, elementPos})
 
-      if not ret?
+      if not ret? or typeof ret isnt 'object'
         continue
       else if ret is false
         return false
@@ -272,6 +276,8 @@ class Tether
 
     if @history.length > 3
       @history.pop()
+
+    true
 
   move: (position) ->
     same = {}

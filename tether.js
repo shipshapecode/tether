@@ -47,23 +47,23 @@
       }
       args = arguments;
       pending = true;
-      return setTimeout(function() {
+      setTimeout(function() {
         pending = false;
         return fn.apply(_this, args);
       }, time);
+      return true;
     };
   };
 
   tethers = [];
 
   position = function() {
-    var tether, _i, _len, _results;
-    _results = [];
+    var tether, _i, _len;
     for (_i = 0, _len = tethers.length; _i < _len; _i++) {
       tether = tethers[_i];
-      _results.push(tether.position());
+      tether.position();
     }
-    return _results;
+    return true;
   };
 
   if (isIE) {
@@ -270,7 +270,7 @@
           targetPos: targetPos,
           elementPos: elementPos
         });
-        if (ret == null) {
+        if ((ret == null) || typeof ret !== 'object') {
           continue;
         } else if (ret === false) {
           return false;
@@ -313,8 +313,9 @@
       this.move(next);
       this.history.unshift(next);
       if (this.history.length > 3) {
-        return this.history.pop();
+        this.history.pop();
       }
+      return true;
     };
 
     Tether.prototype.move = function(position) {
