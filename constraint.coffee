@@ -7,6 +7,8 @@ MIRROR_ATTACH =
     bottom: 'top'
     middle: 'middle'
 
+BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom']
+
 getBounds = (tether, to) ->
   if to is 'scrollParent'
     to = tether.scrollParent[0]
@@ -17,7 +19,10 @@ getBounds = (tether, to) ->
     $to = $ to
     pos = $to.offset()
 
-    to = [pos.left, pos.top, $to.outerWidth() + pos.left, $to.outerHeight() + pos.top]
+    to = [pos.left, pos.top, $to.width() + pos.left, $to.height() + pos.top]
+
+    for side, i in BOUNDS_FORMAT
+      to[i] += parseFloat($to.css("border-#{ side }-width"), 10)
 
   to
 
@@ -34,7 +39,7 @@ Tether.modules.push
     eAttachment = {}
 
     @removeClass 'tether-pinned tether-out-of-bounds'
-    for side in ['left', 'right', 'top', 'bottom']
+    for side in BOUNDS_FORMAT
       @removeClass "tether-pinned-#{ side } tether-out-of-bounds-#{ side }"
 
     tAttachment = $.extend {}, targetAttachment
@@ -52,6 +57,7 @@ Tether.modules.push
 
       bounds = getBounds @, to
 
+      # TODO Only change attachment if it will help the situation
       if changeAttachY in ['target', 'both']
         if (top < bounds[1] and tAttachment.top is 'top')
           top += targetHeight

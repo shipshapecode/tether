@@ -1,5 +1,5 @@
 (function() {
-  var $, MIRROR_ATTACH, getBounds,
+  var $, BOUNDS_FORMAT, MIRROR_ATTACH, getBounds,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   $ = jQuery;
@@ -12,8 +12,10 @@
     middle: 'middle'
   };
 
+  BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
+
   getBounds = function(tether, to) {
-    var $to, pos;
+    var $to, i, pos, side, _i, _len;
     if (to === 'scrollParent') {
       to = tether.scrollParent[0];
     } else if (to === 'window') {
@@ -22,14 +24,18 @@
     if (to.nodeType != null) {
       $to = $(to);
       pos = $to.offset();
-      to = [pos.left, pos.top, $to.outerWidth() + pos.left, $to.outerHeight() + pos.top];
+      to = [pos.left, pos.top, $to.width() + pos.left, $to.height() + pos.top];
+      for (i = _i = 0, _len = BOUNDS_FORMAT.length; _i < _len; i = ++_i) {
+        side = BOUNDS_FORMAT[i];
+        to[i] += parseFloat($to.css("border-" + side + "-width"), 10);
+      }
     }
     return to;
   };
 
   Tether.modules.push({
     position: function(_arg) {
-      var attachment, bounds, changeAttachX, changeAttachY, constraint, eAttachment, height, left, oob, p, pin, pinned, side, tAttachment, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2;
+      var attachment, bounds, changeAttachX, changeAttachY, constraint, eAttachment, height, left, oob, p, pin, pinned, side, tAttachment, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1;
       top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
       if (!this.options.constraints) {
         return;
@@ -41,22 +47,21 @@
       tAttachment = {};
       eAttachment = {};
       this.removeClass('tether-pinned tether-out-of-bounds');
-      _ref = ['left', 'right', 'top', 'bottom'];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        side = _ref[_i];
+      for (_i = 0, _len = BOUNDS_FORMAT.length; _i < _len; _i++) {
+        side = BOUNDS_FORMAT[_i];
         this.removeClass("tether-pinned-" + side + " tether-out-of-bounds-" + side);
       }
       tAttachment = $.extend({}, targetAttachment);
       eAttachment = $.extend({}, this.attachment);
-      _ref1 = this.options.constraints;
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        constraint = _ref1[_j];
+      _ref = this.options.constraints;
+      for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+        constraint = _ref[_j];
         to = constraint.to, attachment = constraint.attachment, pin = constraint.pin;
         if (attachment == null) {
           attachment = '';
         }
         if (__indexOf.call(attachment, ' ') >= 0) {
-          _ref2 = attachment.split(' '), changeAttachY = _ref2[0], changeAttachX = _ref2[1];
+          _ref1 = attachment.split(' '), changeAttachY = _ref1[0], changeAttachX = _ref1[1];
         } else {
           changeAttachX = changeAttachY = attachment;
         }
@@ -131,11 +136,11 @@
         }
         if (typeof pin === 'string') {
           pin = (function() {
-            var _k, _len2, _ref3, _results;
-            _ref3 = pin.split(',');
+            var _k, _len2, _ref2, _results;
+            _ref2 = pin.split(',');
             _results = [];
-            for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
-              p = _ref3[_k];
+            for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+              p = _ref2[_k];
               _results.push(p.trim());
             }
             return _results;
