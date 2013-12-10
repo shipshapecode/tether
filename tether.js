@@ -70,9 +70,7 @@
     position = debounce(position);
   }
 
-  $(window).on('resize', position);
-
-  $(window).on('scroll', position);
+  $(window).on('resize scroll', position);
 
   MIRROR_LR = {
     center: 'center',

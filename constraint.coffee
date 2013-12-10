@@ -37,6 +37,9 @@ Tether.modules.push
     for side in ['left', 'right', 'top', 'bottom']
       @removeClass "tether-pinned-#{ side } tether-out-of-bounds-#{ side }"
 
+    tAttachment = $.extend {}, targetAttachment
+    eAttachment = $.extend {}, @attachment
+
     for constraint in @options.constraints
       {to, attachment, pin} = constraint
 
@@ -50,23 +53,23 @@ Tether.modules.push
       bounds = getBounds @, to
 
       if changeAttachY in ['target', 'both']
-        if (top < bounds[1] and targetAttachment.top is 'top')
+        if (top < bounds[1] and tAttachment.top is 'top')
           top += targetHeight
           tAttachment.top = 'bottom'
 
-        if (top + height > bounds[3] and targetAttachment.top is 'bottom')
+        if (top + height > bounds[3] and tAttachment.top is 'bottom')
           top -= targetHeight
           tAttachment.top = 'top'
 
       if changeAttachY is 'together'
-        if (top < bounds[1] and targetAttachment.top is 'top' and @attachment.top is 'bottom')
+        if (top < bounds[1] and tAttachment.top is 'top' and eAttachment.top is 'bottom')
           top += targetHeight
           tAttachment.top = 'bottom'
 
           top += height
           eAttachment.top = 'top'
 
-        if (top + height > bounds[3] and targetAttachment.top is 'bottom' and @attachment.top is 'top')
+        if (top + height > bounds[3] and tAttachment.top is 'bottom' and eAttachment.top is 'top')
           top -= targetHeight
           tAttachment.top = 'top'
 
@@ -74,23 +77,23 @@ Tether.modules.push
           eAttachment.top = 'bottom'
 
       if changeAttachX in ['target', 'both']
-        if (left < bounds[0] and targetAttachment.left is 'left')
+        if (left < bounds[0] and tAttachment.left is 'left')
           left += targetWidth
           tAttachment.left = 'right'
 
-        if (left + width > bounds[2] and targetAttachment.left is 'right')
+        if (left + width > bounds[2] and tAttachment.left is 'right')
           left -= targetWidth
           tAttachment.left = 'left'
 
       if changeAttachX is 'together'
-        if (left < bounds[0] and targetAttachment.left is 'left' and @attachment.left is 'right')
+        if (left < bounds[0] and tAttachment.left is 'left' and eAttachment.left is 'right')
           left += targetWidth
           tAttachment.left = 'right'
 
           left += width
           eAttachment.left = 'left'
 
-        if (left + width > bounds[2] and targetAttachment.left is 'right' and @attachment.left is 'left')
+        if (left + width > bounds[2] and tAttachment.left is 'right' and eAttachment.left is 'left')
           left -= targetWidth
           tAttachment.left = 'left'
 
@@ -98,20 +101,20 @@ Tether.modules.push
           eAttachment.left = 'right'
 
       if changeAttachY in ['element', 'both']
-        if (top < bounds[1] and @attachment.top is 'bottom')
+        if (top < bounds[1] and eAttachment.top is 'bottom')
           top += height
           eAttachment.top = 'top'
 
-        if (top + height > bounds[3] and @attachment.top is 'top')
+        if (top + height > bounds[3] and eAttachment.top is 'top')
           top -= height
           eAttachment.top = 'bottom'
 
       if changeAttachX in ['element', 'both']
-        if (left < bounds[0] and @attachment.left is 'right')
+        if (left < bounds[0] and eAttachment.left is 'right')
           left += width
           eAttachment.left = 'left'
 
-        if (left + width > bounds[2] and @attachment.left is 'left')
+        if (left + width > bounds[2] and eAttachment.left is 'left')
           left -= width
           eAttachment.left = 'right'
 
@@ -167,7 +170,7 @@ Tether.modules.push
       if 'top' in pinned or 'bottom' in pinned
         eAttachment.top = tAttachment.top = false
 
-      if tAttachment.top? or tAttachment.left? or eAttachment.top? or eAttachment.left?
-        @updateAttachClasses $.extend({}, @attachment, eAttachment), $.extend({}, targetAttachment, tAttachment)
+      if tAttachment.top isnt targetAttachment.top or tAttachment.left isnt targetAttachment.left or eAttachment.top isnt @attachment.top or eAttachment.left isnt @attachment.left
+        @updateAttachClasses eAttachment, tAttachment
 
     {top, left}

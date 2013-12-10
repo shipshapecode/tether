@@ -46,6 +46,8 @@
         side = _ref[_i];
         this.removeClass("tether-pinned-" + side + " tether-out-of-bounds-" + side);
       }
+      tAttachment = $.extend({}, targetAttachment);
+      eAttachment = $.extend({}, this.attachment);
       _ref1 = this.options.constraints;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         constraint = _ref1[_j];
@@ -60,23 +62,23 @@
         }
         bounds = getBounds(this, to);
         if (changeAttachY === 'target' || changeAttachY === 'both') {
-          if (top < bounds[1] && targetAttachment.top === 'top') {
+          if (top < bounds[1] && tAttachment.top === 'top') {
             top += targetHeight;
             tAttachment.top = 'bottom';
           }
-          if (top + height > bounds[3] && targetAttachment.top === 'bottom') {
+          if (top + height > bounds[3] && tAttachment.top === 'bottom') {
             top -= targetHeight;
             tAttachment.top = 'top';
           }
         }
         if (changeAttachY === 'together') {
-          if (top < bounds[1] && targetAttachment.top === 'top' && this.attachment.top === 'bottom') {
+          if (top < bounds[1] && tAttachment.top === 'top' && eAttachment.top === 'bottom') {
             top += targetHeight;
             tAttachment.top = 'bottom';
             top += height;
             eAttachment.top = 'top';
           }
-          if (top + height > bounds[3] && targetAttachment.top === 'bottom' && this.attachment.top === 'top') {
+          if (top + height > bounds[3] && tAttachment.top === 'bottom' && eAttachment.top === 'top') {
             top -= targetHeight;
             tAttachment.top = 'top';
             top -= height;
@@ -84,23 +86,23 @@
           }
         }
         if (changeAttachX === 'target' || changeAttachX === 'both') {
-          if (left < bounds[0] && targetAttachment.left === 'left') {
+          if (left < bounds[0] && tAttachment.left === 'left') {
             left += targetWidth;
             tAttachment.left = 'right';
           }
-          if (left + width > bounds[2] && targetAttachment.left === 'right') {
+          if (left + width > bounds[2] && tAttachment.left === 'right') {
             left -= targetWidth;
             tAttachment.left = 'left';
           }
         }
         if (changeAttachX === 'together') {
-          if (left < bounds[0] && targetAttachment.left === 'left' && this.attachment.left === 'right') {
+          if (left < bounds[0] && tAttachment.left === 'left' && eAttachment.left === 'right') {
             left += targetWidth;
             tAttachment.left = 'right';
             left += width;
             eAttachment.left = 'left';
           }
-          if (left + width > bounds[2] && targetAttachment.left === 'right' && this.attachment.left === 'left') {
+          if (left + width > bounds[2] && tAttachment.left === 'right' && eAttachment.left === 'left') {
             left -= targetWidth;
             tAttachment.left = 'left';
             left -= width;
@@ -108,21 +110,21 @@
           }
         }
         if (changeAttachY === 'element' || changeAttachY === 'both') {
-          if (top < bounds[1] && this.attachment.top === 'bottom') {
+          if (top < bounds[1] && eAttachment.top === 'bottom') {
             top += height;
             eAttachment.top = 'top';
           }
-          if (top + height > bounds[3] && this.attachment.top === 'top') {
+          if (top + height > bounds[3] && eAttachment.top === 'top') {
             top -= height;
             eAttachment.top = 'bottom';
           }
         }
         if (changeAttachX === 'element' || changeAttachX === 'both') {
-          if (left < bounds[0] && this.attachment.left === 'right') {
+          if (left < bounds[0] && eAttachment.left === 'right') {
             left += width;
             eAttachment.left = 'left';
           }
-          if (left + width > bounds[2] && this.attachment.left === 'left') {
+          if (left + width > bounds[2] && eAttachment.left === 'left') {
             left -= width;
             eAttachment.left = 'right';
           }
@@ -196,8 +198,8 @@
         if (__indexOf.call(pinned, 'top') >= 0 || __indexOf.call(pinned, 'bottom') >= 0) {
           eAttachment.top = tAttachment.top = false;
         }
-        if ((tAttachment.top != null) || (tAttachment.left != null) || (eAttachment.top != null) || (eAttachment.left != null)) {
-          this.updateAttachClasses($.extend({}, this.attachment, eAttachment), $.extend({}, targetAttachment, tAttachment));
+        if (tAttachment.top !== targetAttachment.top || tAttachment.left !== targetAttachment.left || eAttachment.top !== this.attachment.top || eAttachment.left !== this.attachment.left) {
+          this.updateAttachClasses(eAttachment, tAttachment);
         }
       }
       return {
