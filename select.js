@@ -87,7 +87,13 @@
         return _this.$target.addClass('drop-select-target-focused');
       });
       this.$target.on('blur', function() {
-        _this.dropSelect.close();
+        if (_this.dropSelect.isOpened()) {
+          setTimeout((function() {
+            return this.dropSelect.close();
+          }), 0);
+        } else {
+          _this.dropSelect.close();
+        }
         return _this.$target.removeClass('drop-select-target-focused');
       });
       return this.$select.after(this.$target).hide();

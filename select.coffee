@@ -79,7 +79,10 @@ class Select
             @$target.addClass('drop-select-target-focused')
 
         @$target.on 'blur', =>
-            @dropSelect.close()
+            if @dropSelect.isOpened()
+                setTimeout (-> @dropSelect.close()), 0
+            else
+                @dropSelect.close()
             @$target.removeClass('drop-select-target-focused')
 
         @$select.after(@$target).hide()
