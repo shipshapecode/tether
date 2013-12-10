@@ -101,8 +101,7 @@ class Select
             trigger: 'click'
 
         @dropSelect.$drop.on 'dropopen', =>
-            @dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight')
-            @getSelectedOption().addClass('drop-select-option-highlight')
+            @setOptionHighlight @getSelectedOption()[0]
 
     renderDrop: ->
         $dropSelectOptions = $ '<ul class="drop-select-options"></ul>'
@@ -142,12 +141,15 @@ class Select
                     return
             else
                 if $option.text().toLowerCase().substr(0, text.length) is text.toLowerCase()
-                    that.dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight')
-                    $option.addClass 'drop-select-option-highlight'
+                    @setOptionHighlight option
                     return
 
             optionsChecked += 1
             i += 1
+
+    setOptionHighlight: (option) ->
+        @dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight')
+        $(option).addClass('drop-select-option-highlight')
 
     selectHighlightedOption: ->
         @selectOption @dropSelect.$drop.find('.drop-select-option-highlight')[0]
@@ -171,8 +173,7 @@ class Select
             else if direction is 'down'
                 $newSelection = $currentSelection
 
-        @dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight')
-        $newSelection.addClass('drop-select-option-highlight')
+        @setOptionHighlight $newSelection[0]
 
     selectOption: (option) ->
         @$select.val($(option).data('value'))
@@ -193,7 +194,6 @@ class Select
             @selectOption e.target
 
         @dropSelect.$drop.on 'mousemove', '.drop-select-option', (e) =>
-            @dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight')
-            $(e.target).addClass('drop-select-option-highlight')
+            @setOptionHighlight e.target
 
 window.Select = Select
