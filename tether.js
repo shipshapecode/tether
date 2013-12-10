@@ -215,23 +215,23 @@
       sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
       for (_i = 0, _len = sides.length; _i < _len; _i++) {
         side = sides[_i];
-        this.$element.removeClass("tether-target-on-" + side);
+        this.removeClass("tether-target-on-" + side);
       }
       if (elementAttach.top) {
-        this.$element.addClass("tether-target-on-" + elementAttach.top);
+        this.addClass("tether-target-on-" + elementAttach.top);
       }
       if (elementAttach.left) {
-        this.$element.addClass("tether-target-on-" + elementAttach.left);
+        this.addClass("tether-target-on-" + elementAttach.left);
       }
       for (_j = 0, _len1 = sides.length; _j < _len1; _j++) {
         side = sides[_j];
-        this.$target.removeClass("tether-element-on-" + side);
+        this.removeClass("tether-element-on-" + side);
       }
       if (targetAttach.top) {
-        this.$target.addClass("tether-element-on-" + targetAttach.top);
+        this.addClass("tether-element-on-" + targetAttach.top);
       }
       if (targetAttach.left) {
-        return this.$target.addClass("tether-element-on-" + targetAttach.left);
+        return this.addClass("tether-element-on-" + targetAttach.left);
       }
     };
 
