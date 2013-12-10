@@ -1,5 +1,8 @@
 $ = jQuery
 
+touchDevice = 'ontouchstart' of document.documentElement
+clickEvent = if touchDevice then 'touchstart' else 'click'
+
 sortAttach = (str) ->
   [first, second] = str.split(' ')
 
@@ -121,9 +124,9 @@ createContext = (options) ->
       events = @options.openOn.split ' '
 
       if 'click' in events
-        @$target.bind 'click', => @toggle()
+        @$target.bind clickEvent, => @toggle()
 
-        $(document).bind 'click', (event) =>
+        $(document).bind clickEvent, (event) =>
           return unless @isOpened()
 
           # Clicking inside dropdown

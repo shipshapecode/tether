@@ -1,8 +1,12 @@
 (function() {
-  var $, MIRROR_ATTACH, allDrops, createContext, sortAttach,
+  var $, MIRROR_ATTACH, allDrops, clickEvent, createContext, sortAttach, touchDevice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   $ = jQuery;
+
+  touchDevice = 'ontouchstart' in document.documentElement;
+
+  clickEvent = touchDevice ? 'touchstart' : 'click';
 
   sortAttach = function(str) {
     var first, second, _ref, _ref1;
@@ -133,10 +137,10 @@
         }
         events = this.options.openOn.split(' ');
         if (__indexOf.call(events, 'click') >= 0) {
-          this.$target.bind('click', function() {
+          this.$target.bind(clickEvent, function() {
             return _this.toggle();
           });
-          $(document).bind('click', function(event) {
+          $(document).bind(clickEvent, function(event) {
             if (!_this.isOpened()) {
               return;
             }
