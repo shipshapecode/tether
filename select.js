@@ -1,5 +1,5 @@
 (function() {
-  var DOWN, DropSelect, ENTER, ESCAPE, SPACE, Select, UP, currentFocusedSelect, lastKeysPressed, lastKeysTimeout;
+  var DOWN, DropSelect, ENTER, ESCAPE, SPACE, Select, UP, lastKeysPressed, lastKeysTimeout;
 
   DropSelect = Drop.createContext();
 
@@ -13,20 +13,18 @@
 
   DOWN = 40;
 
-  currentFocusedSelect = void 0;
-
   lastKeysPressed = '';
 
   lastKeysTimeout = void 0;
 
   $(window).on('keydown keypress', function(e) {
     var $focusedTarget, select, _ref, _ref1;
+    clearTimeout(lastKeysTimeout);
     $focusedTarget = $('.drop-select-target-focused:first');
     if (!($focusedTarget.length && $focusedTarget.data('select'))) {
       return;
     }
     select = $focusedTarget.data('select');
-    clearTimeout(lastKeysTimeout);
     if (select.dropSelect.isOpened() && e.keyCode === ESCAPE) {
       select.dropSelect.close();
       select.$target.focus();
@@ -115,8 +113,7 @@
         trigger: 'click'
       });
       return this.dropSelect.$drop.on('dropopen', function() {
-        _this.dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight');
-        return _this.getSelectedOption().addClass('drop-select-option-highlight');
+        return _this.setOptionHighlight(_this.getSelectedOption()[0]);
       });
     };
 
@@ -164,14 +161,18 @@
           }
         } else {
           if ($option.text().toLowerCase().substr(0, text.length) === text.toLowerCase()) {
-            that.dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight');
-            $option.addClass('drop-select-option-highlight');
+            this.setOptionHighlight(option);
             return;
           }
         }
         optionsChecked += 1;
         i += 1;
       }
+    };
+
+    Select.prototype.setOptionHighlight = function(option) {
+      this.dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight');
+      return $(option).addClass('drop-select-option-highlight');
     };
 
     Select.prototype.selectHighlightedOption = function() {
@@ -197,8 +198,7 @@
           $newSelection = $currentSelection;
         }
       }
-      this.dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight');
-      return $newSelection.addClass('drop-select-option-highlight');
+      return this.setOptionHighlight($newSelection[0]);
     };
 
     Select.prototype.selectOption = function(option) {
@@ -222,8 +222,7 @@
         return _this.selectOption(e.target);
       });
       return this.dropSelect.$drop.on('mousemove', '.drop-select-option', function(e) {
-        _this.dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight');
-        return $(e.target).addClass('drop-select-option-highlight');
+        return _this.setOptionHighlight(e.target);
       });
     };
 
