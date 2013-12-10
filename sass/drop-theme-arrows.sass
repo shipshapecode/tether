@@ -29,7 +29,47 @@ $color: #fff
             border-width: $arrowSize
             border-style: solid
 
-    &.drop-attached-bottom-left .drop-content
+    // Centers and middles
+
+    &.tether-target-on-bottom.tether-target-on-center .drop-content
+        margin-bottom: $arrowSize
+
+        &:before
+            top: 100%
+            left: 50%
+            margin-left: - $arrowSize
+            border-top-color: $backgroundColor
+
+    &.tether-target-on-top.tether-target-on-center .drop-content
+        margin-top: $arrowSize
+
+        &:before
+            bottom: 100%
+            left: 50%
+            margin-left: - $arrowSize
+            border-bottom-color: $backgroundColor
+
+    &.tether-target-on-right.tether-target-on-middle .drop-content
+        margin-right: $arrowSize
+
+        &:before
+            left: 100%
+            top: 50%
+            margin-top: - $arrowSize
+            border-left-color: $backgroundColor
+
+    &.tether-target-on-left.tether-target-on-middle .drop-content
+        margin-left: $arrowSize
+
+        &:before
+            right: 100%
+            top: 50%
+            margin-top: - $arrowSize
+            border-right-color: $backgroundColor
+
+    // Top and bottom corners
+
+    &.tether-target-on-top.tether-target-on-left.tether-element-on-bottom .drop-content
         margin-top: $arrowSize
 
         &:before
