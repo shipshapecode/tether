@@ -23,7 +23,7 @@
         className: 'drop-theme-arrows',
         attach: position,
         constrainToScrollParent: true,
-        trigger: 'manual',
+        openOn: '',
         content: $.map(position.split(' '), function(word) {
           return word.substr(0, 1).toUpperCase() + word.substr(1);
         }).join(' ')
@@ -109,7 +109,7 @@
           className: 'drop-theme-arrows',
           attach: 'right top',
           constrainToWindow: true,
-          trigger: 'click',
+          openOn: 'click',
           content: '<div class="drop-demo-spacer"></div>'
         });
         $item.data('drop', drop);

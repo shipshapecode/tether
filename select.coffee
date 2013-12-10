@@ -102,7 +102,7 @@ class Select
             attach: 'bottom left'
             constrainToWindow: true
             constrainToScrollParent: (@options?.autoAlign isnt true)
-            trigger: 'click'
+            openOn: 'click'
 
         @dropSelect.$drop.on 'dropopen', =>
             $selectedOption = @getSelectedOption()

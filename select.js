@@ -117,7 +117,7 @@
         attach: 'bottom left',
         constrainToWindow: true,
         constrainToScrollParent: ((_ref = this.options) != null ? _ref.autoAlign : void 0) !== true,
-        trigger: 'click'
+        openOn: 'click'
       });
       this.dropSelect.$drop.on('dropopen', function() {
         var $selectedOption, offset, _ref1;

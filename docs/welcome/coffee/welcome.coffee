@@ -34,7 +34,7 @@ setupHero = ->
             className: 'drop-theme-arrows'
             attach: position
             constrainToScrollParent: true
-            trigger: 'manual' # Just not click
+            openOn: ''
             content: $.map(position.split(' '), (word) -> word.substr(0, 1).toUpperCase() + word.substr(1)).join(' ')
 
         # TODO - remove once zackbloom fixes
@@ -126,7 +126,7 @@ setupBrowserDemo = ->
                 className: 'drop-theme-arrows'
                 attach: 'right top'
                 constrainToWindow: true
-                trigger: 'click'
+                openOn: 'click'
                 content: '<div class="drop-demo-spacer"></div>'
 
             $item.data('drop', drop)
