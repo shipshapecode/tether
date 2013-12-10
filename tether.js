@@ -319,7 +319,7 @@
     };
 
     Tether.prototype.move = function(position) {
-      var $offsetParent, css, found, key, moved, point, same, transcribe, type, val, write, _i, _len, _ref, _ref1;
+      var $offsetParent, css, found, key, moved, point, same, side, transcribe, type, val, write, _i, _j, _len, _len1, _ref, _ref1, _ref2;
       same = {};
       for (type in position) {
         same[type] = {};
@@ -369,6 +369,11 @@
         if (this.$element.offsetParent()[0] !== $offsetParent[0]) {
           this.$element.detach();
           $offsetParent.append(this.$element);
+        }
+        _ref2 = ['top', 'left', 'bottom', 'right'];
+        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+          side = _ref2[_j];
+          position.offset[side] -= parseFloat($offsetParent.css("border-" + side + "-width"), 10);
         }
         transcribe(same.offset, position.offset);
         moved = true;
