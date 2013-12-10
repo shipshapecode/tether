@@ -1,0 +1,90 @@
+@import compass/css3
+@import compass/utilities/general/clearfix
+
+.drop.drop-select-theme-default
+    max-width: 100%
+    max-height: 100%
+
+    .drop-content
+        +border-radius(.25em)
+        +box-shadow(0 2px 8px rgba(0, 0, 0, .2))
+        background: #fff
+        font-family: inherit
+        color: inherit
+
+    .drop-select-options
+        margin: 0
+        padding: 0
+
+        .drop-select-option
+            position: relative
+            list-style: none
+            margin: 0
+            line-height: 1.25em
+            padding: .5em 1em .5em 2.5em
+            display: block
+            cursor: pointer
+
+            &[data-selected="true"]
+
+                &:before
+                    position: absolute
+                    left: 1em
+                    font-family: "Times", "Times New Roman", serif
+                    content: "\2714"
+
+            &.drop-select-option-highlight
+                background: #63a2f1
+                color: #fff
+
+            &:first-child
+                +border-radius(.25em .25em 0 0)
+
+            &:last-child
+                +border-radius(0 0 .25em .25em)
+
+.drop-select-target
+    +inline-block
+    +border-radius(.25em)
+    position: relative
+    padding: .5em 3em .5em 1em
+    background: #f6f6f6
+    border: .18em solid #ddd
+    cursor: pointer
+    color: #444
+    text-decoration: none
+
+    &:hover
+        border-color: #aaa
+        color: #000
+
+    &.drop-select-target-focused, &.drop-select-target-focused:focus
+        border-color: #63a2f1
+        outline: none
+
+    b
+        position: absolute
+        right: 1em
+        top: 0
+        bottom: 0
+        margin: auto
+        height: 1.25em
+        width: 2em
+
+        &:before, &:after
+            content: ""
+            display: block
+            position: absolute
+            margin: auto
+            right: 0
+            height: 0
+            width: 0
+            border: .3em solid transparent
+
+        &:before
+            top: 0
+            border-bottom-color: inherit
+
+        &:after
+            bottom: 0
+            border-top-color: inherit
