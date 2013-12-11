@@ -39,12 +39,14 @@
     $output = getOutput($block);
     $output.html(OUTPUT_HTML(key));
     $scrollBox = $output.find('.scroll-box');
-    $scrollBox.scrollTop(100);
+    $scrollBox.scrollTop(300);
+    $scrollBox.scrollLeft(200);
     setTimeout(function() {
       return $scrollBox.on('scroll', function() {
         return $output.addClass('scrolled');
       });
     });
+    $scrollBox.css('height', "" + ($block.parent().outerHeight()) + "px");
     return run($block);
   };
 

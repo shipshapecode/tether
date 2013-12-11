@@ -44,10 +44,13 @@ setupBlock = ($block) ->
   $output.html OUTPUT_HTML(key)
 
   $scrollBox = $output.find('.scroll-box')
-  $scrollBox.scrollTop(100)
+  $scrollBox.scrollTop(300)
+  $scrollBox.scrollLeft(200)
   setTimeout ->
     $scrollBox.on 'scroll', ->
       $output.addClass 'scrolled'
+
+  $scrollBox.css 'height', "#{ $block.parent().outerHeight() }px"
 
   run $block
 

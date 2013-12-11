@@ -1,3 +1,24 @@
+*
+  box-sizing: border-box
+
+pre
+  margin: 0
+  width: 50%
+  float: left
+
+output
+  width: 50%
+  float: right
+
+  &:after
+    clear: both
+
+pre, output
+  display: table-cell
+
+p, h2, h3
+  clear: both
+
 .yellow-box
   width: 100px
   height: 100px
@@ -5,9 +26,9 @@
   pointer-events: none
 
 .green-box
-  width: 400px
+  width: 200px
   height: 50px
-  margin-top: 40px
+  margin: 240px 300px 0
   background-color: #4e9
 
 .green-box:after
@@ -16,16 +37,14 @@
   display: block
 
 .scroll-box
-  box-sizing: border-box
   height: 150px
   border: 10px solid #ddd
   overflow: auto
   position: relative
 
 .scroll-content
-  box-sizing: border-box
-  height: 350px
-  width: 150%
+  height: 600px
+  width: 800px
   padding: 100px 0
 
 output
@@ -71,7 +90,6 @@ span.attachment-mark
 .tether-element
   @extend .attachment-mark
 
-  box-sizing: border-box
   border: 2px solid transparent
 
   &:after

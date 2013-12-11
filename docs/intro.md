@@ -29,19 +29,16 @@ To use Tether, you define a point on the target and a point on the element.
 Tether moves the element to keep those two points on top of each other.
 
 That point is called the attachment (we've marked it in the examples with
-a red <span class="attachment-mark"></span>).  For example, if you'd like the element to sit on the left
-of the target:
+a red <span class="attachment-mark"></span>).  For example, if you'd like
+the element to sit on the left of the target:
 
 <pre><code class="lang-javascript" data-example='usage'>new Tether({
   element: yellowBox,
   target: greenBox,
-
   attachment: 'top right',
   targetAttachment: 'top left'
 });
-</code></pre>
-
-<output data-example='usage'></output>
+</code></pre><output data-example='usage'></output>
 
 Attachment
 ----------
@@ -56,8 +53,7 @@ For example, lets move the element's attachment:
   attachment: '<mark>bottom left</mark>',
   targetAttachment: 'top left'
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 We can also change the target's attachment point:
 
@@ -67,8 +63,7 @@ We can also change the target's attachment point:
   attachment: 'bottom left',
   targetAttachment: '<mark>bottom right</mark>'
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 There are two more attachment points we haven't seen yet, center and middle:
 
@@ -78,8 +73,7 @@ There are two more attachment points we haven't seen yet, center and middle:
   attachment: '<mark>middle center</mark>',
   targetAttachment: '<mark>middle center</mark>'
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 All told, Tether provides six built in attachment positions:
 
@@ -101,22 +95,19 @@ The six attachment points we provide are not always enough to place the element
 exactly where you want it.  To correct this, we provide two more properties,
 `offset` and `targetOffset`.
 
-<pre><code class="lang-javascript" data-example>
-new Tether({
+<pre><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: greenBox,
   attachment: 'top right',
   targetAttachment: 'top left',
   <mark>offset: '0 10px'</mark>
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 As you can see, we've moved the attachment point of the element 10px to the right.
 We can also move the attachment point of the target:
 
-<pre><code class="lang-javascript" data-example>
-new Tether({
+<pre><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: greenBox,
   attachment: 'top right',
@@ -124,23 +115,20 @@ new Tether({
   offset: '0 10px',
   <mark>targetOffset: '20px 0'</mark>
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 The offset properties also accept percentages. Percentages in `offset` refer to
 the height and width of the element, `targetOffset` the height and width of
 the target.
 
-<pre><code class="lang-javascript" data-example>
-new Tether({
+<pre><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: greenBox,
   attachment: 'top right',
   targetAttachment: 'top left',
   targetOffset: '<mark>0 75%</mark>'
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 The syntax of the offset properties is `"vertical-offset horizontal-offset"`
 
@@ -166,8 +154,7 @@ have to fall outside of a defined region to maintain the attachment.
     }
   ]
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 We've created a constraint which will keep the element within it's scroll
 parent by 'pinning' it to the edges if it tries to escape.  For the sake
@@ -187,8 +174,7 @@ Specify an array of sides if you'd only like to pin those edges:
     }
   ]
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 You might want to allow the element to change it's attachment, if doing so
 would keep more of it within it's assigned region:
@@ -205,8 +191,7 @@ would keep more of it within it's assigned region:
     }
   ]
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 If you scroll the example a bit, you'll see it flip the attachment when necessary.
 You can combine `pin` and `attachment` as well:
@@ -224,8 +209,7 @@ You can combine `pin` and `attachment` as well:
     }
   ]
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 Attachment will accept any of these values:
 
@@ -241,7 +225,7 @@ Together is the option you will use most commonly:
 <pre><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: greenBox,
-  attachment: 'top left',
+  attachment: 'top right',
   targetAttachment: 'bottom left',
   constraints: [
     {
@@ -250,8 +234,7 @@ Together is the option you will use most commonly:
     }
   ]
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 You can also provide different settings for the horizontal
 and vertical attachments:
@@ -268,8 +251,7 @@ and vertical attachments:
     }
   ]
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
 
 Whenever the element is out of the constrained area, we add the `tether-out-of-bounds`
 class to it.  If you add some CSS to make items with that class `display: none`, the
@@ -286,8 +268,7 @@ tether will hide.
     }
   ]
 });
-</code></pre>
-<output data-example="hide"></output>
+</code></pre><output data-example="hide"></output>
 
 You can also constrain the element to the viewport, you'll have to scroll the
 page to see this one.  You can, of course, use pin with the window as well to
@@ -305,8 +286,8 @@ make it always visible no matter where the user scrolls.
     }
   ]
 });
-</code></pre>
-<output data-example="window"></output>
+</code></pre><output data-example="window"></output>
+
 
 `to` can be any of:
 
@@ -334,8 +315,9 @@ processed in the order supplied (the last one always has the final word).
     }
   ]
 });
-</code></pre>
-<output></output>
+</code></pre><output></output>
+
+// Change constraint class name
 
 Optimization
 ------------
