@@ -141,6 +141,9 @@ class Tether
     @$element = $ @element
     @$target = $ @target
 
+    @$element.addClass 'tether-element'
+    @$target.addClass 'tether-target'
+
     @targetAttachment = parseAttachment @options.targetAttachment
     @attachment = parseAttachment @options.attachment
     @offset = parseOffset @options.offset
@@ -263,10 +266,6 @@ class Tether
           right: next.page.right - offsetPosition.right - scrollLeft
           bottom: next.page.bottom - offsetPosition.bottom - scrollTop
 
-    # There is one more optimization we could make here, if the parents are overflow: visible,
-    # we don't really care if we're within their bounding box or not.  Realistically though,
-    # nobody uses overflow: visible, so it's not worth the trouble.
-    #
     # We could also travel up the DOM and try each containing context, rather than only
     # looking at the body, but we're gonna get diminishing returns.
 
@@ -334,6 +333,11 @@ class Tether
       transcribe same.offset, offset
 
       moved = true
+      
+      # If two of the dimentions are consistently the same % of
+      # the width of the offsetParent or body
+      #
+      #
 
     else
       css.position = 'absolute'

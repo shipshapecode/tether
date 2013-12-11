@@ -30,15 +30,13 @@
         <script>
             new Tether({
                 element: $('.element')[0],
-                attachment: 'top middle',
+                attachment: 'bottom right',
                 offset: '0 0',
                 target: $('.target')[0],
-                targetAttachment: 'bottom middle',
+                targetAttachment: 'bottom left',
                 targetOffset: '0 0',
                 constraints: [{
-                  to: 'scrollParent',
-                  attachment: 'together',
-                  pin: true
+                  to: 'scrollParent'
                 }]
             });
         </script>

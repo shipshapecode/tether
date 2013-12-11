@@ -12,10 +12,11 @@ module.exports = (grunt) ->
           'abutment.js': 'abutment.coffee'
           'shift.js': 'shift.coffee'
           'docs/welcome/js/welcome.js': 'docs/welcome/coffee/welcome.coffee'
+          'docs/scripts/intro.js': 'docs/scripts/intro.coffee'
 
     watch:
       coffee:
-        files: ['*.coffee', 'sass/*', 'docs/welcome/coffee/*.coffee', 'docs/welcome/sass/*.sass']
+        files: ['*.coffee', 'sass/*', 'docs/welcome/coffee/*.coffee', 'docs/welcome/sass/*.sass', 'docs/**/*']
         tasks: ['coffee', 'uglify', 'compass']
 
     uglify:
@@ -34,6 +35,10 @@ module.exports = (grunt) ->
         options:
           sassDir: 'docs/welcome/sass'
           cssDir: 'docs/welcome/css'
+      introDocs:
+        options:
+          sassDir: 'docs/styles'
+          cssDir: 'docs/styles'
 
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-uglify'

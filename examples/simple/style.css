@@ -9,13 +9,15 @@
 .target {
     width: 300px;
     height: 50px;
+    width: 30%;
+    margin: 0 35%;
     background-color: #4e9;
 }
 
 .container {
     height: 300px;
-    margin-top: 200px;
     overflow: scroll;
+    width: 30%;
     border: 20px solid #CCC;
 }
 
@@ -26,6 +28,7 @@ body {
 body > .container {
     position: fixed;
     left: 600px;
+    top: 0;
 }
 
 .pad {

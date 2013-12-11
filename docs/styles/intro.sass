@@ -1,0 +1,96 @@
+.yellow-box
+  width: 100px
+  height: 100px
+  background-color: #fe8
+  pointer-events: none
+
+.green-box
+  width: 400px
+  height: 50px
+  margin-top: 40px
+  background-color: #4e9
+
+.green-box:after
+  height: 400px
+  width: 1px
+  display: block
+
+.scroll-box
+  box-sizing: border-box
+  height: 150px
+  border: 10px solid #ddd
+  overflow: auto
+  position: relative
+
+.scroll-content
+  box-sizing: border-box
+  height: 350px
+  width: 150%
+  padding: 100px 0
+
+output
+  display: block
+  position: relative
+
+  &:after
+    content: "↕ scroll this area ↕"
+    position: absolute
+    bottom: 10px
+    width: 100%
+    text-align: center
+    font-size: 16px
+    font-variant: small-caps
+    color: #777
+    opacity: 1
+    transition: opacity 0.2s
+
+  &.scrolled:after
+    opacity: 0
+
+.attachment-mark
+  position: relative
+
+  &:after
+    content: "A"
+    width: 10px
+    height: 10px
+    background-color: red
+    display: inline-block
+
+    line-height: 10px
+    font-size: 9px
+    color: white
+    text-align: center
+
+span.attachment-mark
+  &:after
+    position: relative
+    top: -1px
+    margin-right: 1px
+
+.tether-element
+  @extend .attachment-mark
+
+  box-sizing: border-box
+  border: 2px solid transparent
+
+  &:after
+    position: absolute
+    top: -2px
+
+  @each $side in left, right, top, bottom
+    &.tether-target-on-#{ $side }:after
+      #{ $side }: -2px
+
+    &.tether-pinned-#{ $side }
+      border-#{ $side }-color: red
+
+  &.tether-target-on-center:after
+    left: calc(50% - 5px)
+
+  &.tether-target-on-middle:after
+    top: 45px
+
+.example-hide
+  &.tether-element.tether-out-of-bounds
+    display: none

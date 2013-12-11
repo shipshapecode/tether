@@ -1,0 +1,95 @@
+@charset "UTF-8";
+.yellow-box {
+  width: 100px;
+  height: 100px;
+  background-color: #ffee88;
+  pointer-events: none; }
+
+.green-box {
+  width: 400px;
+  height: 50px;
+  margin-top: 40px;
+  background-color: #44ee99; }
+
+.green-box:after {
+  height: 400px;
+  width: 1px;
+  display: block; }
+
+.scroll-box {
+  box-sizing: border-box;
+  height: 150px;
+  border: 10px solid #dddddd;
+  overflow: auto;
+  position: relative; }
+
+.scroll-content {
+  box-sizing: border-box;
+  height: 350px;
+  width: 150%;
+  padding: 100px 0; }
+
+output {
+  display: block;
+  position: relative; }
+  output:after {
+    content: "↕ scroll this area ↕";
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    font-variant: small-caps;
+    color: #777777;
+    opacity: 1;
+    transition: opacity 0.2s; }
+  output.scrolled:after {
+    opacity: 0; }
+
+.attachment-mark, .tether-element {
+  position: relative; }
+  .attachment-mark:after, .tether-element:after {
+    content: "A";
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    display: inline-block;
+    line-height: 10px;
+    font-size: 9px;
+    color: white;
+    text-align: center; }
+
+span.attachment-mark:after, span.tether-element:after {
+  position: relative;
+  top: -1px;
+  margin-right: 1px; }
+
+.tether-element {
+  box-sizing: border-box;
+  border: 2px solid transparent; }
+  .tether-element:after {
+    position: absolute;
+    top: -2px; }
+  .tether-element.tether-target-on-left:after {
+    left: -2px; }
+  .tether-element.tether-pinned-left {
+    border-left-color: red; }
+  .tether-element.tether-target-on-right:after {
+    right: -2px; }
+  .tether-element.tether-pinned-right {
+    border-right-color: red; }
+  .tether-element.tether-target-on-top:after {
+    top: -2px; }
+  .tether-element.tether-pinned-top {
+    border-top-color: red; }
+  .tether-element.tether-target-on-bottom:after {
+    bottom: -2px; }
+  .tether-element.tether-pinned-bottom {
+    border-bottom-color: red; }
+  .tether-element.tether-target-on-center:after {
+    left: calc(50% - 5px); }
+  .tether-element.tether-target-on-middle:after {
+    top: 45px; }
+
+.example-hide.tether-element.tether-out-of-bounds {
+  display: none; }

@@ -178,6 +178,8 @@
       _ref = this.options, this.element = _ref.element, this.target = _ref.target;
       this.$element = $(this.element);
       this.$target = $(this.target);
+      this.$element.addClass('tether-element');
+      this.$target.addClass('tether-target');
       this.targetAttachment = parseAttachment(this.options.targetAttachment);
       this.attachment = parseAttachment(this.options.attachment);
       this.offset = parseOffset(this.options.offset);
