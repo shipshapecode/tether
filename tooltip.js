@@ -15,6 +15,7 @@
     }
 
     Tooltip.prototype.createDrop = function() {
+      var _ref;
       if (this.options.attach == null) {
         this.options.attach = defaults.attach;
       }
@@ -25,7 +26,7 @@
         constrainToWindow: true,
         constrainToScrollParent: false,
         openOn: 'hover',
-        content: this.$target.attr('data-tooltip-content')
+        content: (_ref = this.options.content) != null ? _ref : this.$target.attr('data-tooltip-content')
       });
     };
 
