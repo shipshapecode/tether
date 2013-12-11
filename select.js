@@ -88,7 +88,6 @@
       });
       this.$target.on('blur', function(e) {
         if (_this.dropSelect.isOpened()) {
-          log(e.relatedTarget, $(e.relatedTarget).parents(_this.dropSelect.$drop).length);
           if (e.relatedTarget && !$(e.relatedTarget).parents('.drop:first').is(_this.dropSelect.$drop)) {
             return _this.dropSelect.close();
           }
@@ -177,6 +176,7 @@
         } else {
           if ($option.text().toLowerCase().substr(0, text.length) === text.toLowerCase()) {
             this.setOptionHighlight(option);
+            this.scrollDropContentToOption(option);
             return;
           }
         }
@@ -188,6 +188,15 @@
     Select.prototype.setOptionHighlight = function(option) {
       this.dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight');
       return $(option).addClass('drop-select-option-highlight');
+    };
+
+    Select.prototype.scrollDropContentToOption = function(option) {
+      var $content, $option;
+      $option = $(option);
+      $content = this.dropSelect.$drop.find('.drop-content');
+      if ($content[0].scrollHeight > $content[0].clientHeight) {
+        return $content.scrollTop($option.offset().top - ($content.offset().top - $content.scrollTop()));
+      }
     };
 
     Select.prototype.selectHighlightedOption = function() {
