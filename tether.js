@@ -185,10 +185,9 @@
       this.offset = parseOffset(this.options.offset);
       this.targetOffset = parseOffset(this.options.targetOffset);
       if (this.scrollParent != null) {
-        this.scrollParent.off('scroll', this.position);
+        this.disable();
       }
       this.scrollParent = getScrollParent($(this.target));
-      this.scrollParent.on('scroll', this.position);
       if (this.options.enabled !== false) {
         this.enable();
       }
@@ -198,12 +197,16 @@
     Tether.prototype.enable = function() {
       this.addClass('tether-enabled');
       this.enabled = true;
+      this.scrollParent.on('scroll', this.position);
       return this.position();
     };
 
     Tether.prototype.disable = function() {
       this.removeClass('tether-enabled');
-      return this.enabled = false;
+      this.enabled = false;
+      if (this.scrollParent != null) {
+        return this.scrollParent.off('scroll', this.position);
+      }
     };
 
     Tether.prototype.updateAttachClasses = function(elementAttach, targetAttach) {

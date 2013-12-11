@@ -150,25 +150,31 @@ class Tether
     @targetOffset = parseOffset @options.targetOffset
 
     if @scrollParent?
-      @scrollParent.off 'scroll', @position
+      @disable()
 
     @scrollParent = getScrollParent $ @target
-    @scrollParent.on 'scroll', @position
 
     unless @options.enabled is false
       @enable()
 
     @position()
 
+
+
   enable: ->
     @addClass 'tether-enabled'
     @enabled = true
+
+    @scrollParent.on 'scroll', @position
 
     @position()
 
   disable: ->
     @removeClass 'tether-enabled'
     @enabled = false
+
+    if @scrollParent?
+      @scrollParent.off 'scroll', @position
 
   updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->
     sides = ['left', 'top', 'bottom', 'right', 'middle', 'center']

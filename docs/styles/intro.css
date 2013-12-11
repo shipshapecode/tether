@@ -2,23 +2,6 @@
 * {
   box-sizing: border-box; }
 
-pre {
-  margin: 0;
-  width: 50%;
-  float: left; }
-
-output {
-  width: 50%;
-  float: right; }
-  output:after {
-    clear: both; }
-
-pre, output {
-  display: table-cell; }
-
-p, h2, h3 {
-  clear: both; }
-
 .yellow-box {
   width: 100px;
   height: 100px;
@@ -43,9 +26,20 @@ p, h2, h3 {
   width: 2000px;
   padding: 910px 809px; }
 
+pre {
+  margin: 0;
+  width: 50%;
+  float: left; }
+
+p, h2, h3 {
+  clear: both; }
+
 output {
   display: block;
-  position: relative; }
+  position: relative;
+  width: 50%;
+  float: right;
+  margin-bottom: 15px; }
   output:after {
     content: "↕ scroll this area ↕";
     position: absolute;
