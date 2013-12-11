@@ -40,6 +40,9 @@ $(window).on 'keydown keypress', (e) ->
     lastKeysPressed += String.fromCharCode e.charCode
     select.highlightOptionWithText lastKeysPressed
 
+    if e.keyCode is SPACE
+        e.preventDefault()
+
     lastKeysTimeout = setTimeout ->
         lastKeysPressed = ''
     , 500

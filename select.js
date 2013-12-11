@@ -48,6 +48,9 @@
     }
     lastKeysPressed += String.fromCharCode(e.charCode);
     select.highlightOptionWithText(lastKeysPressed);
+    if (e.keyCode === SPACE) {
+      e.preventDefault();
+    }
     return lastKeysTimeout = setTimeout(function() {
       return lastKeysPressed = '';
     }, 500);
