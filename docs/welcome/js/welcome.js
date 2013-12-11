@@ -10,7 +10,7 @@
 
   setupHero = function() {
     var $target, frameLengthMS, frames, openAllDrops, openIndex, openNextDrop, position, positions, _i, _len;
-    $target = $('.drop-target-demo');
+    $target = $('.tether-target-demo');
     positions = ['top left', 'left top', 'left bottom', 'bottom left', 'bottom right', 'right bottom', 'right top', 'top right'];
     if (isMobile) {
       positions = ['top left', 'bottom left', 'bottom right', 'top right'];

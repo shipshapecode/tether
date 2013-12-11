@@ -72,7 +72,7 @@ table.showcase {
       text-align: center; }
   table.showcase.hero {
     text-align: center; }
-    table.showcase.hero .drop-target-demo {
+    table.showcase.hero .tether-target-demo {
       display: -moz-inline-stack;
       display: inline-block;
       vertical-align: middle;
@@ -83,7 +83,7 @@ table.showcase {
       margin: 5rem auto;
       padding: 3rem; }
       @media (max-width: 567px) {
-        table.showcase.hero .drop-target-demo {
+        table.showcase.hero .tether-target-demo {
           padding: 1rem; } }
   table.showcase.browser-demo {
     background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #723362), color-stop(100%, #9d223c));

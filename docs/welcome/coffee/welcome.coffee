@@ -5,7 +5,7 @@ init = ->
     setupBrowserDemo()
 
 setupHero = ->
-    $target = $('.drop-target-demo')
+    $target = $('.tether-target-demo')
 
     positions = [
         'top left'
