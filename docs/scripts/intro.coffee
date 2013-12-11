@@ -44,8 +44,10 @@ setupBlock = ($block) ->
   $output.html OUTPUT_HTML(key)
 
   $scrollBox = $output.find('.scroll-box')
-  $scrollBox.scrollTop(300)
-  $scrollBox.scrollLeft(200)
+  $scrollContent = $scrollBox.find('.scroll-content')
+  console.log $scrollContent.height(), $scrollBox.height()
+  $scrollBox.scrollTop(parseInt($scrollContent.css('height')) / 2 - $scrollBox.height() / 2)
+  $scrollBox.scrollLeft(parseInt($scrollContent.css('width')) / 2 - $scrollBox.width() / 2)
   setTimeout ->
     $scrollBox.on 'scroll', ->
       $output.addClass 'scrolled'

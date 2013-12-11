@@ -1,3 +1,7 @@
+$scrollableArea: 2000px
+$exampleWidth: 400px
+$exampleHeight: 180px
+
 *
   box-sizing: border-box
 
@@ -26,15 +30,11 @@ p, h2, h3
   pointer-events: none
 
 .green-box
+  margin-top: ($exampleHeight - 50px) / 2
+  margin-left: ($exampleWidth - 200px) / 2
   width: 200px
   height: 50px
-  margin: 240px 300px 0
   background-color: #4e9
-
-.green-box:after
-  height: 400px
-  width: 1px
-  display: block
 
 .scroll-box
   height: 150px
@@ -43,9 +43,9 @@ p, h2, h3
   position: relative
 
 .scroll-content
-  height: 600px
-  width: 800px
-  padding: 100px 0
+  height: $scrollableArea
+  width: $scrollableArea
+  padding: ($scrollableArea - $exampleHeight)/2 ($scrollableArea - $exampleWidth)/2 + 9
 
 output
   display: block

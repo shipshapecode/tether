@@ -26,15 +26,11 @@ p, h2, h3 {
   pointer-events: none; }
 
 .green-box {
+  margin-top: 65px;
+  margin-left: 100px;
   width: 200px;
   height: 50px;
-  margin: 240px 300px 0;
   background-color: #44ee99; }
-
-.green-box:after {
-  height: 400px;
-  width: 1px;
-  display: block; }
 
 .scroll-box {
   height: 150px;
@@ -43,9 +39,9 @@ p, h2, h3 {
   position: relative; }
 
 .scroll-content {
-  height: 600px;
-  width: 800px;
-  padding: 100px 0; }
+  height: 2000px;
+  width: 2000px;
+  padding: 910px 809px; }
 
 output {
   display: block;
