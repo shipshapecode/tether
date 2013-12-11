@@ -101,7 +101,7 @@ class Select
             className: 'drop-select-theme-default'
             attach: 'bottom left'
             constrainToWindow: true
-            constrainToScrollParent: (@options?.autoAlign isnt true)
+            constrainToScrollParent: false
             openOn: 'click'
 
         @dropSelect.$drop.on 'dropopen', =>
