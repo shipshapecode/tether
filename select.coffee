@@ -68,7 +68,7 @@ class Select
             else
                 placeholder = @$select.find('option:first').text()
 
-        @$target = $ """<a href="javascript:;" class="drop-select-target">#{ placeholder }<b></b></a>"""
+        @$target = $ """<a href="javascript:;" class="drop-select-target drop-select-theme-default">#{ placeholder }<b></b></a>"""
 
         @$target.data 'select', @
 

@@ -78,7 +78,7 @@
           placeholder = this.$select.find('option:first').text();
         }
       }
-      this.$target = $("<a href=\"javascript:;\" class=\"drop-select-target\">" + placeholder + "<b></b></a>");
+      this.$target = $("<a href=\"javascript:;\" class=\"drop-select-target drop-select-theme-default\">" + placeholder + "<b></b></a>");
       this.$target.data('select', this);
       this.$target.on('click', function() {
         return _this.$target.focus();
