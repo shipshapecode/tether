@@ -153,6 +153,7 @@ class Select
             else
                 if $option.text().toLowerCase().substr(0, text.length) is text.toLowerCase()
                     @setOptionHighlight option
+                    @scrollDropContentToOption option
                     return
 
             optionsChecked += 1
@@ -161,6 +162,13 @@ class Select
     setOptionHighlight: (option) ->
         @dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight')
         $(option).addClass('drop-select-option-highlight')
+
+    scrollDropContentToOption: (option) ->
+        $option = $ option
+        $content = @dropSelect.$drop.find('.drop-content')
+
+        if $content[0].scrollHeight > $content[0].clientHeight
+            $content.scrollTop $option.offset().top - ($content.offset().top - $content.scrollTop())
 
     selectHighlightedOption: ->
         @selectOption @dropSelect.$drop.find('.drop-select-option-highlight')[0]
