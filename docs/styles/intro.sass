@@ -101,6 +101,25 @@ span.attachment-mark
   &.tether-target-on-middle:after
     top: 45px
 
-.example-hide
-  &.tether-element.tether-out-of-bounds
-    display: none
+.tether-element.tether-out-of-bounds[data-example="hide"]
+  display: none
+
+[data-example="optimizer"]
+  &.lang-javascript
+    /* This should just be a `code` selector, but sass doesn't allow that with & */
+    min-height: 220px
+
+  &.tether-element
+
+    &:before
+      margin-top: 26px
+      display: block
+      text-align: center
+      content: "I'm in the body"
+      line-height: 1.2
+      font-size: 15px
+      padding: 4px
+      color: #666
+
+  .scroll-box .tether-element:before
+    content: "I'm in my scroll parent!"

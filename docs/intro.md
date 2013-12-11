@@ -322,7 +322,7 @@ processed in the order supplied (the last one always has the final word).
 Optimization
 ------------
 
-The goal of Tether's optimizatizer is to not have to change the positioning
+The goal of Tether's optimizer is to not have to change the positioning
 CSS as the page is scrolled or resized.  To accomplish this it looks at the
 last few positions, finds commonalities, and uses them to decide whether to
 position the element absolutely or with fixed positioning.
@@ -330,3 +330,17 @@ position the element absolutely or with fixed positioning.
 If the element is fully contained within it's scroll parent, its DOM node
 can also be moved inside the scroll parent, to avoid repaints as the
 page is scrolled.
+
+<pre><code class="lang-javascript" data-example="optimizer">new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: 'top left',
+  targetAttachment: 'bottom left'
+});
+</code></pre><output data-example="optimizer"></output>
+
+We are moving where the DOM node is, so if you have CSS which styles elements
+within the offset parent, you may see some rendering changes.  Also note
+that this optimization works best if the scroll parent is the offset parent.
+In other words, **the scroll parent should be position relative, fixed or
+absolute.**

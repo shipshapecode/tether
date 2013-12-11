@@ -4,7 +4,7 @@
   SETUP_JS = "yellowBox = $('.yellow-box', $output);\ngreenBox = $('.green-box', $output);";
 
   OUTPUT_HTML = function(key) {
-    return "<div class=\"scroll-box\">\n  <div class=\"scroll-content\">\n    <div class=\"yellow-box example-" + key + "\"></div>\n    <div class=\"green-box example-" + key + "\"></div>\n  </div>\n</div>";
+    return "<div class=\"scroll-box\">\n  <div class=\"scroll-content\">\n    <div class=\"yellow-box\" data-example=\"" + key + "\"></div>\n    <div class=\"green-box\" data-example=\"" + key + "\"></div>\n  </div>\n</div>";
   };
 
   getOutput = function($block) {

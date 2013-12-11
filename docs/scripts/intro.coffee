@@ -6,8 +6,8 @@ greenBox = $('.green-box', $output);
 OUTPUT_HTML = (key) -> """
 <div class="scroll-box">
   <div class="scroll-content">
-    <div class="yellow-box example-#{ key }"></div>
-    <div class="green-box example-#{ key }"></div>
+    <div class="yellow-box" data-example="#{ key }"></div>
+    <div class="green-box" data-example="#{ key }"></div>
   </div>
 </div>
 """
