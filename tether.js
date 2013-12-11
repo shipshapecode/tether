@@ -209,6 +209,22 @@
       }
     };
 
+    Tether.prototype.destroy = function() {
+      var i, tether, _i, _len, _results;
+      this.disable();
+      _results = [];
+      for (i = _i = 0, _len = tethers.length; _i < _len; i = ++_i) {
+        tether = tethers[i];
+        if (tether === this) {
+          tethers.splice(i, 1);
+          break;
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+
     Tether.prototype.updateAttachClasses = function(elementAttach, targetAttach) {
       var side, sides, _i, _j, _len, _len1;
       if (elementAttach == null) {

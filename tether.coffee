@@ -159,8 +159,6 @@ class Tether
 
     @position()
 
-
-
   enable: ->
     @addClass 'tether-enabled'
     @enabled = true
@@ -175,6 +173,14 @@ class Tether
 
     if @scrollParent?
       @scrollParent.off 'scroll', @position
+
+  destroy: ->
+    @disable()
+
+    for tether, i in tethers
+      if tether is @
+        tethers.splice i, 1
+        break
 
   updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->
     sides = ['left', 'top', 'bottom', 'right', 'middle', 'center']
