@@ -138,11 +138,12 @@ class Select
         return unless currentHighlightedIndex?
 
         optionsChecked = 0
+
         i = currentHighlightedIndex + 1
+        i -= 1 if that.dropSelect.isOpened()
 
         while optionsChecked < options.length
             i = 0 if i > options.length - 1
-            break if i is currentHighlightedIndex
             option = options[i]
             $option = $ option
 

@@ -160,12 +160,12 @@
       }
       optionsChecked = 0;
       i = currentHighlightedIndex + 1;
+      if (that.dropSelect.isOpened()) {
+        i -= 1;
+      }
       while (optionsChecked < options.length) {
         if (i > options.length - 1) {
           i = 0;
-        }
-        if (i === currentHighlightedIndex) {
-          break;
         }
         option = options[i];
         $option = $(option);
