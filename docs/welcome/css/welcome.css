@@ -5,8 +5,9 @@ body {
   margin: 0;
   font-family: "proxima-nova", "Helvetica Neue", sans-serif; }
 
-.drop.drop-theme-arrows .drop-content {
-  font-family: inherit; }
+.drop.drop-tooltip-theme-arrows .drop-content {
+  padding: 1em;
+  font-size: 1.1em; }
 
 .button {
   display: inline-block;

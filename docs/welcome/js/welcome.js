@@ -20,7 +20,7 @@
       position = positions[_i];
       drops[position] = new Drop({
         target: $target[0],
-        className: 'drop-theme-arrows',
+        className: 'drop-tooltip-theme-arrows',
         attach: position,
         constrainToScrollParent: true,
         openOn: '',
