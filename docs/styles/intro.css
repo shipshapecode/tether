@@ -68,8 +68,7 @@ span.attachment-mark:after, span.tether-element:after {
   box-sizing: border-box;
   border: 2px solid transparent; }
   .tether-element:after {
-    position: absolute;
-    top: -2px; }
+    position: absolute; }
   .tether-element.tether-target-on-left:after {
     left: -2px; }
   .tether-element.tether-pinned-left {
