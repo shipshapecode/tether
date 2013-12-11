@@ -80,7 +80,6 @@ class Select
 
         @$target.on 'blur', (e) =>
             if @dropSelect.isOpened()
-                log e.relatedTarget, $(e.relatedTarget).parents(@dropSelect.$drop).length
                 if e.relatedTarget and not $(e.relatedTarget).parents('.drop:first').is(@dropSelect.$drop)
                     @dropSelect.close()
             else
