@@ -81,8 +81,6 @@ createContext = (options) ->
 
       @$drop.append @$dropContent
 
-      @$drop.addClass 'drop-closed'
-
     setupTether: ->
       # Tether expects two attachment points, one in the target element, one in the
       # drop.  We use a single one, and use the order as well, to allow us to put

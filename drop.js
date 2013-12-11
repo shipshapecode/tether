@@ -90,8 +90,7 @@
         this.$dropContent = $('<div>');
         this.$dropContent.addClass('drop-content');
         this.$dropContent.append(this.options.content);
-        this.$drop.append(this.$dropContent);
-        return this.$drop.addClass('drop-closed');
+        return this.$drop.append(this.$dropContent);
       };
 
       DropInstance.prototype.setupTether = function() {
