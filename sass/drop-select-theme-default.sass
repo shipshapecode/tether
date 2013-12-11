@@ -3,6 +3,7 @@
 
 @import no-mobile-tap-highlight
 @import user-select
+@import checkmark
 
 .drop.drop-select-theme-default
     max-width: 100%
@@ -33,14 +34,21 @@
             &[data-selected="true"]
 
                 &:before
+                    +checkmark(#444)
                     position: absolute
                     left: 1em
-                    font-family: "Times", "Times New Roman", serif
-                    content: "\2714"
+                    top: 0
+                    bottom: .2em
+                    height: 1em
+                    width: 1em
+                    margin: auto
 
             &:hover, &.drop-select-option-highlight
                 background: #63a2f1
                 color: #fff
+
+                &[data-selected="true"]:before
+                    +checkmark(#fff)
 
             &:first-child
                 +border-radius(.25em .25em 0 0)
