@@ -5,19 +5,22 @@ module.exports = (grunt) ->
       compile:
         files:
           'tether.js': 'tether.coffee'
-          'drop.js': 'drop.coffee'
-          'select.js': 'select.coffee'
-          'tooltip.js': 'tooltip.coffee'
           'constraint.js': 'constraint.coffee'
           'abutment.js': 'abutment.coffee'
           'shift.js': 'shift.coffee'
+
+          'drop.js': 'drop.coffee'
+
+          'tooltip.js': 'tooltip.coffee'
+          'select.js': 'select.coffee'
+
           'markAttachment.js': 'markAttachment.coffee'
+          'docs/js/intro.js': 'docs/coffee/intro.coffee'
           'docs/welcome/js/welcome.js': 'docs/welcome/coffee/welcome.coffee'
-          'docs/scripts/intro.js': 'docs/scripts/intro.coffee'
 
     watch:
       coffee:
-        files: ['*.coffee', 'sass/*', 'docs/welcome/coffee/*.coffee', 'docs/welcome/sass/*.sass', 'docs/**/*']
+        files: ['*.coffee', 'sass/*', 'docs/**/*']
         tasks: ['coffee', 'uglify', 'compass']
 
     uglify:
@@ -32,14 +35,14 @@ module.exports = (grunt) ->
         options:
           sassDir: 'sass'
           cssDir: 'css'
+      introDocs:
+        options:
+          sassDir: 'docs/sass'
+          cssDir: 'docs/css'
       welcomeDocs:
         options:
           sassDir: 'docs/welcome/sass'
           cssDir: 'docs/welcome/css'
-      introDocs:
-        options:
-          sassDir: 'docs/styles'
-          cssDir: 'docs/styles'
 
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-uglify'

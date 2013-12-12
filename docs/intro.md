@@ -1,8 +1,8 @@
-<script src="docs/scripts/intro.js"></script>
+<script src="docs/js/intro.js"></script>
 <script src="tether.js"></script>
 <script src="constraint.js"></script>
 <script src="markAttachment.js"></script>
-<link rel="stylesheet" href="docs/styles/intro.css"></link>
+<link rel="stylesheet" href="docs/css/intro.css"></link>
 
 Tether
 ======
