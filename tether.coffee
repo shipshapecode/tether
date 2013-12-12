@@ -126,9 +126,14 @@ class Tether
 
     @history = []
 
-    @setOptions options
+    @setOptions options, false
 
-  setOptions: (@options) ->
+    for module in Tether.modules
+      module.initialize?.call(@)
+
+    @position()
+
+  setOptions: (@options, position=true) ->
     defaults =
       offset: '0 0'
       targetOffset: '0 0'
@@ -138,8 +143,16 @@ class Tether
       
     {@element, @target} = @options
 
-    @$element = $ @element
-    @$target = $ @target
+    if @element.jquery
+      @$element = @element
+      @element = @element[0]
+
+    if @target.jquery
+      @$target = @target
+      @target = @target[0]
+
+    @$element ?= $ @element
+    @$target ?= $ @target
 
     @$element.addClass 'tether-element'
     @$target.addClass 'tether-target'
@@ -155,17 +168,16 @@ class Tether
     @scrollParent = getScrollParent $ @target
 
     unless @options.enabled is false
-      @enable()
+      @enable(position)
 
-    @position()
-
-  enable: ->
+  enable: (position=true) ->
     @addClass 'tether-enabled'
     @enabled = true
 
     @scrollParent.on 'scroll', @position
 
-    @position()
+    if position
+      @position()
 
   disable: ->
     @removeClass 'tether-enabled'
@@ -213,9 +225,12 @@ class Tether
     offset = offsetToPx attachmentToOffset(@attachment), @element
     targetOffset = offsetToPx attachmentToOffset(targetAttachment), @target
 
+    manualOffset = offsetToPx(@offset, @element)
+    manualTargetOffset = offsetToPx(@targetOffset, @target)
+
     # Add the manually provided offset
-    offset = addOffset offset, offsetToPx(@offset, @element)
-    targetOffset = addOffset targetOffset, offsetToPx(@targetOffset, @target)
+    offset = addOffset offset, manualOffset
+    targetOffset = addOffset targetOffset, manualTargetOffset
 
     targetPos = @$target.offset()
     elementPos = @$element.offset()
@@ -225,7 +240,7 @@ class Tether
     top = targetPos.top + targetOffset.top - offset.top
 
     for module in Tether.modules
-      ret = module.position.call(@, {left, top, targetAttachment, targetPos, elementPos})
+      ret = module.position.call(@, {left, top, targetAttachment, targetPos, elementPos, offset, targetOffset, manualOffset, manualTargetOffset})
 
       if not ret? or typeof ret isnt 'object'
         continue

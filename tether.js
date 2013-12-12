@@ -161,14 +161,26 @@
 
     function Tether(options) {
       this.position = __bind(this.position, this);
+      var module, _i, _len, _ref, _ref1;
       tethers.push(this);
       this.history = [];
-      this.setOptions(options);
+      this.setOptions(options, false);
+      _ref = Tether.modules;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        module = _ref[_i];
+        if ((_ref1 = module.initialize) != null) {
+          _ref1.call(this);
+        }
+      }
+      this.position();
     }
 
-    Tether.prototype.setOptions = function(options) {
+    Tether.prototype.setOptions = function(options, position) {
       var defaults, _ref;
       this.options = options;
+      if (position == null) {
+        position = true;
+      }
       defaults = {
         offset: '0 0',
         targetOffset: '0 0',
@@ -176,8 +188,20 @@
       };
       this.options = $.extend(defaults, this.options);
       _ref = this.options, this.element = _ref.element, this.target = _ref.target;
-      this.$element = $(this.element);
-      this.$target = $(this.target);
+      if (this.element.jquery) {
+        this.$element = this.element;
+        this.element = this.element[0];
+      }
+      if (this.target.jquery) {
+        this.$target = this.target;
+        this.target = this.target[0];
+      }
+      if (this.$element == null) {
+        this.$element = $(this.element);
+      }
+      if (this.$target == null) {
+        this.$target = $(this.target);
+      }
       this.$element.addClass('tether-element');
       this.$target.addClass('tether-target');
       this.targetAttachment = parseAttachment(this.options.targetAttachment);
@@ -189,16 +213,20 @@
       }
       this.scrollParent = getScrollParent($(this.target));
       if (this.options.enabled !== false) {
-        this.enable();
+        return this.enable(position);
       }
-      return this.position();
     };
 
-    Tether.prototype.enable = function() {
+    Tether.prototype.enable = function(position) {
+      if (position == null) {
+        position = true;
+      }
       this.addClass('tether-enabled');
       this.enabled = true;
       this.scrollParent.on('scroll', this.position);
-      return this.position();
+      if (position) {
+        return this.position();
+      }
     };
 
     Tether.prototype.disable = function() {
@@ -267,7 +295,7 @@
     };
 
     Tether.prototype.position = function() {
-      var $offsetParent, elementPos, height, left, module, next, offset, offsetPosition, ret, scrollLeft, scrollTop, targetAttachment, targetOffset, targetPos, top, width, _i, _len, _ref;
+      var $offsetParent, elementPos, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetPosition, ret, scrollLeft, scrollTop, targetAttachment, targetOffset, targetPos, top, width, _i, _len, _ref;
       if (!this.enabled) {
         return;
       }
@@ -275,8 +303,10 @@
       this.updateAttachClasses(this.attachment, targetAttachment);
       offset = offsetToPx(attachmentToOffset(this.attachment), this.element);
       targetOffset = offsetToPx(attachmentToOffset(targetAttachment), this.target);
-      offset = addOffset(offset, offsetToPx(this.offset, this.element));
-      targetOffset = addOffset(targetOffset, offsetToPx(this.targetOffset, this.target));
+      manualOffset = offsetToPx(this.offset, this.element);
+      manualTargetOffset = offsetToPx(this.targetOffset, this.target);
+      offset = addOffset(offset, manualOffset);
+      targetOffset = addOffset(targetOffset, manualTargetOffset);
       targetPos = this.$target.offset();
       elementPos = this.$element.offset();
       left = targetPos.left + targetOffset.left - offset.left;
@@ -289,7 +319,11 @@
           top: top,
           targetAttachment: targetAttachment,
           targetPos: targetPos,
-          elementPos: elementPos
+          elementPos: elementPos,
+          offset: offset,
+          targetOffset: targetOffset,
+          manualOffset: manualOffset,
+          manualTargetOffset: manualTargetOffset
         });
         if ((ret == null) || typeof ret !== 'object') {
           continue;

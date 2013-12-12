@@ -74,32 +74,54 @@ output
     color: white
     text-align: center
 
+    position: absolute
+
 span.attachment-mark
   &:after
     position: relative
     top: -1px
     margin-right: 1px
 
-.tether-element
+.tether-marker-dot
   @extend .attachment-mark
 
-  border: 2px solid transparent
+  position: absolute
 
   &:after
+    top: -5px
+    left: -5px
+
+@each $type in target, element
+  .tether-#{ $type }-marker
     position: absolute
 
-  @each $side in left, right, top, bottom
-    &.tether-element-attached-#{ $side }:after
-      #{ $side }: -2px
+    @each $side in left, top, bottom, right
+      .tether-#{ $type }-attached-#{ $side } &
+        #{ $side }: 0
 
-    &.tether-pinned-#{ $side }
-      border-#{ $side }-color: red
+    .tether-#{ $type }-attached-center &
+      left: 50%
 
-  &.tether-element-attached-center:after
-    left: calc(50% - 5px)
+.tether-element-attached-middle .tether-element-marker
+  top: 50px
 
-  &.tether-element-attached-middle:after
-    top: 45px
+.tether-target-attached-middle .tether-target-marker
+  top: 25px
+
+.tether-element
+  position: relative
+
+  &.tether-pinned-left
+    box-shadow: inset 2px 0 0 0 red
+  &.tether-pinned-right
+    box-shadow: inset -2px 0 0 0 red
+  &.tether-pinned-top
+    box-shadow: inset 0 2px 0 0 red
+  &.tether-pinned-bottom
+    box-shadow: inset 0 -2px 0 0 red
+
+.tether-target
+  position: relative
 
 .tether-element.tether-out-of-bounds[data-example="hide"]
   display: none
