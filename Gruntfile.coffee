@@ -12,7 +12,6 @@ module.exports = (grunt) ->
           'drop.js': 'drop.coffee'
 
           'tooltip.js': 'tooltip.coffee'
-          'select.js': 'select.coffee'
 
           'markAttachment.js': 'markAttachment.coffee'
           'docs/js/intro.js': 'docs/coffee/intro.coffee'
