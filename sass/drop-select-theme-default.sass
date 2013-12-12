@@ -15,6 +15,11 @@ $maxContentSize: $maxRows * $optionHeight
 $maxContentSizeMobile: $maxRowsMobile * $optionHeight
 $mobileBreakPointSize: ($maxRows + 4) * $optionHeight
 
+.drop-select-theme-default
+
+    &, & *, & *:after, & *:before
+        +box-sizing(border-box)
+
 .drop.drop-select-theme-default
 
     .drop-content
@@ -87,6 +92,9 @@ $mobileBreakPointSize: ($maxRows + 4) * $optionHeight
     color: #444
     text-decoration: none
     white-space: nowrap
+    max-width: 100%
+    overflow: hidden
+    text-overflow: ellipsis
 
     &:hover
         border-color: #aaa

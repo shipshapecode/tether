@@ -1,3 +1,8 @@
+.drop-select-theme-default, .drop-select-theme-default *, .drop-select-theme-default *:after, .drop-select-theme-default *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
 .drop.drop-select-theme-default .drop-content {
   -webkit-border-radius: 0.25em;
   -moz-border-radius: 0.25em;
@@ -88,7 +93,10 @@
   cursor: pointer;
   color: #444444;
   text-decoration: none;
-  white-space: nowrap; }
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis; }
   .drop-select-target.drop-select-theme-default:hover {
     border-color: #aaaaaa;
     color: black; }
