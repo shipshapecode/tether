@@ -1,5 +1,5 @@
 (function() {
-  var DOWN, DropSelect, ENTER, ESCAPE, SPACE, Select, UP, lastKeysPressed, lastKeysTimeout;
+  var DOWN, DropSelect, ENTER, ESCAPE, SPACE, Select, UP, getFocusedSelect, lastCharacter, searchText, searchTextTimeout, strIsRepeatedCharacter;
 
   DropSelect = Drop.createContext();
 
@@ -13,47 +13,92 @@
 
   DOWN = 40;
 
-  lastKeysPressed = '';
+  strIsRepeatedCharacter = function(str) {
+    var char, letter, _i, _len, _ref;
+    if (!(str.length > 1)) {
+      return false;
+    }
+    letter = str.charAt(0);
+    _ref = str.split('');
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      char = _ref[_i];
+      if (char !== letter) {
+        return false;
+      }
+    }
+    return true;
+  };
 
-  lastKeysTimeout = void 0;
-
-  $(window).on('keydown keypress', function(e) {
-    var $focusedTarget, select, _ref, _ref1;
-    clearTimeout(lastKeysTimeout);
+  getFocusedSelect = function() {
+    var $focusedTarget;
     $focusedTarget = $('.drop-select-target-focused:first');
-    if (!($focusedTarget.length && $focusedTarget.data('select'))) {
-      return;
-    }
-    select = $focusedTarget.data('select');
-    if (select.dropSelect.isOpened() && e.keyCode === ESCAPE) {
-      select.dropSelect.close();
-      select.$target.focus();
-    }
-    if (!select.dropSelect.isOpened() && ((_ref = e.keyCode) === UP || _ref === DOWN || _ref === SPACE)) {
-      select.dropSelect.open();
-      e.preventDefault();
-      return;
-    }
-    if (select.dropSelect.isOpened() && e.keyCode === ENTER) {
-      select.selectHighlightedOption();
-      return;
-    }
-    if (select.dropSelect.isOpened() && ((_ref1 = e.keyCode) === UP || _ref1 === DOWN)) {
-      select.moveHighlight(e.keyCode === UP ? 'up' : 'down');
-      e.preventDefault();
+    return ($focusedTarget != null ? $focusedTarget.length : void 0) && $focusedTarget.data('select');
+  };
+
+  searchText = '';
+
+  searchTextTimeout = void 0;
+
+  lastCharacter = void 0;
+
+  $(window).on('keypress', function(e) {
+    var newCharacter, select;
+    select = getFocusedSelect();
+    if (!select) {
       return;
     }
     if (e.charCode === 0) {
       return;
     }
-    lastKeysPressed += String.fromCharCode(e.charCode);
-    select.highlightOptionWithText(lastKeysPressed);
+    newCharacter = String.fromCharCode(e.charCode);
+    if (strIsRepeatedCharacter(searchText) && !strIsRepeatedCharacter(searchText + newCharacter)) {
+      searchText = newCharacter;
+    } else {
+      searchText += newCharacter;
+      if (lastCharacter === newCharacter) {
+        searchText += newCharacter;
+      }
+    }
+    lastCharacter = newCharacter;
     if (e.keyCode === SPACE) {
       e.preventDefault();
     }
-    return lastKeysTimeout = setTimeout(function() {
-      return lastKeysPressed = '';
+    if (select.dropSelect.isOpened()) {
+      select.highlightOptionByText(searchText);
+    } else {
+      select.selectOptionByText(searchText);
+    }
+    clearTimeout(searchTextTimeout);
+    return searchTextTimeout = setTimeout(function() {
+      return searchText = '';
     }, 500);
+  });
+
+  $(window).on('keydown', function(e) {
+    var select, _ref, _ref1;
+    select = getFocusedSelect();
+    if (!select) {
+      return;
+    }
+    if ((_ref = e.keyCode) === UP || _ref === DOWN || _ref === ESCAPE) {
+      e.preventDefault();
+    }
+    if (select.dropSelect.isOpened()) {
+      switch (e.keyCode) {
+        case UP:
+        case DOWN:
+          return select.moveHighlight(e.keyCode);
+        case ENTER:
+          return select.selectHighlightedOption();
+        case ESCAPE:
+          select.dropSelect.close();
+          return select.$target.focus();
+      }
+    } else {
+      if ((_ref1 = e.keyCode) === UP || _ref1 === DOWN || _ref1 === SPACE) {
+        return select.dropSelect.open();
+      }
+    }
   });
 
   Select = (function() {
@@ -61,30 +106,24 @@
       this.options = options;
       this.$select = $(this.options.el);
       this.setupTarget();
-      this.createDrop();
+      this.renderTarget();
+      this.setupDrop();
       this.renderDrop();
-      this.setupEvents();
+      this.setupSelectEvents();
     }
 
     Select.prototype.setupTarget = function() {
-      var $options, dataPlaceholder, placeholder, val,
+      var $options,
         _this = this;
-      val = this.$select.val();
       $options = this.$select.find('option');
-      if (val && val !== '') {
-        placeholder = this.$select.find('option:selected').text();
-      } else {
-        dataPlaceholder = this.$select.attr('data-placeholder');
-        if (dataPlaceholder && dataPlaceholder !== '') {
-          placeholder = dataPlaceholder;
-        } else {
-          placeholder = this.$select.find('option:first').text();
-        }
-      }
-      this.$target = $("<a href=\"javascript:;\" class=\"drop-select-target drop-select-theme-default\">" + placeholder + "<b></b></a>");
+      this.$target = $('<a href="javascript:;" class="drop-select-target drop-select-theme-default"></a>');
       this.$target.data('select', this);
       this.$target.on('click', function() {
-        return _this.$target.focus();
+        if (!_this.dropSelect.isOpened()) {
+          return _this.$target.focus();
+        } else {
+          return _this.$target.blur();
+        }
       });
       this.$target.on('focus', function() {
         return _this.$target.addClass('drop-select-target-focused');
@@ -106,11 +145,7 @@
       return this.$target.append('<b></b>');
     };
 
-    Select.prototype.getSelectedOption = function() {
-      return this.dropSelect.$drop.find('[data-selected="true"]');
-    };
-
-    Select.prototype.createDrop = function() {
+    Select.prototype.setupDrop = function() {
       var _this = this;
       this.dropSelect = new DropSelect({
         target: this.$target[0],
@@ -120,14 +155,20 @@
         constrainToScrollParent: false,
         openOn: 'click'
       });
+      this.dropSelect.$drop.on('click', '.drop-select-option', function(e) {
+        return _this.selectOption(e.target);
+      });
+      this.dropSelect.$drop.on('mousemove', '.drop-select-option', function(e) {
+        return _this.highlightOption(e.target);
+      });
       this.dropSelect.$drop.on('dropopen', function() {
         var $selectedOption, offset, _ref;
-        $selectedOption = _this.getSelectedOption();
+        $selectedOption = _this.dropSelect.$drop.find('[data-selected="true"]');
         if (((_ref = _this.options) != null ? _ref.autoAlign : void 0) === true) {
           offset = _this.dropSelect.$drop.offset().top - ($selectedOption.offset().top + $selectedOption.outerHeight());
           _this.dropSelect.tether.offset.top = -offset;
         }
-        return _this.setOptionHighlight($selectedOption[0]);
+        return _this.highlightOption($selectedOption[0]);
       });
       return this.dropSelect.$drop.on('dropclose', function() {
         return _this.$target.removeClass('drop-select-target-focused');
@@ -145,52 +186,91 @@
       return this.dropSelect.$drop.find('.drop-content').html($dropSelectOptions[0]);
     };
 
-    Select.prototype.highlightOptionWithText = function(text) {
-      var $option, currentHighlightedIndex, i, option, options, optionsChecked, that;
-      that = this;
-      if (that.dropSelect.isOpened()) {
-        options = this.dropSelect.$drop.find('.drop-select-option').toArray();
-        currentHighlightedIndex = this.dropSelect.$drop.find('.drop-select-option-highlight').index();
-      } else {
-        options = this.$select.find('option').toArray();
-        currentHighlightedIndex = this.$select.find('option:selected').index();
-      }
+    Select.prototype.setupSelectEvents = function() {
+      var _this = this;
+      return this.$select.on('change', function() {
+        _this.renderDrop();
+        return _this.renderTarget();
+      });
+    };
+
+    Select.prototype.selectOptionByText = function(text) {
+      var $option, currentHighlightedIndex, i, isRepeatedCharacter, option, options, optionsChecked;
+      options = this.$select.find('option').toArray();
+      currentHighlightedIndex = this.$select.find('option:selected').index();
       if (currentHighlightedIndex == null) {
         return;
       }
-      optionsChecked = 0;
-      i = currentHighlightedIndex + 1;
-      if (that.dropSelect.isOpened()) {
-        i -= 1;
+      isRepeatedCharacter = strIsRepeatedCharacter(text);
+      i = currentHighlightedIndex;
+      if (isRepeatedCharacter) {
+        i += 1;
       }
+      optionsChecked = 0;
       while (optionsChecked < options.length) {
         if (i > options.length - 1) {
           i = 0;
         }
         option = options[i];
         $option = $(option);
-        if (!that.dropSelect.isOpened()) {
-          if ($option.text().toLowerCase().charAt(0) === text.toLowerCase().charAt(text.length - 1)) {
-            this.$select.val($option.val());
-            this.renderDrop();
-            this.renderTarget();
-            return;
-          }
-        } else {
-          if ($option.text().toLowerCase().substr(0, text.length) === text.toLowerCase()) {
-            this.setOptionHighlight(option);
-            this.scrollDropContentToOption(option);
-            return;
-          }
+        if ((isRepeatedCharacter && $option.text().toLowerCase().charAt(0) === text.toLowerCase().charAt(0)) || $option.text().toLowerCase().substr(0, text.length) === text.toLowerCase()) {
+          this.$select.val($option.val()).change();
+          return;
         }
         optionsChecked += 1;
         i += 1;
       }
     };
 
-    Select.prototype.setOptionHighlight = function(option) {
+    Select.prototype.highlightOptionByText = function(text) {
+      var $option, currentHighlightedIndex, i, isRepeatedCharacter, option, options, optionsChecked;
+      if (!this.dropSelect.isOpened()) {
+        return;
+      }
+      options = this.dropSelect.$drop.find('.drop-select-option').toArray();
+      currentHighlightedIndex = this.dropSelect.$drop.find('.drop-select-option-highlight').index();
+      if (currentHighlightedIndex == null) {
+        return;
+      }
+      isRepeatedCharacter = strIsRepeatedCharacter(text);
+      i = currentHighlightedIndex;
+      if (isRepeatedCharacter) {
+        i += 1;
+      }
+      optionsChecked = 0;
+      while (optionsChecked < options.length) {
+        if (i > options.length - 1) {
+          i = 0;
+        }
+        option = options[i];
+        $option = $(option);
+        if ((isRepeatedCharacter && $option.text().toLowerCase().charAt(0) === text.toLowerCase().charAt(0)) || $option.text().toLowerCase().substr(0, text.length) === text.toLowerCase()) {
+          this.highlightOption(option);
+          this.scrollDropContentToOption(option);
+          return;
+        }
+        optionsChecked += 1;
+        i += 1;
+      }
+    };
+
+    Select.prototype.highlightOption = function(option) {
       this.dropSelect.$drop.find('.drop-select-option-highlight').removeClass('drop-select-option-highlight');
       return $(option).addClass('drop-select-option-highlight');
+    };
+
+    Select.prototype.moveHighlight = function(directionKeyCode) {
+      var $currentHighlight, $newHighlight;
+      $currentHighlight = this.dropSelect.$drop.find('.drop-select-option-highlight');
+      if (!$currentHighlight.length) {
+        return this.highlightOption(this.dropSelect.$drop.find('.drop-select-option:first'));
+      }
+      $newHighlight = directionKeyCode === UP ? $currentHighlight.prev() : $currentHighlight.next();
+      if (!$newHighlight.length) {
+        return;
+      }
+      this.highlightOption($newHighlight[0]);
+      return this.scrollDropContentToOption($newHighlight[0]);
     };
 
     Select.prototype.scrollDropContentToOption = function(option) {
@@ -206,51 +286,13 @@
       return this.selectOption(this.dropSelect.$drop.find('.drop-select-option-highlight')[0]);
     };
 
-    Select.prototype.moveHighlight = function(direction) {
-      var $currentSelection, $newSelection, $next, $prev;
-      $currentSelection = this.dropSelect.$drop.find('.drop-select-option-highlight');
-      if (!$currentSelection.length) {
-        $newSelection = this.dropSelect.$drop.find('.drop-select-option:first');
-      } else {
-        $prev = $currentSelection.prev();
-        $next = $currentSelection.next();
-        if (direction === 'up' && $prev.length) {
-          $newSelection = $prev;
-        } else if (direction === 'up') {
-          $newSelection = $currentSelection;
-        }
-        if (direction === 'down' && $next.length) {
-          $newSelection = $next;
-        } else if (direction === 'down') {
-          $newSelection = $currentSelection;
-        }
-      }
-      return this.setOptionHighlight($newSelection[0]);
-    };
-
     Select.prototype.selectOption = function(option) {
       var _this = this;
-      this.$select.val($(option).data('value'));
-      this.renderDrop();
-      this.renderTarget();
+      this.$select.val($(option).data('value')).change();
       return setTimeout((function() {
         _this.dropSelect.close();
         return _this.$target.focus();
       }), 0);
-    };
-
-    Select.prototype.setupEvents = function() {
-      var _this = this;
-      this.$select.on('change', function() {
-        this.renderDrop();
-        return this.renderTarget();
-      });
-      this.dropSelect.$drop.on('click', '.drop-select-option', function(e) {
-        return _this.selectOption(e.target);
-      });
-      return this.dropSelect.$drop.on('mousemove', '.drop-select-option', function(e) {
-        return _this.setOptionHighlight(e.target);
-      });
     };
 
     return Select;
