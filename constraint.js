@@ -35,33 +35,54 @@
 
   Tether.modules.push({
     position: function(_arg) {
-      var attachment, bounds, changeAttachX, changeAttachY, constraint, eAttachment, height, left, oob, p, pin, pinned, side, tAttachment, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1;
+      var attachment, bounds, changeAttachX, changeAttachY, cls, constraint, eAttachment, height, left, oob, oobClass, p, pin, pinned, pinnedClass, removeClass, removeClasses, side, tAttachment, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref, _ref1, _ref2, _ref3, _ref4,
+        _this = this;
       top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
       if (!this.options.constraints) {
         return;
       }
+      removeClass = function(prefix) {
+        var side, _i, _len, _results;
+        _this.removeClass(prefix);
+        _results = [];
+        for (_i = 0, _len = BOUNDS_FORMAT.length; _i < _len; _i++) {
+          side = BOUNDS_FORMAT[_i];
+          _results.push(_this.removeClass("" + prefix + "-" + side));
+        }
+        return _results;
+      };
       height = this.$element.outerHeight();
       width = this.$element.outerWidth();
       targetHeight = this.$target.outerHeight();
       targetWidth = this.$target.outerWidth();
       tAttachment = {};
       eAttachment = {};
-      this.removeClass('tether-pinned tether-out-of-bounds');
-      for (_i = 0, _len = BOUNDS_FORMAT.length; _i < _len; _i++) {
-        side = BOUNDS_FORMAT[_i];
-        this.removeClass("tether-pinned-" + side + " tether-out-of-bounds-" + side);
+      removeClasses = ['tether-pinned', 'tether-out-of-bounds'];
+      _ref = this.options.constraints;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        constraint = _ref[_i];
+        if (constraint.outOfBoundsClass) {
+          removeClasses.push(constraint.outOfBoundsClass);
+        }
+        if (constraint.pinnedClass) {
+          removeClasses.push(constraint.pinnedClass);
+        }
+      }
+      for (_j = 0, _len1 = removeClasses.length; _j < _len1; _j++) {
+        cls = removeClasses[_j];
+        removeClass(cls);
       }
       tAttachment = $.extend({}, targetAttachment);
       eAttachment = $.extend({}, this.attachment);
-      _ref = this.options.constraints;
-      for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-        constraint = _ref[_j];
+      _ref1 = this.options.constraints;
+      for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
+        constraint = _ref1[_k];
         to = constraint.to, attachment = constraint.attachment, pin = constraint.pin;
         if (attachment == null) {
           attachment = '';
         }
         if (__indexOf.call(attachment, ' ') >= 0) {
-          _ref1 = attachment.split(' '), changeAttachY = _ref1[0], changeAttachX = _ref1[1];
+          _ref2 = attachment.split(' '), changeAttachY = _ref2[0], changeAttachX = _ref2[1];
         } else {
           changeAttachX = changeAttachY = attachment;
         }
@@ -136,11 +157,11 @@
         }
         if (typeof pin === 'string') {
           pin = (function() {
-            var _k, _len2, _ref2, _results;
-            _ref2 = pin.split(',');
+            var _l, _len3, _ref3, _results;
+            _ref3 = pin.split(',');
             _results = [];
-            for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-              p = _ref2[_k];
+            for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+              p = _ref3[_l];
               _results.push(p.trim());
             }
             return _results;
@@ -184,17 +205,19 @@
           }
         }
         if (pinned.length) {
-          this.addClass('tether-pinned');
-          for (_k = 0, _len2 = pinned.length; _k < _len2; _k++) {
-            side = pinned[_k];
-            this.addClass("tether-pinned-" + side);
+          pinnedClass = (_ref3 = this.options.pinnedClass) != null ? _ref3 : 'tether-pinned';
+          this.addClass(pinnedClass);
+          for (_l = 0, _len3 = pinned.length; _l < _len3; _l++) {
+            side = pinned[_l];
+            this.addClass("" + pinnedClass + "-" + side);
           }
         }
         if (oob.length) {
-          this.addClass('tether-out-of-bounds');
-          for (_l = 0, _len3 = oob.length; _l < _len3; _l++) {
-            side = oob[_l];
-            this.addClass("tether-out-of-bounds-" + side);
+          oobClass = (_ref4 = this.options.outOfBoundsClass) != null ? _ref4 : 'tether-out-of-bounds';
+          this.addClass(oobClass);
+          for (_m = 0, _len4 = oob.length; _m < _len4; _m++) {
+            side = oob[_m];
+            this.addClass("" + oobClass + "-" + side);
           }
         }
         if (__indexOf.call(pinned, 'left') >= 0 || __indexOf.call(pinned, 'right') >= 0) {

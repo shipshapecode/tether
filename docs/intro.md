@@ -383,6 +383,9 @@ The full list of options which can be passed to the `Tether` constructor and
   - `attachment`: A string of the form "vert-modifier horiz-modifier", or a single value
   representing both
     - Each modifier should be one of "none", "together", "element", "target", or "both".
+  - `outOfBoundsClass`: An alternative to "tether-out-of-bounds", useful if the class
+  needs to be differentiated from that of another constraint.
+  - `pinnedClass`: An alernative to "tether-pinned", similar to `outOfBoundsClass`.
 
 Classes
 -------

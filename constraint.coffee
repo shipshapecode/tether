@@ -30,6 +30,11 @@ Tether.modules.push
   position: ({top, left, targetAttachment}) ->
     return unless @options.constraints
 
+    removeClass = (prefix) =>
+      @removeClass prefix
+      for side in BOUNDS_FORMAT
+        @removeClass "#{ prefix }-#{ side }"
+
     height = @$element.outerHeight()
     width = @$element.outerWidth()
     targetHeight = @$target.outerHeight()
@@ -38,9 +43,12 @@ Tether.modules.push
     tAttachment = {}
     eAttachment = {}
 
-    @removeClass 'tether-pinned tether-out-of-bounds'
-    for side in BOUNDS_FORMAT
-      @removeClass "tether-pinned-#{ side } tether-out-of-bounds-#{ side }"
+    removeClasses = ['tether-pinned', 'tether-out-of-bounds']
+    for constraint in @options.constraints
+      removeClasses.push(constraint.outOfBoundsClass) if constraint.outOfBoundsClass
+      removeClasses.push(constraint.pinnedClass) if constraint.pinnedClass
+
+    removeClass(cls) for cls in removeClasses
 
     tAttachment = $.extend {}, targetAttachment
     eAttachment = $.extend {}, @attachment
@@ -162,14 +170,16 @@ Tether.modules.push
           oob.push 'right'
 
       if pinned.length
-        @addClass 'tether-pinned'
+        pinnedClass = @options.pinnedClass ? 'tether-pinned'
+        @addClass pinnedClass
         for side in pinned
-          @addClass "tether-pinned-#{ side }"
+          @addClass "#{ pinnedClass }-#{ side }"
 
       if oob.length
-        @addClass 'tether-out-of-bounds'
+        oobClass = @options.outOfBoundsClass ? 'tether-out-of-bounds'
+        @addClass oobClass
         for side in oob
-          @addClass "tether-out-of-bounds-#{ side }"
+          @addClass "#{ oobClass }-#{ side }"
 
       if 'left' in pinned or 'right' in pinned
         eAttachment.left = tAttachment.left = false
