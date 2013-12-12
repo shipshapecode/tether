@@ -71,7 +71,7 @@
     clearTimeout(searchTextTimeout);
     return searchTextTimeout = setTimeout(function() {
       return searchText = '';
-    }, 300);
+    }, 500);
   });
 
   $(window).on('keydown', function(e) {

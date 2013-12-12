@@ -49,7 +49,7 @@ $(window).on 'keypress', (e) ->
     clearTimeout searchTextTimeout
     searchTextTimeout = setTimeout ->
         searchText = ''
-    , 300
+    , 500
 
 $(window).on 'keydown', (e) ->
     select = getFocusedSelect()
