@@ -51,7 +51,7 @@ For example, lets move the element's attachment:
 <pre><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: greenBox,
-  attachment: '<mark>bottom left</mark>',
+  attachment: <mark>'bottom left'</mark>,
   targetAttachment: 'top left'
 });
 </code></pre><output></output>
@@ -62,7 +62,7 @@ We can also change the target's attachment point:
   element: yellowBox,
   target: greenBox,
   attachment: 'bottom left',
-  targetAttachment: '<mark>bottom right</mark>'
+  targetAttachment: <mark>'bottom right'</mark>
 });
 </code></pre><output></output>
 
@@ -71,8 +71,8 @@ There are two more attachment points we haven't seen yet, center and middle:
 <pre><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: greenBox,
-  attachment: '<mark>middle center</mark>',
-  targetAttachment: '<mark>middle center</mark>'
+  attachment: <mark>'middle center'</mark>,
+  targetAttachment: <mark>'middle center'</mark>
 });
 </code></pre><output></output>
 
@@ -127,7 +127,7 @@ the target.
   target: greenBox,
   attachment: 'top right',
   targetAttachment: 'top left',
-  targetOffset: '<mark>0 75%</mark>'
+  targetOffset: <mark>'0 75%'</mark>
 });
 </code></pre><output></output>
 
@@ -148,7 +148,7 @@ have to fall outside of a defined region to maintain the attachment.
   target: greenBox,
   attachment: 'middle left',
   targetAttachment: 'middle left',
-  constraints: [
+  <mark>constraints</mark>: [
     {
       to: 'scrollParent',
       pin: true
@@ -306,12 +306,12 @@ processed in the order supplied (the last one always has the final word).
   attachment: 'top left',
   targetAttachment: 'bottom left',
   constraints: [
-    <mark>{
-      to: 'scrollParent',
+    {
+      to: <mark>'scrollParent'</mark>,
       pin: true
     },</mark>
     {
-      to: 'window',
+      to: <mark>'window'</mark>,
       attachment: 'together'
     }
   ]
@@ -355,9 +355,9 @@ setting `optimizations.moveElement` to false.
   target: greenBox,
   attachment: 'top left',
   targetAttachment: 'bottom left',
-  <mark>optimizations: {
-    moveElement: false
-  }</mark>
+  optimizations: {
+    <mark>moveElement: false</mark>
+  }
 });
 </code></pre><output data-example="optimizer2"></output>
 
