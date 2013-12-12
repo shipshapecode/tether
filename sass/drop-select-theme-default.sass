@@ -5,6 +5,16 @@
 @import user-select
 @import checkmark
 
+$optionLineHeight: 1.25rem
+$paddingTopBottom: .5rem
+
+$maxRows: 10
+$maxRowsMobile: 6
+$optionHeight: $optionLineHeight + (2 * $paddingTopBottom)
+$maxContentSize: $maxRows * $optionHeight
+$maxContentSizeMobile: $maxRowsMobile * $optionHeight
+$mobileBreakPointSize: ($maxRows + 4) * $optionHeight
+
 .drop.drop-select-theme-default
 
     .drop-content
@@ -14,12 +24,12 @@
         font-family: inherit
         color: inherit
         overflow: auto
-        max-width: 400px
-        max-height: 400px
+        max-width: $maxContentSize
+        max-height: $maxContentSize
 
-        @media (max-width: 576px), (max-height: 576px)
-            max-width: 300px
-            max-height: 300px
+        @media (max-width: $mobileBreakPointSize), (max-height: $mobileBreakPointSize)
+            max-width: $maxContentSizeMobile
+            max-height: $maxContentSizeMobile
 
     .drop-select-options
         +no-mobile-tap-highlight
@@ -31,8 +41,8 @@
             position: relative
             list-style: none
             margin: 0
-            line-height: 1.25em
-            padding: .5em 1em .5em 2.5em
+            line-height: $optionLineHeight
+            padding: $paddingTopBottom 1em $paddingTopBottom 2.5em
             display: block
             cursor: pointer
             white-space: nowrap
@@ -70,7 +80,7 @@
     +user-select(none)
     +no-mobile-tap-highlight
     position: relative
-    padding: .5em 3em .5em 1em
+    padding: $paddingTopBottom 3em $paddingTopBottom 1em
     background: #f6f6f6
     border: .18em solid #ddd
     cursor: pointer
@@ -92,7 +102,7 @@
         top: 0
         bottom: 0
         margin: auto
-        height: 1.25em
+        height: $optionLineHeight
         width: 2em
 
         &:before, &:after
