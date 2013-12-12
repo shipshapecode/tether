@@ -35,6 +35,9 @@
             padding: .5em 1em .5em 2.5em
             display: block
             cursor: pointer
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
 
             &[data-selected="true"]
 
@@ -73,6 +76,7 @@
     cursor: pointer
     color: #444
     text-decoration: none
+    white-space: nowrap
 
     &:hover
         border-color: #aaa
