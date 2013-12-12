@@ -104,7 +104,7 @@ span.attachment-mark
 .tether-element.tether-out-of-bounds[data-example="hide"]
   display: none
 
-[data-example="optimizer"]
+[data-example^="optimizer"]
   &.lang-javascript
     /* This should just be a `code` selector, but sass doesn't allow that with & */
     min-height: 220px
@@ -124,8 +124,9 @@ span.attachment-mark
   .scroll-box .tether-element:before
     content: "I'm in my scroll parent!"
 
-code[data-example="window"] .scroll-box
-  overflow: hidden
+output[data-example="window"]
+  .scroll-box
+    overflow: hidden
 
-output[data-example="window"]:after
-  content: "↕ scroll the page ↕"
+  &:after
+    content: "↕ scroll the page ↕"

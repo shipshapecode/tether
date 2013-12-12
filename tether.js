@@ -340,7 +340,7 @@
     };
 
     Tether.prototype.move = function(position) {
-      var $offsetParent, css, found, key, moved, offset, point, same, side, transcribe, type, val, write, _i, _j, _len, _len1, _ref, _ref1, _ref2;
+      var $offsetParent, css, found, key, moved, offset, point, same, side, transcribe, type, val, write, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3;
       same = {};
       for (type in position) {
         same[type] = {};
@@ -384,7 +384,7 @@
       } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
         css.position = 'fixed';
         transcribe(same.viewport, position.viewport);
-      } else if ((same.offset != null) && (same.offset.top || same.offset.bottom) && (same.offset.left || same.offset.right)) {
+      } else if ((same.offset != null) && ((_ref2 = this.options.optimizations) != null ? _ref2.moveElement : void 0) !== false && (same.offset.top || same.offset.bottom) && (same.offset.left || same.offset.right)) {
         css.position = 'absolute';
         $offsetParent = this.$target.offsetParent();
         if (this.$element.offsetParent()[0] !== $offsetParent[0]) {
@@ -392,9 +392,9 @@
           $offsetParent.append(this.$element);
         }
         offset = $.extend({}, position.offset);
-        _ref2 = ['top', 'left', 'bottom', 'right'];
-        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-          side = _ref2[_j];
+        _ref3 = ['top', 'left', 'bottom', 'right'];
+        for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+          side = _ref3[_j];
           offset[side] -= parseFloat($offsetParent.css("border-" + side + "-width"), 10);
         }
         transcribe(same.offset, offset);

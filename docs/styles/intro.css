@@ -100,10 +100,10 @@ span.attachment-mark:after, span.tether-element:after {
 .tether-element.tether-out-of-bounds[data-example="hide"] {
   display: none; }
 
-[data-example="optimizer"].lang-javascript {
+[data-example^="optimizer"].lang-javascript {
   /* This should just be a `code` selector, but sass doesn't allow that with & */
   min-height: 220px; }
-[data-example="optimizer"].tether-element:before {
+[data-example^="optimizer"].tether-element:before {
   margin-top: 26px;
   display: block;
   text-align: center;
@@ -112,11 +112,10 @@ span.attachment-mark:after, span.tether-element:after {
   font-size: 15px;
   padding: 4px;
   color: #666666; }
-[data-example="optimizer"] .scroll-box .tether-element:before {
+[data-example^="optimizer"] .scroll-box .tether-element:before {
   content: "I'm in my scroll parent!"; }
 
-code[data-example="window"] .scroll-box {
+output[data-example="window"] .scroll-box {
   overflow: hidden; }
-
 output[data-example="window"]:after {
   content: "↕ scroll the page ↕"; }

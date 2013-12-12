@@ -329,7 +329,7 @@ class Tether
       css.position = 'fixed'
       transcribe same.viewport, position.viewport
 
-    else if same.offset? and (same.offset.top or same.offset.bottom) and (same.offset.left or same.offset.right)
+    else if same.offset? and @options.optimizations?.moveElement isnt false and (same.offset.top or same.offset.bottom) and (same.offset.left or same.offset.right)
       css.position = 'absolute'
 
       $offsetParent = @$target.offsetParent()

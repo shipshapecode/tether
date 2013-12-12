@@ -345,6 +345,21 @@ that this optimization works best if the scroll parent is the offset parent.
 In other words, **the scroll parent should be position relative, fixed or
 absolute.**
 
+If you do have stylistic changes which occur when the element is moved,
+you might want to disable this optimization.  You can do that by
+setting `optimizations.moveElement` to false.
+
+<pre><code class="lang-javascript" data-example="optimizer2">new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: 'top left',
+  targetAttachment: 'bottom left',
+  <mark>optimizations: {
+    moveElement: false
+  }</mark>
+});
+</code></pre><output data-example="optimizer2"></output>
+
 Methods
 -------
 
@@ -367,25 +382,25 @@ The full list of options which can be passed to the `Tether` constructor and
 
 - `element`: A DOM or jQuery element
 - `target`: A DOM or jQuery element
-- `attachment`: A string of the form 'vert-attachment horiz-attachment'
-  - vert-attachment can be any of 'top', 'middle', 'bottom'
-  - horiz-attachment can be any of 'left', 'center', 'right'
+- `attachment`: A string of the form `'vert-attachment horiz-attachment'`
+  - vert-attachment can be any of `'top'`, `'middle'`, `'bottom'`
+  - horiz-attachment can be any of `'left'`, `'center'`, `'right'`
 - `targetAttachment`: A string similar to `attachment`.
   The one difference is that, if it's not provided, targetAttachment will assume the mirror
   image of `attachment`.
-- `offset`: A string of the form 'vert-offset horiz-offset'
-  - vert-offset and horiz-offset can be of the form "20px" or "55%"
+- `offset`: A string of the form `'vert-offset horiz-offset'`
+  - vert-offset and horiz-offset can be of the form `"20px"` or `"55%"`
 - `targetOffset`: A string similar to `offset`
 - `enabled`: Should the tether be enabled initially? Defaults to true.
 - `constraints`: An array of constraint definition objects.  Each definition is of the form:
-  - `to`: A DOM element, bounding box, the string 'window', or the string 'scrollParent'
+  - `to`: A DOM element, bounding box, the string `'window'`, or the string `'scrollParent'`
   - `pin`: `true` or an array of strings representing the sides of the constraint
-  - `attachment`: A string of the form "vert-modifier horiz-modifier", or a single value
+  - `attachment`: A string of the form `"vert-modifier horiz-modifier"`, or a single value
   representing both
-    - Each modifier should be one of "none", "together", "element", "target", or "both".
-  - `outOfBoundsClass`: An alternative to "tether-out-of-bounds", useful if the class
+    - Each modifier should be one of `"none"`, `"together"`, `"element"`, `"target"`, or `"both"`.
+  - `outOfBoundsClass`: An alternative to `"tether-out-of-bounds"`, useful if the class
   needs to be differentiated from that of another constraint.
-  - `pinnedClass`: An alernative to "tether-pinned", similar to `outOfBoundsClass`.
+  - `pinnedClass`: An alernative to `"tether-pinned"`, similar to `outOfBoundsClass`.
 
 Classes
 -------
