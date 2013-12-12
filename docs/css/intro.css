@@ -17,7 +17,8 @@
 
 .scroll-box {
   height: 150px;
-  border: 10px solid #dddddd;
+  border: 10px solid #eeeeee;
+  background: #fbfbfb;
   overflow: auto;
   position: relative; }
 
@@ -30,6 +31,9 @@ pre {
   margin: 0;
   width: 50%;
   float: left; }
+  pre code mark {
+    background: #b8daff;
+    color: black; }
 
 p, h2, h3 {
   clear: both; }
