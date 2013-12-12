@@ -24,79 +24,79 @@
       border-color: transparent;
       border-width: 16px;
       border-style: solid; }
-  .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-center .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-center .drop-content {
     margin-bottom: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-center .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-center .drop-content:before {
       top: 100%;
       left: 50%;
       margin-left: -16px;
       border-top-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-center .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-center .drop-content {
     margin-top: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-center .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-center .drop-content:before {
       bottom: 100%;
       left: 50%;
       margin-left: -16px;
       border-bottom-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-right.tether-target-on-middle .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-right.tether-element-attached-middle .drop-content {
     margin-right: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-right.tether-target-on-middle .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-right.tether-element-attached-middle .drop-content:before {
       left: 100%;
       top: 50%;
       margin-top: -16px;
       border-left-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-left.tether-target-on-middle .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-left.tether-element-attached-middle .drop-content {
     margin-left: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-left.tether-target-on-middle .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-left.tether-element-attached-middle .drop-content:before {
       right: 100%;
       top: 50%;
       margin-top: -16px;
       border-right-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-left.tether-element-on-bottom .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-bottom .drop-content {
     margin-top: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-left.tether-element-on-bottom .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-bottom .drop-content:before {
       bottom: 100%;
       left: 16px;
       border-bottom-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-right.tether-element-on-bottom .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-right.tether-target-attached-bottom .drop-content {
     margin-top: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-right.tether-element-on-bottom .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-right.tether-target-attached-bottom .drop-content:before {
       bottom: 100%;
       right: 16px;
       border-bottom-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-left.tether-element-on-top .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-left.tether-target-attached-top .drop-content {
     margin-bottom: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-left.tether-element-on-top .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-left.tether-target-attached-top .drop-content:before {
       top: 100%;
       left: 16px;
       border-top-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-right.tether-element-on-top .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-right.tether-target-attached-top .drop-content {
     margin-bottom: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-right.tether-element-on-top .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-right.tether-target-attached-top .drop-content:before {
       top: 100%;
       right: 16px;
       border-top-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-right.tether-element-on-left .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-right.tether-target-attached-left .drop-content {
     margin-right: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-right.tether-element-on-left .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-right.tether-target-attached-left .drop-content:before {
       top: 16px;
       left: 100%;
       border-left-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-left.tether-element-on-right .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-right .drop-content {
     margin-left: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-top.tether-target-on-left.tether-element-on-right .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-right .drop-content:before {
       top: 16px;
       right: 100%;
       border-right-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-right.tether-element-on-left .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-right.tether-target-attached-left .drop-content {
     margin-right: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-right.tether-element-on-left .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-right.tether-target-attached-left .drop-content:before {
       bottom: 16px;
       left: 100%;
       border-left-color: white; }
-  .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-left.tether-element-on-right .drop-content {
+  .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-left.tether-target-attached-right .drop-content {
     margin-left: 16px; }
-    .drop.drop-theme-arrows.tether-target-on-bottom.tether-target-on-left.tether-element-on-right .drop-content:before {
+    .drop.drop-theme-arrows.tether-element-attached-bottom.tether-element-attached-left.tether-target-attached-right .drop-content:before {
       bottom: 16px;
       right: 100%;
       border-right-color: white; }

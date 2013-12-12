@@ -76,25 +76,25 @@ span.attachment-mark:after, span.tether-element:after {
   border: 2px solid transparent; }
   .tether-element:after {
     position: absolute; }
-  .tether-element.tether-target-on-left:after {
+  .tether-element.tether-element-attached-left:after {
     left: -2px; }
   .tether-element.tether-pinned-left {
     border-left-color: red; }
-  .tether-element.tether-target-on-right:after {
+  .tether-element.tether-element-attached-right:after {
     right: -2px; }
   .tether-element.tether-pinned-right {
     border-right-color: red; }
-  .tether-element.tether-target-on-top:after {
+  .tether-element.tether-element-attached-top:after {
     top: -2px; }
   .tether-element.tether-pinned-top {
     border-top-color: red; }
-  .tether-element.tether-target-on-bottom:after {
+  .tether-element.tether-element-attached-bottom:after {
     bottom: -2px; }
   .tether-element.tether-pinned-bottom {
     border-bottom-color: red; }
-  .tether-element.tether-target-on-center:after {
+  .tether-element.tether-element-attached-center:after {
     left: calc(50% - 5px); }
-  .tether-element.tether-target-on-middle:after {
+  .tether-element.tether-element-attached-middle:after {
     top: 45px; }
 
 .tether-element.tether-out-of-bounds[data-example="hide"] {
@@ -114,3 +114,9 @@ span.attachment-mark:after, span.tether-element:after {
   color: #666666; }
 [data-example="optimizer"] .scroll-box .tether-element:before {
   content: "I'm in my scroll parent!"; }
+
+code[data-example="window"] .scroll-box {
+  overflow: hidden; }
+
+output[data-example="window"]:after {
+  content: "↕ scroll the page ↕"; }

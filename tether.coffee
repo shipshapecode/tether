@@ -185,13 +185,13 @@ class Tether
   updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->
     sides = ['left', 'top', 'bottom', 'right', 'middle', 'center']
   
-    @removeClass "tether-target-on-#{ side }" for side in sides
-    @addClass "tether-target-on-#{ elementAttach.top }" if elementAttach.top
-    @addClass "tether-target-on-#{ elementAttach.left }" if elementAttach.left
+    @removeClass "tether-element-attached-#{ side }" for side in sides
+    @addClass "tether-element-attached-#{ elementAttach.top }" if elementAttach.top
+    @addClass "tether-element-attached-#{ elementAttach.left }" if elementAttach.left
 
-    @removeClass "tether-element-on-#{ side }" for side in sides
-    @addClass "tether-element-on-#{ targetAttach.top }" if targetAttach.top
-    @addClass "tether-element-on-#{ targetAttach.left }" if targetAttach.left
+    @removeClass "tether-target-attached-#{ side }" for side in sides
+    @addClass "tether-target-attached-#{ targetAttach.top }" if targetAttach.top
+    @addClass "tether-target-attached-#{ targetAttach.left }" if targetAttach.left
 
   addClass: (classes) ->
     @$element.addClass classes

@@ -89,16 +89,16 @@ span.attachment-mark
     position: absolute
 
   @each $side in left, right, top, bottom
-    &.tether-target-on-#{ $side }:after
+    &.tether-element-attached-#{ $side }:after
       #{ $side }: -2px
 
     &.tether-pinned-#{ $side }
       border-#{ $side }-color: red
 
-  &.tether-target-on-center:after
+  &.tether-element-attached-center:after
     left: calc(50% - 5px)
 
-  &.tether-target-on-middle:after
+  &.tether-element-attached-middle:after
     top: 45px
 
 .tether-element.tether-out-of-bounds[data-example="hide"]
@@ -123,3 +123,9 @@ span.attachment-mark
 
   .scroll-box .tether-element:before
     content: "I'm in my scroll parent!"
+
+code[data-example="window"] .scroll-box
+  overflow: hidden
+
+output[data-example="window"]:after
+  content: "↕ scroll the page ↕"

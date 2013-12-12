@@ -344,3 +344,67 @@ within the offset parent, you may see some rendering changes.  Also note
 that this optimization works best if the scroll parent is the offset parent.
 In other words, **the scroll parent should be position relative, fixed or
 absolute.**
+
+Methods
+-------
+
+The `Tether` constructor we've been using in these examples returns us a
+`Tether` object.
+
+The `Tether` object has these methods:
+
+- `setOptions({ options })` - Update any of the options (such as attachment)
+- `disable()` - Disable the tethering
+- `enable()` - Enable the tethering
+- `destroy()` - Disable and remove all references
+- `position()` - Manually trigger a repositioning
+
+Options
+-------
+
+The full list of options which can be passed to the `Tether` constructor and
+`setOptions`:
+
+- `element`: A DOM or jQuery element
+- `target`: A DOM or jQuery element
+- `attachment`: A string of the form 'vert-attachment horiz-attachment'
+  - vert-attachment can be any of 'top', 'middle', 'bottom'
+  - horiz-attachment can be any of 'left', 'center', 'right'
+- `targetAttachment`: A string similar to `attachment`.
+  The one difference is that, if it's not provided, targetAttachment will assume the mirror
+  image of `attachment`.
+- `offset`: A string of the form 'vert-offset horiz-offset'
+  - vert-offset and horiz-offset can be of the form "20px" or "55%"
+- `targetOffset`: A string similar to `offset`
+- `enabled`: Should the tether be enabled initially? Defaults to true.
+- `constraints`: An array of constraint definition objects.  Each definition is of the form:
+  - `to`: A DOM element, bounding box, the string 'window', or the string 'scrollParent'
+  - `pin`: `true` or an array of strings representing the sides of the constraint
+  - `attachment`: A string of the form "vert-modifier horiz-modifier", or a single value
+  representing both
+    - Each modifier should be one of "none", "together", "element", "target", or "both".
+
+Classes
+-------
+
+Tether adds a wide variety of classes to the element and target to allow you to style
+them based on their tethering.
+
+- `tether-element` is added to the element
+- `tether-target` is added to the target
+- `tether-enabled` is added to both elements when tether is not disabled
+- `tether-element-attached-[left,right,top,bottom,middle,center]` is added to both
+elements based on the elements attachment, if the element becomes detached (for
+example, if it's pinned), that class is removed.  The class reflects how the
+element is actually attached, so if a constraint changes the attachment, that
+change will be reflected in the class.
+- `tether-target-attached-[left,right,top,bottom,middle,center]` is added to both
+elements based on the target's attachment.  All of the characteristics are the
+same as for element-attached.
+
+### Constraint-related Classes
+
+- `tether-out-of-bounds`, `tether-out-of-bounds-[side]` are added to both the element and the target
+when the element is placed outside of it's constraint.
+- `tether-pinned`, `tether-pinned-[side]` are added to both the element and target when a constraint
+has pinned the element to the [side] of the container.
