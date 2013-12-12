@@ -318,8 +318,6 @@ processed in the order supplied (the last one always has the final word).
 });
 </code></pre><output></output>
 
-// Change constraint class name
-
 Optimization
 ------------
 
@@ -406,7 +404,9 @@ The full list of options which can be passed to the `Tether` constructor and
 Classes
 -------
 
-Tether adds a wide variety of classes to the element and target to allow you to style
+// Make classes mutable
+
+Tether adds a variety of classes to the element and target to allow you to style
 them based on their tethering.
 
 - `tether-element` is added to the element
