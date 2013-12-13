@@ -309,7 +309,7 @@ processed in the order supplied (the last one always has the final word).
     {
       to: <mark>'scrollParent'</mark>,
       pin: true
-    },</mark>
+    },
     {
       to: <mark>'window'</mark>,
       attachment: 'together'
