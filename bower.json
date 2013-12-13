@@ -1,7 +1,16 @@
 {
   "name": "tether",
-  "main": "tether.js",
-  "version": "0.1.0",
+  "main": [
+    "tether.js",
+    "tether.min.js",
+    "abutment.js",
+    "abutment.min.js",
+    "constraint.js",
+    "constraint.min.js",
+    "shift.js",
+    "shift.min.js"
+  ],
+  "version": "0.1.2",
   "homepage": "https://github.hubspot.com/tether",
   "authors": [
     "Zack Bloom <zbloom@hubspot.com>",

@@ -9,8 +9,6 @@ module.exports = (grunt) ->
           'abutment.js': 'abutment.coffee'
           'shift.js': 'shift.coffee'
 
-          'drop.js': 'drop.coffee'
-
           'tooltip.js': 'tooltip.coffee'
 
           'markAttachment.js': 'markAttachment.coffee'
@@ -24,7 +22,7 @@ module.exports = (grunt) ->
 
     uglify:
       tether:
-        src: ['tether.js', '*.js']
+        src: ['tether.js', 'constraint.js', 'abutment.js', 'shift.js']
         dest: 'tether.min.js'
         options:
           banner: '/*! tether.js <%= pkg.version %> */\n'
