@@ -275,6 +275,13 @@ class Tether
     $offsetParent = @$target.offsetParent()
     offsetPosition = $offsetParent.offset()
 
+    offsetBorder = {}
+    for side in ['top', 'left', 'bottom', 'right']
+      offsetBorder[side] = parseFloat $offsetParent.css "border-#{ side }-width"
+
+    offsetPosition.left += offsetBorder.left
+    offsetPosition.top += offsetBorder.top
+
     offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width()
     offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height()
 
@@ -288,10 +295,10 @@ class Tether
         # It's position relative to the target's offset parent (absolute positioning when
         # the element is moved to be a child of the target's offset parent).
         next.offset =
-          top: next.page.top - offsetPosition.top + scrollTop
-          left: next.page.left - offsetPosition.left + scrollLeft
-          right: next.page.right - offsetPosition.right - scrollLeft
-          bottom: next.page.bottom - offsetPosition.bottom - scrollTop
+          top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top
+          left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left
+          right: next.page.right - offsetPosition.right - scrollLeft + offsetBorder.right
+          bottom: next.page.bottom - offsetPosition.bottom - scrollTop + offsetBorder.bottom
 
     # We could also travel up the DOM and try each containing context, rather than only
     # looking at the body, but we're gonna get diminishing returns.

@@ -2,6 +2,9 @@
 * {
   box-sizing: border-box; }
 
+body {
+  position: relative; }
+
 .yellow-box {
   width: 100px;
   height: 100px;

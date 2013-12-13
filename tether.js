@@ -295,7 +295,7 @@
     };
 
     Tether.prototype.position = function() {
-      var $offsetParent, elementPos, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetPosition, ret, scrollLeft, scrollTop, targetAttachment, targetOffset, targetPos, top, width, _i, _len, _ref;
+      var $offsetParent, elementPos, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, top, width, _i, _j, _len, _len1, _ref, _ref1;
       if (!this.enabled) {
         return;
       }
@@ -351,6 +351,14 @@
       };
       $offsetParent = this.$target.offsetParent();
       offsetPosition = $offsetParent.offset();
+      offsetBorder = {};
+      _ref1 = ['top', 'left', 'bottom', 'right'];
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        side = _ref1[_j];
+        offsetBorder[side] = parseFloat($offsetParent.css("border-" + side + "-width"));
+      }
+      offsetPosition.left += offsetBorder.left;
+      offsetPosition.top += offsetBorder.top;
       offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width();
       offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height();
       if (next.page.top >= offsetPosition.top && next.page.bottom >= offsetPosition.bottom) {
@@ -358,10 +366,10 @@
           scrollTop = $offsetParent.scrollTop();
           scrollLeft = $offsetParent.scrollLeft();
           next.offset = {
-            top: next.page.top - offsetPosition.top + scrollTop,
-            left: next.page.left - offsetPosition.left + scrollLeft,
-            right: next.page.right - offsetPosition.right - scrollLeft,
-            bottom: next.page.bottom - offsetPosition.bottom - scrollTop
+            top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top,
+            left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left,
+            right: next.page.right - offsetPosition.right - scrollLeft + offsetBorder.right,
+            bottom: next.page.bottom - offsetPosition.bottom - scrollTop + offsetBorder.bottom
           };
         }
       }
