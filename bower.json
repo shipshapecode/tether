@@ -1,0 +1,25 @@
+{
+  "name": "tether",
+  "main": "tether.js",
+  "version": "0.1.0",
+  "homepage": "https://github.hubspot.com/tether",
+  "authors": [
+    "Zack Bloom <zbloom@hubspot.com>",
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
+  ],
+  "description": "Tether elements together",
+  "keywords": [
+    "javascript"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.9.x"
+  }
+}
