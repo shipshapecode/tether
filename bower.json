@@ -1,6 +1,15 @@
 {
   "name": "tether",
-  "main": "tether.js",
+  "main": [
+    "tether.js",
+    "tether.min.js",
+    "abutment.js",
+    "abutment.min.js",
+    "constraint.js",
+    "constraint.min.js",
+    "shift.js",
+    "shift.min.js"
+  ],
   "version": "0.1.0",
   "homepage": "https://github.hubspot.com/tether",
   "authors": [
