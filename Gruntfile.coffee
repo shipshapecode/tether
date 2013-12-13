@@ -43,9 +43,20 @@ module.exports = (grunt) ->
           sassDir: 'docs/welcome/sass'
           cssDir: 'docs/welcome/css'
 
+    bower:
+      install:
+        options:
+          targetDir: 'deps'
+          cleanup: true
+          layout: 'byComponent'
+          bowerOptions:
+            forceLatest: true
+            production: true
+
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-compass'
+  grunt.loadNpmTasks 'grunt-bower-task'
 
-  grunt.registerTask 'default', ['coffee', 'uglify', 'compass']
+  grunt.registerTask 'default', ['coffee', 'uglify', 'compass', 'bower']
