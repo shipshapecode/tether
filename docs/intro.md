@@ -188,7 +188,7 @@ would keep more of it within it's assigned region:
   constraints: [
     {
       to: 'scrollParent',
-      <mark>attachment: 'both'</mark>
+      <mark>attachment: 'together'</mark>
     }
   ]
 });

@@ -98,17 +98,31 @@
           }
         }
         if (changeAttachY === 'together') {
-          if (top < bounds[1] && tAttachment.top === 'top' && eAttachment.top === 'bottom') {
-            top += targetHeight;
-            tAttachment.top = 'bottom';
-            top += height;
-            eAttachment.top = 'top';
+          if (top < bounds[1] && tAttachment.top === 'top') {
+            if (eAttachment.top === 'bottom') {
+              top += targetHeight;
+              tAttachment.top = 'bottom';
+              top += height;
+              eAttachment.top = 'top';
+            } else if (eAttachment.top === 'top') {
+              top += targetHeight;
+              tAttachment.top = 'bottom';
+              top -= height;
+              eAttachment.top = 'bottom';
+            }
           }
-          if (top + height > bounds[3] && tAttachment.top === 'bottom' && eAttachment.top === 'top') {
-            top -= targetHeight;
-            tAttachment.top = 'top';
-            top -= height;
-            eAttachment.top = 'bottom';
+          if (top + height > bounds[3] && tAttachment.top === 'bottom') {
+            if (eAttachment.top === 'top') {
+              top -= targetHeight;
+              tAttachment.top = 'top';
+              top -= height;
+              eAttachment.top = 'bottom';
+            } else if (eAttachment.top === 'bottom') {
+              top -= targetHeight;
+              tAttachment.top = 'top';
+              top += height;
+              eAttachment.top = 'top';
+            }
           }
         }
         if (changeAttachX === 'target' || changeAttachX === 'both') {
@@ -122,17 +136,30 @@
           }
         }
         if (changeAttachX === 'together') {
-          if (left < bounds[0] && tAttachment.left === 'left' && eAttachment.left === 'right') {
-            left += targetWidth;
-            tAttachment.left = 'right';
-            left += width;
-            eAttachment.left = 'left';
-          }
-          if (left + width > bounds[2] && tAttachment.left === 'right' && eAttachment.left === 'left') {
-            left -= targetWidth;
-            tAttachment.left = 'left';
-            left -= width;
-            eAttachment.left = 'right';
+          if (left < bounds[0] && tAttachment.left === 'left') {
+            if (eAttachment.left === 'right') {
+              left += targetWidth;
+              tAttachment.left = 'right';
+              left += width;
+              eAttachment.left = 'left';
+            } else if (eAttachment.left === 'left') {
+              left += targetWidth;
+              tAttachment.left = 'right';
+              left -= width;
+              eAttachment.left = 'right';
+            }
+          } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+            if (eAttachment.left === 'left') {
+              left -= targetWidth;
+              tAttachment.left = 'left';
+              left -= width;
+              eAttachment.left = 'right';
+            } else if (eAttachment.left === 'right') {
+              left -= targetWidth;
+              tAttachment.left = 'left';
+              left += width;
+              eAttachment.left = 'left';
+            }
           }
         }
         if (changeAttachY === 'element' || changeAttachY === 'both') {

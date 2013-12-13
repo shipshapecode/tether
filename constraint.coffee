@@ -65,7 +65,6 @@ Tether.modules.push
 
       bounds = getBounds @, to
 
-      # TODO Only change attachment if it will help the situation
       if changeAttachY in ['target', 'both']
         if (top < bounds[1] and tAttachment.top is 'top')
           top += targetHeight
@@ -76,19 +75,33 @@ Tether.modules.push
           tAttachment.top = 'top'
 
       if changeAttachY is 'together'
-        if (top < bounds[1] and tAttachment.top is 'top' and eAttachment.top is 'bottom')
-          top += targetHeight
-          tAttachment.top = 'bottom'
+        if top < bounds[1] and tAttachment.top is 'top'
+          if eAttachment.top is 'bottom'
+            top += targetHeight
+            tAttachment.top = 'bottom'
 
-          top += height
-          eAttachment.top = 'top'
+            top += height
+            eAttachment.top = 'top'
+          else if eAttachment.top is 'top'
+            top += targetHeight
+            tAttachment.top = 'bottom'
 
-        if (top + height > bounds[3] and tAttachment.top is 'bottom' and eAttachment.top is 'top')
-          top -= targetHeight
-          tAttachment.top = 'top'
+            top -= height
+            eAttachment.top = 'bottom'
 
-          top -= height
-          eAttachment.top = 'bottom'
+        if top + height > bounds[3] and tAttachment.top is 'bottom'
+          if eAttachment.top is 'top'
+            top -= targetHeight
+            tAttachment.top = 'top'
+
+            top -= height
+            eAttachment.top = 'bottom'
+          else if eAttachment.top is 'bottom'
+            top -= targetHeight
+            tAttachment.top = 'top'
+
+            top += height
+            eAttachment.top = 'top'
 
       if changeAttachX in ['target', 'both']
         if (left < bounds[0] and tAttachment.left is 'left')
@@ -100,19 +113,35 @@ Tether.modules.push
           tAttachment.left = 'left'
 
       if changeAttachX is 'together'
-        if (left < bounds[0] and tAttachment.left is 'left' and eAttachment.left is 'right')
-          left += targetWidth
-          tAttachment.left = 'right'
+        if left < bounds[0] and tAttachment.left is 'left'
+          if eAttachment.left is 'right'
+            left += targetWidth
+            tAttachment.left = 'right'
 
-          left += width
-          eAttachment.left = 'left'
+            left += width
+            eAttachment.left = 'left'
 
-        if (left + width > bounds[2] and tAttachment.left is 'right' and eAttachment.left is 'left')
-          left -= targetWidth
-          tAttachment.left = 'left'
+          else if eAttachment.left is 'left'
+            left += targetWidth
+            tAttachment.left = 'right'
 
-          left -= width
-          eAttachment.left = 'right'
+            left -= width
+            eAttachment.left = 'right'
+
+        else if left + width > bounds[2] and tAttachment.left is 'right'
+          if eAttachment.left is 'left'
+            left -= targetWidth
+            tAttachment.left = 'left'
+
+            left -= width
+            eAttachment.left = 'right'
+
+          else if eAttachment.left is 'right'
+            left -= targetWidth
+            tAttachment.left = 'left'
+
+            left += width
+            eAttachment.left = 'left'
 
       if changeAttachY in ['element', 'both']
         if (top < bounds[1] and eAttachment.top is 'bottom')
