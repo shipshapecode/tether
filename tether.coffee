@@ -369,11 +369,6 @@ class Tether
 
       moved = true
       
-      # If two of the dimentions are consistently the same % of
-      # the width of the offsetParent or body
-      #
-      #
-
     else
       css.position = 'absolute'
       css.top = "#{ position.page.top }px"
