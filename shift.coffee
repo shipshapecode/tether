@@ -8,12 +8,20 @@ Tether.modules.push
       else
         val
 
-    shift = @options.shift.split(' ')
-    shift[1] or= shift[0]
+    shift = result @options.shift
 
-    [shiftTop, shiftLeft] = shift
+    if typeof shift is 'string'
+      shift = shift.split(' ')
+      shift[1] or= shift[0]
+
+      [shiftTop, shiftLeft] = shift
+
+      shiftTop = parseFloat shiftTop, 10
+      shiftLeft = parseFloat shiftLeft, 10
+    else
+      [shiftTop, shiftLeft] = shift.top, shift.left
     
-    top += parseFloat(result shiftTop, 10)
-    left += parseFloat(result shiftLeft, 10)
+    top += shiftTop
+    left += shiftLeft
 
     {top, left}
