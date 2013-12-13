@@ -295,7 +295,7 @@
     };
 
     Tether.prototype.position = function() {
-      var $offsetParent, elementPos, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, top, width, _i, _j, _len, _len1, _ref, _ref1;
+      var $offsetParent, elementPos, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, top, width, _i, _j, _len, _len1, _ref, _ref1, _ref2;
       if (!this.enabled) {
         return;
       }
@@ -349,28 +349,30 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
-      $offsetParent = this.$target.offsetParent();
-      offsetPosition = $offsetParent.offset();
-      offsetBorder = {};
-      _ref1 = ['top', 'left', 'bottom', 'right'];
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        side = _ref1[_j];
-        offsetBorder[side] = parseFloat($offsetParent.css("border-" + side + "-width"));
-      }
-      offsetPosition.left += offsetBorder.left;
-      offsetPosition.top += offsetBorder.top;
-      offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width();
-      offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height();
-      if (next.page.top >= offsetPosition.top && next.page.bottom >= offsetPosition.bottom) {
-        if (next.page.left >= offsetPosition.left && next.page.right >= offsetPosition.right) {
-          scrollTop = $offsetParent.scrollTop();
-          scrollLeft = $offsetParent.scrollLeft();
-          next.offset = {
-            top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top,
-            left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left,
-            right: next.page.right - offsetPosition.right - scrollLeft + offsetBorder.right,
-            bottom: next.page.bottom - offsetPosition.bottom - scrollTop + offsetBorder.bottom
-          };
+      if (((_ref1 = this.options.optimizations) != null ? _ref1.moveElement : void 0) !== false) {
+        $offsetParent = this.$target.offsetParent();
+        offsetPosition = $offsetParent.offset();
+        offsetBorder = {};
+        _ref2 = ['top', 'left', 'bottom', 'right'];
+        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+          side = _ref2[_j];
+          offsetBorder[side] = parseFloat($offsetParent.css("border-" + side + "-width"));
+        }
+        offsetPosition.left += offsetBorder.left;
+        offsetPosition.top += offsetBorder.top;
+        offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width();
+        offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height();
+        if (next.page.top >= offsetPosition.top && next.page.bottom >= offsetPosition.bottom) {
+          if (next.page.left >= offsetPosition.left && next.page.right >= offsetPosition.right) {
+            scrollTop = $offsetParent.scrollTop();
+            scrollLeft = $offsetParent.scrollLeft();
+            next.offset = {
+              top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top,
+              left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left,
+              right: next.page.right - offsetPosition.right - scrollLeft + offsetBorder.right,
+              bottom: next.page.bottom - offsetPosition.bottom - scrollTop + offsetBorder.bottom
+            };
+          }
         }
       }
       this.move(next);
@@ -382,7 +384,7 @@
     };
 
     Tether.prototype.move = function(position) {
-      var $offsetParent, css, found, key, moved, offset, point, same, side, transcribe, type, val, write, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3;
+      var $offsetParent, css, found, key, moved, offset, point, same, side, transcribe, type, val, write, _i, _j, _len, _len1, _ref, _ref1, _ref2;
       same = {};
       for (type in position) {
         same[type] = {};
@@ -426,7 +428,7 @@
       } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
         css.position = 'fixed';
         transcribe(same.viewport, position.viewport);
-      } else if ((same.offset != null) && ((_ref2 = this.options.optimizations) != null ? _ref2.moveElement : void 0) !== false && (same.offset.top || same.offset.bottom) && (same.offset.left || same.offset.right)) {
+      } else if ((same.offset != null) && (same.offset.top || same.offset.bottom) && (same.offset.left || same.offset.right)) {
         css.position = 'absolute';
         $offsetParent = this.$target.offsetParent();
         if (this.$element.offsetParent()[0] !== $offsetParent[0]) {
@@ -434,9 +436,9 @@
           $offsetParent.append(this.$element);
         }
         offset = $.extend({}, position.offset);
-        _ref3 = ['top', 'left', 'bottom', 'right'];
-        for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
-          side = _ref3[_j];
+        _ref2 = ['top', 'left', 'bottom', 'right'];
+        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+          side = _ref2[_j];
           offset[side] -= parseFloat($offsetParent.css("border-" + side + "-width"), 10);
         }
         transcribe(same.offset, offset);

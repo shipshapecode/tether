@@ -272,33 +272,34 @@ class Tether
         right: pageXOffset - left - width + innerWidth
     }
 
-    $offsetParent = @$target.offsetParent()
-    offsetPosition = $offsetParent.offset()
+    if @options.optimizations?.moveElement isnt false
+      $offsetParent = @$target.offsetParent()
+      offsetPosition = $offsetParent.offset()
 
-    offsetBorder = {}
-    for side in ['top', 'left', 'bottom', 'right']
-      offsetBorder[side] = parseFloat $offsetParent.css "border-#{ side }-width"
+      offsetBorder = {}
+      for side in ['top', 'left', 'bottom', 'right']
+        offsetBorder[side] = parseFloat $offsetParent.css "border-#{ side }-width"
 
-    offsetPosition.left += offsetBorder.left
-    offsetPosition.top += offsetBorder.top
+      offsetPosition.left += offsetBorder.left
+      offsetPosition.top += offsetBorder.top
 
-    offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width()
-    offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height()
+      offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width()
+      offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height()
 
-    if next.page.top >= offsetPosition.top and next.page.bottom >= offsetPosition.bottom
-      if next.page.left >= offsetPosition.left and next.page.right >= offsetPosition.right
-        # We're within the visible part of the target's scroll parent
+      if next.page.top >= offsetPosition.top and next.page.bottom >= offsetPosition.bottom
+        if next.page.left >= offsetPosition.left and next.page.right >= offsetPosition.right
+          # We're within the visible part of the target's scroll parent
 
-        scrollTop = $offsetParent.scrollTop()
-        scrollLeft = $offsetParent.scrollLeft()
+          scrollTop = $offsetParent.scrollTop()
+          scrollLeft = $offsetParent.scrollLeft()
 
-        # It's position relative to the target's offset parent (absolute positioning when
-        # the element is moved to be a child of the target's offset parent).
-        next.offset =
-          top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top
-          left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left
-          right: next.page.right - offsetPosition.right - scrollLeft + offsetBorder.right
-          bottom: next.page.bottom - offsetPosition.bottom - scrollTop + offsetBorder.bottom
+          # It's position relative to the target's offset parent (absolute positioning when
+          # the element is moved to be a child of the target's offset parent).
+          next.offset =
+            top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top
+            left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left
+            right: next.page.right - offsetPosition.right - scrollLeft + offsetBorder.right
+            bottom: next.page.bottom - offsetPosition.bottom - scrollTop + offsetBorder.bottom
 
     # We could also travel up the DOM and try each containing context, rather than only
     # looking at the body, but we're gonna get diminishing returns.
@@ -351,7 +352,7 @@ class Tether
       css.position = 'fixed'
       transcribe same.viewport, position.viewport
 
-    else if same.offset? and @options.optimizations?.moveElement isnt false and (same.offset.top or same.offset.bottom) and (same.offset.left or same.offset.right)
+    else if same.offset? and (same.offset.top or same.offset.bottom) and (same.offset.left or same.offset.right)
       css.position = 'absolute'
 
       $offsetParent = @$target.offsetParent()
