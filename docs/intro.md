@@ -205,7 +205,7 @@ You can combine `pin` and `attachment` as well:
   constraints: [
     {
       to: 'scrollParent',
-      attachment: 'both',
+      attachment: 'together',
       <mark>pin: true</mark>
     }
   ]
@@ -214,12 +214,12 @@ You can combine `pin` and `attachment` as well:
 
 Attachment will accept any of these values:
 
-- element: Only change the element's attachment
-- target: Only change the target's attachment
-- both: Change either's attachment (or both), as needed
-- together: Change both the element's and target's attachment at the same time (to
+- `element`: Only change the element's attachment
+- `target`: Only change the target's attachment
+- `both`: Change either's attachment (or both), as needed
+- `together`: Change both the element's and target's attachment at the same time (to
 'flip' the element to the other side of the attachment)
-- none: Don't allow changes to attachment (the default)
+- `none`: Don't allow changes to attachment (the default)
 
 Together is the option you will use most commonly:
 
@@ -292,10 +292,10 @@ make it always visible no matter where the user scrolls.
 
 `to` can be any of:
 
-- 'scrollParent'
-- 'window'
+- `'scrollParent'`
+- `'window'`
 - any DOM element
-- an array of bound points relative to the body [X1, Y1, X2, Y2]
+- an array of bound points relative to the body `[X1, Y1, X2, Y2]`
 
 You can also provide multiple constraints, keeping in mind that they are
 processed in the order supplied (the last one always has the final word).
