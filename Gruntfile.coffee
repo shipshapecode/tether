@@ -24,7 +24,7 @@ module.exports = (grunt) ->
 
     uglify:
       tether:
-        src: 'tether.js'
+        src: ['tether.js', '*.js']
         dest: 'tether.min.js'
         options:
           banner: '/*! tether.js <%= pkg.version %> */\n'
