@@ -19,7 +19,7 @@ Tether.modules.push
       shiftTop = parseFloat shiftTop, 10
       shiftLeft = parseFloat shiftLeft, 10
     else
-      [shiftTop, shiftLeft] = shift.top, shift.left
+      [shiftTop, shiftLeft] = [shift.top, shift.left]
     
     top += shiftTop
     left += shiftLeft
