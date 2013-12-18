@@ -1,5 +1,6 @@
 {
   "name": "tether",
+  "version": "0.1.5",
   "main": [
     "tether.js",
     "tether.min.js",
@@ -10,7 +11,6 @@
     "shift.js",
     "shift.min.js"
   ],
-  "version": "0.1.4",
   "homepage": "https://github.hubspot.com/tether",
   "authors": [
     "Zack Bloom <zbloom@hubspot.com>",
