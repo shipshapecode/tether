@@ -190,8 +190,8 @@ class Tether
           {height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight), width: 15}
     else
       {
-        height: @cache 'target-outerheight', -> @target.outerHeight()
-        width: @cache 'target-outerwidth', -> @target.outerWidth()
+        height: @cache 'target-outerheight', -> @$target.outerHeight()
+        width: @cache 'target-outerwidth', -> @$target.outerWidth()
       }
 
   clearCache: ->
