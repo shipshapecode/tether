@@ -257,10 +257,10 @@
       } else {
         return {
           height: this.cache('target-outerheight', function() {
-            return this.target.outerHeight();
+            return this.$target.outerHeight();
           }),
           width: this.cache('target-outerwidth', function() {
-            return this.target.outerWidth();
+            return this.$target.outerWidth();
           })
         };
       }
