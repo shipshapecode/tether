@@ -2,13 +2,14 @@ $ = jQuery
 
 Tether.modules.push
   position: ({top, left}) ->
-    # TODO: Just do this in tether, so we don't have to repeat it
-    height = @$element.outerHeight()
-    width = @$element.outerWidth()
-    targetHeight = @$target.outerHeight()
-    targetWidth = @$target.outerWidth()
+    height = @cache 'element-outerheight', -> @$element.outerHeight()
+    width = @cache 'element-outerwidth', -> @$element.outerWidth()
 
-    targetPos = @$target.offset()
+    targetSize = @getTargetSize()
+    targetHeight = targetSize.height
+    targetWidth = targetSize.width
+
+    targetPos = @getTargetOffset()
     targetPos.bottom = targetPos.top + targetHeight
     targetPos.right = targetPos.left + targetWidth
 

@@ -5,13 +5,18 @@
 
   Tether.modules.push({
     position: function(_arg) {
-      var abutted, bottom, height, left, right, side, sides, targetHeight, targetPos, targetWidth, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
+      var abutted, bottom, height, left, right, side, sides, targetHeight, targetPos, targetSize, targetWidth, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
       top = _arg.top, left = _arg.left;
-      height = this.$element.outerHeight();
-      width = this.$element.outerWidth();
-      targetHeight = this.$target.outerHeight();
-      targetWidth = this.$target.outerWidth();
-      targetPos = this.$target.offset();
+      height = this.cache('element-outerheight', function() {
+        return this.$element.outerHeight();
+      });
+      width = this.cache('element-outerwidth', function() {
+        return this.$element.outerWidth();
+      });
+      targetSize = this.getTargetSize();
+      targetHeight = targetSize.height;
+      targetWidth = targetSize.width;
+      targetPos = this.getTargetOffset();
       targetPos.bottom = targetPos.top + targetHeight;
       targetPos.right = targetPos.left + targetWidth;
       bottom = top + height;

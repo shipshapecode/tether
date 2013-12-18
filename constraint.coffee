@@ -28,17 +28,19 @@ getBounds = (tether, to) ->
 
 Tether.modules.push
   position: ({top, left, targetAttachment}) ->
-    return unless @options.constraints
+    return true unless @options.constraints
 
     removeClass = (prefix) =>
       @removeClass prefix
       for side in BOUNDS_FORMAT
         @removeClass "#{ prefix }-#{ side }"
 
-    height = @$element.outerHeight()
-    width = @$element.outerWidth()
-    targetHeight = @$target.outerHeight()
-    targetWidth = @$target.outerWidth()
+    height = @cache 'element-outerheight', -> @$element.outerHeight()
+    width = @cache 'element-outerwidth', -> @$element.outerWidth()
+
+    targetSize = @getTargetSize()
+    targetHeight = targetSize.height
+    targetWidth = targetSize.width
 
     tAttachment = {}
     eAttachment = {}

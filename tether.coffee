@@ -105,11 +105,11 @@ addOffset = (offsets...) ->
 
   out
 
-offsetToPx = (offset, element) ->
+offsetToPx = (offset, size) ->
   if typeof offset.left is 'string' and offset.left.indexOf('%') isnt -1
-    offset.left = parseFloat(offset.left, 10) / 100 * $(element).outerWidth()
+    offset.left = parseFloat(offset.left, 10) / 100 * size.width
   if typeof offset.top is 'string' and offset.top.indexOf('%') isnt -1
-    offset.top = parseFloat(offset.top, 10) / 100 * $(element).outerHeight()
+    offset.top = parseFloat(offset.top, 10) / 100 * size.height
 
   offset
 
@@ -152,10 +152,11 @@ class Tether
       @target = @target[0]
 
     @$element ?= $ @element
-    @$target ?= $ @target
+    if typeof @target isnt 'string'
+      @$target ?= $ @target
 
     @$element.addClass 'tether-element'
-    @$target.addClass 'tether-target'
+    @$target?.addClass 'tether-target'
 
     @targetAttachment = parseAttachment @options.targetAttachment
     @attachment = parseAttachment @options.attachment
@@ -169,6 +170,42 @@ class Tether
 
     unless @options.enabled is false
       @enable(position)
+
+  getTargetOffset: ->
+    if typeof @target is 'string'
+      switch @target
+        when 'viewport'
+          {top: pageYOffset, left: pageXOffset}
+        when 'scroll-handle'
+          {top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight), left: innerWidth - 15}
+    else
+      @$target.offset()
+  
+  getTargetSize: ->
+    if typeof @target is 'string'
+      switch @target
+        when 'viewport'
+          {height: innerHeight, width: innerWidth}
+        when 'scroll-handle'
+          {height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight), width: 15}
+    else
+      {
+        height: @cache 'target-outerheight', -> @target.outerHeight()
+        width: @cache 'target-outerwidth', -> @target.outerWidth()
+      }
+
+  clearCache: ->
+    @_cache = {}
+
+  cache: (k, getter) ->
+    # More than one module will often need the same DOM info, so
+    # we keep a cache which is cleared on each position call
+    @_cache ?= {}
+
+    if not @_cache[k]?
+      @_cache[k] = getter.call(@)
+
+    @_cache[k]
 
   enable: (position=true) ->
     @addClass 'tether-enabled'
@@ -207,33 +244,38 @@ class Tether
 
   addClass: (classes) ->
     @$element.addClass classes
-    @$target.addClass classes
+    @$target?.addClass classes
 
   removeClass: (classes) ->
     @$element.removeClass classes
-    @$target.removeClass classes
+    @$target?.removeClass classes
 
   position: =>
     return unless @enabled
+
+    @clearCache()
 
     # Turn 'auto' attachments into the appropriate corner or edge
     targetAttachment = autoToFixedAttachment(@targetAttachment, @attachment)
 
     @updateAttachClasses @attachment, targetAttachment
 
-    # Get an actual px offset from the attachment
-    offset = offsetToPx attachmentToOffset(@attachment), @element
-    targetOffset = offsetToPx attachmentToOffset(targetAttachment), @target
+    width = @cache 'element-outerwidth', -> @$element.outerWidth()
+    height = @cache 'element-outerheight', -> @$element.outerHeight()
 
-    manualOffset = offsetToPx(@offset, @element)
-    manualTargetOffset = offsetToPx(@targetOffset, @target)
+    # Get an actual px offset from the attachment
+    offset = offsetToPx attachmentToOffset(@attachment), {width, height}
+    targetOffset = offsetToPx attachmentToOffset(targetAttachment), @getTargetSize()
+
+    manualOffset = offsetToPx(@offset, {width, height})
+    manualTargetOffset = offsetToPx(@targetOffset, @getTargetSize())
 
     # Add the manually provided offset
     offset = addOffset offset, manualOffset
     targetOffset = addOffset targetOffset, manualTargetOffset
 
-    targetPos = @$target.offset()
-    elementPos = @$element.offset()
+    targetPos = @getTargetOffset()
+    elementPos = @cache 'element-offset', -> @$element.offset()
 
     # It's now our goal to make (element position + offset) == (target position + target offset)
     left = targetPos.left + targetOffset.left - offset.left
@@ -249,8 +291,6 @@ class Tether
       else
         {top, left} = ret
 
-    width = @$element.outerWidth()
-    height = @$element.outerHeight()
 
     # We describe the position three different ways to give the optimizer
     # a chance to decide the best possible way to position the element
@@ -272,9 +312,9 @@ class Tether
         right: pageXOffset - left - width + innerWidth
     }
 
-    if @options.optimizations?.moveElement isnt false
-      $offsetParent = @$target.offsetParent()
-      offsetPosition = $offsetParent.offset()
+    if @options.optimizations?.moveElement isnt false and @$target?
+      $offsetParent = @cache 'target-offsetparent', -> @$target.offsetParent()
+      offsetPosition = @cache 'target-offsetparent-offset', -> $offsetParent.offset()
 
       offsetBorder = {}
       for side in ['top', 'left', 'bottom', 'right']
@@ -355,7 +395,7 @@ class Tether
     else if same.offset? and (same.offset.top or same.offset.bottom) and (same.offset.left or same.offset.right)
       css.position = 'absolute'
 
-      $offsetParent = @$target.offsetParent()
+      $offsetParent = @getTargetOffset()
 
       if @$element.offsetParent()[0] isnt $offsetParent[0]
         @$element.detach()

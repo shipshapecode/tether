@@ -35,11 +35,11 @@
 
   Tether.modules.push({
     position: function(_arg) {
-      var attachment, bounds, changeAttachX, changeAttachY, cls, constraint, eAttachment, height, left, oob, oobClass, p, pin, pinned, pinnedClass, removeClass, removeClasses, side, tAttachment, targetAttachment, targetHeight, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref, _ref1, _ref2, _ref3, _ref4,
+      var attachment, bounds, changeAttachX, changeAttachY, cls, constraint, eAttachment, height, left, oob, oobClass, p, pin, pinned, pinnedClass, removeClass, removeClasses, side, tAttachment, targetAttachment, targetHeight, targetSize, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref, _ref1, _ref2, _ref3, _ref4,
         _this = this;
       top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
       if (!this.options.constraints) {
-        return;
+        return true;
       }
       removeClass = function(prefix) {
         var side, _i, _len, _results;
@@ -51,10 +51,15 @@
         }
         return _results;
       };
-      height = this.$element.outerHeight();
-      width = this.$element.outerWidth();
-      targetHeight = this.$target.outerHeight();
-      targetWidth = this.$target.outerWidth();
+      height = this.cache('element-outerheight', function() {
+        return this.$element.outerHeight();
+      });
+      width = this.cache('element-outerwidth', function() {
+        return this.$element.outerWidth();
+      });
+      targetSize = this.getTargetSize();
+      targetHeight = targetSize.height;
+      targetWidth = targetSize.width;
       tAttachment = {};
       eAttachment = {};
       removeClasses = ['tether-pinned', 'tether-out-of-bounds'];

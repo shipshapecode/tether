@@ -137,12 +137,12 @@
     return out;
   };
 
-  offsetToPx = function(offset, element) {
+  offsetToPx = function(offset, size) {
     if (typeof offset.left === 'string' && offset.left.indexOf('%') !== -1) {
-      offset.left = parseFloat(offset.left, 10) / 100 * $(element).outerWidth();
+      offset.left = parseFloat(offset.left, 10) / 100 * size.width;
     }
     if (typeof offset.top === 'string' && offset.top.indexOf('%') !== -1) {
-      offset.top = parseFloat(offset.top, 10) / 100 * $(element).outerHeight();
+      offset.top = parseFloat(offset.top, 10) / 100 * size.height;
     }
     return offset;
   };
@@ -176,7 +176,7 @@
     }
 
     Tether.prototype.setOptions = function(options, position) {
-      var defaults, _ref;
+      var defaults, _ref, _ref1;
       this.options = options;
       if (position == null) {
         position = true;
@@ -199,11 +199,15 @@
       if (this.$element == null) {
         this.$element = $(this.element);
       }
-      if (this.$target == null) {
-        this.$target = $(this.target);
+      if (typeof this.target !== 'string') {
+        if (this.$target == null) {
+          this.$target = $(this.target);
+        }
       }
       this.$element.addClass('tether-element');
-      this.$target.addClass('tether-target');
+      if ((_ref1 = this.$target) != null) {
+        _ref1.addClass('tether-target');
+      }
       this.targetAttachment = parseAttachment(this.options.targetAttachment);
       this.attachment = parseAttachment(this.options.attachment);
       this.offset = parseOffset(this.options.offset);
@@ -215,6 +219,65 @@
       if (this.options.enabled !== false) {
         return this.enable(position);
       }
+    };
+
+    Tether.prototype.getTargetOffset = function() {
+      if (typeof this.target === 'string') {
+        switch (this.target) {
+          case 'viewport':
+            return {
+              top: pageYOffset,
+              left: pageXOffset
+            };
+          case 'scroll-handle':
+            return {
+              top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight),
+              left: innerWidth - 15
+            };
+        }
+      } else {
+        return this.$target.offset();
+      }
+    };
+
+    Tether.prototype.getTargetSize = function() {
+      if (typeof this.target === 'string') {
+        switch (this.target) {
+          case 'viewport':
+            return {
+              height: innerHeight,
+              width: innerWidth
+            };
+          case 'scroll-handle':
+            return {
+              height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight),
+              width: 15
+            };
+        }
+      } else {
+        return {
+          height: this.cache('target-outerheight', function() {
+            return this.target.outerHeight();
+          }),
+          width: this.cache('target-outerwidth', function() {
+            return this.target.outerWidth();
+          })
+        };
+      }
+    };
+
+    Tether.prototype.clearCache = function() {
+      return this._cache = {};
+    };
+
+    Tether.prototype.cache = function(k, getter) {
+      if (this._cache == null) {
+        this._cache = {};
+      }
+      if (this._cache[k] == null) {
+        this._cache[k] = getter.call(this);
+      }
+      return this._cache[k];
     };
 
     Tether.prototype.enable = function(position) {
@@ -285,13 +348,15 @@
     };
 
     Tether.prototype.addClass = function(classes) {
+      var _ref;
       this.$element.addClass(classes);
-      return this.$target.addClass(classes);
+      return (_ref = this.$target) != null ? _ref.addClass(classes) : void 0;
     };
 
     Tether.prototype.removeClass = function(classes) {
+      var _ref;
       this.$element.removeClass(classes);
-      return this.$target.removeClass(classes);
+      return (_ref = this.$target) != null ? _ref.removeClass(classes) : void 0;
     };
 
     Tether.prototype.position = function() {
@@ -299,16 +364,31 @@
       if (!this.enabled) {
         return;
       }
+      this.clearCache();
       targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
       this.updateAttachClasses(this.attachment, targetAttachment);
-      offset = offsetToPx(attachmentToOffset(this.attachment), this.element);
-      targetOffset = offsetToPx(attachmentToOffset(targetAttachment), this.target);
-      manualOffset = offsetToPx(this.offset, this.element);
-      manualTargetOffset = offsetToPx(this.targetOffset, this.target);
+      width = this.cache('element-outerwidth', function() {
+        return this.$element.outerWidth();
+      });
+      height = this.cache('element-outerheight', function() {
+        return this.$element.outerHeight();
+      });
+      offset = offsetToPx(attachmentToOffset(this.attachment), {
+        width: width,
+        height: height
+      });
+      targetOffset = offsetToPx(attachmentToOffset(targetAttachment), this.getTargetSize());
+      manualOffset = offsetToPx(this.offset, {
+        width: width,
+        height: height
+      });
+      manualTargetOffset = offsetToPx(this.targetOffset, this.getTargetSize());
       offset = addOffset(offset, manualOffset);
       targetOffset = addOffset(targetOffset, manualTargetOffset);
-      targetPos = this.$target.offset();
-      elementPos = this.$element.offset();
+      targetPos = this.getTargetOffset();
+      elementPos = this.cache('element-offset', function() {
+        return this.$element.offset();
+      });
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
       _ref = Tether.modules;
@@ -333,8 +413,6 @@
           top = ret.top, left = ret.left;
         }
       }
-      width = this.$element.outerWidth();
-      height = this.$element.outerHeight();
       next = {
         page: {
           top: top,
@@ -349,9 +427,13 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
-      if (((_ref1 = this.options.optimizations) != null ? _ref1.moveElement : void 0) !== false) {
-        $offsetParent = this.$target.offsetParent();
-        offsetPosition = $offsetParent.offset();
+      if (((_ref1 = this.options.optimizations) != null ? _ref1.moveElement : void 0) !== false && (this.$target != null)) {
+        $offsetParent = this.cache('target-offsetparent', function() {
+          return this.$target.offsetParent();
+        });
+        offsetPosition = this.cache('target-offsetparent-offset', function() {
+          return $offsetParent.offset();
+        });
         offsetBorder = {};
         _ref2 = ['top', 'left', 'bottom', 'right'];
         for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
@@ -430,7 +512,7 @@
         transcribe(same.viewport, position.viewport);
       } else if ((same.offset != null) && (same.offset.top || same.offset.bottom) && (same.offset.left || same.offset.right)) {
         css.position = 'absolute';
-        $offsetParent = this.$target.offsetParent();
+        $offsetParent = this.getTargetOffset();
         if (this.$element.offsetParent()[0] !== $offsetParent[0]) {
           this.$element.detach();
           $offsetParent.append(this.$element);
