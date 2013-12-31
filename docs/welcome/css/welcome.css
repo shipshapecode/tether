@@ -99,6 +99,27 @@ table.showcase {
           padding: 1rem; } }
   table.showcase.share {
     background: #f3f3f3; }
+  table.showcase.projects-showcase .showcase-inner .projects-list {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto; }
+    table.showcase.projects-showcase .showcase-inner .projects-list .project {
+      color: inherit;
+      text-decoration: none;
+      position: relative;
+      width: 50%;
+      float: left;
+      text-align: center;
+      margin-bottom: 2rem; }
+    table.showcase.projects-showcase .showcase-inner .projects-list .os-icon {
+      width: 8rem;
+      height: 8rem;
+      margin-bottom: 1rem;
+      background-size: 100%; }
+    table.showcase.projects-showcase .showcase-inner .projects-list h1 {
+      font-size: 2.5rem; }
+    table.showcase.projects-showcase .showcase-inner .projects-list p {
+      font-size: 1.3rem; }
   table.showcase.browser-demo {
     background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #723362), color-stop(100%, #9d223c));
     background-image: -webkit-linear-gradient(top left, #723362 0%, #9d223c 100%);
@@ -245,28 +266,6 @@ table.showcase {
         border-radius: 4px;
         background: black;
         padding: 1rem; }
-
-.projects-showcase .projects-list {
-  width: 80%;
-  max-width: 1200px;
-  margin: 0 auto; }
-  .projects-showcase .projects-list .project {
-    color: inherit;
-    text-decoration: none;
-    position: relative;
-    width: 50%;
-    float: left;
-    text-align: center;
-    margin-bottom: 2rem; }
-  .projects-showcase .projects-list .os-icon {
-    width: 8rem;
-    height: 8rem;
-    margin-bottom: 1rem;
-    background-size: 100%; }
-  .projects-showcase .projects-list h1 {
-    font-size: 2.5rem; }
-  .projects-showcase .projects-list p {
-    font-size: 1.3rem; }
 
 .browser-content {
   display: none; }
