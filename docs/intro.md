@@ -1,4 +1,5 @@
 <script src="docs/js/intro.js"></script>
+<script src="utils.js"></script>
 <script src="tether.js"></script>
 <script src="constraint.js"></script>
 <script src="markAttachment.js"></script>
