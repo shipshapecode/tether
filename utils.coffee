@@ -61,12 +61,7 @@ getOffset = (el) ->
   }
 
 getOffsetParent = (el) ->
-  offsetParent = el.offsetParent or document.documentElement
-
-  while offsetParent and offsetParent.tagName isnt 'HTML' and offsetParent.style.position in ['', 'static']
-    offsetParent = offsetParent.offsetParent
-
-  offsetParent or document.documentElement
+  el.offsetParent or document.documentElement
 
 extend = (out={}) ->
   args = []
@@ -80,13 +75,13 @@ extend = (out={}) ->
 
 removeClass = (el, name) ->
   if el.classList?
-    el.classList.remove(cls) for cls of name.split(' ')
+    el.classList.remove(cls) for cls in name.split(' ')
   else
     el.className = el.className.replace new RegExp("(^| )#{ name.split(' ').join('|') }( |$)", 'gi'), ' '
 
 addClass = (el, name) ->
   if el.classList?
-    el.classList.add(cls) for cls of name.split(' ')
+    el.classList.add(cls) for cls in name.split(' ')
   else
     removeClass el, name
     el.className += " #{ name }"

@@ -166,7 +166,14 @@
         targetAttachment: 'auto auto'
       };
       this.options = extend(defaults, this.options);
-      _ref2 = this.options, this.element = _ref2.element, this.target = _ref2.target;
+      _ref2 = this.options, this.element = _ref2.element, this.target = _ref2.target, this.targetModifier = _ref2.targetModifier;
+      if (this.target === 'viewport') {
+        this.target = document.body;
+        this.targetModifier = 'visible';
+      } else if (this.target === 'scroll-handle') {
+        this.target = document.body;
+        this.targetModifier = 'scroll-handle';
+      }
       _ref3 = ['element', 'target'];
       for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
         key = _ref3[_j];
@@ -195,9 +202,9 @@
     };
 
     _Tether.prototype.getTargetOffset = function() {
-      if (typeof this.target === 'string') {
-        switch (this.target) {
-          case 'viewport':
+      if (this.targetModifier != null) {
+        switch (this.targetModifier) {
+          case 'visible':
             return {
               top: pageYOffset,
               left: pageXOffset
@@ -215,9 +222,9 @@
 
     _Tether.prototype.getTargetSize = function() {
       var _this = this;
-      if (typeof this.target === 'string') {
-        switch (this.target) {
-          case 'viewport':
+      if (this.targetModifier != null) {
+        switch (this.targetModifier) {
+          case 'visible':
             return {
               height: innerHeight,
               width: innerWidth
@@ -392,7 +399,7 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
-      if (((_ref4 = this.options.optimizations) != null ? _ref4.moveElement : void 0) !== false) {
+      if (((_ref4 = this.options.optimizations) != null ? _ref4.moveElement : void 0) !== false && (this.targetModifier == null)) {
         offsetParent = this.cache('target-offsetparent', function() {
           return getOffsetParent(_this.target);
         });
@@ -420,8 +427,8 @@
             next.offset = {
               top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top,
               left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left,
-              right: next.page.right - offsetPosition.right - scrollLeft + offsetBorder.right,
-              bottom: next.page.bottom - offsetPosition.bottom - scrollTop + offsetBorder.bottom
+              right: next.page.right - offsetPosition.right + offsetParent.scrollWidth - scrollLeft + offsetBorder.right,
+              bottom: next.page.bottom - offsetPosition.bottom + offsetParent.scrollHeight - scrollTop + offsetBorder.bottom
             };
           }
         }
@@ -494,7 +501,7 @@
         _ref4 = ['top', 'left', 'bottom', 'right'];
         for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
           side = _ref4[_k];
-          offset[side] -= offsetParentStyle["border-" + side + "-width"];
+          offset[side] -= parseFloat(offsetParentStyle["border-" + side + "-width"]);
         }
         transcribe(same.offset, offset);
         moved = true;

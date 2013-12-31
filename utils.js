@@ -81,12 +81,7 @@
   };
 
   getOffsetParent = function(el) {
-    var offsetParent, _ref;
-    offsetParent = el.offsetParent || document.documentElement;
-    while (offsetParent && offsetParent.tagName !== 'HTML' && ((_ref = offsetParent.style.position) === '' || _ref === 'static')) {
-      offsetParent = offsetParent.offsetParent;
-    }
-    return offsetParent || document.documentElement;
+    return el.offsetParent || document.documentElement;
   };
 
   extend = function(out) {
@@ -111,10 +106,12 @@
   };
 
   removeClass = function(el, name) {
-    var cls, _results;
+    var cls, _i, _len, _ref, _results;
     if (el.classList != null) {
+      _ref = name.split(' ');
       _results = [];
-      for (cls in name.split(' ')) {
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        cls = _ref[_i];
         _results.push(el.classList.remove(cls));
       }
       return _results;
@@ -124,10 +121,12 @@
   };
 
   addClass = function(el, name) {
-    var cls, _results;
+    var cls, _i, _len, _ref, _results;
     if (el.classList != null) {
+      _ref = name.split(' ');
       _results = [];
-      for (cls in name.split(' ')) {
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        cls = _ref[_i];
         _results.push(el.classList.add(cls));
       }
       return _results;

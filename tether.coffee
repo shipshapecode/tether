@@ -114,7 +114,14 @@ class _Tether
 
     @options = extend defaults, @options
       
-    {@element, @target} = @options
+    {@element, @target, @targetModifier} = @options
+
+    if @target is 'viewport'
+      @target = document.body
+      @targetModifier = 'visible'
+    else if @target is 'scroll-handle'
+      @target = document.body
+      @targetModifier = 'scroll-handle'
 
     for key in ['element', 'target']
       if @[key].jquery?
@@ -143,9 +150,9 @@ class _Tether
       @enable(position)
 
   getTargetOffset: ->
-    if typeof @target is 'string'
-      switch @target
-        when 'viewport'
+    if @targetModifier?
+      switch @targetModifier
+        when 'visible'
           {top: pageYOffset, left: pageXOffset}
         when 'scroll-handle'
           {top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight), left: innerWidth - 15}
@@ -153,9 +160,9 @@ class _Tether
       getOffset @target
   
   getTargetSize: ->
-    if typeof @target is 'string'
-      switch @target
-        when 'viewport'
+    if @targetModifier?
+      switch @targetModifier
+        when 'visible'
           {height: innerHeight, width: innerWidth}
         when 'scroll-handle'
           {height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight), width: 15}
@@ -278,7 +285,7 @@ class _Tether
         right: pageXOffset - left - width + innerWidth
     }
 
-    if @options.optimizations?.moveElement isnt false# and @$target?
+    if @options.optimizations?.moveElement isnt false and not @targetModifier?
       offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
       offsetPosition = @cache 'target-offsetparent-offset', -> getOffset offsetParent
       offsetParentStyle = getComputedStyle offsetParent
@@ -306,8 +313,8 @@ class _Tether
           next.offset =
             top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top
             left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left
-            right: next.page.right - offsetPosition.right - scrollLeft + offsetBorder.right
-            bottom: next.page.bottom - offsetPosition.bottom - scrollTop + offsetBorder.bottom
+            right: next.page.right - offsetPosition.right + offsetParent.scrollWidth - scrollLeft + offsetBorder.right
+            bottom: next.page.bottom - offsetPosition.bottom + offsetParent.scrollHeight - scrollTop + offsetBorder.bottom
 
     # We could also travel up the DOM and try each containing context, rather than only
     # looking at the body, but we're gonna get diminishing returns.
@@ -373,7 +380,7 @@ class _Tether
 
       offset = extend {}, position.offset
       for side in ['top', 'left', 'bottom', 'right']
-        offset[side] -= offsetParentStyle["border-#{ side }-width"]
+        offset[side] -= parseFloat offsetParentStyle["border-#{ side }-width"]
 
       transcribe same.offset, offset
 
