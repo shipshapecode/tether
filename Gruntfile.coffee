@@ -9,9 +9,6 @@ module.exports = (grunt) ->
           'constraint.js': 'constraint.coffee'
           'abutment.js': 'abutment.coffee'
           'shift.js': 'shift.coffee'
-
-          'tooltip.js': 'tooltip.coffee'
-
           'markAttachment.js': 'markAttachment.coffee'
           'docs/js/intro.js': 'docs/coffee/intro.coffee'
           'docs/welcome/js/welcome.js': 'docs/welcome/coffee/welcome.coffee'
