@@ -1,6 +1,19 @@
 html, body {
   height: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  font-family: "proxima-nova", sans-serif; }
+
+.drop.drop-theme-arrows .drop-content {
+  background: black;
+  -webkit-filter: none; }
+  .drop.drop-theme-arrows .drop-content ul {
+    color: white;
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+
+.drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-right .drop-content:before {
+  border-right-color: black; }
 
 .browser-demo {
   position: absolute;
@@ -74,7 +87,3 @@ html, body {
       width: 14px; }
     .browser-demo .word:nth-last-child(9n+1) {
       width: 80px; }
-
-.drop-demo-spacer {
-  height: 100px;
-  width: 100px; }

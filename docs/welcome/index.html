@@ -19,6 +19,11 @@
     <!-- Welcome docs styles -->
     <link rel="stylesheet" href="/tether/docs/welcome/css/prism.css" />
     <link rel="stylesheet" href="/tether/docs/welcome/css/welcome.css" />
+
+    <!-- OS icons -->
+    <link rel="stylesheet" href="/os-icons/os-icons.css" />
+    <!-- TODO change -->
+    <link rel="stylesheet" href="http://github.hubspot.com/os-icons/os-icons.css" />
 </head>
 <body>
     <div class="hero-wrap">
@@ -26,10 +31,12 @@
             <div class="showcase-inner">
                 <div class="tether-target-demo">
                     <h1>Tether</h1>
-                    <h2>Marrying elements for life</h2>
-                    <p>
-                        <a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>
-                    </p>
+                    <div class="mobile-copy">
+                        <h2>Marrying elements for life</h2>
+                        <p>
+                            <a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </td></tr></table>
@@ -39,21 +46,17 @@
 
     <table class="showcase browser-demo"><tr><td>
         <div class="showcase-inner">
-            <div class="section-copy" data-section="intro">
-                <h2>What?</h2>
-                <p>Tether can be used for many types of floating elements on a page.</p>
+            <div class="section-copy" data-section="what">
+                <h2>What is Tether?</h2>
             </div>
-            <div class="section-copy" data-section="explain">
-                <h2>&nbsp;</h2>
-                <p>In this example we're showing an action menu <em>tethered</em> to a list item.</p>
+            <div class="section-copy" data-section="how">
+                <h2>How Tether works.</h2>
             </div>
-            <div class="section-copy" data-section="resize">
-                <h2>Resillient</h2>
-                <p>Tether keeps your element <em>tethered</em> on resize and scroll events.</p>
+            <div class="section-copy" data-section="why">
+                <h2>Tether is powerful.</h2>
             </div>
             <div class="section-copy" data-section="outro">
-                <h2>Demo</h2>
-                <p>Interact with this demo to learn more.</p>
+                <h2>Play with Tether</h2>
             </div>
             <div class="browser-demo-inner">
                 <div class="browser-window">
@@ -68,13 +71,83 @@
         </div>
     </td></tr></table>
 
-    <table class="showcase browser-demo-section no-next-arrow" data-section="intro"><tr><td></td></tr></table>
-    <table class="showcase browser-demo-section no-next-arrow" data-section="explain"><tr><td></td></tr></table>
-    <table class="showcase browser-demo-section no-next-arrow" data-section="resize"><tr><td></td></tr></table>
-    <table class="showcase browser-demo-section no-next-arrow" data-section="outro"><tr><td></td></tr></table>
+    <table class="showcase browser-demo-section no-next-arrow" data-section="what"><tr><td>
+        <div class="section-scroll-copy">
+            <div class="section-scroll-copy-inner">
+                <p>Tether is a low-level UI library that can be used to position any element on a page <i>next to any other element</i>.</p>
+                <p>It can be used for dropdown menus, tooltips, popovers, tours, help information, scroll guides, autocompletes, etc. The possibilities are endless.</p>
+                <p class="example-paragraph">In this example we're showing an action menu <em>tethered</em> to a list item.</p>
+            </div>
+        </div>
+    </td></tr></table>
+
+    <table class="showcase browser-demo-section no-next-arrow" data-section="how"><tr><td>
+        <div class="section-scroll-copy">
+            <div class="section-scroll-copy-inner">
+                <p>Tether works by creating an absolutely positioned element and meticulously tracking the movements of a <i>target</i> which you specify.</p>
+                <p>The <i>target</i> and <i>element</i> (or <i>drop</i>) can be tethered together in a variety of different ways.</p>
+                <p class="example-paragraph">Notice how the <i>drop</i> stays tethered to its <i>target</i> list item even as the left pane is scrolled up and down.</p>
+            </div>
+        </div>
+    </td></tr></table>
+
+    <table class="showcase browser-demo-section no-next-arrow" data-section="why"><tr><td>
+        <div class="section-scroll-copy">
+            <div class="section-scroll-copy-inner">
+                <p>Tether can keep your element positioned properly even in some tough situations.</p>
+                <p>Tether handles all of the common pain points:</p>
+                <ul>
+                    <li>Automatically detect collisions with the edge of the page or edge of the scrollParent</li>
+                    <li>Automatically reposition on browser resize, scroll, and other events,</li>
+                    <li>Constrain the position to any bounding box,</li>
+                </ul>
+                <p>...and a lot more.</p>
+            </div>
+        </div>
+    </td></tr></table>
+
+    <table class="showcase browser-demo-section no-next-arrow" data-section="outro"><tr><td>
+        <div class="section-scroll-copy">
+            <div class="section-scroll-copy-inner">
+                <p class="example-paragraph">Interact with this demo.</p>
+                <p>&nbsp;</p>
+                <p>To learn more, check out our <a href="/tether">documentation</a>.</p>
+            </div>
+        </div>
+    </td></tr></table>
+
     <table class="showcase browser-demo-section no-next-arrow" data-section="__empty"><tr><td></td></tr></table>
 
     <div class="browser-demo-stop-point"></div>
+
+    <table class="showcase projects-showcase no-next-arrow"><tr><td>
+        <div class="showcase-inner">
+            <h1>Tether Family</h1>
+            <h2>These projects are all powered by Tether's positioning engine.</h2>
+            <div class="projects-list">
+                <a href="/drop/docs/welcome" class="project">
+                    <h1>Drop</h1>
+                    <span class="os-icon drop-icon"></span>
+                    <p>Create dropdowns, popovers, and more.</p>
+                </a>
+                <a href="/tooltip/docs/welcome" class="project">
+                    <h1>Tooltip</h1>
+                    <span class="os-icon tooltip-icon"></span>
+                    <p>Stylable tooltips built on Tether.</p>
+                </a>
+                <a href="/select/docs/welcome" class="project">
+                    <h1>Select</h1>
+                    <span class="os-icon select-icon"></span>
+                    <p>Stylable select elements built on Tether.</p>
+                </a>
+                <a href="/shepherd/docs/welcome" class="project">
+                    <h1>Shepherd</h1>
+                    <span class="os-icon shepherd-icon"></span>
+                    <p>Guide your users through a tour of your app.</p>
+                </a>
+            </div>
+        </div>
+    </td></tr></table>
 
     <table class="showcase last-showcase no-next-arrow share"><tr><td>
         <div class="showcase-inner">

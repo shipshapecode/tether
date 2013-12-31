@@ -7,10 +7,6 @@ body
     margin: 0
     font-family: "proxima-nova", "Helvetica Neue", sans-serif
 
-.drop.drop-tooltip-theme-arrows .drop-content
-    padding: 1em
-    font-size: 1.1em
-
 .button
     display: inline-block
     border: 2px solid #333
@@ -24,6 +20,22 @@ body
     width: 140px
     font-size: .8em
     line-height: 1.3em
+
+.drop.drop-tooltip-theme-arrows .drop-content
+    padding: 1em
+    font-size: 1.1em
+
+    .button
+        border-color: #fff
+        color: #fff
+        width: 170px
+        pointer-events: all
+
+.mobile-copy
+    display: none
+
+    @media (max-width: 568px)
+        display: block
 
 .button.dark
     background: #333
@@ -87,10 +99,13 @@ table.showcase
             +inline-block
             border: 2px dotted #000
             margin: 5rem auto
-            padding: 3rem
+            padding: 5rem
 
             @media (max-width: 567px)
                 padding: 1rem
+
+    &.share
+        background: #f3f3f3
 
     &.browser-demo
         +background-image(linear-gradient(top left, #723362 0%, #9d223c 100%))
@@ -104,33 +119,35 @@ table.showcase
             bottom: 0
             left: 0
             right: 0
-            z-index: 1 // TODO - eventually remove
+            z-index: 1
 
             .browser-demo-inner
                 +transition(width 2s ease-in-out, height 2s ease-in-out)
 
             // Sections
 
-            &[data-section="intro"]
+            &[data-section="what"]
                 box-shadow: 0 0 0 0
 
-            &[data-section="resize"]
+            &[data-section="why"]
 
                 .browser-demo-inner
-                    width: 50%
+                    width: 70%
+
+            &[data-section="outro"]
+
+                .showcase-inner
+                    pointer-events: all
 
         .showcase-inner
+            pointer-events: none
             position: absolute
-            left: 200px
-            right: 200px
+            left: 10%
+            right: 40%
             top: 220px
             bottom: 120px
             margin: 0
             padding: 0
-
-            @media (max-width: 1200px)
-                left: 10%
-                right: 10%
 
             @media (max-width: 567px)
                 bottom: 90px
@@ -162,22 +179,13 @@ table.showcase
                 font-size: 40px
                 font-weight: bold
                 line-height: 1
-                margin: 0 0 15px
+                margin: 25px 0 15px
 
                 @media (max-width: 567px)
                     font-size: 30px
 
-            p
-                font-size: 26px
-                font-weight: 300
-                margin: 0
-
-                @media (max-width: 567px)
-                    font-size: 16px
-
         .browser-window
             +border-radius(4px)
-            //+box-shadow(0 0 0 1px rgba(0, 0, 0, .2), 0 2px 8px rgba(0, 0, 0, .1))
             background: #fff
             position: relative
             height: 100%
@@ -218,7 +226,56 @@ table.showcase
                     height: 100%
 
     &.browser-demo-section
-        pointer-events: none // TODO - eventually remove
+
+        .section-scroll-copy
+            position: relative
+            z-index: 10
+            color: #fff
+            width: 100%
+            font-size: 22px
+
+            .section-scroll-copy-inner
+                position: absolute
+                z-index: 10
+                color: #fff
+                right: 10%
+                width: 23%
+
+                a
+                    color: inherit
+
+                .example-paragraph
+                    +border-radius(4px)
+                    background: #000
+                    padding: 1rem
+
+.projects-showcase
+
+    .projects-list
+        width: 80%
+        max-width: 1200px
+        margin: 0 auto
+
+        .project
+            color: inherit
+            text-decoration: none
+            position: relative
+            width: 50%
+            float: left
+            text-align: center
+            margin-bottom: 2rem
+
+        .os-icon
+            width: 8rem
+            height: 8rem
+            margin-bottom: 1rem
+            background-size: 100%
+
+        h1
+            font-size: 2.5rem
+
+        p
+            font-size: 1.3rem
 
 .browser-content
     display: none

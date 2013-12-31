@@ -10,12 +10,16 @@ setupHero = ->
     positions = [
         'top left'
         'left top'
+        'left middle'
         'left bottom'
         'bottom left'
+        'bottom center'
         'bottom right'
         'right bottom'
+        'right middle'
         'right top'
         'top right'
+        'top center'
     ]
 
     if isMobile
@@ -35,7 +39,7 @@ setupHero = ->
             attach: position
             constrainToScrollParent: true
             openOn: ''
-            content: $.map(position.split(' '), (word) -> word.substr(0, 1).toUpperCase() + word.substr(1)).join(' ')
+            content: '<div style="height: 50px; width: 50px"></div>'
 
         # TODO - remove once zackbloom fixes
         drops[position].$drop.addClass "drop-attached-#{ position.replace(' ', '-')}"
@@ -53,15 +57,23 @@ setupHero = ->
             drop.close()
 
         drops[positions[openIndex]].open()
+        drops[positions[(openIndex + 6) % positions.length]].open()
 
         openIndex = (openIndex + 1) % positions.length
 
-        if frames > 20
-            return openAllDrops()
+        if frames > 5
+            finalDropState()
+            return
 
         frames += 1
 
         setTimeout openNextDrop, frameLengthMS * frames
+
+    finalDropState = ->
+        drops['top left'].$dropContent.html('Marrying DOM elements for life.')
+        drops['bottom right'].$dropContent.html('<a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>')
+        drops['top left'].open()
+        drops['bottom right'].open()
 
     if isMobile
         drops['top left'].open()
@@ -127,12 +139,22 @@ setupBrowserDemo = ->
                 attach: 'right top'
                 constrainToWindow: true
                 openOn: 'click'
-                content: '<div class="drop-demo-spacer"></div>'
+                content: '''
+                    <ul>
+                        <li>Action&nbsp;1</li>
+                        <li>Action&nbsp;2</li>
+                        <li>Action&nbsp;3</li>
+                    </ul>
+                '''
 
             $item.data('drop', drop)
 
             # TODO - remove once zackbloom fixes
             drop.$drop.addClass "drop-attached-right-top"
+
+    scrollInterval = undefined
+    scrollTop = 0
+    scrollTopDirection = 1
 
     setSection = (section) ->
         $browserDemo.attr('data-section', section)
@@ -149,22 +171,41 @@ setupBrowserDemo = ->
         closeAllItems = ->
             $iframe.contents().find('.item').each -> $(@).data().drop.close() or true
 
+        scrollLeftSection = ->
+            scrollInterval = setInterval ->
+                $iframe.contents().find('.left').scrollTop scrollTop
+                scrollTop += scrollTopDirection
+                if scrollTop > 50
+                    scrollTopDirection = -1
+                if scrollTop < 0
+                    scrollTopDirection = 1
+            , 30
+
+        stopScrollingLeftSection = ->
+            clearInterval scrollInterval
+
         switch section
 
-            when 'intro'
+            when 'what'
                 closeAllItems()
                 openExampleItem()
+                stopScrollingLeftSection()
 
-            when 'explain'
+            when 'how'
                 closeAllItems()
                 openExampleItem()
+                stopScrollingLeftSection()
+                scrollLeftSection()
 
-            when 'resize'
+            when 'why'
                 closeAllItems()
                 openExampleItem()
+                stopScrollingLeftSection()
+                scrollLeftSection()
 
             when 'outro'
                 closeAllItems()
                 openExampleItem()
+                stopScrollingLeftSection()
 
 init()
