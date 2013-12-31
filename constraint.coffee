@@ -1,4 +1,4 @@
-{getOuterSize} = Tether.Utils
+{getOuterSize, getOffset, getSize, extend} = Tether.Utils
 
 MIRROR_ATTACH =
     left: 'right'
@@ -16,13 +16,14 @@ getBounds = (tether, to) ->
     to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset]
 
   if to.nodeType?
-    $to = $ to
-    pos = $to.offset()
+    pos = getOffset to
+    size = getSize to
+    style = getComputedStyle to
 
-    to = [pos.left, pos.top, $to.width() + pos.left, $to.height() + pos.top]
+    to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top]
 
     for side, i in BOUNDS_FORMAT
-      to[i] += parseFloat($to.css("border-#{ side }-width"), 10)
+      to[i] += parseFloat style["border-#{ side }-width"]
 
   to
 
@@ -51,8 +52,8 @@ Tether.modules.push
 
     removeClass(cls) for cls in removeClasses
 
-    tAttachment = $.extend {}, targetAttachment
-    eAttachment = $.extend {}, @attachment
+    tAttachment = extend {}, targetAttachment
+    eAttachment = extend {}, @attachment
 
     for constraint in @options.constraints
       {to, attachment, pin} = constraint
