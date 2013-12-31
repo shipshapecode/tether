@@ -1,8 +1,8 @@
 (function() {
-  var $, BOUNDS_FORMAT, MIRROR_ATTACH, getBounds,
+  var BOUNDS_FORMAT, MIRROR_ATTACH, getBounds, getOuterSize,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  $ = jQuery;
+  getOuterSize = Tether.Utils.getOuterSize;
 
   MIRROR_ATTACH = {
     left: 'right',
@@ -17,7 +17,7 @@
   getBounds = function(tether, to) {
     var $to, i, pos, side, _i, _len;
     if (to === 'scrollParent') {
-      to = tether.scrollParent[0];
+      to = tether.scrollParent;
     } else if (to === 'window') {
       to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
     }
@@ -35,7 +35,7 @@
 
   Tether.modules.push({
     position: function(_arg) {
-      var attachment, bounds, changeAttachX, changeAttachY, cls, constraint, eAttachment, height, left, oob, oobClass, p, pin, pinned, pinnedClass, removeClass, removeClasses, side, tAttachment, targetAttachment, targetHeight, targetSize, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref, _ref1, _ref2, _ref3, _ref4,
+      var attachment, bounds, changeAttachX, changeAttachY, cls, constraint, eAttachment, height, left, oob, oobClass, p, pin, pinned, pinnedClass, removeClass, removeClasses, side, tAttachment, targetAttachment, targetHeight, targetSize, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
         _this = this;
       top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
       if (!this.options.constraints) {
@@ -51,21 +51,18 @@
         }
         return _results;
       };
-      height = this.cache('element-outerheight', function() {
-        return this.$element.outerHeight();
-      });
-      width = this.cache('element-outerwidth', function() {
-        return this.$element.outerWidth();
-      });
+      _ref = this.cache('element-outersize', function() {
+        return getOuterSize(_this.element);
+      }), height = _ref.height, width = _ref.width;
       targetSize = this.getTargetSize();
       targetHeight = targetSize.height;
       targetWidth = targetSize.width;
       tAttachment = {};
       eAttachment = {};
       removeClasses = ['tether-pinned', 'tether-out-of-bounds'];
-      _ref = this.options.constraints;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        constraint = _ref[_i];
+      _ref1 = this.options.constraints;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        constraint = _ref1[_i];
         if (constraint.outOfBoundsClass) {
           removeClasses.push(constraint.outOfBoundsClass);
         }
@@ -79,15 +76,15 @@
       }
       tAttachment = $.extend({}, targetAttachment);
       eAttachment = $.extend({}, this.attachment);
-      _ref1 = this.options.constraints;
-      for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
-        constraint = _ref1[_k];
+      _ref2 = this.options.constraints;
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        constraint = _ref2[_k];
         to = constraint.to, attachment = constraint.attachment, pin = constraint.pin;
         if (attachment == null) {
           attachment = '';
         }
         if (__indexOf.call(attachment, ' ') >= 0) {
-          _ref2 = attachment.split(' '), changeAttachY = _ref2[0], changeAttachX = _ref2[1];
+          _ref3 = attachment.split(' '), changeAttachY = _ref3[0], changeAttachX = _ref3[1];
         } else {
           changeAttachX = changeAttachY = attachment;
         }
@@ -189,11 +186,11 @@
         }
         if (typeof pin === 'string') {
           pin = (function() {
-            var _l, _len3, _ref3, _results;
-            _ref3 = pin.split(',');
+            var _l, _len3, _ref4, _results;
+            _ref4 = pin.split(',');
             _results = [];
-            for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
-              p = _ref3[_l];
+            for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
+              p = _ref4[_l];
               _results.push(p.trim());
             }
             return _results;
@@ -237,7 +234,7 @@
           }
         }
         if (pinned.length) {
-          pinnedClass = (_ref3 = this.options.pinnedClass) != null ? _ref3 : 'tether-pinned';
+          pinnedClass = (_ref4 = this.options.pinnedClass) != null ? _ref4 : 'tether-pinned';
           this.addClass(pinnedClass);
           for (_l = 0, _len3 = pinned.length; _l < _len3; _l++) {
             side = pinned[_l];
@@ -245,7 +242,7 @@
           }
         }
         if (oob.length) {
-          oobClass = (_ref4 = this.options.outOfBoundsClass) != null ? _ref4 : 'tether-out-of-bounds';
+          oobClass = (_ref5 = this.options.outOfBoundsClass) != null ? _ref5 : 'tether-out-of-bounds';
           this.addClass(oobClass);
           for (_m = 0, _len4 = oob.length; _m < _len4; _m++) {
             side = oob[_m];

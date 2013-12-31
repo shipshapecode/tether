@@ -1,9 +1,8 @@
-$ = jQuery
+{getOuterSize} = Tether.Utils
 
 Tether.modules.push
   position: ({top, left}) ->
-    height = @cache 'element-outerheight', -> @$element.outerHeight()
-    width = @cache 'element-outerwidth', -> @$element.outerWidth()
+    {height, width} = @cache 'element-outersize', => getOuterSize @element
 
     targetSize = @getTargetSize()
     targetHeight = targetSize.height

@@ -1,4 +1,4 @@
-$ = jQuery
+{getOuterSize} = Tether.Utils
 
 MIRROR_ATTACH =
     left: 'right'
@@ -11,7 +11,7 @@ BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom']
 
 getBounds = (tether, to) ->
   if to is 'scrollParent'
-    to = tether.scrollParent[0]
+    to = tether.scrollParent
   else if to is 'window'
     to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset]
 
@@ -35,8 +35,7 @@ Tether.modules.push
       for side in BOUNDS_FORMAT
         @removeClass "#{ prefix }-#{ side }"
 
-    height = @cache 'element-outerheight', -> @$element.outerHeight()
-    width = @cache 'element-outerwidth', -> @$element.outerWidth()
+    {height, width} = @cache 'element-outersize', => getOuterSize @element
 
     targetSize = @getTargetSize()
     targetHeight = targetSize.height

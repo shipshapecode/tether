@@ -1,33 +1,6 @@
-$ = jQuery
+{getScrollParent, getSize, getOuterSize, getOffset, getOffsetParent, extend, addClass, removeClass} = Tether.Utils
 
-isIE = /msie [\w.]+/.test navigator.userAgent.toLowerCase()
-
-# Extracted from jQuery UI Core (to remove dependency)
-# https://github.com/jquery/jquery-ui/blob/24756a978a977d7abbef5e5bce403837a01d964f/ui/jquery.ui.core.js#L60
-getScrollParent = ($el) ->
-  position = $el.css('position')
-
-  if position is 'fixed'
-    return $el
-
-  scrollParent = undefined
-
-  if position is 'absolute' or (isIE and position in ['static', 'relative'])
-    scrollParent = $el.parents().filter(->
-        $.css(@, 'position') in ['relative', 'absolute', 'fixed'] and /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
-    ).first()
-  else
-    scrollParent = $el.parents().filter(->
-        /(auto|scroll)/.test($.css(@, 'overflow') + $.css(@, 'overflow-y') + $.css(@, 'overflow-x'))
-    ).first()
-
-  if scrollParent.length
-    return scrollParent
-  else
-    return $('html')
-
-DEBOUNCE = 16
-debounce = (fn, time=DEBOUNCE) ->
+debounce = (fn, time=16) ->
   pending = false
 
   return ->
@@ -41,20 +14,20 @@ debounce = (fn, time=DEBOUNCE) ->
       fn.apply @, args
     , time
 
-    true
-
 tethers = []
 
 position = ->
   for tether in tethers
     tether.position()
 
-  true
-
-if isIE
-  position = debounce position
-
-$(window).on 'resize scroll', position
+lastCall = null
+for event in ['resize', 'scroll']
+  window.addEventListener event, ->
+    if not lastCall? or (new Date - lastCall) > 16
+      # IE likes to call events a little too frequently
+      lastCall = +new Date
+      
+      position()
 
 MIRROR_LR =
   center: 'center'
@@ -118,7 +91,7 @@ parseAttachment = parseOffset = (value) ->
 
   {top, left}
 
-class Tether
+class _Tether
   @modules: []
 
   constructor: (options) ->
@@ -139,24 +112,22 @@ class Tether
       targetOffset: '0 0'
       targetAttachment: 'auto auto'
 
-    @options = $.extend defaults, @options
+    @options = extend defaults, @options
       
     {@element, @target} = @options
 
-    if @element.jquery
-      @$element = @element
-      @element = @element[0]
+    for key in ['element', 'target']
+      if @[key].jquery?
+        @[key] = @[key][0]
+      else if typeof @[key] is 'string'
+        # This breaks viewport and scroll-handle attachment for the moment
+        @[key] = document.querySelector @[key]
 
-    if @target.jquery
-      @$target = @target
-      @target = @target[0]
+      if not @[key]?
+        throw new Error "Tether Error: Both element and target must be defined"
 
-    @$element ?= $ @element
-    if typeof @target isnt 'string'
-      @$target ?= $ @target
-
-    @$element.addClass 'tether-element'
-    @$target?.addClass 'tether-target'
+    addClass @element, 'tether-element'
+    addClass @target, 'tether-target'
 
     @targetAttachment = parseAttachment @options.targetAttachment
     @attachment = parseAttachment @options.attachment
@@ -166,7 +137,7 @@ class Tether
     if @scrollParent?
       @disable()
 
-    @scrollParent = getScrollParent $ @target
+    @scrollParent = getScrollParent @target
 
     unless @options.enabled is false
       @enable(position)
@@ -179,7 +150,7 @@ class Tether
         when 'scroll-handle'
           {top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight), left: innerWidth - 15}
     else
-      @$target.offset()
+      getOffset @target
   
   getTargetSize: ->
     if typeof @target is 'string'
@@ -189,10 +160,7 @@ class Tether
         when 'scroll-handle'
           {height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight), width: 15}
     else
-      {
-        height: @cache 'target-outerheight', -> @$target.outerHeight()
-        width: @cache 'target-outerwidth', -> @$target.outerWidth()
-      }
+      @cache 'target-outersize', => getOuterSize @target
 
   clearCache: ->
     @_cache = {}
@@ -211,7 +179,7 @@ class Tether
     @addClass 'tether-enabled'
     @enabled = true
 
-    @scrollParent.on 'scroll', @position
+    @scrollParent.addEventListener 'scroll', @position
 
     if position
       @position()
@@ -221,7 +189,7 @@ class Tether
     @enabled = false
 
     if @scrollParent?
-      @scrollParent.off 'scroll', @position
+      @scrollParent.removeEventListener 'scroll', @position
 
   destroy: ->
     @disable()
@@ -243,12 +211,12 @@ class Tether
     @addClass "tether-target-attached-#{ targetAttach.left }" if targetAttach.left
 
   addClass: (classes) ->
-    @$element.addClass classes
-    @$target?.addClass classes
+    addClass @element, classes
+    addClass @target, classes
 
   removeClass: (classes) ->
-    @$element.removeClass classes
-    @$target?.removeClass classes
+    removeClass @element, classes
+    removeClass @target, classes
 
   position: =>
     return unless @enabled
@@ -260,8 +228,7 @@ class Tether
 
     @updateAttachClasses @attachment, targetAttachment
 
-    width = @cache 'element-outerwidth', -> @$element.outerWidth()
-    height = @cache 'element-outerheight', -> @$element.outerHeight()
+    {width, height} = @cache 'element-outersize', => getOuterSize @element
 
     # Get an actual px offset from the attachment
     offset = offsetToPx attachmentToOffset(@attachment), {width, height}
@@ -275,7 +242,7 @@ class Tether
     targetOffset = addOffset targetOffset, manualTargetOffset
 
     targetPos = @getTargetOffset()
-    elementPos = @cache 'element-offset', -> @$element.offset()
+    elementPos = @cache 'element-offset', => getOffset @element
 
     # It's now our goal to make (element position + offset) == (target position + target offset)
     left = targetPos.left + targetOffset.left - offset.left
@@ -290,7 +257,6 @@ class Tether
         return false
       else
         {top, left} = ret
-
 
     # We describe the position three different ways to give the optimizer
     # a chance to decide the best possible way to position the element
@@ -312,26 +278,28 @@ class Tether
         right: pageXOffset - left - width + innerWidth
     }
 
-    if @options.optimizations?.moveElement isnt false and @$target?
-      $offsetParent = @cache 'target-offsetparent', -> @$target.offsetParent()
-      offsetPosition = @cache 'target-offsetparent-offset', -> $offsetParent.offset()
+    if @options.optimizations?.moveElement isnt false# and @$target?
+      offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
+      offsetPosition = @cache 'target-offsetparent-offset', -> getOffset offsetParent
+      offsetParentStyle = getComputedStyle offsetParent
+      offsetParentSize = @cache 'target-offsetparent-size', -> getSize offsetParent
 
       offsetBorder = {}
       for side in ['top', 'left', 'bottom', 'right']
-        offsetBorder[side] = parseFloat $offsetParent.css "border-#{ side }-width"
+        offsetBorder[side] = parseFloat offsetParentStyle["border-#{ side }-width"]
 
       offsetPosition.left += offsetBorder.left
       offsetPosition.top += offsetBorder.top
 
-      offsetPosition.right = document.body.scrollWidth - offsetPosition.left - $offsetParent.width()
-      offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - $offsetParent.height()
+      offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width
+      offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height
 
       if next.page.top >= offsetPosition.top and next.page.bottom >= offsetPosition.bottom
         if next.page.left >= offsetPosition.left and next.page.right >= offsetPosition.right
           # We're within the visible part of the target's scroll parent
 
-          scrollTop = $offsetParent.scrollTop()
-          scrollLeft = $offsetParent.scrollLeft()
+          scrollTop = offsetParent.scrollTop
+          scrollLeft = offsetParent.scrollLeft
 
           # It's position relative to the target's offset parent (absolute positioning when
           # the element is moved to be a child of the target's offset parent).
@@ -395,15 +363,17 @@ class Tether
     else if same.offset? and (same.offset.top or same.offset.bottom) and (same.offset.left or same.offset.right)
       css.position = 'absolute'
 
-      $offsetParent = @getTargetOffset()
+      offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
 
-      if @$element.offsetParent()[0] isnt $offsetParent[0]
-        @$element.detach()
-        $offsetParent.append @$element
+      if getOffsetParent(@element) isnt offsetParent
+        @element.parentNode.removeChild @element
+        offsetParent.appendChild @element
 
-      offset = $.extend {}, position.offset
+      offsetParentStyle = getComputedStyle offsetParent
+
+      offset = extend {}, position.offset
       for side in ['top', 'left', 'bottom', 'right']
-        offset[side] -= parseFloat($offsetParent.css("border-#{ side }-width"), 10)
+        offset[side] -= offsetParentStyle["border-#{ side }-width"]
 
       transcribe same.offset, offset
 
@@ -414,17 +384,18 @@ class Tether
       css.top = "#{ position.page.top }px"
       css.left = "#{ position.page.left }px"
 
-    if not moved and not @$element.parent().is('body')
-      @$element.detach()
-      $(document.body).append @$element
+    if not moved and @element.parentNode.tagName isnt 'BODY'
+      @element.parentNode.removeChild @element
+      document.body.appendChild @element
 
+    # Any css change will trigger a repaint, so let's avoid one if nothing changed
     write = false
     for key, val of css
-      if @$element.css(key) isnt val
+      if @element.style[key] isnt val
         write = true
         break
 
     if write
-      @$element.css css
+      extend @element.style, css
 
-window.Tether = Tether
+window.Tether = extend _Tether, Tether
