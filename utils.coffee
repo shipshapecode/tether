@@ -88,7 +88,7 @@ addClass = (el, name) ->
 
 hasClass = (el, name) ->
   if el.classList?
-    el.classList.has(name)
+    el.classList.contains(name)
   else
     new RegExp("(^| )#{ name }( |$)", 'gi').test(el.className)
 

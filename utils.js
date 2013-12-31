@@ -139,7 +139,7 @@
 
   hasClass = function(el, name) {
     if (el.classList != null) {
-      return el.classList.has(name);
+      return el.classList.contains(name);
     } else {
       return new RegExp("(^| )" + name + "( |$)", 'gi').test(el.className);
     }
