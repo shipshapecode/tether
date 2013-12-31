@@ -1,7 +1,9 @@
 {
   "name": "tether",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "main": [
+    "utils.js",
+    "utils.min.js",
     "tether.js",
     "tether.min.js",
     "abutment.js",
@@ -27,8 +29,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "dependencies": {
-    "jquery": "1.9.x"
-  }
+  ]
 }
