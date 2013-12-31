@@ -1,6 +1,7 @@
 (function() {
-  var addClass, extend, getOffset, getOffsetParent, getOuterSize, getScrollParent, getSize, removeClass,
-    __hasProp = {}.hasOwnProperty;
+  var Evented, addClass, extend, getOffset, getOffsetParent, getOuterSize, getScrollParent, getSize, hasClass, removeClass,
+    __hasProp = {}.hasOwnProperty,
+    __slice = [].slice;
 
   if (window.Tether == null) {
     window.Tether = {};
@@ -136,6 +137,83 @@
     }
   };
 
+  hasClass = function(el, name) {
+    if (el.classList != null) {
+      return el.classList.has(name);
+    } else {
+      return new RegExp("(^| )" + name + "( |$)", 'gi').test(el.className);
+    }
+  };
+
+  Evented = (function() {
+    function Evented() {}
+
+    Evented.prototype.on = function(event, handler, ctx, once) {
+      var _base;
+      if (once == null) {
+        once = false;
+      }
+      if (this.bindings == null) {
+        this.bindings = {};
+      }
+      if ((_base = this.bindings)[event] == null) {
+        _base[event] = [];
+      }
+      return this.bindings[event].push({
+        handler: handler,
+        ctx: ctx,
+        once: once
+      });
+    };
+
+    Evented.prototype.once = function(event, handler, ctx) {
+      return this.on(event, handler, ctx, true);
+    };
+
+    Evented.prototype.off = function(event, handler) {
+      var i, _ref, _results;
+      if (((_ref = this.bindings) != null ? _ref[event] : void 0) == null) {
+        return;
+      }
+      if (handler == null) {
+        return delete this.bindings[event];
+      } else {
+        i = 0;
+        _results = [];
+        while (i < this.bindings[event].length) {
+          if (this.bindings[event][i].handler === handler) {
+            _results.push(this.bindings[event].splice(i, 1));
+          } else {
+            _results.push(i++);
+          }
+        }
+        return _results;
+      }
+    };
+
+    Evented.prototype.trigger = function() {
+      var args, ctx, event, handler, i, once, _ref, _ref1, _results;
+      event = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      if ((_ref = this.bindings) != null ? _ref[event] : void 0) {
+        i = 0;
+        _results = [];
+        while (i < this.bindings[event].length) {
+          _ref1 = this.bindings[event][i], handler = _ref1.handler, ctx = _ref1.ctx, once = _ref1.once;
+          handler.apply(ctx != null ? ctx : this, args);
+          if (once) {
+            _results.push(this.bindings[event].splice(i, 1));
+          } else {
+            _results.push(i++);
+          }
+        }
+        return _results;
+      }
+    };
+
+    return Evented;
+
+  })();
+
   Tether.Utils = {
     getScrollParent: getScrollParent,
     getSize: getSize,
@@ -144,7 +222,9 @@
     getOffsetParent: getOffsetParent,
     extend: extend,
     addClass: addClass,
-    removeClass: removeClass
+    removeClass: removeClass,
+    hasClass: hasClass,
+    Evented: Evented
   };
 
 }).call(this);
