@@ -329,7 +329,7 @@ position the element absolutely or with fixed positioning.
 
 If the element is fully contained within it's scroll parent, its DOM node
 can also be moved inside the scroll parent, to avoid repaints as the
-page is scrolled.
+container is scrolled.
 
 <pre><code class="lang-javascript" data-example="optimizer">new Tether({
   element: yellowBox,
