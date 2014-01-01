@@ -9,9 +9,9 @@
   };
 
   setupHero = function() {
-    var $target, frameLengthMS, frames, openAllDrops, openIndex, openNextDrop, position, positions, _i, _len;
+    var $target, finalDropState, frameLengthMS, frames, openAllDrops, openIndex, openNextDrop, position, positions, _i, _len;
     $target = $('.tether-target-demo');
-    positions = ['top left', 'left top', 'left bottom', 'bottom left', 'bottom right', 'right bottom', 'right top', 'top right'];
+    positions = ['top left', 'left top', 'left middle', 'left bottom', 'bottom left', 'bottom center', 'bottom right', 'right bottom', 'right middle', 'right top', 'top right', 'top center'];
     if (isMobile) {
       positions = ['top left', 'bottom left', 'bottom right', 'top right'];
     }
@@ -20,13 +20,11 @@
       position = positions[_i];
       drops[position] = new Drop({
         target: $target[0],
-        className: 'drop-theme-arrows',
+        className: 'drop-tooltip-theme-arrows',
         attach: position,
         constrainToScrollParent: true,
         openOn: '',
-        content: $.map(position.split(' '), function(word) {
-          return word.substr(0, 1).toUpperCase() + word.substr(1);
-        }).join(' ')
+        content: '<div style="height: 50px; width: 50px"></div>'
       });
       drops[position].$drop.addClass("drop-attached-" + (position.replace(' ', '-')));
     }
@@ -49,12 +47,20 @@
         drop.close();
       }
       drops[positions[openIndex]].open();
+      drops[positions[(openIndex + 6) % positions.length]].open();
       openIndex = (openIndex + 1) % positions.length;
-      if (frames > 20) {
-        return openAllDrops();
+      if (frames > 5) {
+        finalDropState();
+        return;
       }
       frames += 1;
       return setTimeout(openNextDrop, frameLengthMS * frames);
+    };
+    finalDropState = function() {
+      drops['top left'].$dropContent.html('Marrying DOM elements for life.');
+      drops['bottom right'].$dropContent.html('<a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>');
+      drops['top left'].open();
+      return drops['bottom right'].open();
     };
     if (isMobile) {
       drops['top left'].open();
@@ -65,7 +71,7 @@
   };
 
   setupBrowserDemo = function() {
-    var $browserContents, $browserDemo, $iframe, $sections, $startPoint, $stopPoint, setSection;
+    var $browserContents, $browserDemo, $iframe, $sections, $startPoint, $stopPoint, scrollInterval, scrollTop, scrollTopDirection, setSection;
     $browserDemo = $('.browser-demo.showcase');
     $startPoint = $('.browser-demo-start-point');
     $stopPoint = $('.browser-demo-stop-point');
@@ -110,14 +116,17 @@
           attach: 'right top',
           constrainToWindow: true,
           openOn: 'click',
-          content: '<div class="drop-demo-spacer"></div>'
+          content: '<ul>\n    <li>Action&nbsp;1</li>\n    <li>Action&nbsp;2</li>\n    <li>Action&nbsp;3</li>\n</ul>'
         });
         $item.data('drop', drop);
         return drop.$drop.addClass("drop-attached-right-top");
       });
     });
+    scrollInterval = void 0;
+    scrollTop = 0;
+    scrollTopDirection = 1;
     return setSection = function(section) {
-      var closeAllItems, openExampleItem;
+      var closeAllItems, openExampleItem, scrollLeftSection, stopScrollingLeftSection;
       $browserDemo.attr('data-section', section);
       $('.section-copy').removeClass('active');
       $(".section-copy[data-section=\"" + section + "\"]").addClass('active');
@@ -133,19 +142,40 @@
           return $(this).data().drop.close() || true;
         });
       };
+      scrollLeftSection = function() {
+        return scrollInterval = setInterval(function() {
+          $iframe.contents().find('.left').scrollTop(scrollTop);
+          scrollTop += scrollTopDirection;
+          if (scrollTop > 50) {
+            scrollTopDirection = -1;
+          }
+          if (scrollTop < 0) {
+            return scrollTopDirection = 1;
+          }
+        }, 30);
+      };
+      stopScrollingLeftSection = function() {
+        return clearInterval(scrollInterval);
+      };
       switch (section) {
-        case 'intro':
+        case 'what':
           closeAllItems();
-          return openExampleItem();
-        case 'explain':
+          openExampleItem();
+          return stopScrollingLeftSection();
+        case 'how':
           closeAllItems();
-          return openExampleItem();
-        case 'resize':
+          openExampleItem();
+          stopScrollingLeftSection();
+          return scrollLeftSection();
+        case 'why':
           closeAllItems();
-          return openExampleItem();
+          openExampleItem();
+          stopScrollingLeftSection();
+          return scrollLeftSection();
         case 'outro':
           closeAllItems();
-          return openExampleItem();
+          openExampleItem();
+          return stopScrollingLeftSection();
       }
     };
   };

@@ -20,6 +20,6 @@ class Tooltip
             constrainToWindow: true
             constrainToScrollParent: false
             openOn: 'hover'
-            content: @$target.attr('data-tooltip-content')
+            content: @options.content ? @$target.attr('data-tooltip-content')
 
 window.Tooltip = Tooltip

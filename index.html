@@ -1,0 +1,421 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>tether</title><link rel="icon" href="http://static.hubspot.com/favicon.ico"><link rel="stylesheet" href="https://static2cdn.hubspot.com/hubspot_public_assets/static-1.112/shared/sass/hubspot_public_assets.css"><link rel="stylesheet" href="https://static.hubspot.com/bundles/navigation.css"><link rel="stylesheet" href="/static-resources/css/print.css"><link rel="stylesheet" href="/static-resources/css/highlight-theme-github.css"><link rel="stylesheet" href="/static-resources/css/navigation-tweaks.css"><link rel="stylesheet" href="/static-resources/css/documentation.css"><script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><link rel="stylesheet" href="/tether//resources/executr/lib/CodeMirror/codemirror.css"><link rel="stylesheet" href="/tether//resources/executr/build/css/executr.css"><script src="/tether//resources/executr/lib/CodeMirror/codemirror.js"></script><script src="/tether//resources/executr/lib/CodeMirror/mode/coffeescript/coffeescript.js"></script><script src="/tether//resources/executr/lib/CodeMirror/mode/javascript/javascript.js"></script><script src="/tether//resources/executr/lib/coffee-script.js"></script><script src="/tether//resources/executr/lib/underscore.min.js"></script><script src="/tether//resources/executr/lib/js2coffee.min.js"></script><script src="/tether//resources/executr/build/js/executr.js"></script><script src="/tether//resources/executr/build/js/executr-run.js"></script><script src="//use.typekit.net/jbn8qxr.js"></script><script>try{Typekit.load();}catch(e){}
+</script></head><body><div id="hs-nav-v3" class="nav-width-flex signed-out-nav">
+    <div class="hs-nav-section main-nav">
+        <div class="nav-section-inner">
+            <ul class="nav-links-left">
+                <li class="first"><a class="nav-logo" href="http://www.hubspot.com/"><img height="34" src="https://static.hubspot.com/style-guide/img/nav-sprocket.png" width="29"></a></li>
+                <li>
+                    <a href="http://dev.hubspot.com">
+                        HubSpot Dev &amp; Design
+                    </a>
+                </li>
+                <li>
+                    <a class="current-nav-item" href="http://hubspot.github.com">
+                        Open Source
+                    </a>
+                </li>
+                <li>
+                    <a href="http://dev.hubspot.com/blog">
+                        Blog
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav-links-right">
+                <li class="first">
+                    <a href="http://dev.hubspot.com/jobs/" class="sign-in">You should work at HubSpot</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="hs-doc-marquee"><div class="hs-page-width-normal"><div class="row-fluid"><div class="span6"><h1>tether</h1><h3 class="hs-doc-marquee-description"></h3><p class="hs-doc-marquee-release">0.2.4</p><p class="hs-doc-marquee-stars"><iframe src="http://ghbtns.com/github-btn.html?user=HubSpot&repo=tether&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="240" height="30"></iframe></p></div><div class="span6"><div class="hs-doc-marquee-buttons"><a class="hs-doc-marquee-button" href="http://github.com/HubSpot/tether">Star on GitHub</a><a class="hs-doc-marquee-button" href="http://github.com/HubSpot/tether/archive/v0.2.4.zip">Download ZIP (v0.2.4)</a></div></div></div></div></div><div class="hs-page-width-normal"><div class="row-fluid"><div class="span3"><div class="hs-doc-sidenav"><nav><ul class="hs-public-sidenav"><li class="current-nav-item"><a href="">Home</a></li><li><b>Annotated source</b></li><li><a target="_blank" href="source/Gruntfile.html">Gruntfile.coffee</a></li><li><a target="_blank" href="source/abutment.html">abutment.coffee</a></li><li><a target="_blank" href="source/constraint.html">constraint.coffee</a></li><li><a target="_blank" href="source/markAttachment.html">markAttachment.coffee</a></li><li><a target="_blank" href="source/shift.html">shift.coffee</a></li><li><a target="_blank" href="source/tether.html">tether.coffee</a></li><li><a target="_blank" href="source/tooltip.html">tooltip.coffee</a></li><li><a target="_blank" href="source/utils.html">utils.coffee</a></li></ul></nav></div></div><div class="span9"><div class="hs-doc-content"><p><script src="docs/js/intro.js"></script></p>
+<p><script src="utils.js"></script></p>
+<p><script src="tether.js"></script></p>
+<p><script src="constraint.js"></script></p>
+<p><script src="markAttachment.js"></script></p>
+<link rel="stylesheet" href="docs/css/intro.css"></link>
+
+<h1>Tether</h1>
+<p>Tether is a javascript library for efficiently making an absolutely positioned
+element stay next to another element on the page. For example, you might
+want a tooltip or dialog to open, and remain, next to the relevant item
+on the page.</p>
+<p>Tether includes the ability to constrain the element within the viewport, it&#39;s
+scroll parent, any other element on the page, or a fixed bounding box.  When it
+exceedes those constraints it can be pinned to the edge, flip to the other
+side of it&#39;s target, or hide itself.</p>
+<p>Tether optimizes it&#39;s location placement to result in the minimum amount of
+&#39;jankyness&#39; as the page is scrolled and resized.</p>
+<h2>Usage</h2>
+<p>The element to be moved is called the &#39;element&#39;.
+The element in the page it&#39;s to be attached to is called the &#39;target&#39;.</p>
+<p>To use Tether, you define a point on the target and a point on the element.
+Tether moves the element to keep those two points on top of each other.</p>
+<p>That point is called the attachment (we&#39;ve marked it in the examples with
+a red <span class="attachment-mark"></span>).  For example, if you&#39;d like
+the element to sit on the left of the target:</p>
+<p><pre><code class="lang-javascript" data-example='usage'>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top right&#39;,
+  targetAttachment: &#39;top left&#39;
+});
+</code></pre><output data-example='usage'></output></p>
+<h2>Attachment</h2>
+<p>You can move the attachment points of both the element and the target.</p>
+<p>For example, lets move the element&#39;s attachment:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: <mark>&#39;bottom left&#39;</mark>,
+  targetAttachment: &#39;top left&#39;
+});
+</code></pre><output></output></p>
+<p>We can also change the target&#39;s attachment point:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;bottom left&#39;,
+  targetAttachment: <mark>&#39;bottom right&#39;</mark>
+});
+</code></pre><output></output></p>
+<p>There are two more attachment points we haven&#39;t seen yet, center and middle:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: <mark>&#39;middle center&#39;</mark>,
+  targetAttachment: <mark>&#39;middle center&#39;</mark>
+});
+</code></pre><output></output></p>
+<p>All told, Tether provides six built in attachment positions:</p>
+<ul>
+<li>left</li>
+<li>center</li>
+<li>right</li>
+<li>top</li>
+<li>middle</li>
+<li>bottom</li>
+</ul>
+<p>The syntax of the attachment properties is: <code>&quot;vertical-attachment horizontal-attachment&quot;</code></p>
+<p>You must always supply an <code>attachment</code>.  If you don&#39;t supply a <code>target-attachment</code>, it is
+assumed to be the mirror image of <code>attachment</code>.</p>
+<h3>Offset</h3>
+<p>The six attachment points we provide are not always enough to place the element
+exactly where you want it.  To correct this, we provide two more properties,
+<code>offset</code> and <code>targetOffset</code>.</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top right&#39;,
+  targetAttachment: &#39;top left&#39;,
+  <mark>offset: &#39;0 10px&#39;</mark>
+});
+</code></pre><output></output></p>
+<p>As you can see, we&#39;ve moved the attachment point of the element 10px to the right.
+We can also move the attachment point of the target:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top right&#39;,
+  targetAttachment: &#39;top left&#39;,
+  offset: &#39;0 10px&#39;,
+  <mark>targetOffset: &#39;20px 0&#39;</mark>
+});
+</code></pre><output></output></p>
+<p>The offset properties also accept percentages. Percentages in <code>offset</code> refer to
+the height and width of the element, <code>targetOffset</code> the height and width of
+the target.</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top right&#39;,
+  targetAttachment: &#39;top left&#39;,
+  targetOffset: <mark>&#39;0 75%&#39;</mark>
+});
+</code></pre><output></output></p>
+<p>The syntax of the offset properties is <code>&quot;vertical-offset horizontal-offset&quot;</code></p>
+<h2>Constraints</h2>
+<p>If you have tried any of the previous examples, you&#39;ll notice that it&#39;s pretty
+easy to scroll the regions in such a way that the element is hanging out on
+it&#39;s own, with no target in sight.</p>
+<p>Constraints allow you to control what happens when the tethered element would
+have to fall outside of a defined region to maintain the attachment.</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;middle left&#39;,
+  targetAttachment: &#39;middle left&#39;,
+  <mark>constraints</mark>: [
+    {
+      to: &#39;scrollParent&#39;,
+      pin: true
+    }
+  ]
+});
+</code></pre><output></output></p>
+<p>We&#39;ve created a constraint which will keep the element within it&#39;s scroll
+parent by &#39;pinning&#39; it to the edges if it tries to escape.  For the sake
+of the example, we&#39;re also highlighting the pinned edge in red.</p>
+<p>Specify an array of sides if you&#39;d only like to pin those edges:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;middle left&#39;,
+  targetAttachment: &#39;middle left&#39;,
+  constraints: [
+    {
+      to: &#39;scrollParent&#39;,
+      pin: <mark>[&#39;top&#39;]</mark>
+    }
+  ]
+});
+</code></pre><output></output></p>
+<p>You might want to allow the element to change it&#39;s attachment, if doing so
+would keep more of it within it&#39;s assigned region:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top left&#39;,
+  targetAttachment: &#39;bottom left&#39;,
+  constraints: [
+    {
+      to: &#39;scrollParent&#39;,
+      <mark>attachment: &#39;together&#39;</mark>
+    }
+  ]
+});
+</code></pre><output></output></p>
+<p>If you scroll the example a bit, you&#39;ll see it flip the attachment when necessary.
+You can combine <code>pin</code> and <code>attachment</code> as well:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top left&#39;,
+  targetAttachment: &#39;bottom left&#39;,
+  constraints: [
+    {
+      to: &#39;scrollParent&#39;,
+      attachment: &#39;together&#39;,
+      <mark>pin: true</mark>
+    }
+  ]
+});
+</code></pre><output></output></p>
+<p>Attachment will accept any of these values:</p>
+<ul>
+<li><code>element</code>: Only change the element&#39;s attachment</li>
+<li><code>target</code>: Only change the target&#39;s attachment</li>
+<li><code>both</code>: Change either&#39;s attachment (or both), as needed</li>
+<li><code>together</code>: Change both the element&#39;s and target&#39;s attachment at the same time (to
+&#39;flip&#39; the element to the other side of the attachment)</li>
+<li><code>none</code>: Don&#39;t allow changes to attachment (the default)</li>
+</ul>
+<p>Together is the option you will use most commonly:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top right&#39;,
+  targetAttachment: &#39;bottom left&#39;,
+  constraints: [
+    {
+      to: &#39;scrollParent&#39;,
+      attachment: <mark>&#39;together&#39;</mark>
+    }
+  ]
+});
+</code></pre><output></output></p>
+<p>You can also provide different settings for the horizontal
+and vertical attachments:</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top left&#39;,
+  targetAttachment: &#39;bottom left&#39;,
+  constraints: [
+    {
+      to: &#39;scrollParent&#39;,
+      attachment: <mark>&#39;together none&#39;</mark>
+    }
+  ]
+});
+</code></pre><output></output></p>
+<p>Whenever the element is out of the constrained area, we add the <code>tether-out-of-bounds</code>
+class to it.  If you add some CSS to make items with that class <code>display: none</code>, the
+tether will hide.</p>
+<p><pre><code class="lang-javascript" data-example="hide">new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;middle center&#39;,
+  targetAttachment: &#39;middle center&#39;,
+  constraints: [
+    {
+      to: &#39;scrollParent&#39;
+    }
+  ]
+});
+</code></pre><output data-example="hide"></output></p>
+<p>You can also constrain the element to the viewport, you&#39;ll have to scroll the
+page to see this one.  You can, of course, use pin with the window as well to
+make it always visible no matter where the user scrolls.</p>
+<p><pre><code class="lang-javascript" data-example="window">new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top left&#39;,
+  targetAttachment: &#39;bottom left&#39;,
+  constraints: [
+    {
+      to: <mark>&#39;window&#39;</mark>,
+      attachment: &#39;together&#39;
+    }
+  ]
+});
+</code></pre><output data-example="window"></output></p>
+<p><code>to</code> can be any of:</p>
+<ul>
+<li><code>&#39;scrollParent&#39;</code></li>
+<li><code>&#39;window&#39;</code></li>
+<li>any DOM element</li>
+<li>an array of bound points relative to the body <code>[X1, Y1, X2, Y2]</code></li>
+</ul>
+<p>You can also provide multiple constraints, keeping in mind that they are
+processed in the order supplied (the last one always has the final word).</p>
+<p><pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top left&#39;,
+  targetAttachment: &#39;bottom left&#39;,
+  constraints: [
+    {
+      to: <mark>&#39;scrollParent&#39;</mark>,
+      pin: true
+    },
+    {
+      to: <mark>&#39;window&#39;</mark>,
+      attachment: &#39;together&#39;
+    }
+  ]
+});
+</code></pre><output></output></p>
+<h2>Optimization</h2>
+<p>The goal of Tether&#39;s optimizer is to not have to change the positioning
+CSS as the page is scrolled or resized.  To accomplish this it looks at the
+last few positions, finds commonalities, and uses them to decide whether to
+position the element absolutely or with fixed positioning.</p>
+<p>If the element is fully contained within it&#39;s scroll parent, its DOM node
+can also be moved inside the scroll parent, to avoid repaints as the
+container is scrolled.</p>
+<p><pre><code class="lang-javascript" data-example="optimizer">new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top left&#39;,
+  targetAttachment: &#39;bottom left&#39;
+});
+</code></pre><output data-example="optimizer"></output></p>
+<p>We are moving where the DOM node is, so if you have CSS which styles elements
+within the offset parent, you may see some rendering changes.  Also note
+that this optimization works best if the scroll parent is the offset parent.
+In other words, <strong>the scroll parent should be made position relative, fixed or
+absolute to enable this optimization.</strong></p>
+<p>If you do see stylistic changes occur when the element is moved,
+you might want to disable this optimization.  You can do that by
+setting <code>optimizations.moveElement</code> to false.</p>
+<p><pre><code class="lang-javascript" data-example="optimizer2">new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: &#39;top left&#39;,
+  targetAttachment: &#39;bottom left&#39;,
+  optimizations: {
+    <mark>moveElement: false</mark>
+  }
+});
+</code></pre><output data-example="optimizer2"></output></p>
+<h2>Methods</h2>
+<p>The <code>Tether</code> constructor we&#39;ve been using in these examples returns us a
+<code>Tether</code> object.</p>
+<p>The <code>Tether</code> object has these methods:</p>
+<ul>
+<li><code>setOptions({ options })</code> - Update any of the options (such as attachment)</li>
+<li><code>disable()</code> - Disable the tethering</li>
+<li><code>enable()</code> - Enable the tethering</li>
+<li><code>destroy()</code> - Disable and remove all references</li>
+<li><code>position()</code> - Manually trigger a repositioning</li>
+</ul>
+<h2>Options</h2>
+<p>The full list of options which can be passed to the <code>Tether</code> constructor and
+<code>setOptions</code>:</p>
+<ul>
+<li><code>element</code>: A DOM or jQuery element</li>
+<li><code>target</code>: A DOM or jQuery element</li>
+<li><code>attachment</code>: A string of the form <code>&#39;vert-attachment horiz-attachment&#39;</code><ul>
+<li><code>vert-attachment</code> can be any of <code>&#39;top&#39;</code>, <code>&#39;middle&#39;</code>, <code>&#39;bottom&#39;</code></li>
+<li><code>horiz-attachment</code> can be any of <code>&#39;left&#39;</code>, <code>&#39;center&#39;</code>, <code>&#39;right&#39;</code></li>
+</ul>
+</li>
+<li><code>targetAttachment</code>: A string similar to <code>attachment</code>.
+The one difference is that, if it&#39;s not provided, targetAttachment will assume the mirror
+image of <code>attachment</code>.</li>
+<li><code>offset</code>: A string of the form <code>&#39;vert-offset horiz-offset&#39;</code><ul>
+<li><code>vert-offset</code> and <code>horiz-offset</code> can be of the form <code>&quot;20px&quot;</code> or <code>&quot;55%&quot;</code></li>
+</ul>
+</li>
+<li><code>targetOffset</code>: A string similar to <code>offset</code></li>
+<li><code>enabled</code>: Should the tether be enabled initially? Defaults to <code>true</code>.</li>
+<li><code>constraints</code>: An array of constraint definition objects.  Each definition is of the form:<ul>
+<li><code>to</code>: A DOM element, bounding box, the string <code>&#39;window&#39;</code>, or the string <code>&#39;scrollParent&#39;</code></li>
+<li><code>pin</code>: <code>true</code> or an array of strings representing the sides of the constraint</li>
+<li><code>attachment</code>: A string of the form <code>&quot;vert-modifier horiz-modifier&quot;</code>, or a single value
+representing both<ul>
+<li>Each modifier should be one of <code>&quot;none&quot;</code>, <code>&quot;together&quot;</code>, <code>&quot;element&quot;</code>, <code>&quot;target&quot;</code>, or <code>&quot;both&quot;</code>.</li>
+</ul>
+</li>
+<li><code>outOfBoundsClass</code>: An alternative to <code>&quot;tether-out-of-bounds&quot;</code>, useful if the class
+needs to be differentiated from that of another constraint.</li>
+<li><code>pinnedClass</code>: An alternative to <code>&quot;tether-pinned&quot;</code>, similar to <code>outOfBoundsClass</code>.</li>
+</ul>
+</li>
+</ul>
+<h2>Classes</h2>
+<p>// Make classes mutable</p>
+<p>Tether adds a variety of classes to the element and target to allow you to style
+them based on their tethering.</p>
+<ul>
+<li><code>tether-element</code> is added to the element</li>
+<li><code>tether-target</code> is added to the target</li>
+<li><code>tether-enabled</code> is added to both elements when tether is not disabled</li>
+<li><code>tether-element-attached-[left,right,top,bottom,middle,center]</code> is added to both
+elements based on the elements attachment, if the element becomes detached (for
+example, if it&#39;s pinned), that class is removed.  The class reflects how the
+element is actually attached, so if a constraint changes the attachment, that
+change will be reflected in the class.</li>
+<li><code>tether-target-attached-[left,right,top,bottom,middle,center]</code> is added to both
+elements based on the target&#39;s attachment.  All of the characteristics are the
+same as for element-attached.</li>
+</ul>
+<h3>Constraint-related Classes</h3>
+<ul>
+<li><code>tether-out-of-bounds</code>, <code>tether-out-of-bounds-[side]</code> are added to both the element and the target
+when the element is placed outside of it&#39;s constraint.</li>
+<li><code>tether-pinned</code>, <code>tether-pinned-[side]</code> are added to both the element and target when a constraint
+has pinned the element to the [side] of the container.</li>
+</ul>
+</div></div></div></div><div class="hs3-public-footer"><div class="row-fluid hs-page-width-normal"><div class="span3 hidden-phone"><h3>HubSpot</h3><ul><li><a href="http://www.hubspot.com">Home</a></li><li><a href="http://www.hubspot.com/software">Products</a></li><li><a href="http://www.hubspot.com/internet-marketing-company/">About</a></li></ul></div><div class="span3"><h3>Projects</h3><ul><li><a href="http://github.hubspot.com/messenger">Messenger</a></li><li><a href="http://github.hubspot.com/facewall">Facewall</a></li><li><a href="http://github.hubspot.com/jquery-zoomer">jQuery Zoomer</a></li><li><a href="http://github.hubspot.com/humanize">Humanize</a></li><li><a href="http://github.hubspot.com/teeble">Teeble</a></li></ul></div><div class="span3"><h3>Development Team</h3><ul><li><a href="http://dev.hubspot.com">Home</a></li><li><a href="http://dev.hubspot.com/teams">Teams</a></li><li><a href="http://dev.hubspot.com/people">People</a></li><li><a href="http://dev.hubspot.com/jobs">Jobs</a></li></ul></div><div class="span3 hidden-phone"><h3>Developer API</h3><ul><li><a href="http://developers.hubspot.com/">Developer Documentation</a></li></ul></div></div></div><!-- Start of Async HubSpot Analytics Code -->
+<script type="text/javascript">
+    (function(d,s,i,r) {
+        if (d.getElementById(i)){return;}
+        var n=d.createElement(s),e=d.getElementsByTagName(s)[0];
+        n.id=i;n.src='//js.hubspot.com/analytics/'+(Math.ceil(new Date()/r)*r)+'/51294.js';
+        e.parentNode.insertBefore(n, e);
+    })(document,"script","hs-analytics",300000);
+</script>
+<!-- End of Async HubSpot Analytics Code -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45159009-1', 'hubspot.com');
+  ga('send', 'pageview');
+</script>
+</body></html>

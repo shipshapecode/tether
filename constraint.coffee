@@ -1,4 +1,4 @@
-$ = jQuery
+{getOuterSize, getBounds, getSize, extend} = Tether.Utils
 
 MIRROR_ATTACH =
     left: 'right'
@@ -9,41 +9,53 @@ MIRROR_ATTACH =
 
 BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom']
 
-getBounds = (tether, to) ->
+getBoundingRect = (tether, to) ->
   if to is 'scrollParent'
-    to = tether.scrollParent[0]
+    to = tether.scrollParent
   else if to is 'window'
     to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset]
 
   if to.nodeType?
-    $to = $ to
-    pos = $to.offset()
+    pos = size = getBounds to
+    style = getComputedStyle to
 
-    to = [pos.left, pos.top, $to.width() + pos.left, $to.height() + pos.top]
+    to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top]
 
     for side, i in BOUNDS_FORMAT
-      to[i] += parseFloat($to.css("border-#{ side }-width"), 10)
+      if side in ['top', 'left']
+        to[i] += parseFloat style["border-#{ side }-width"]
+      else
+        to[i] -= parseFloat style["border-#{ side }-width"]
 
   to
 
 Tether.modules.push
   position: ({top, left, targetAttachment}) ->
-    return unless @options.constraints
+    return true unless @options.constraints
 
-    height = @$element.outerHeight()
-    width = @$element.outerWidth()
-    targetHeight = @$target.outerHeight()
-    targetWidth = @$target.outerWidth()
+    removeClass = (prefix) =>
+      @removeClass prefix
+      for side in BOUNDS_FORMAT
+        @removeClass "#{ prefix }-#{ side }"
+
+    {height, width} = @cache 'element-bounds', => getBounds @element
+
+    targetSize = @cache 'target-bounds', => @getTargetBounds()
+    targetHeight = targetSize.height
+    targetWidth = targetSize.width
 
     tAttachment = {}
     eAttachment = {}
 
-    @removeClass 'tether-pinned tether-out-of-bounds'
-    for side in BOUNDS_FORMAT
-      @removeClass "tether-pinned-#{ side } tether-out-of-bounds-#{ side }"
+    removeClasses = ['tether-pinned', 'tether-out-of-bounds']
+    for constraint in @options.constraints
+      removeClasses.push(constraint.outOfBoundsClass) if constraint.outOfBoundsClass
+      removeClasses.push(constraint.pinnedClass) if constraint.pinnedClass
 
-    tAttachment = $.extend {}, targetAttachment
-    eAttachment = $.extend {}, @attachment
+    removeClass(cls) for cls in removeClasses
+
+    tAttachment = extend {}, targetAttachment
+    eAttachment = extend {}, @attachment
 
     for constraint in @options.constraints
       {to, attachment, pin} = constraint
@@ -55,9 +67,8 @@ Tether.modules.push
       else
         changeAttachX = changeAttachY = attachment
 
-      bounds = getBounds @, to
+      bounds = getBoundingRect @, to
 
-      # TODO Only change attachment if it will help the situation
       if changeAttachY in ['target', 'both']
         if (top < bounds[1] and tAttachment.top is 'top')
           top += targetHeight
@@ -68,19 +79,33 @@ Tether.modules.push
           tAttachment.top = 'top'
 
       if changeAttachY is 'together'
-        if (top < bounds[1] and tAttachment.top is 'top' and eAttachment.top is 'bottom')
-          top += targetHeight
-          tAttachment.top = 'bottom'
+        if top < bounds[1] and tAttachment.top is 'top'
+          if eAttachment.top is 'bottom'
+            top += targetHeight
+            tAttachment.top = 'bottom'
 
-          top += height
-          eAttachment.top = 'top'
+            top += height
+            eAttachment.top = 'top'
+          else if eAttachment.top is 'top'
+            top += targetHeight
+            tAttachment.top = 'bottom'
 
-        if (top + height > bounds[3] and tAttachment.top is 'bottom' and eAttachment.top is 'top')
-          top -= targetHeight
-          tAttachment.top = 'top'
+            top -= height
+            eAttachment.top = 'bottom'
 
-          top -= height
-          eAttachment.top = 'bottom'
+        if top + height > bounds[3] and tAttachment.top is 'bottom'
+          if eAttachment.top is 'top'
+            top -= targetHeight
+            tAttachment.top = 'top'
+
+            top -= height
+            eAttachment.top = 'bottom'
+          else if eAttachment.top is 'bottom'
+            top -= targetHeight
+            tAttachment.top = 'top'
+
+            top += height
+            eAttachment.top = 'top'
 
       if changeAttachX in ['target', 'both']
         if (left < bounds[0] and tAttachment.left is 'left')
@@ -92,19 +117,35 @@ Tether.modules.push
           tAttachment.left = 'left'
 
       if changeAttachX is 'together'
-        if (left < bounds[0] and tAttachment.left is 'left' and eAttachment.left is 'right')
-          left += targetWidth
-          tAttachment.left = 'right'
+        if left < bounds[0] and tAttachment.left is 'left'
+          if eAttachment.left is 'right'
+            left += targetWidth
+            tAttachment.left = 'right'
 
-          left += width
-          eAttachment.left = 'left'
+            left += width
+            eAttachment.left = 'left'
 
-        if (left + width > bounds[2] and tAttachment.left is 'right' and eAttachment.left is 'left')
-          left -= targetWidth
-          tAttachment.left = 'left'
+          else if eAttachment.left is 'left'
+            left += targetWidth
+            tAttachment.left = 'right'
 
-          left -= width
-          eAttachment.left = 'right'
+            left -= width
+            eAttachment.left = 'right'
+
+        else if left + width > bounds[2] and tAttachment.left is 'right'
+          if eAttachment.left is 'left'
+            left -= targetWidth
+            tAttachment.left = 'left'
+
+            left -= width
+            eAttachment.left = 'right'
+
+          else if eAttachment.left is 'right'
+            left -= targetWidth
+            tAttachment.left = 'left'
+
+            left += width
+            eAttachment.left = 'left'
 
       if changeAttachY in ['element', 'both']
         if (top < bounds[1] and eAttachment.top is 'bottom')
@@ -162,14 +203,16 @@ Tether.modules.push
           oob.push 'right'
 
       if pinned.length
-        @addClass 'tether-pinned'
+        pinnedClass = @options.pinnedClass ? 'tether-pinned'
+        @addClass pinnedClass
         for side in pinned
-          @addClass "tether-pinned-#{ side }"
+          @addClass "#{ pinnedClass }-#{ side }"
 
       if oob.length
-        @addClass 'tether-out-of-bounds'
+        oobClass = @options.outOfBoundsClass ? 'tether-out-of-bounds'
+        @addClass oobClass
         for side in oob
-          @addClass "tether-out-of-bounds-#{ side }"
+          @addClass "#{ oobClass }-#{ side }"
 
       if 'left' in pinned or 'right' in pinned
         eAttachment.left = tAttachment.left = false

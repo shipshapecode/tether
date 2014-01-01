@@ -1,16 +1,10 @@
-$ = jQuery
+{getBounds} = Tether.Utils
 
 Tether.modules.push
   position: ({top, left}) ->
-    # TODO: Just do this in tether, so we don't have to repeat it
-    height = @$element.outerHeight()
-    width = @$element.outerWidth()
-    targetHeight = @$target.outerHeight()
-    targetWidth = @$target.outerWidth()
+    {height, width} = @cache 'element-bounds', => getBounds @element
 
-    targetPos = @$target.offset()
-    targetPos.bottom = targetPos.top + targetHeight
-    targetPos.right = targetPos.left + targetWidth
+    targetPos = @getTargetBounds()
 
     bottom = top + height
     right = left + width

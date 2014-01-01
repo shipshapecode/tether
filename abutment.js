@@ -1,36 +1,34 @@
 (function() {
-  var $;
+  var getBounds;
 
-  $ = jQuery;
+  getBounds = Tether.Utils.getBounds;
 
   Tether.modules.push({
     position: function(_arg) {
-      var abutted, bottom, height, left, right, side, sides, targetHeight, targetPos, targetWidth, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
+      var abutted, bottom, height, left, right, side, sides, targetPos, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3, _ref4,
+        _this = this;
       top = _arg.top, left = _arg.left;
-      height = this.$element.outerHeight();
-      width = this.$element.outerWidth();
-      targetHeight = this.$target.outerHeight();
-      targetWidth = this.$target.outerWidth();
-      targetPos = this.$target.offset();
-      targetPos.bottom = targetPos.top + targetHeight;
-      targetPos.right = targetPos.left + targetWidth;
+      _ref = this.cache('element-bounds', function() {
+        return getBounds(_this.element);
+      }), height = _ref.height, width = _ref.width;
+      targetPos = this.getTargetBounds();
       bottom = top + height;
       right = left + width;
       abutted = [];
       if (top <= targetPos.bottom && bottom >= targetPos.top) {
-        _ref = ['left', 'right'];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          side = _ref[_i];
-          if ((_ref1 = targetPos[side]) === left || _ref1 === right) {
+        _ref1 = ['left', 'right'];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          side = _ref1[_i];
+          if ((_ref2 = targetPos[side]) === left || _ref2 === right) {
             abutted.push(side);
           }
         }
       }
       if (left <= targetPos.right && right >= targetPos.left) {
-        _ref2 = ['top', 'bottom'];
-        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-          side = _ref2[_j];
-          if ((_ref3 = targetPos[side]) === top || _ref3 === bottom) {
+        _ref3 = ['top', 'bottom'];
+        for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+          side = _ref3[_j];
+          if ((_ref4 = targetPos[side]) === top || _ref4 === bottom) {
             abutted.push(side);
           }
         }
