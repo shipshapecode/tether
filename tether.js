@@ -1,9 +1,9 @@
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, event, extend, getOffset, getOffsetParent, getOuterSize, getScrollParent, getSize, lastCall, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, _Tether, _i, _len, _ref, _ref1,
+  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, event, extend, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, lastCall, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, _Tether, _i, _len, _ref, _ref1,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  _ref = Tether.Utils, getScrollParent = _ref.getScrollParent, getSize = _ref.getSize, getOuterSize = _ref.getOuterSize, getOffset = _ref.getOffset, getOffsetParent = _ref.getOffsetParent, extend = _ref.extend, addClass = _ref.addClass, removeClass = _ref.removeClass;
+  _ref = Tether.Utils, getScrollParent = _ref.getScrollParent, getSize = _ref.getSize, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getOffsetParent = _ref.getOffsetParent, extend = _ref.extend, addClass = _ref.addClass, removeClass = _ref.removeClass;
 
   debounce = function(fn, time) {
     var pending;
@@ -201,44 +201,26 @@
       }
     };
 
-    _Tether.prototype.getTargetOffset = function() {
+    _Tether.prototype.getTargetBounds = function() {
       if (this.targetModifier != null) {
         switch (this.targetModifier) {
           case 'visible':
             return {
               top: pageYOffset,
-              left: pageXOffset
-            };
-          case 'scroll-handle':
-            return {
-              top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight),
-              left: innerWidth - 15
-            };
-        }
-      } else {
-        return getOffset(this.target);
-      }
-    };
-
-    _Tether.prototype.getTargetSize = function() {
-      var _this = this;
-      if (this.targetModifier != null) {
-        switch (this.targetModifier) {
-          case 'visible':
-            return {
+              left: pageXOffset,
               height: innerHeight,
               width: innerWidth
             };
           case 'scroll-handle':
             return {
+              top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight),
+              left: innerWidth - 15,
               height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight),
               width: 15
             };
         }
       } else {
-        return this.cache('target-outersize', function() {
-          return getOuterSize(_this.target);
-        });
+        return getBounds(this.target);
       }
     };
 
@@ -334,7 +316,7 @@
     };
 
     _Tether.prototype.position = function() {
-      var elementPos, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, top, width, _j, _k, _len1, _len2, _ref2, _ref3, _ref4, _ref5,
+      var elementPos, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _j, _k, _len1, _len2, _ref2, _ref3, _ref4,
         _this = this;
       if (!this.enabled) {
         return;
@@ -342,30 +324,30 @@
       this.clearCache();
       targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
       this.updateAttachClasses(this.attachment, targetAttachment);
-      _ref2 = this.cache('element-outersize', function() {
-        return getOuterSize(_this.element);
-      }), width = _ref2.width, height = _ref2.height;
+      elementPos = this.cache('element-bounds', function() {
+        return getBounds(_this.element);
+      });
+      width = elementPos.width, height = elementPos.height;
+      targetSize = targetPos = this.cache('target-bounds', function() {
+        return _this.getTargetBounds();
+      });
       offset = offsetToPx(attachmentToOffset(this.attachment), {
         width: width,
         height: height
       });
-      targetOffset = offsetToPx(attachmentToOffset(targetAttachment), this.getTargetSize());
+      targetOffset = offsetToPx(attachmentToOffset(targetAttachment), targetSize);
       manualOffset = offsetToPx(this.offset, {
         width: width,
         height: height
       });
-      manualTargetOffset = offsetToPx(this.targetOffset, this.getTargetSize());
+      manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
       offset = addOffset(offset, manualOffset);
       targetOffset = addOffset(targetOffset, manualTargetOffset);
-      targetPos = this.getTargetOffset();
-      elementPos = this.cache('element-offset', function() {
-        return getOffset(_this.element);
-      });
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
-      _ref3 = Tether.modules;
-      for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
-        module = _ref3[_j];
+      _ref2 = Tether.modules;
+      for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+        module = _ref2[_j];
         ret = module.position.call(this, {
           left: left,
           top: top,
@@ -399,21 +381,19 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
-      if (((_ref4 = this.options.optimizations) != null ? _ref4.moveElement : void 0) !== false && (this.targetModifier == null)) {
+      if (((_ref3 = this.options.optimizations) != null ? _ref3.moveElement : void 0) !== false && (this.targetModifier == null)) {
         offsetParent = this.cache('target-offsetparent', function() {
           return getOffsetParent(_this.target);
         });
-        offsetPosition = this.cache('target-offsetparent-offset', function() {
-          return getOffset(offsetParent);
+        offsetPosition = this.cache('target-offsetparent-bounds', function() {
+          return getBounds(offsetParent);
         });
         offsetParentStyle = getComputedStyle(offsetParent);
-        offsetParentSize = this.cache('target-offsetparent-size', function() {
-          return getSize(offsetParent);
-        });
+        offsetParentSize = offsetPosition;
         offsetBorder = {};
-        _ref5 = ['top', 'left', 'bottom', 'right'];
-        for (_k = 0, _len2 = _ref5.length; _k < _len2; _k++) {
-          side = _ref5[_k];
+        _ref4 = ['top', 'left', 'bottom', 'right'];
+        for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
+          side = _ref4[_k];
           offsetBorder[side] = parseFloat(offsetParentStyle["border-" + side + "-width"]);
         }
         offsetPosition.left += offsetBorder.left;

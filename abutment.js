@@ -1,22 +1,17 @@
 (function() {
-  var getOuterSize;
+  var getBounds;
 
-  getOuterSize = Tether.Utils.getOuterSize;
+  getBounds = Tether.Utils.getBounds;
 
   Tether.modules.push({
     position: function(_arg) {
-      var abutted, bottom, height, left, right, side, sides, targetHeight, targetPos, targetSize, targetWidth, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3, _ref4,
+      var abutted, bottom, height, left, right, side, sides, targetPos, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3, _ref4,
         _this = this;
       top = _arg.top, left = _arg.left;
-      _ref = this.cache('element-outersize', function() {
-        return getOuterSize(_this.element);
+      _ref = this.cache('element-bounds', function() {
+        return getBounds(_this.element);
       }), height = _ref.height, width = _ref.width;
-      targetSize = this.getTargetSize();
-      targetHeight = targetSize.height;
-      targetWidth = targetSize.width;
-      targetPos = this.getTargetOffset();
-      targetPos.bottom = targetPos.top + targetHeight;
-      targetPos.right = targetPos.left + targetWidth;
+      targetPos = this.getTargetBounds();
       bottom = top + height;
       right = left + width;
       abutted = [];

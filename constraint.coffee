@@ -1,4 +1,4 @@
-{getOuterSize, getOffset, getSize, extend} = Tether.Utils
+{getOuterSize, getBounds, getSize, extend} = Tether.Utils
 
 MIRROR_ATTACH =
     left: 'right'
@@ -9,21 +9,23 @@ MIRROR_ATTACH =
 
 BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom']
 
-getBounds = (tether, to) ->
+getBoundingRect = (tether, to) ->
   if to is 'scrollParent'
     to = tether.scrollParent
   else if to is 'window'
     to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset]
 
   if to.nodeType?
-    pos = getOffset to
-    size = getSize to
+    pos = size = getBounds to
     style = getComputedStyle to
 
     to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top]
 
     for side, i in BOUNDS_FORMAT
-      to[i] += parseFloat style["border-#{ side }-width"]
+      if side in ['top', 'left']
+        to[i] += parseFloat style["border-#{ side }-width"]
+      else
+        to[i] -= parseFloat style["border-#{ side }-width"]
 
   to
 
@@ -36,9 +38,9 @@ Tether.modules.push
       for side in BOUNDS_FORMAT
         @removeClass "#{ prefix }-#{ side }"
 
-    {height, width} = @cache 'element-outersize', => getOuterSize @element
+    {height, width} = @cache 'element-bounds', => getBounds @element
 
-    targetSize = @getTargetSize()
+    targetSize = @cache 'target-bounds', => @getTargetBounds()
     targetHeight = targetSize.height
     targetWidth = targetSize.width
 
@@ -65,7 +67,7 @@ Tether.modules.push
       else
         changeAttachX = changeAttachY = attachment
 
-      bounds = getBounds @, to
+      bounds = getBoundingRect @, to
 
       if changeAttachY in ['target', 'both']
         if (top < bounds[1] and tAttachment.top is 'top')

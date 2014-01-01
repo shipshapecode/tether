@@ -1,4 +1,4 @@
-{getScrollParent, getSize, getOuterSize, getOffset, getOffsetParent, extend, addClass, removeClass} = Tether.Utils
+{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass} = Tether.Utils
 
 debounce = (fn, time=16) ->
   pending = false
@@ -149,25 +149,20 @@ class _Tether
     unless @options.enabled is false
       @enable(position)
 
-  getTargetOffset: ->
+  getTargetBounds: ->
     if @targetModifier?
       switch @targetModifier
         when 'visible'
-          {top: pageYOffset, left: pageXOffset}
+          {top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth}
         when 'scroll-handle'
-          {top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight), left: innerWidth - 15}
+          {
+            top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight)
+            left: innerWidth - 15
+            height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight)
+            width: 15
+          }
     else
-      getOffset @target
-  
-  getTargetSize: ->
-    if @targetModifier?
-      switch @targetModifier
-        when 'visible'
-          {height: innerHeight, width: innerWidth}
-        when 'scroll-handle'
-          {height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight), width: 15}
-    else
-      @cache 'target-outersize', => getOuterSize @target
+      getBounds @target
 
   clearCache: ->
     @_cache = {}
@@ -235,21 +230,21 @@ class _Tether
 
     @updateAttachClasses @attachment, targetAttachment
 
-    {width, height} = @cache 'element-outersize', => getOuterSize @element
+    elementPos = @cache 'element-bounds', => getBounds @element
+    {width, height} = elementPos
+
+    targetSize = targetPos = @cache 'target-bounds', => @getTargetBounds()
 
     # Get an actual px offset from the attachment
     offset = offsetToPx attachmentToOffset(@attachment), {width, height}
-    targetOffset = offsetToPx attachmentToOffset(targetAttachment), @getTargetSize()
+    targetOffset = offsetToPx attachmentToOffset(targetAttachment), targetSize
 
     manualOffset = offsetToPx(@offset, {width, height})
-    manualTargetOffset = offsetToPx(@targetOffset, @getTargetSize())
+    manualTargetOffset = offsetToPx(@targetOffset, targetSize)
 
     # Add the manually provided offset
     offset = addOffset offset, manualOffset
     targetOffset = addOffset targetOffset, manualTargetOffset
-
-    targetPos = @getTargetOffset()
-    elementPos = @cache 'element-offset', => getOffset @element
 
     # It's now our goal to make (element position + offset) == (target position + target offset)
     left = targetPos.left + targetOffset.left - offset.left
@@ -287,9 +282,9 @@ class _Tether
 
     if @options.optimizations?.moveElement isnt false and not @targetModifier?
       offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
-      offsetPosition = @cache 'target-offsetparent-offset', -> getOffset offsetParent
+      offsetPosition = @cache 'target-offsetparent-bounds', -> getBounds offsetParent
       offsetParentStyle = getComputedStyle offsetParent
-      offsetParentSize = @cache 'target-offsetparent-size', -> getSize offsetParent
+      offsetParentSize = offsetPosition
 
       offsetBorder = {}
       for side in ['top', 'left', 'bottom', 'right']

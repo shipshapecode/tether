@@ -1,16 +1,10 @@
-{getOuterSize} = Tether.Utils
+{getBounds} = Tether.Utils
 
 Tether.modules.push
   position: ({top, left}) ->
-    {height, width} = @cache 'element-outersize', => getOuterSize @element
+    {height, width} = @cache 'element-bounds', => getBounds @element
 
-    targetSize = @getTargetSize()
-    targetHeight = targetSize.height
-    targetWidth = targetSize.width
-
-    targetPos = @getTargetOffset()
-    targetPos.bottom = targetPos.top + targetHeight
-    targetPos.right = targetPos.left + targetWidth
+    targetPos = @getTargetBounds()
 
     bottom = top + height
     right = left + width

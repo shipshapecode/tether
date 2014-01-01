@@ -1,8 +1,8 @@
 (function() {
-  var BOUNDS_FORMAT, MIRROR_ATTACH, extend, getBounds, getOffset, getOuterSize, getSize, _ref,
+  var BOUNDS_FORMAT, MIRROR_ATTACH, extend, getBoundingRect, getBounds, getOuterSize, getSize, _ref,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  _ref = Tether.Utils, getOuterSize = _ref.getOuterSize, getOffset = _ref.getOffset, getSize = _ref.getSize, extend = _ref.extend;
+  _ref = Tether.Utils, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getSize = _ref.getSize, extend = _ref.extend;
 
   MIRROR_ATTACH = {
     left: 'right',
@@ -14,7 +14,7 @@
 
   BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
-  getBounds = function(tether, to) {
+  getBoundingRect = function(tether, to) {
     var i, pos, side, size, style, _i, _len;
     if (to === 'scrollParent') {
       to = tether.scrollParent;
@@ -22,13 +22,16 @@
       to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
     }
     if (to.nodeType != null) {
-      pos = getOffset(to);
-      size = getSize(to);
+      pos = size = getBounds(to);
       style = getComputedStyle(to);
       to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
       for (i = _i = 0, _len = BOUNDS_FORMAT.length; _i < _len; i = ++_i) {
         side = BOUNDS_FORMAT[i];
-        to[i] += parseFloat(style["border-" + side + "-width"]);
+        if (side === 'top' || side === 'left') {
+          to[i] += parseFloat(style["border-" + side + "-width"]);
+        } else {
+          to[i] -= parseFloat(style["border-" + side + "-width"]);
+        }
       }
     }
     return to;
@@ -52,10 +55,12 @@
         }
         return _results;
       };
-      _ref1 = this.cache('element-outersize', function() {
-        return getOuterSize(_this.element);
+      _ref1 = this.cache('element-bounds', function() {
+        return getBounds(_this.element);
       }), height = _ref1.height, width = _ref1.width;
-      targetSize = this.getTargetSize();
+      targetSize = this.cache('target-bounds', function() {
+        return _this.getTargetBounds();
+      });
       targetHeight = targetSize.height;
       targetWidth = targetSize.width;
       tAttachment = {};
@@ -89,7 +94,7 @@
         } else {
           changeAttachX = changeAttachY = attachment;
         }
-        bounds = getBounds(this, to);
+        bounds = getBoundingRect(this, to);
         if (changeAttachY === 'target' || changeAttachY === 'both') {
           if (top < bounds[1] && tAttachment.top === 'top') {
             top += targetHeight;

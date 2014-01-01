@@ -19,46 +19,28 @@ getScrollParent = (el) ->
 
   return document.body
 
-getSize = (el, outer=false) ->
-  style = getComputedStyle el
-  boxModel = style['box-sizing']
+getBounds = (el) ->
+  doc = el.ownerDocument
+  docEl = doc.documentElement
 
-  out = {}
-  for dim in ['height', 'width']
-    if dim is 'height'
-      edges = ['top', 'bottom']
-    else
-      edges = ['left', 'right']
+  box = extend {}, el.getBoundingClientRect()
 
-    size = parseFloat style[dim]
+  box.top = box.top + window.pageYOffset - docEl.clientTop
+  box.left = box.left + window.pageXOffset - docEl.clientLeft
+  box.right = doc.body.clientWidth - box.width - box.left
+  box.bottom = doc.body.clientHeight - box.height - box.top
 
-    if outer
-      for edge in edges
-        if boxModel isnt 'border-box'
-          size += parseFloat style["padding-#{ edge }"]
-          size += parseFloat style["border-#{ edge }-width"]
-    else
-      for edge in edges
-        if boxModel is 'border-box'
-          size -= parseFloat style["padding-#{ edge }"]
-          size -= parseFloat style["border-#{ edge }-width"]
+  if not box.height or not box.width
+    # When the element is hidden it doesn't have a bounding
+    # rect, but we still need it's size to know if it should still
+    # be invisible in the next frame.
 
-    out[dim] = size
+    style = getComputedStyle el
 
-  out
+    box.height or= parseFloat style.height
+    box.width or= parseFloat style.width
 
-getOuterSize = (el) ->
-  getSize el, true
-
-getOffset = (el) ->
-  doc = el.ownerDocument.documentElement
-
-  box = el.getBoundingClientRect()
-
-  {
-    top: box.top + window.pageYOffset - doc.clientTop
-    left: box.left + window.pageXOffset - doc.clientLeft
-  }
+  box
 
 getOffsetParent = (el) ->
   el.offsetParent or document.documentElement
@@ -127,4 +109,4 @@ class Evented
         else
           i++
 
-Tether.Utils = {getScrollParent, getSize, getOuterSize, getOffset, getOffsetParent, extend, addClass, removeClass, hasClass, Evented}
+Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, Evented}

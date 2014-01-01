@@ -1,5 +1,5 @@
 (function() {
-  var Evented, addClass, extend, getOffset, getOffsetParent, getOuterSize, getScrollParent, getSize, hasClass, removeClass,
+  var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice;
 
@@ -28,57 +28,21 @@
     return document.body;
   };
 
-  getSize = function(el, outer) {
-    var boxModel, dim, edge, edges, out, size, style, _i, _j, _k, _len, _len1, _len2, _ref;
-    if (outer == null) {
-      outer = false;
+  getBounds = function(el) {
+    var box, doc, docEl, style;
+    doc = el.ownerDocument;
+    docEl = doc.documentElement;
+    box = extend({}, el.getBoundingClientRect());
+    box.top = box.top + window.pageYOffset - docEl.clientTop;
+    box.left = box.left + window.pageXOffset - docEl.clientLeft;
+    box.right = doc.body.clientWidth - box.width - box.left;
+    box.bottom = doc.body.clientHeight - box.height - box.top;
+    if (!box.height || !box.width) {
+      style = getComputedStyle(el);
+      box.height || (box.height = parseFloat(style.height));
+      box.width || (box.width = parseFloat(style.width));
     }
-    style = getComputedStyle(el);
-    boxModel = style['box-sizing'];
-    out = {};
-    _ref = ['height', 'width'];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      dim = _ref[_i];
-      if (dim === 'height') {
-        edges = ['top', 'bottom'];
-      } else {
-        edges = ['left', 'right'];
-      }
-      size = parseFloat(style[dim]);
-      if (outer) {
-        for (_j = 0, _len1 = edges.length; _j < _len1; _j++) {
-          edge = edges[_j];
-          if (boxModel !== 'border-box') {
-            size += parseFloat(style["padding-" + edge]);
-            size += parseFloat(style["border-" + edge + "-width"]);
-          }
-        }
-      } else {
-        for (_k = 0, _len2 = edges.length; _k < _len2; _k++) {
-          edge = edges[_k];
-          if (boxModel === 'border-box') {
-            size -= parseFloat(style["padding-" + edge]);
-            size -= parseFloat(style["border-" + edge + "-width"]);
-          }
-        }
-      }
-      out[dim] = size;
-    }
-    return out;
-  };
-
-  getOuterSize = function(el) {
-    return getSize(el, true);
-  };
-
-  getOffset = function(el) {
-    var box, doc;
-    doc = el.ownerDocument.documentElement;
-    box = el.getBoundingClientRect();
-    return {
-      top: box.top + window.pageYOffset - doc.clientTop,
-      left: box.left + window.pageXOffset - doc.clientLeft
-    };
+    return box;
   };
 
   getOffsetParent = function(el) {
@@ -216,9 +180,7 @@
 
   Tether.Utils = {
     getScrollParent: getScrollParent,
-    getSize: getSize,
-    getOuterSize: getOuterSize,
-    getOffset: getOffset,
+    getBounds: getBounds,
     getOffsetParent: getOffsetParent,
     extend: extend,
     addClass: addClass,
