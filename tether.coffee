@@ -122,7 +122,7 @@ class _Tether
       offset: '0 0'
       targetOffset: '0 0'
       targetAttachment: 'auto auto'
-      classPrefix: 'tether-'
+      classPrefix: 'tether'
 
     @options = extend defaults, @options
       

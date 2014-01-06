@@ -179,7 +179,7 @@
         offset: '0 0',
         targetOffset: '0 0',
         targetAttachment: 'auto auto',
-        classPrefix: 'tether-'
+        classPrefix: 'tether'
       };
       this.options = extend(defaults, this.options);
       _ref2 = this.options, this.element = _ref2.element, this.target = _ref2.target, this.targetModifier = _ref2.targetModifier;
