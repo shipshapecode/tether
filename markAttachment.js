@@ -12,9 +12,9 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         type = _ref[_i];
         el = document.createElement('div');
-        el.className = "tether-" + type + "-marker";
+        el.className = this.getClass("" + type + "-marker");
         dot = document.createElement('div');
-        dot.className = "tether-marker-dot";
+        dot.className = this.getClass('marker-dot');
         el.appendChild(dot);
         this[type].appendChild(el);
         _results.push(this.markers[type] = {

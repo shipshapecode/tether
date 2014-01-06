@@ -6,10 +6,10 @@ Tether.modules.push
 
     for type in ['target', 'element']
       el = document.createElement 'div'
-      el.className = "tether-#{ type }-marker"
+      el.className = @getClass("#{ type }-marker")
 
       dot = document.createElement 'div'
-      dot.className = "tether-marker-dot"
+      dot.className = @getClass('marker-dot')
       el.appendChild dot
 
       @[type].appendChild el
