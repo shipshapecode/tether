@@ -1,13 +1,29 @@
 isMobile = $(window).width() < 567
 
+MIRROR_ATTACH =
+    left: 'right'
+    right: 'left'
+    top: 'bottom'
+    bottom: 'top'
+    middle: 'middle'
+    center: 'center'
+
+sortAttach = (str) ->
+    [first, second] = str.split(' ')
+
+    if first in ['left', 'right']
+        [first, second] = [second, first]
+
+    [first, second].join(' ')
+
 init = ->
-    setupHero()
+    # setupHero()
     setupBrowserDemo()
 
 setupHero = ->
     $target = $('.tether-target-demo')
 
-    positions = [
+    targetAttachments = [
         'top left'
         'left top'
         'left middle'
@@ -23,7 +39,7 @@ setupHero = ->
     ]
 
     if isMobile
-        positions = [
+        targetAttachments = [
             'top left'
             'bottom left'
             'bottom right'
@@ -32,34 +48,46 @@ setupHero = ->
 
     window.drops = {}
 
-    for position in positions
-        drops[position] = new Drop
+    for targetAttachment in targetAttachments
+        dropAttach = targetAttachment.split(' ')
+        dropAttach[0] = MIRROR_ATTACH[dropAttach[0]]
+        dropAttach = dropAttach.join(' ')
+
+        drops[targetAttachment] = new Tether
             target: $target[0]
-            className: 'drop-tooltip-theme-arrows'
-            attach: position
-            constrainToScrollParent: true
-            openOn: ''
-            content: '<div style="height: 50px; width: 50px"></div>'
+            element: $ '<div style="height: 50px; width: 50px"></div>'
+            className: 'tooltip-theme-arrows'
+            classPrefix: 'tooltip'
+            enabled: false
+            offset: '0 0'
+            targetOffset: '0 0'
+            attachment: sortAttach(dropAttach)
+            targetAttachment: sortAttach(targetAttachment)
+            constraints: [
+                to: 'window'
+                pin: true
+                attachment: 'together'
+            ]
 
         # TODO - remove once zackbloom fixes
-        drops[position].$drop.addClass "drop-attached-#{ position.replace(' ', '-')}"
+        $(drops[targetAttachment].drop).addClass "drop-attached-#{ targetAttachment.replace(' ', '-')}"
 
     openIndex = 0
     frames = 0
     frameLengthMS = 10
 
     openAllDrops = ->
-        for position, drop of drops
+        for targetAttachment, drop of drops
             drop.open()
 
     openNextDrop = ->
-        for position, drop of drops
+        for targetAttachment, drop of drops
             drop.close()
 
-        drops[positions[openIndex]].open()
-        drops[positions[(openIndex + 6) % positions.length]].open()
+        drops[targetAttachments[openIndex]].open()
+        drops[targetAttachments[(openIndex + 6) % targetAttachments.length]].open()
 
-        openIndex = (openIndex + 1) % positions.length
+        openIndex = (openIndex + 1) % targetAttachments.length
 
         if frames > 5
             finalDropState()
@@ -133,13 +161,17 @@ setupBrowserDemo = ->
         $items.each (i) ->
             $item = $(@)
 
-            drop = new iframeWindow.Drop
+            drop = new iframeWindow.Tether
                 target: $item[0]
                 className: 'drop-theme-arrows'
-                attach: 'right top'
-                constrainToWindow: true
-                openOn: 'click'
-                content: '''
+                targetAttach: 'right top'
+                attach: 'left top'
+                constraints: [
+                    to: 'window'
+                    pin: true
+                    attachment: 'together'
+                ]
+                element: $ '''
                     <ul>
                         <li>Action&nbsp;1</li>
                         <li>Action&nbsp;2</li>
