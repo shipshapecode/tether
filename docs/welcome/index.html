@@ -10,13 +10,12 @@
     <script type="text/javascript" src="//use.typekit.net/jbn8qxr.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
-    <!-- Tether drop themes -->
-    <link rel="stylesheet" href="/tether/css/drop.css" />
-    <link rel="stylesheet" href="/tether/css/drop-theme-default.css" />
-    <link rel="stylesheet" href="/tether/css/drop-theme-arrows.css" />
-    <link rel="stylesheet" href="/tether/css/drop-tooltip-theme-arrows.css" />
+    <!-- Tether themes -->
+    <link rel="stylesheet" href="/tether/css/tether-theme-basic.css" />
+    <link rel="stylesheet" href="/tether/css/tether-theme-arrows.css" />
 
     <!-- Welcome docs styles -->
+    <link rel="stylesheet" href="/tooltip/css/tooltip-theme-arrows.css" />
     <link rel="stylesheet" href="/tether/docs/welcome/css/prism.css" />
     <link rel="stylesheet" href="/tether/docs/welcome/css/welcome.css" />
 
@@ -83,8 +82,8 @@
         <div class="section-scroll-copy">
             <div class="section-scroll-copy-inner">
                 <p>Tether works by creating an absolutely positioned element and meticulously tracking the movements of a <i>target</i> which you specify.</p>
-                <p>The <i>target</i> and <i>element</i> (or <i>drop</i>) can be tethered together in a variety of different ways.</p>
-                <p class="example-paragraph">Notice how the <i>drop</i> stays tethered to its <i>target</i> list item even as the left pane is scrolled up and down.</p>
+                <p>The <i>target</i> and <i>element</i> can be tethered together in a variety of different ways.</p>
+                <p class="example-paragraph">Notice how the <i>tethered element</i> stays tethered to its <i>target</i> list item even as the left pane is scrolled up and down.</p>
             </div>
         </div>
     </td></tr></table>
@@ -197,11 +196,17 @@
         </div>
     </td></tr></table>
 
-    <!-- Javascript -->
-    <script src="/tether/docs/welcome/js/jquery.js"></script>
-    <script src="/tether/docs/welcome/js/log.js"></script>
-    <script src="/drop/drop.min.js"></script>
+    <!-- Tether javascript -->
+    <!-- script src="/tether/tether.min.js"></script -->
+    <script src="/tether/utils.js"></script>
     <script src="/tether/tether.js"></script>
+    <script src="/tether/constraint.js"></script>
+    <script src="/tether/abutment.js"></script>
+    <script src="/tether/shift.js"></script>
+
+    <!-- Welcome doc sjavascript -->
+    <script src="/tether/docs/welcome/js/log.js"></script>
+    <script src="/tether/docs/welcome/js/jquery.js"></script>
     <script src="/tether/docs/welcome/js/welcome.js"></script>
 
     <!-- HubSpot analytics -->

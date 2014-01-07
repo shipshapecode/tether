@@ -130,7 +130,7 @@ Tether.modules.push
     tAttachment = {}
     eAttachment = {}
 
-    removeClasses = [<span class="string">'tether-pinned'</span>, <span class="string">'tether-out-of-bounds'</span>]
+    removeClasses = [<span class="property">@getClass</span>(<span class="string">'pinned'</span>), <span class="property">@getClass</span>(<span class="string">'out-of-bounds'</span>)]
     <span class="keyword">for</span> constraint <span class="keyword">in</span> <span class="property">@options</span>.constraints
       removeClasses.push(constraint.outOfBoundsClass) <span class="keyword">if</span> constraint.outOfBoundsClass
       removeClasses.push(constraint.pinnedClass) <span class="keyword">if</span> constraint.pinnedClass
@@ -286,13 +286,13 @@ Tether.modules.push
           oob.push <span class="string">'right'</span>
 
       <span class="keyword">if</span> pinned.length
-        pinnedClass = <span class="property">@options</span>.pinnedClass ? <span class="string">'tether-pinned'</span>
+        pinnedClass = <span class="property">@options</span>.pinnedClass ? <span class="property">@getClass</span>(<span class="string">'pinned'</span>)
         <span class="property">@addClass</span> pinnedClass
         <span class="keyword">for</span> side <span class="keyword">in</span> pinned
           <span class="property">@addClass</span> <span class="string">"<span class="subst">#{ pinnedClass }</span>-<span class="subst">#{ side }</span>"</span>
 
       <span class="keyword">if</span> oob.length
-        oobClass = <span class="property">@options</span>.outOfBoundsClass ? <span class="string">'tether-out-of-bounds'</span>
+        oobClass = <span class="property">@options</span>.outOfBoundsClass ? <span class="property">@getClass</span>(<span class="string">'out-of-bounds'</span>)
         <span class="property">@addClass</span> oobClass
         <span class="keyword">for</span> side <span class="keyword">in</span> oob
           <span class="property">@addClass</span> <span class="string">"<span class="subst">#{ oobClass }</span>-<span class="subst">#{ side }</span>"</span>

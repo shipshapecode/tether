@@ -104,14 +104,14 @@ Tether.modules.push
           abutted.push side
 
     sides = [<span class="string">'left'</span>, <span class="string">'top'</span>, <span class="string">'right'</span>, <span class="string">'bottom'</span>]
-    <span class="property">@removeClass</span> <span class="string">"tether-abutted"</span>
+    <span class="property">@removeClass</span> <span class="property">@getClass</span>(<span class="string">'abutted'</span>)
     <span class="keyword">for</span> side <span class="keyword">in</span> sides
-      <span class="property">@removeClass</span> <span class="string">"tether-abutted-<span class="subst">#{ side }</span>"</span>
+      <span class="property">@removeClass</span> <span class="string">"<span class="subst">#{ @getClass('abutted') }</span>-<span class="subst">#{ side }</span>"</span>
 
     <span class="keyword">if</span> abutted.length
-      <span class="property">@addClass</span> <span class="string">"tether-abutted"</span>
+      <span class="property">@addClass</span> <span class="property">@getClass</span>(<span class="string">'abutted'</span>)
     <span class="keyword">for</span> side <span class="keyword">in</span> abutted
-      <span class="property">@addClass</span> <span class="string">"tether-abutted-<span class="subst">#{ side }</span>"</span>
+      <span class="property">@addClass</span> <span class="string">"<span class="subst">#{ @getClass('abutted') }</span>-<span class="subst">#{ side }</span>"</span>
 
     <span class="literal">true</span></pre></div></div>
             

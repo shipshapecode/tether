@@ -202,11 +202,23 @@ parseAttachment = <span class="function"><span class="title">parseOffset</span><
 
     <span class="property">@position</span>()
 
+  getClass: (key) -&gt;
+    <span class="keyword">if</span> <span class="property">@options</span>.classes?[key]
+      <span class="property">@options</span>.classes[key]
+    <span class="keyword">else</span> <span class="keyword">if</span> <span class="property">@options</span>.classes?[key] <span class="keyword">isnt</span> <span class="literal">false</span>
+      <span class="keyword">if</span> <span class="property">@options</span>.classPrefix
+        <span class="string">"<span class="subst">#{ @options.classPrefix }</span>-<span class="subst">#{ key }</span>"</span>
+      <span class="keyword">else</span>
+        key
+    <span class="keyword">else</span>
+      <span class="string">''</span>
+
   setOptions: (<span class="property">@options</span>, position=<span class="literal">true</span>) -&gt;
     defaults =
       offset: <span class="string">'0 0'</span>
       targetOffset: <span class="string">'0 0'</span>
       targetAttachment: <span class="string">'auto auto'</span>
+      classPrefix: <span class="string">'tether'</span>
 
     <span class="property">@options</span> = extend defaults, <span class="property">@options</span>
       
@@ -242,8 +254,8 @@ parseAttachment = <span class="function"><span class="title">parseOffset</span><
       <span class="keyword">if</span> <span class="keyword">not</span> @[key]?
         <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"Tether Error: Both element and target must be defined"</span>
 
-    addClass <span class="property">@element</span>, <span class="string">'tether-element'</span>
-    addClass <span class="property">@target</span>, <span class="string">'tether-target'</span>
+    addClass <span class="property">@element</span>, <span class="property">@getClass</span> <span class="string">'element'</span>
+    addClass <span class="property">@target</span>, <span class="property">@getClass</span> <span class="string">'target'</span>
 
     <span class="property">@targetAttachment</span> = parseAttachment <span class="property">@options</span>.targetAttachment
     <span class="property">@attachment</span> = parseAttachment <span class="property">@options</span>.attachment
@@ -300,16 +312,16 @@ we keep a cache which is cleared on each position call</p>
     <span class="property">@_cache</span>[k]
 
   enable: (position=<span class="literal">true</span>) -&gt;
-    <span class="property">@addClass</span> <span class="string">'tether-enabled'</span>
+    <span class="property">@addClass</span> <span class="property">@getClass</span> <span class="string">'enabled'</span>
     <span class="property">@enabled</span> = <span class="literal">true</span>
 
     <span class="property">@scrollParent</span>.addEventListener <span class="string">'scroll'</span>, <span class="property">@position</span>
 
     <span class="keyword">if</span> position
-      <span class="property">@position</span>()
+      setTimeout =&gt; <span class="property">@position</span>()
 
   disable: -&gt;
-    <span class="property">@removeClass</span> <span class="string">'tether-enabled'</span>
+    <span class="property">@removeClass</span> <span class="property">@getClass</span> <span class="string">'enabled'</span>
     <span class="property">@enabled</span> = <span class="literal">false</span>
 
     <span class="keyword">if</span> <span class="property">@scrollParent</span>?
@@ -326,13 +338,13 @@ we keep a cache which is cleared on each position call</p>
   updateAttachClasses: (elementAttach=<span class="property">@attachment</span>, targetAttach=<span class="property">@targetAttachment</span>) -&gt;
     sides = [<span class="string">'left'</span>, <span class="string">'top'</span>, <span class="string">'bottom'</span>, <span class="string">'right'</span>, <span class="string">'middle'</span>, <span class="string">'center'</span>]
   
-    <span class="property">@removeClass</span> <span class="string">"tether-element-attached-<span class="subst">#{ side }</span>"</span> <span class="keyword">for</span> side <span class="keyword">in</span> sides
-    <span class="property">@addClass</span> <span class="string">"tether-element-attached-<span class="subst">#{ elementAttach.top }</span>"</span> <span class="keyword">if</span> elementAttach.top
-    <span class="property">@addClass</span> <span class="string">"tether-element-attached-<span class="subst">#{ elementAttach.left }</span>"</span> <span class="keyword">if</span> elementAttach.left
+    <span class="property">@removeClass</span> <span class="string">"<span class="subst">#{ @getClass('element-attached') }</span>-<span class="subst">#{ side }</span>"</span> <span class="keyword">for</span> side <span class="keyword">in</span> sides
+    <span class="property">@addClass</span> <span class="string">"<span class="subst">#{ @getClass('element-attached') }</span>-<span class="subst">#{ elementAttach.top }</span>"</span> <span class="keyword">if</span> elementAttach.top
+    <span class="property">@addClass</span> <span class="string">"<span class="subst">#{ @getClass('element-attached') }</span>-<span class="subst">#{ elementAttach.left }</span>"</span> <span class="keyword">if</span> elementAttach.left
 
-    <span class="property">@removeClass</span> <span class="string">"tether-target-attached-<span class="subst">#{ side }</span>"</span> <span class="keyword">for</span> side <span class="keyword">in</span> sides
-    <span class="property">@addClass</span> <span class="string">"tether-target-attached-<span class="subst">#{ targetAttach.top }</span>"</span> <span class="keyword">if</span> targetAttach.top
-    <span class="property">@addClass</span> <span class="string">"tether-target-attached-<span class="subst">#{ targetAttach.left }</span>"</span> <span class="keyword">if</span> targetAttach.left
+    <span class="property">@removeClass</span> <span class="string">"<span class="subst">#{ @getClass('target-attached') }</span>-<span class="subst">#{ side }</span>"</span> <span class="keyword">for</span> side <span class="keyword">in</span> sides
+    <span class="property">@addClass</span> <span class="string">"<span class="subst">#{ @getClass('target-attached') }</span>-<span class="subst">#{ targetAttach.top }</span>"</span> <span class="keyword">if</span> targetAttach.top
+    <span class="property">@addClass</span> <span class="string">"<span class="subst">#{ @getClass('target-attached') }</span>-<span class="subst">#{ targetAttach.left }</span>"</span> <span class="keyword">if</span> targetAttach.left
 
   addClass: (classes) -&gt;
     addClass <span class="property">@element</span>, classes

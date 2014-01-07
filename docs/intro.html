@@ -35,7 +35,7 @@
 <p><script src="markAttachment.js"></script></p>
 <link rel="stylesheet" href="docs/css/intro.css"></link>
 
-<h1>Tether</h1>
+<h1 id="tether">Tether</h1>
 <p>Tether is a javascript library for efficiently making an absolutely positioned
 element stay next to another element on the page. For example, you might
 want a tooltip or dialog to open, and remain, next to the relevant item
@@ -46,7 +46,7 @@ exceedes those constraints it can be pinned to the edge, flip to the other
 side of it&#39;s target, or hide itself.</p>
 <p>Tether optimizes it&#39;s location placement to result in the minimum amount of
 &#39;jankyness&#39; as the page is scrolled and resized.</p>
-<h2>Usage</h2>
+<h2 id="usage">Usage</h2>
 <p>The element to be moved is called the &#39;element&#39;.
 The element in the page it&#39;s to be attached to is called the &#39;target&#39;.</p>
 <p>To use Tether, you define a point on the target and a point on the element.
@@ -61,7 +61,7 @@ the element to sit on the left of the target:</p>
   targetAttachment: &#39;top left&#39;
 });
 </code></pre><output data-example='usage'></output></p>
-<h2>Attachment</h2>
+<h2 id="attachment">Attachment</h2>
 <p>You can move the attachment points of both the element and the target.</p>
 <p>For example, lets move the element&#39;s attachment:</p>
 <p><pre><code class="lang-javascript" data-example>new Tether({
@@ -99,7 +99,7 @@ the element to sit on the left of the target:</p>
 <p>The syntax of the attachment properties is: <code>&quot;vertical-attachment horizontal-attachment&quot;</code></p>
 <p>You must always supply an <code>attachment</code>.  If you don&#39;t supply a <code>target-attachment</code>, it is
 assumed to be the mirror image of <code>attachment</code>.</p>
-<h3>Offset</h3>
+<h3 id="offset">Offset</h3>
 <p>The six attachment points we provide are not always enough to place the element
 exactly where you want it.  To correct this, we provide two more properties,
 <code>offset</code> and <code>targetOffset</code>.</p>
@@ -134,7 +134,7 @@ the target.</p>
 });
 </code></pre><output></output></p>
 <p>The syntax of the offset properties is <code>&quot;vertical-offset horizontal-offset&quot;</code></p>
-<h2>Constraints</h2>
+<h2 id="constraints">Constraints</h2>
 <p>If you have tried any of the previous examples, you&#39;ll notice that it&#39;s pretty
 easy to scroll the regions in such a way that the element is hanging out on
 it&#39;s own, with no target in sight.</p>
@@ -296,7 +296,7 @@ processed in the order supplied (the last one always has the final word).</p>
   ]
 });
 </code></pre><output></output></p>
-<h2>Optimization</h2>
+<h2 id="optimization">Optimization</h2>
 <p>The goal of Tether&#39;s optimizer is to not have to change the positioning
 CSS as the page is scrolled or resized.  To accomplish this it looks at the
 last few positions, finds commonalities, and uses them to decide whether to
@@ -329,7 +329,7 @@ setting <code>optimizations.moveElement</code> to false.</p>
   }
 });
 </code></pre><output data-example="optimizer2"></output></p>
-<h2>Methods</h2>
+<h2 id="methods">Methods</h2>
 <p>The <code>Tether</code> constructor we&#39;ve been using in these examples returns us a
 <code>Tether</code> object.</p>
 <p>The <code>Tether</code> object has these methods:</p>
@@ -340,7 +340,7 @@ setting <code>optimizations.moveElement</code> to false.</p>
 <li><code>destroy()</code> - Disable and remove all references</li>
 <li><code>position()</code> - Manually trigger a repositioning</li>
 </ul>
-<h2>Options</h2>
+<h2 id="options">Options</h2>
 <p>The full list of options which can be passed to the <code>Tether</code> constructor and
 <code>setOptions</code>:</p>
 <ul>
@@ -374,7 +374,7 @@ needs to be differentiated from that of another constraint.</li>
 </ul>
 </li>
 </ul>
-<h2>Classes</h2>
+<h2 id="classes">Classes</h2>
 <p>// Make classes mutable</p>
 <p>Tether adds a variety of classes to the element and target to allow you to style
 them based on their tethering.</p>
@@ -391,7 +391,7 @@ change will be reflected in the class.</li>
 elements based on the target&#39;s attachment.  All of the characteristics are the
 same as for element-attached.</li>
 </ul>
-<h3>Constraint-related Classes</h3>
+<h3 id="constraint-related-classes">Constraint-related Classes</h3>
 <ul>
 <li><code>tether-out-of-bounds</code>, <code>tether-out-of-bounds-[side]</code> are added to both the element and the target
 when the element is placed outside of it&#39;s constraint.</li>

@@ -106,11 +106,23 @@ class _Tether
 
     @position()
 
+  getClass: (key) ->
+    if @options.classes?[key]
+      @options.classes[key]
+    else if @options.classes?[key] isnt false
+      if @options.classPrefix
+        "#{ @options.classPrefix }-#{ key }"
+      else
+        key
+    else
+      ''
+
   setOptions: (@options, position=true) ->
     defaults =
       offset: '0 0'
       targetOffset: '0 0'
       targetAttachment: 'auto auto'
+      classPrefix: 'tether'
 
     @options = extend defaults, @options
       
@@ -133,8 +145,8 @@ class _Tether
       if not @[key]?
         throw new Error "Tether Error: Both element and target must be defined"
 
-    addClass @element, 'tether-element'
-    addClass @target, 'tether-target'
+    addClass @element, @getClass 'element'
+    addClass @target, @getClass 'target'
 
     @targetAttachment = parseAttachment @options.targetAttachment
     @attachment = parseAttachment @options.attachment
@@ -178,16 +190,16 @@ class _Tether
     @_cache[k]
 
   enable: (position=true) ->
-    @addClass 'tether-enabled'
+    @addClass @getClass 'enabled'
     @enabled = true
 
     @scrollParent.addEventListener 'scroll', @position
 
     if position
-      @position()
+      setTimeout => @position()
 
   disable: ->
-    @removeClass 'tether-enabled'
+    @removeClass @getClass 'enabled'
     @enabled = false
 
     if @scrollParent?
@@ -204,13 +216,13 @@ class _Tether
   updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->
     sides = ['left', 'top', 'bottom', 'right', 'middle', 'center']
   
-    @removeClass "tether-element-attached-#{ side }" for side in sides
-    @addClass "tether-element-attached-#{ elementAttach.top }" if elementAttach.top
-    @addClass "tether-element-attached-#{ elementAttach.left }" if elementAttach.left
+    @removeClass "#{ @getClass('element-attached') }-#{ side }" for side in sides
+    @addClass "#{ @getClass('element-attached') }-#{ elementAttach.top }" if elementAttach.top
+    @addClass "#{ @getClass('element-attached') }-#{ elementAttach.left }" if elementAttach.left
 
-    @removeClass "tether-target-attached-#{ side }" for side in sides
-    @addClass "tether-target-attached-#{ targetAttach.top }" if targetAttach.top
-    @addClass "tether-target-attached-#{ targetAttach.left }" if targetAttach.left
+    @removeClass "#{ @getClass('target-attached') }-#{ side }" for side in sides
+    @addClass "#{ @getClass('target-attached') }-#{ targetAttach.top }" if targetAttach.top
+    @addClass "#{ @getClass('target-attached') }-#{ targetAttach.left }" if targetAttach.left
 
   addClass: (classes) ->
     addClass @element, classes

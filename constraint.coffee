@@ -47,7 +47,7 @@ Tether.modules.push
     tAttachment = {}
     eAttachment = {}
 
-    removeClasses = ['tether-pinned', 'tether-out-of-bounds']
+    removeClasses = [@getClass('pinned'), @getClass('out-of-bounds')]
     for constraint in @options.constraints
       removeClasses.push(constraint.outOfBoundsClass) if constraint.outOfBoundsClass
       removeClasses.push(constraint.pinnedClass) if constraint.pinnedClass
@@ -203,13 +203,13 @@ Tether.modules.push
           oob.push 'right'
 
       if pinned.length
-        pinnedClass = @options.pinnedClass ? 'tether-pinned'
+        pinnedClass = @options.pinnedClass ? @getClass('pinned')
         @addClass pinnedClass
         for side in pinned
           @addClass "#{ pinnedClass }-#{ side }"
 
       if oob.length
-        oobClass = @options.outOfBoundsClass ? 'tether-out-of-bounds'
+        oobClass = @options.outOfBoundsClass ? @getClass('out-of-bounds')
         @addClass oobClass
         for side in oob
           @addClass "#{ oobClass }-#{ side }"
