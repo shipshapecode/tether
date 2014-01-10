@@ -1,29 +1,13 @@
 isMobile = $(window).width() < 567
 
-MIRROR_ATTACH =
-    left: 'right'
-    right: 'left'
-    top: 'bottom'
-    bottom: 'top'
-    middle: 'middle'
-    center: 'center'
-
-sortAttach = (str) ->
-    [first, second] = str.split(' ')
-
-    if first in ['left', 'right']
-        [first, second] = [second, first]
-
-    [first, second].join(' ')
-
 init = ->
-    # setupHero()
+    setupHero()
     setupBrowserDemo()
 
 setupHero = ->
     $target = $('.tether-target-demo')
 
-    targetAttachments = [
+    positions = [
         'top left'
         'left top'
         'left middle'
@@ -39,7 +23,7 @@ setupHero = ->
     ]
 
     if isMobile
-        targetAttachments = [
+        positions = [
             'top left'
             'bottom left'
             'bottom right'
@@ -48,46 +32,34 @@ setupHero = ->
 
     window.drops = {}
 
-    for targetAttachment in targetAttachments
-        dropAttach = targetAttachment.split(' ')
-        dropAttach[0] = MIRROR_ATTACH[dropAttach[0]]
-        dropAttach = dropAttach.join(' ')
-
-        drops[targetAttachment] = new Tether
+    for position in positions
+        drops[position] = new Drop
             target: $target[0]
-            element: $ '<div style="height: 50px; width: 50px"></div>'
-            className: 'tooltip-theme-arrows'
-            classPrefix: 'tooltip'
-            enabled: false
-            offset: '0 0'
-            targetOffset: '0 0'
-            attachment: sortAttach(dropAttach)
-            targetAttachment: sortAttach(targetAttachment)
-            constraints: [
-                to: 'window'
-                pin: true
-                attachment: 'together'
-            ]
+            className: 'drop-theme-arrows'
+            attach: position
+            constrainToWindow: false
+            openOn: ''
+            content: '<div style="height: 50px; width: 50px"></div>'
 
-        # TODO - remove once zackbloom fixes
-        $(drops[targetAttachment].drop).addClass "drop-attached-#{ targetAttachment.replace(' ', '-')}"
+        # # TODO - remove once zackbloom fixes
+        # drops[position].$drop.addClass "drop-attached-#{ position.replace(' ', '-')}"
 
     openIndex = 0
     frames = 0
     frameLengthMS = 10
 
     openAllDrops = ->
-        for targetAttachment, drop of drops
+        for position, drop of drops
             drop.open()
 
     openNextDrop = ->
-        for targetAttachment, drop of drops
+        for position, drop of drops
             drop.close()
 
-        drops[targetAttachments[openIndex]].open()
-        drops[targetAttachments[(openIndex + 6) % targetAttachments.length]].open()
+        drops[positions[openIndex]].open()
+        drops[positions[(openIndex + 6) % positions.length]].open()
 
-        openIndex = (openIndex + 1) % targetAttachments.length
+        openIndex = (openIndex + 1) % positions.length
 
         if frames > 5
             finalDropState()
@@ -103,9 +75,12 @@ setupHero = ->
         drops['top left'].open()
         drops['bottom right'].open()
 
-    if isMobile
+    if true or isMobile
         drops['top left'].open()
+        drops['top left'].tether.position()
         drops['bottom right'].open()
+        drops['bottom right'].tether.position()
+        finalDropState()
 
     else
         openNextDrop()
@@ -161,17 +136,13 @@ setupBrowserDemo = ->
         $items.each (i) ->
             $item = $(@)
 
-            drop = new iframeWindow.Tether
+            drop = new iframeWindow.Drop
                 target: $item[0]
                 className: 'drop-theme-arrows'
-                targetAttach: 'right top'
-                attach: 'left top'
-                constraints: [
-                    to: 'window'
-                    pin: true
-                    attachment: 'together'
-                ]
-                element: $ '''
+                attach: 'right top'
+                constrainToWindow: true
+                openOn: 'click'
+                content: '''
                     <ul>
                         <li>Action&nbsp;1</li>
                         <li>Action&nbsp;2</li>
