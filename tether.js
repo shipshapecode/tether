@@ -64,8 +64,8 @@
   };
 
   OFFSET_MAP = {
-    top: '0',
-    left: '0',
+    top: 0,
+    left: 0,
     middle: '50%',
     center: '50%',
     bottom: '100%',
@@ -204,6 +204,9 @@
       }
       addClass(this.element, this.getClass('element'));
       addClass(this.target, this.getClass('target'));
+      if (!this.options.attachment) {
+        throw new Error("Tether Error: You must provide an attachment");
+      }
       this.targetAttachment = parseAttachment(this.options.targetAttachment);
       this.attachment = parseAttachment(this.options.attachment);
       this.offset = parseOffset(this.options.offset);
@@ -361,7 +364,6 @@
       });
       manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
       offset = addOffset(offset, manualOffset);
-      targetOffset = addOffset(targetOffset, manualTargetOffset);
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
       _ref2 = Tether.modules;
@@ -443,6 +445,9 @@
     _Tether.prototype.move = function(position) {
       var css, found, key, moved, offset, offsetParent, offsetParentStyle, point, same, side, transcribe, type, val, write, _j, _k, _len1, _len2, _ref2, _ref3, _ref4,
         _this = this;
+      if (this.element.parentNode == null) {
+        return;
+      }
       same = {};
       for (type in position) {
         same[type] = {};

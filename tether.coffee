@@ -40,8 +40,8 @@ MIRROR_TB =
   bottom: 'top'
 
 OFFSET_MAP =
-  top: '0'
-  left: '0'
+  top: 0
+  left: 0
   middle: '50%'
   center: '50%'
   bottom: '100%'
@@ -147,6 +147,9 @@ class _Tether
 
     addClass @element, @getClass 'element'
     addClass @target, @getClass 'target'
+
+    if not @options.attachment
+      throw new Error "Tether Error: You must provide an attachment"
 
     @targetAttachment = parseAttachment @options.targetAttachment
     @attachment = parseAttachment @options.attachment
@@ -256,7 +259,6 @@ class _Tether
 
     # Add the manually provided offset
     offset = addOffset offset, manualOffset
-    targetOffset = addOffset targetOffset, manualTargetOffset
 
     # It's now our goal to make (element position + offset) == (target position + target offset)
     left = targetPos.left + targetOffset.left - offset.left
@@ -336,6 +338,8 @@ class _Tether
     true
 
   move: (position) ->
+    return if not @element.parentNode?
+
     same = {}
 
     for type of position
