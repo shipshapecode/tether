@@ -21,6 +21,9 @@ side of it's target, or hide itself.
 Tether optimizes it's location placement to result in the minimum amount of
 'jankyness' as the page is scrolled and resized.
 
+Tether is 5kb minified and gzipped, and supports IE9+, and all modern
+browsers.
+
 Usage
 -----
 
