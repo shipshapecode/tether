@@ -408,10 +408,38 @@ The full list of options which can be passed to the `Tether` constructor and
 Classes
 -------
 
-// Make classes mutable
-
 Tether adds a variety of classes to the element and target to allow you to style
 them based on their tethering.
+
+You can change the prefix of the classes with the `classPrefix` option.  It is `'tether'` by
+default, but you could, for example, change it to be `'bill'` if you were building the bill
+library and all the classes would be `'bill-*'`.
+
+```coffeescript
+new Tether
+  classPrefix: 'bill'
+```
+
+The sass/css is similarily configurable, see
+[tooltip](https://github.com/HubSpot/tooltip/blob/master/sass/tooltip-theme-arrows.sass#L14) for
+an example of how to make your own prefixed css file.
+
+All classes can be changed or disabled with the `classes` option.  For example, to change the
+`tether-element` class to be `my-box`:
+
+```coffeescript
+new Tether
+  classes:
+    element: 'my-box'
+```
+
+You can also disable classes you're not going to use:
+
+```coffeescript
+new Tether
+  classes:
+    out-of-bounds: false
+```
 
 - `tether-element` is added to the element
 - `tether-target` is added to the target
@@ -431,3 +459,40 @@ same as for element-attached.
 when the element is placed outside of it's constraint.
 - `tether-pinned`, `tether-pinned-[side]` are added to both the element and target when a constraint
 has pinned the element to the [side] of the container.
+
+Contributing
+------------
+
+Please contribute! Tether is developed in Coffeescript, but if that's problematic for you, feel free
+to submit pull requests which just change the javascript files, we can adapt them as needed.
+
+To build Tether, you need:
+
+- Node.js
+- Ruby (for compass)
+
+1. Install compass (if you don't have it already)
+
+```bash
+gem update --system
+gem install compass
+```
+
+2. Install the build tool
+
+```bash
+npm install -g gulp
+```
+
+3. Install the project
+
+```bash
+# In the project directory
+npm install
+```
+
+4. Build
+
+```bash
+gulp
+```
