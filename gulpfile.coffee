@@ -15,7 +15,7 @@ exec '/usr/bin/env git describe HEAD --tags', (err, stdout, stderr) ->
   if err or stderr
     throw new Error "Error getting git versioning info"
 
-  bannerDeferred.resolve "/*! #{ pkg.name } #{ stdout.trim() } */\n"
+  bannerDeferred.resolve "/*! #{ pkg.name } #{ pkg.version } (#{ stdout.trim() }) */\n"
 
 gulp.task 'coffee', ->
   gulp.src('./coffee/*')
