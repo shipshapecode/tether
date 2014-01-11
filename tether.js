@@ -1,4 +1,5 @@
-/*! tether v0.2.8-9-ga8648ad */(function() {
+/*! tether v0.2.8-10-gc7da4d5 */
+(function() {
   var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice;
