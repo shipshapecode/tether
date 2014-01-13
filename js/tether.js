@@ -262,7 +262,6 @@
     };
 
     _Tether.prototype.enable = function(position) {
-      var _this = this;
       if (position == null) {
         position = true;
       }
@@ -270,9 +269,7 @@
       this.enabled = true;
       this.scrollParent.addEventListener('scroll', this.position);
       if (position) {
-        return setTimeout(function() {
-          return _this.position();
-        });
+        return this.position();
       }
     };
 

@@ -1,4 +1,4 @@
-/*! tether 0.3.0 (v0.3.0) */
+/*! tether 0.3.0 (v0.3.0-3-g3e8fc1c) */
 (function() {
   var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
     __hasProp = {}.hasOwnProperty,
@@ -456,7 +456,6 @@
     };
 
     _Tether.prototype.enable = function(position) {
-      var _this = this;
       if (position == null) {
         position = true;
       }
@@ -464,9 +463,7 @@
       this.enabled = true;
       this.scrollParent.addEventListener('scroll', this.position);
       if (position) {
-        return setTimeout(function() {
-          return _this.position();
-        });
+        return this.position();
       }
     };
 

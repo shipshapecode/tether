@@ -30,16 +30,6 @@ getBounds = (el) ->
   box.right = doc.body.clientWidth - box.width - box.left
   box.bottom = doc.body.clientHeight - box.height - box.top
 
-  if not box.height or not box.width
-    # When the element is hidden it doesn't have a bounding
-    # rect, but we still need it's size to know if it should still
-    # be invisible in the next frame.
-
-    style = getComputedStyle el
-
-    box.height or= parseFloat style.height
-    box.width or= parseFloat style.width
-
   box
 
 getOffsetParent = (el) ->

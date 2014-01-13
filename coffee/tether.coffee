@@ -202,7 +202,7 @@ class _Tether
     @scrollParent.addEventListener 'scroll', @position
 
     if position
-      setTimeout => @position()
+      @position()
 
   disable: ->
     @removeClass @getClass 'enabled'
