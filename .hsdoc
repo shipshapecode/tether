@@ -1,5 +1,5 @@
 title: "tether"
 description: "Marrying DOM elements for life"
-source: "*.coffee"
+source: "coffee/*.coffee"
 examples: "**/*.md"
 assets: "{deps/*,*.js,*.coffee,css/*.css,docs/css/*.css,docs/js/*,js,docs/welcome/*,examples/*}"
