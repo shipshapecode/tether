@@ -139,14 +139,14 @@ class _Tether
       @targetModifier = 'scroll-handle'
 
     for key in ['element', 'target']
+      if not @[key]?
+        throw new Error "Tether Error: Both element and target must be defined"
+
       if @[key].jquery?
         @[key] = @[key][0]
       else if typeof @[key] is 'string'
         # This breaks viewport and scroll-handle attachment for the moment
         @[key] = document.querySelector @[key]
-
-      if not @[key]?
-        throw new Error "Tether Error: Both element and target must be defined"
 
     addClass @element, @getClass 'element'
     addClass @target, @getClass 'target'

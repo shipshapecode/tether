@@ -197,13 +197,13 @@
       _ref3 = ['element', 'target'];
       for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
         key = _ref3[_j];
+        if (this[key] == null) {
+          throw new Error("Tether Error: Both element and target must be defined");
+        }
         if (this[key].jquery != null) {
           this[key] = this[key][0];
         } else if (typeof this[key] === 'string') {
           this[key] = document.querySelector(this[key]);
-        }
-        if (this[key] == null) {
-          throw new Error("Tether Error: Both element and target must be defined");
         }
       }
       addClass(this.element, this.getClass('element'));

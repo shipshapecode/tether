@@ -1,4 +1,4 @@
-/*! tether 0.3.2 (v0.3.1-2-g3160e0a) */
+/*! tether 0.3.2 */
 (function() {
   var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
     __hasProp = {}.hasOwnProperty,
@@ -386,13 +386,13 @@
       _ref3 = ['element', 'target'];
       for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
         key = _ref3[_j];
+        if (this[key] == null) {
+          throw new Error("Tether Error: Both element and target must be defined");
+        }
         if (this[key].jquery != null) {
           this[key] = this[key][0];
         } else if (typeof this[key] === 'string') {
           this[key] = document.querySelector(this[key]);
-        }
-        if (this[key] == null) {
-          throw new Error("Tether Error: Both element and target must be defined");
         }
       }
       addClass(this.element, this.getClass('element'));
