@@ -1,4 +1,4 @@
-/*! tether 0.3.0 (v0.3.0-3-g3e8fc1c) */
+/*! tether 0.3.1 (v0.3.0-6-gdf92abf) */
 (function() {
   var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
     __hasProp = {}.hasOwnProperty,
@@ -30,7 +30,7 @@
   };
 
   getBounds = function(el) {
-    var box, doc, docEl, style;
+    var box, doc, docEl;
     doc = el.ownerDocument;
     docEl = doc.documentElement;
     box = extend({}, el.getBoundingClientRect());
@@ -38,11 +38,6 @@
     box.left = box.left + window.pageXOffset - docEl.clientLeft;
     box.right = doc.body.clientWidth - box.width - box.left;
     box.bottom = doc.body.clientHeight - box.height - box.top;
-    if (!box.height || !box.width) {
-      style = getComputedStyle(el);
-      box.height || (box.height = parseFloat(style.height));
-      box.width || (box.width = parseFloat(style.width));
-    }
     return box;
   };
 
