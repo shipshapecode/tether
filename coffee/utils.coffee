@@ -20,7 +20,11 @@ getScrollParent = (el) ->
   return document.body
 
 getBounds = (el) ->
-  doc = el.ownerDocument
+  if el isnt document
+    doc = el.ownerDocument
+  else
+    doc = document
+
   docEl = doc.documentElement
 
   box = extend {}, el.getBoundingClientRect()

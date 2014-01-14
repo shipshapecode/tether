@@ -31,7 +31,11 @@
 
   getBounds = function(el) {
     var box, doc, docEl;
-    doc = el.ownerDocument;
+    if (el !== document) {
+      doc = el.ownerDocument;
+    } else {
+      doc = document;
+    }
     docEl = doc.documentElement;
     box = extend({}, el.getBoundingClientRect());
     box.top = box.top + window.pageYOffset - docEl.clientTop;
@@ -748,7 +752,7 @@
   getBoundingRect = function(tether, to) {
     var i, pos, side, size, style, _i, _len;
     if (to === 'scrollParent') {
-      to = tether.scrollParent;
+      to = tether.target.scrollParent;
     } else if (to === 'window') {
       to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
     }

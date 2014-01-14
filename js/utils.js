@@ -30,7 +30,11 @@
 
   getBounds = function(el) {
     var box, doc, docEl;
-    doc = el.ownerDocument;
+    if (el !== document) {
+      doc = el.ownerDocument;
+    } else {
+      doc = document;
+    }
     docEl = doc.documentElement;
     box = extend({}, el.getBoundingClientRect());
     box.top = box.top + window.pageYOffset - docEl.clientTop;
