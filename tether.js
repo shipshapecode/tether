@@ -1,4 +1,4 @@
-/*! tether 0.3.1 (v0.3.0-6-gdf92abf) */
+/*! tether 0.3.1 (v0.3.1) */
 (function() {
   var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
     __hasProp = {}.hasOwnProperty,
