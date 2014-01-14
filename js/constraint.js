@@ -21,6 +21,9 @@
     } else if (to === 'window') {
       to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
     }
+    if (to === document) {
+      to = to.documentElement;
+    }
     if (to.nodeType != null) {
       pos = size = getBounds(to);
       style = getComputedStyle(to);

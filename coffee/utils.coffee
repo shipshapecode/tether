@@ -20,10 +20,11 @@ getScrollParent = (el) ->
   return document.body
 
 getBounds = (el) ->
-  if el isnt document
-    doc = el.ownerDocument
-  else
+  if el is document
     doc = document
+    el = document.documentElement
+  else
+    doc = el.ownerDocument
 
   docEl = doc.documentElement
 

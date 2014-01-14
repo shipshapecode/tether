@@ -30,10 +30,11 @@
 
   getBounds = function(el) {
     var box, doc, docEl;
-    if (el !== document) {
-      doc = el.ownerDocument;
-    } else {
+    if (el === document) {
       doc = document;
+      el = document.documentElement;
+    } else {
+      doc = el.ownerDocument;
     }
     docEl = doc.documentElement;
     box = extend({}, el.getBoundingClientRect());

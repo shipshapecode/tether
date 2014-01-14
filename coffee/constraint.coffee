@@ -15,6 +15,9 @@ getBoundingRect = (tether, to) ->
   else if to is 'window'
     to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset]
 
+  if to is document
+    to = to.documentElement
+
   if to.nodeType?
     pos = size = getBounds to
     style = getComputedStyle to
