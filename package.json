@@ -1,6 +1,6 @@
 {
   "name": "tether",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "A client-side library to make absolutely positioned elements attach to elements in the page efficiently.",
   "authors": [
     "Zack Bloom <zbloom@hubspot.com>",
@@ -9,13 +9,12 @@
   "license": "MIT",
   "devDependencies": {
     "coffee-script": "~1.6.3",
+    "gulp": "~3.3.0",
     "gulp-header": "~1.0.2",
     "gulp-uglify": "~0.1.0",
     "gulp-compass": "~1.0.3",
     "gulp-coffee": "~1.2.5",
     "gulp-concat": "~2.1.7",
-    "gulp": "~3.3.0",
-    "gulp-rename": "~0.2.1",
-    "q": "~1.0.0"
+    "gulp-rename": "~0.2.1"
   }
 }
