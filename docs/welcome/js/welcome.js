@@ -1,5 +1,9 @@
 (function() {
-  var init, isMobile, setupBrowserDemo, setupHero;
+  var init, isMobile, setupBrowserDemo, setupHero, _Drop;
+
+  _Drop = Drop.createContext({
+    classPrefix: 'tether'
+  });
 
   isMobile = $(window).width() < 567;
 
@@ -18,10 +22,10 @@
     window.drops = {};
     for (_i = 0, _len = positions.length; _i < _len; _i++) {
       position = positions[_i];
-      drops[position] = new Drop({
+      drops[position] = new _Drop({
         target: $target[0],
-        className: 'drop-theme-arrows',
-        attach: position,
+        classes: 'tether-theme-arrows-dark',
+        position: position,
         constrainToWindow: false,
         openOn: '',
         content: '<div style="height: 50px; width: 50px"></div>'
@@ -56,8 +60,8 @@
       return setTimeout(openNextDrop, frameLengthMS * frames);
     };
     finalDropState = function() {
-      drops['top left'].$dropContent.html('Marrying DOM elements for life.');
-      drops['bottom right'].$dropContent.html('<a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>');
+      $(drops['top left'].dropContent).html('Marrying DOM elements for life.');
+      $(drops['bottom right'].dropContent).html('<a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>');
       drops['top left'].open();
       return drops['bottom right'].open();
     };
@@ -110,18 +114,20 @@
       iframeWindow = $iframe[0].contentWindow;
       $items = $iframe.contents().find('.item');
       return $items.each(function(i) {
-        var $item, drop;
+        var $item, drop, _iframeWindowDrop;
         $item = $(this);
-        drop = new iframeWindow.Drop({
+        _iframeWindowDrop = iframeWindow.Drop.createContext({
+          classPrefix: 'tether'
+        });
+        drop = new _iframeWindowDrop({
           target: $item[0],
-          className: 'drop-theme-arrows',
-          attach: 'right top',
+          classes: 'tether-theme-arrows-dark',
+          position: 'right top',
           constrainToWindow: true,
           openOn: 'click',
           content: '<ul>\n    <li>Action&nbsp;1</li>\n    <li>Action&nbsp;2</li>\n    <li>Action&nbsp;3</li>\n</ul>'
         });
-        $item.data('drop', drop);
-        return drop.$drop.addClass("drop-attached-right-top");
+        return $item.data('drop', drop);
       });
     });
     scrollInterval = void 0;

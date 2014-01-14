@@ -1,3 +1,5 @@
+_Drop = Drop.createContext classPrefix: 'tether'
+
 isMobile = $(window).width() < 567
 
 init = ->
@@ -33,16 +35,13 @@ setupHero = ->
     window.drops = {}
 
     for position in positions
-        drops[position] = new Drop
+        drops[position] = new _Drop
             target: $target[0]
-            className: 'drop-theme-arrows'
-            attach: position
+            classes: 'tether-theme-arrows-dark'
+            position: position
             constrainToWindow: false
             openOn: ''
             content: '<div style="height: 50px; width: 50px"></div>'
-
-        # # TODO - remove once zackbloom fixes
-        # drops[position].$drop.addClass "drop-attached-#{ position.replace(' ', '-')}"
 
     openIndex = 0
     frames = 0
@@ -70,8 +69,8 @@ setupHero = ->
         setTimeout openNextDrop, frameLengthMS * frames
 
     finalDropState = ->
-        drops['top left'].$dropContent.html('Marrying DOM elements for life.')
-        drops['bottom right'].$dropContent.html('<a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>')
+        $(drops['top left'].dropContent).html('Marrying DOM elements for life.')
+        $(drops['bottom right'].dropContent).html('<a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>')
         drops['top left'].open()
         drops['bottom right'].open()
 
@@ -136,10 +135,12 @@ setupBrowserDemo = ->
         $items.each (i) ->
             $item = $(@)
 
-            drop = new iframeWindow.Drop
+            _iframeWindowDrop = iframeWindow.Drop.createContext classPrefix: 'tether'
+
+            drop = new _iframeWindowDrop
                 target: $item[0]
-                className: 'drop-theme-arrows'
-                attach: 'right top'
+                classes: 'tether-theme-arrows-dark'
+                position: 'right top'
                 constrainToWindow: true
                 openOn: 'click'
                 content: '''
@@ -151,9 +152,6 @@ setupBrowserDemo = ->
                 '''
 
             $item.data('drop', drop)
-
-            # TODO - remove once zackbloom fixes
-            drop.$drop.addClass "drop-attached-right-top"
 
     scrollInterval = undefined
     scrollTop = 0
