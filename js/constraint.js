@@ -17,7 +17,7 @@
   getBoundingRect = function(tether, to) {
     var i, pos, side, size, style, _i, _len;
     if (to === 'scrollParent') {
-      to = tether.target.scrollParent;
+      to = tether.scrollParent;
     } else if (to === 'window') {
       to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
     }

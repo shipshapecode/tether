@@ -1,4 +1,4 @@
-/*! tether 0.3.2 */
+/*! tether 0.3.4 */
 (function() {
   var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
     __hasProp = {}.hasOwnProperty,
@@ -752,7 +752,7 @@
   getBoundingRect = function(tether, to) {
     var i, pos, side, size, style, _i, _len;
     if (to === 'scrollParent') {
-      to = tether.target.scrollParent;
+      to = tether.scrollParent;
     } else if (to === 'window') {
       to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
     }

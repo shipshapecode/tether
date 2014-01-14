@@ -11,7 +11,7 @@ BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom']
 
 getBoundingRect = (tether, to) ->
   if to is 'scrollParent'
-    to = tether.target.scrollParent
+    to = tether.scrollParent
   else if to is 'window'
     to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset]
 
