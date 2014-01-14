@@ -7,9 +7,9 @@
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
   ],
   "license": "MIT",
-  "bundledDependencies": ["gulp-header"],
   "devDependencies": {
     "coffee-script": "~1.6.3",
+    "gulp-header": "~1.0.2",
     "gulp-uglify": "~0.1.0",
     "gulp-compass": "~1.0.3",
     "gulp-coffee": "~1.2.5",

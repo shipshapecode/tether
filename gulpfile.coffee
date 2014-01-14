@@ -9,13 +9,7 @@ rename = require('gulp-rename')
 Q = require('q')
 
 pkg = require('./package.json')
-
-bannerDeferred = Q.defer()
-exec '/usr/bin/env git describe HEAD --tags', (err, stdout, stderr) ->
-  if err or stderr
-    throw new Error "Error getting git versioning info"
-
-  bannerDeferred.resolve "/*! #{ pkg.name } #{ pkg.version } (#{ stdout.trim() }) */\n"
+banner = "/*! #{ pkg.name } #{ pkg.version } */\n"
 
 gulp.task 'coffee', ->
   gulp.src('./coffee/*')
@@ -23,19 +17,17 @@ gulp.task 'coffee', ->
     .pipe(gulp.dest('./js/'))
 
 gulp.task 'concat', ->
-  bannerDeferred.promise.then (banner) ->
-    gulp.src(['./js/utils.js', './js/tether.js', './js/constraint.js', './js/abutment.js', './js/shift.js'])
-      .pipe(concat('tether.js'))
-      .pipe(header(banner, {pkg}))
-      .pipe(gulp.dest('./'))
+  gulp.src(['./js/utils.js', './js/tether.js', './js/constraint.js', './js/abutment.js', './js/shift.js'])
+    .pipe(concat('tether.js'))
+    .pipe(header(banner))
+    .pipe(gulp.dest('./'))
 
 gulp.task 'uglify', ->
-  bannerDeferred.promise.then (banner) ->
-    gulp.src('./tether.js')
-      .pipe(uglify())
-      .pipe(header(banner, {pkg}))
-      .pipe(rename('tether.min.js'))
-      .pipe(gulp.dest('./'))
+  gulp.src('./tether.js')
+    .pipe(uglify())
+    .pipe(header(banner))
+    .pipe(rename('tether.min.js'))
+    .pipe(gulp.dest('./'))
 
 gulp.task 'js', ->
   gulp.run 'coffee', 'concat', 'uglify'
