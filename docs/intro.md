@@ -481,6 +481,15 @@ when the element is placed outside of it's constraint.
 - `tether-pinned`, `tether-pinned-[side]` are added to both the element and target when a constraint
 has pinned the element to the [side] of the container.
 
+Browser Support
+---------------
+
+Tether supports IE9+, and all modern browsers.
+
+Google doesn't support IE8, Microsoft is dropping support in a few months, and not supporting it saves
+us a whole lot of trouble.  If you are interested in adding support, get in touch, we're happy to accept
+a PR.
+
 Contributing
 ------------
 
