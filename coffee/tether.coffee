@@ -420,8 +420,13 @@ class _Tether
           css.right = 0
           xPos = -pos.right
 
-        # The Z transform is to keep this in the GPU (faster, and prevents artifacts)
-        css[transformKey] = "translateZ(0) translateX(#{ Math.round xPos }px) translateY(#{ Math.round yPos }px)"
+        
+        css[transformKey] = "translateX(#{ Math.round xPos }px) translateY(#{ Math.round yPos }px)"
+
+        if transformKey isnt 'msTransform'
+          # The Z transform will keep this in the GPU (faster, and prevents artifacts),
+          # but IE9 doesn't support 3d transforms and will choke.
+          css[transformKey] += " translateZ(0)"
 
       else
         if same.top

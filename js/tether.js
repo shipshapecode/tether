@@ -536,7 +536,10 @@
             css.right = 0;
             xPos = -pos.right;
           }
-          return css[transformKey] = "translateZ(0) translateX(" + (Math.round(xPos)) + "px) translateY(" + (Math.round(yPos)) + "px)";
+          css[transformKey] = "translateX(" + (Math.round(xPos)) + "px) translateY(" + (Math.round(yPos)) + "px)";
+          if (transformKey !== 'msTransform') {
+            return css[transformKey] += " translateZ(0)";
+          }
         } else {
           if (same.top) {
             css.top = "" + pos.top + "px";

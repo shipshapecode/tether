@@ -1,4 +1,4 @@
-/*! tether 0.4.1 */
+/*! tether 0.3.6 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
@@ -811,7 +811,10 @@
             css.right = 0;
             xPos = -pos.right;
           }
-          return css[transformKey] = "translateZ(0) translateX(" + (Math.round(xPos)) + "px) translateY(" + (Math.round(yPos)) + "px)";
+          css[transformKey] = "translateX(" + (Math.round(xPos)) + "px) translateY(" + (Math.round(yPos)) + "px)";
+          if (transformKey !== 'msTransform') {
+            return css[transformKey] += " translateZ(0)";
+          }
         } else {
           if (same.top) {
             css.top = "" + pos.top + "px";

@@ -323,6 +323,8 @@ processed in the order supplied (the last one always has the final word).
 Optimization
 ------------
 
+### Element Moving
+
 The goal of Tether's optimizer is to not have to change the positioning
 CSS as the page is scrolled or resized.  To accomplish this it looks at the
 last few positions, finds commonalities, and uses them to decide whether to
@@ -360,6 +362,27 @@ setting `optimizations.moveElement` to false.
   }
 });
 </code></pre><output data-example="optimizer2"></output>
+
+### GPU
+
+By default tether positions elements using CSS transforms.  These transforms allow the
+tethered element to be moved as it's own layer to not force a repaint of the underlying
+page.
+
+This method of positioning can cause some issues however, including color shifts and artifacts.
+
+If you experience these issues, you can disable this optimization by setting `optimizations.gpu`
+to false:
+
+<pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: 'top left',
+  optimizations: {
+    <mark>gpu: false</mark>
+  }
+});
+</code></pre><output></output>
 
 Methods
 -------
