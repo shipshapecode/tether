@@ -279,7 +279,7 @@
 }).call(this);
 
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
+  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -288,27 +288,6 @@
   }
 
   _ref = Tether.Utils, getScrollParent = _ref.getScrollParent, getSize = _ref.getSize, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getOffsetParent = _ref.getOffsetParent, extend = _ref.extend, addClass = _ref.addClass, removeClass = _ref.removeClass, updateClasses = _ref.updateClasses, defer = _ref.defer, flush = _ref.flush;
-
-  debounce = function(fn, time) {
-    var pending;
-    if (time == null) {
-      time = 16;
-    }
-    pending = false;
-    return function() {
-      var args,
-        _this = this;
-      if (pending) {
-        return;
-      }
-      args = arguments;
-      pending = true;
-      return setTimeout(function() {
-        pending = false;
-        return fn.apply(_this, args);
-      }, time);
-    };
-  };
 
   within = function(a, b, diff) {
     if (diff == null) {
@@ -356,7 +335,7 @@
         pendingTimeout = setTimeout(tick, 250);
         return;
       }
-      if ((lastCall != null) && (now() - lastCall) < 16) {
+      if ((lastCall != null) && (now() - lastCall) < 10) {
         return;
       }
       if (pendingTimeout != null) {

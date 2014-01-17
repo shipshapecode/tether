@@ -3,20 +3,6 @@ if not Tether?
 
 {getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses, defer, flush} = Tether.Utils
 
-debounce = (fn, time=16) ->
-  pending = false
-
-  return ->
-    return if pending
-
-    args = arguments
-
-    pending = true
-    setTimeout =>
-      pending = false
-      fn.apply @, args
-    , time
-
 within = (a, b, diff=1) ->
   a + diff >= b >= a - diff
 
@@ -54,8 +40,8 @@ do ->
       pendingTimeout = setTimeout tick, 250
       return
 
-    if lastCall? and (now() - lastCall) < 16
-      # Some browsers call events a little too frequently, refuse to run more than 60fps
+    if lastCall? and (now() - lastCall) < 10
+      # Some browsers call events a little too frequently, refuse to run more than is reasonable
       return
 
     if pendingTimeout?
