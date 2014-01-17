@@ -32,7 +32,9 @@ gulp.task 'uglify', ->
     .pipe(gulp.dest('./'))
 
 gulp.task 'js', ->
-  gulp.run 'coffee', 'concat', 'uglify'
+  gulp.run 'coffee', ->
+    gulp.run 'concat', ->
+      gulp.run 'uglify', ->
 
 gulp.task 'compass', ->
   for path in ['', 'docs/', 'docs/welcome/']

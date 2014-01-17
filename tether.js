@@ -193,7 +193,7 @@
 }).call(this);
 
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, event, extend, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, lastCall, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, _Tether, _i, _len, _ref, _ref1,
+  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, event, extend, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, lastCall, offsetToPx, parseAttachment, parseOffset, position, removeClass, round, tethers, _Tether, _i, _len, _ref, _ref1,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -223,6 +223,8 @@
       }, time);
     };
   };
+
+  round = Math.round;
 
   tethers = [];
 
@@ -559,6 +561,7 @@
       });
       manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
       offset = addOffset(offset, manualOffset);
+      targetOffset = addOffset(targetOffset, manualTargetOffset);
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
       _ref2 = Tether.modules;
@@ -612,19 +615,19 @@
           side = _ref4[_k];
           offsetBorder[side] = parseFloat(offsetParentStyle["border-" + side + "-width"]);
         }
+        offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
+        offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
         offsetPosition.left += offsetBorder.left;
         offsetPosition.top += offsetBorder.top;
-        offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width;
-        offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height;
         if (next.page.top >= offsetPosition.top && next.page.bottom >= offsetPosition.bottom) {
           if (next.page.left >= offsetPosition.left && next.page.right >= offsetPosition.right) {
             scrollTop = offsetParent.scrollTop;
             scrollLeft = offsetParent.scrollLeft;
             next.offset = {
-              top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top,
-              left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left,
-              right: next.page.right - offsetPosition.right + offsetParent.scrollWidth - scrollLeft + offsetBorder.right,
-              bottom: next.page.bottom - offsetPosition.bottom + offsetParent.scrollHeight - scrollTop + offsetBorder.bottom
+              top: round(next.page.top) - offsetPosition.top + scrollTop + offsetBorder.top,
+              left: round(next.page.left) - offsetPosition.left + scrollLeft + offsetBorder.left,
+              right: round(next.page.right) - offsetPosition.right + offsetParent.scrollWidth - scrollLeft + offsetBorder.right,
+              bottom: round(next.page.bottom) - offsetPosition.bottom + offsetParent.scrollHeight - scrollTop + offsetBorder.bottom
             };
           }
         }

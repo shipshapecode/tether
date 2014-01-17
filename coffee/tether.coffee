@@ -17,6 +17,8 @@ debounce = (fn, time=16) ->
       fn.apply @, args
     , time
 
+round = Math.round
+
 tethers = []
 
 position = ->
@@ -262,6 +264,7 @@ class _Tether
 
     # Add the manually provided offset
     offset = addOffset offset, manualOffset
+    targetOffset = addOffset targetOffset, manualTargetOffset
 
     # It's now our goal to make (element position + offset) == (target position + target offset)
     left = targetPos.left + targetOffset.left - offset.left
@@ -307,11 +310,10 @@ class _Tether
       for side in ['top', 'left', 'bottom', 'right']
         offsetBorder[side] = parseFloat offsetParentStyle["border-#{ side }-width"]
 
+      offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right
+      offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom
       offsetPosition.left += offsetBorder.left
       offsetPosition.top += offsetBorder.top
-
-      offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width
-      offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height
 
       if next.page.top >= offsetPosition.top and next.page.bottom >= offsetPosition.bottom
         if next.page.left >= offsetPosition.left and next.page.right >= offsetPosition.right
@@ -323,10 +325,10 @@ class _Tether
           # It's position relative to the target's offset parent (absolute positioning when
           # the element is moved to be a child of the target's offset parent).
           next.offset =
-            top: next.page.top - offsetPosition.top + scrollTop + offsetBorder.top
-            left: next.page.left - offsetPosition.left + scrollLeft + offsetBorder.left
-            right: next.page.right - offsetPosition.right + offsetParent.scrollWidth - scrollLeft + offsetBorder.right
-            bottom: next.page.bottom - offsetPosition.bottom + offsetParent.scrollHeight - scrollTop + offsetBorder.bottom
+            top: round(next.page.top) - offsetPosition.top + scrollTop + offsetBorder.top
+            left: round(next.page.left) - offsetPosition.left + scrollLeft + offsetBorder.left
+            right: round(next.page.right) - offsetPosition.right + offsetParent.scrollWidth - scrollLeft + offsetBorder.right
+            bottom: round(next.page.bottom) - offsetPosition.bottom + offsetParent.scrollHeight - scrollTop + offsetBorder.bottom
 
     # We could also travel up the DOM and try each containing context, rather than only
     # looking at the body, but we're gonna get diminishing returns.
