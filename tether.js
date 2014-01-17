@@ -518,13 +518,18 @@
       if (this.scrollParent != null) {
         this.disable();
       }
-      this.scrollParent = getScrollParent(this.target);
+      if (this.targetModifier === 'scroll-handle') {
+        this.scrollParent = this.target;
+      } else {
+        this.scrollParent = getScrollParent(this.target);
+      }
       if (this.options.enabled !== false) {
         return this.enable(position);
       }
     };
 
     _Tether.prototype.getTargetBounds = function() {
+      var bounds, height, out, scrollPercentage, style;
       if (this.targetModifier != null) {
         switch (this.targetModifier) {
           case 'visible':
@@ -535,12 +540,26 @@
               width: innerWidth
             };
           case 'scroll-handle':
-            return {
-              top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight),
-              left: innerWidth - 15,
-              height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight),
-              width: 15
-            };
+            if (this.target === document.body) {
+              return {
+                top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight),
+                left: innerWidth - 15,
+                height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight),
+                width: 15
+              };
+            } else {
+              bounds = getBounds(this.target);
+              style = getComputedStyle(this.target);
+              height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth);
+              out = {
+                width: 15,
+                height: height * 0.975 * (height / this.target.scrollHeight),
+                left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
+              };
+              scrollPercentage = this.target.scrollTop / (this.target.scrollHeight - height);
+              out.top = 0.975 * scrollPercentage * (height - out.height) + bounds.top + parseFloat(style.borderTopWidth);
+              return out;
+            }
         }
       } else {
         return getBounds(this.target);
