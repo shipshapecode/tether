@@ -304,17 +304,20 @@ class _Tether
       offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
       offsetPosition = @cache 'target-offsetparent-bounds', -> getBounds offsetParent
       offsetParentStyle = getComputedStyle offsetParent
+      elementStyle = getComputedStyle @element
       offsetParentSize = offsetPosition
 
       offsetBorder = {}
+      elementBorder = {}
       for side in ['top', 'left', 'bottom', 'right']
         offsetBorder[side] = parseFloat offsetParentStyle["border-#{ side }-width"]
+        elementBorder[side] = parseFloat elementStyle["border-#{ side }-width"]
 
       offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right
       offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom
 
-      if next.page.top >= offsetPosition.top and next.page.bottom >= offsetPosition.bottom
-        if next.page.left >= offsetPosition.left and next.page.right >= offsetPosition.right
+      if next.page.top >= (offsetPosition.top + elementBorder.top + offsetBorder.top) and next.page.bottom >= offsetPosition.bottom
+        if next.page.left >= (offsetPosition.left + elementBorder.left + offsetBorder.left) and next.page.right >= offsetPosition.right
           # We're within the visible part of the target's scroll parent
 
           scrollTop = offsetParent.scrollTop

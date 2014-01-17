@@ -342,7 +342,7 @@
     };
 
     _Tether.prototype.position = function() {
-      var elementPos, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _j, _k, _len1, _len2, _ref2, _ref3, _ref4,
+      var elementBorder, elementPos, elementStyle, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _j, _k, _len1, _len2, _ref2, _ref3, _ref4,
         _this = this;
       if (!this.enabled) {
         return;
@@ -415,17 +415,20 @@
           return getBounds(offsetParent);
         });
         offsetParentStyle = getComputedStyle(offsetParent);
+        elementStyle = getComputedStyle(this.element);
         offsetParentSize = offsetPosition;
         offsetBorder = {};
+        elementBorder = {};
         _ref4 = ['top', 'left', 'bottom', 'right'];
         for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
           side = _ref4[_k];
           offsetBorder[side] = parseFloat(offsetParentStyle["border-" + side + "-width"]);
+          elementBorder[side] = parseFloat(elementStyle["border-" + side + "-width"]);
         }
         offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
         offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
-        if (next.page.top >= offsetPosition.top && next.page.bottom >= offsetPosition.bottom) {
-          if (next.page.left >= offsetPosition.left && next.page.right >= offsetPosition.right) {
+        if (next.page.top >= (offsetPosition.top + elementBorder.top + offsetBorder.top) && next.page.bottom >= offsetPosition.bottom) {
+          if (next.page.left >= (offsetPosition.left + elementBorder.left + offsetBorder.left) && next.page.right >= offsetPosition.right) {
             scrollTop = offsetParent.scrollTop;
             scrollLeft = offsetParent.scrollLeft;
             next.offset = {

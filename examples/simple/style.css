@@ -25,6 +25,14 @@ body {
     height: 1000px;
 }
 
+.element {
+    border: 10px solid grey;
+}
+
+.container .element {
+    border-color: blue;
+}
+
 body > .container {
     position: fixed;
     left: 600px;
