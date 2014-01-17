@@ -38,7 +38,7 @@ position = ->
   flush()
 
 now = ->
-  performance?.now() ? +new Date
+  performance?.now?() ? +new Date
 
 do ->
   lastCall = null

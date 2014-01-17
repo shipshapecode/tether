@@ -62,7 +62,7 @@
 
   now = function() {
     var _ref1;
-    return (_ref1 = typeof performance !== "undefined" && performance !== null ? performance.now() : void 0) != null ? _ref1 : +(new Date);
+    return (_ref1 = typeof performance !== "undefined" && performance !== null ? typeof performance.now === "function" ? performance.now() : void 0 : void 0) != null ? _ref1 : +(new Date);
   };
 
   (function() {

@@ -1,4 +1,4 @@
-/*! tether 0.4.0 */
+/*! tether 0.3.6 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
@@ -337,7 +337,7 @@
 
   now = function() {
     var _ref1;
-    return (_ref1 = typeof performance !== "undefined" && performance !== null ? performance.now() : void 0) != null ? _ref1 : +(new Date);
+    return (_ref1 = typeof performance !== "undefined" && performance !== null ? typeof performance.now === "function" ? performance.now() : void 0 : void 0) != null ? _ref1 : +(new Date);
   };
 
   (function() {
