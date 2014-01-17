@@ -217,7 +217,7 @@
 }).call(this);
 
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, event, extend, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, lastCall, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, updateClasses, within, _Tether, _i, _len, _ref, _ref1,
+  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, extend, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, updateClasses, within, _Tether, _ref,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -267,18 +267,42 @@
     return _results;
   };
 
-  lastCall = null;
+  now = function() {
+    var _ref1;
+    return (_ref1 = typeof performance !== "undefined" && performance !== null ? performance.now() : void 0) != null ? _ref1 : +(new Date);
+  };
 
-  _ref1 = ['resize', 'scroll'];
-  for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-    event = _ref1[_i];
-    window.addEventListener(event, function() {
-      if ((lastCall == null) || (new Date - lastCall) > 16) {
-        lastCall = +(new Date);
-        return position();
+  (function() {
+    var event, lastCall, lastDuration, pendingTimeout, tick, _i, _len, _ref1, _results;
+    lastCall = null;
+    lastDuration = null;
+    pendingTimeout = null;
+    tick = function() {
+      console.log(lastDuration);
+      if ((lastDuration != null) && lastDuration > 17) {
+        lastDuration = Math.min(lastDuration - 17, 250);
+        pendingTimeout = setTimeout(tick, 250);
+        return;
       }
-    });
-  }
+      if ((lastCall != null) && (now() - lastCall) < 17) {
+        return;
+      }
+      if (pendingTimeout != null) {
+        clearTimeout(pendingTimeout);
+        pendingTimeout = null;
+      }
+      lastCall = now();
+      position();
+      return lastDuration = now() - lastCall;
+    };
+    _ref1 = ['resize', 'scroll'];
+    _results = [];
+    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+      event = _ref1[_i];
+      _results.push(window.addEventListener(event, tick));
+    }
+    return _results;
+  })();
 
   MIRROR_LR = {
     center: 'center',
@@ -317,22 +341,22 @@
   };
 
   attachmentToOffset = function(attachment) {
-    var _ref2, _ref3;
+    var _ref1, _ref2;
     return {
-      left: (_ref2 = OFFSET_MAP[attachment.left]) != null ? _ref2 : attachment.left,
-      top: (_ref3 = OFFSET_MAP[attachment.top]) != null ? _ref3 : attachment.top
+      left: (_ref1 = OFFSET_MAP[attachment.left]) != null ? _ref1 : attachment.left,
+      top: (_ref2 = OFFSET_MAP[attachment.top]) != null ? _ref2 : attachment.top
     };
   };
 
   addOffset = function() {
-    var left, offsets, out, top, _j, _len1, _ref2;
+    var left, offsets, out, top, _i, _len, _ref1;
     offsets = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
     out = {
       top: 0,
       left: 0
     };
-    for (_j = 0, _len1 = offsets.length; _j < _len1; _j++) {
-      _ref2 = offsets[_j], top = _ref2.top, left = _ref2.left;
+    for (_i = 0, _len = offsets.length; _i < _len; _i++) {
+      _ref1 = offsets[_i], top = _ref1.top, left = _ref1.left;
       if (typeof top === 'string') {
         top = parseFloat(top, 10);
       }
@@ -356,8 +380,8 @@
   };
 
   parseAttachment = parseOffset = function(value) {
-    var left, top, _ref2;
-    _ref2 = value.split(' '), top = _ref2[0], left = _ref2[1];
+    var left, top, _ref1;
+    _ref1 = value.split(' '), top = _ref1[0], left = _ref1[1];
     return {
       top: top,
       left: left
@@ -369,25 +393,25 @@
 
     function _Tether(options) {
       this.position = __bind(this.position, this);
-      var module, _j, _len1, _ref2, _ref3;
+      var module, _i, _len, _ref1, _ref2;
       tethers.push(this);
       this.history = [];
       this.setOptions(options, false);
-      _ref2 = Tether.modules;
-      for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-        module = _ref2[_j];
-        if ((_ref3 = module.initialize) != null) {
-          _ref3.call(this);
+      _ref1 = Tether.modules;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        module = _ref1[_i];
+        if ((_ref2 = module.initialize) != null) {
+          _ref2.call(this);
         }
       }
       this.position();
     }
 
     _Tether.prototype.getClass = function(key) {
-      var _ref2, _ref3;
-      if ((_ref2 = this.options.classes) != null ? _ref2[key] : void 0) {
+      var _ref1, _ref2;
+      if ((_ref1 = this.options.classes) != null ? _ref1[key] : void 0) {
         return this.options.classes[key];
-      } else if (((_ref3 = this.options.classes) != null ? _ref3[key] : void 0) !== false) {
+      } else if (((_ref2 = this.options.classes) != null ? _ref2[key] : void 0) !== false) {
         if (this.options.classPrefix) {
           return "" + this.options.classPrefix + "-" + key;
         } else {
@@ -399,7 +423,7 @@
     };
 
     _Tether.prototype.setOptions = function(options, position) {
-      var defaults, key, _j, _len1, _ref2, _ref3;
+      var defaults, key, _i, _len, _ref1, _ref2;
       this.options = options;
       if (position == null) {
         position = true;
@@ -411,7 +435,7 @@
         classPrefix: 'tether'
       };
       this.options = extend(defaults, this.options);
-      _ref2 = this.options, this.element = _ref2.element, this.target = _ref2.target, this.targetModifier = _ref2.targetModifier;
+      _ref1 = this.options, this.element = _ref1.element, this.target = _ref1.target, this.targetModifier = _ref1.targetModifier;
       if (this.target === 'viewport') {
         this.target = document.body;
         this.targetModifier = 'visible';
@@ -419,9 +443,9 @@
         this.target = document.body;
         this.targetModifier = 'scroll-handle';
       }
-      _ref3 = ['element', 'target'];
-      for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
-        key = _ref3[_j];
+      _ref2 = ['element', 'target'];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        key = _ref2[_i];
         if (this[key] == null) {
           throw new Error("Tether Error: Both element and target must be defined");
         }
@@ -509,10 +533,10 @@
     };
 
     _Tether.prototype.destroy = function() {
-      var i, tether, _j, _len1, _results;
+      var i, tether, _i, _len, _results;
       this.disable();
       _results = [];
-      for (i = _j = 0, _len1 = tethers.length; _j < _len1; i = ++_j) {
+      for (i = _i = 0, _len = tethers.length; _i < _len; i = ++_i) {
         tether = tethers[i];
         if (tether === this) {
           tethers.splice(i, 1);
@@ -525,7 +549,7 @@
     };
 
     _Tether.prototype.updateAttachClasses = function(elementAttach, targetAttach) {
-      var add, all, side, sides, _j, _k, _len1, _len2;
+      var add, all, side, sides, _i, _j, _len, _len1;
       if (elementAttach == null) {
         elementAttach = this.attachment;
       }
@@ -547,12 +571,12 @@
         add.push("" + (this.getClass('target-attached')) + "-" + targetAttach.left);
       }
       all = [];
-      for (_j = 0, _len1 = sides.length; _j < _len1; _j++) {
-        side = sides[_j];
+      for (_i = 0, _len = sides.length; _i < _len; _i++) {
+        side = sides[_i];
         all.push("" + (this.getClass('element-attached')) + "-" + side);
       }
-      for (_k = 0, _len2 = sides.length; _k < _len2; _k++) {
-        side = sides[_k];
+      for (_j = 0, _len1 = sides.length; _j < _len1; _j++) {
+        side = sides[_j];
         all.push("" + (this.getClass('target-attached')) + "-" + side);
       }
       updateClasses(this.element, add, all);
@@ -560,7 +584,7 @@
     };
 
     _Tether.prototype.position = function() {
-      var elementPos, elementStyle, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _j, _k, _len1, _len2, _ref2, _ref3, _ref4,
+      var elementPos, elementStyle, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _i, _j, _len, _len1, _ref1, _ref2, _ref3,
         _this = this;
       if (!this.enabled) {
         return;
@@ -589,9 +613,9 @@
       targetOffset = addOffset(targetOffset, manualTargetOffset);
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
-      _ref2 = Tether.modules;
-      for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-        module = _ref2[_j];
+      _ref1 = Tether.modules;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        module = _ref1[_i];
         ret = module.position.call(this, {
           left: left,
           top: top,
@@ -625,7 +649,7 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
-      if (((_ref3 = this.options.optimizations) != null ? _ref3.moveElement : void 0) !== false && (this.targetModifier == null)) {
+      if (((_ref2 = this.options.optimizations) != null ? _ref2.moveElement : void 0) !== false && (this.targetModifier == null)) {
         offsetParent = this.cache('target-offsetparent', function() {
           return getOffsetParent(_this.target);
         });
@@ -636,9 +660,9 @@
         elementStyle = getComputedStyle(this.element);
         offsetParentSize = offsetPosition;
         offsetBorder = {};
-        _ref4 = ['top', 'left', 'bottom', 'right'];
-        for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
-          side = _ref4[_k];
+        _ref3 = ['top', 'left', 'bottom', 'right'];
+        for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+          side = _ref3[_j];
           offsetBorder[side] = parseFloat(offsetParentStyle["border-" + side + "-width"]);
         }
         offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
@@ -663,7 +687,7 @@
     };
 
     _Tether.prototype.move = function(position) {
-      var css, found, key, moved, offsetParent, point, same, transcribe, type, val, write, _j, _len1, _ref2, _ref3,
+      var css, found, key, moved, offsetParent, point, same, transcribe, type, val, write, _i, _len, _ref1, _ref2,
         _this = this;
       if (this.element.parentNode == null) {
         return;
@@ -673,10 +697,10 @@
         same[type] = {};
         for (key in position[type]) {
           found = false;
-          _ref2 = this.history;
-          for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-            point = _ref2[_j];
-            if (!within((_ref3 = point[type]) != null ? _ref3[key] : void 0, position[type][key])) {
+          _ref1 = this.history;
+          for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+            point = _ref1[_i];
+            if (!within((_ref2 = point[type]) != null ? _ref2[key] : void 0, position[type][key])) {
               found = true;
               break;
             }

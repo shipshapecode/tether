@@ -26,14 +26,40 @@ position = ->
   for tether in tethers
     tether.position()
 
-lastCall = null
-for event in ['resize', 'scroll']
-  window.addEventListener event, ->
-    if not lastCall? or (new Date - lastCall) > 16
-      # IE likes to call events a little too frequently
-      lastCall = +new Date
-      
-      position()
+now = ->
+  performance?.now() ? +new Date
+
+do ->
+  lastCall = null
+  lastDuration = null
+  pendingTimeout = null
+
+  tick = ->
+    console.log lastDuration
+    if lastDuration? and lastDuration > 17
+      # We voluntarily throttle ourselves if we can't manage 60fps
+      lastDuration = Math.min(lastDuration - 17, 250)
+
+      # Just in case this is the last event, remember to position just once more
+      pendingTimeout = setTimeout tick, 250
+      return
+
+    if lastCall? and (now() - lastCall) < 17
+      # Some browsers call events a little too frequently, refuse to run more than 60fps
+      return
+
+    if pendingTimeout?
+      clearTimeout pendingTimeout
+      pendingTimeout = null
+
+    lastCall = now()
+    
+    position()
+
+    lastDuration = now() - lastCall
+    
+  for event in ['resize', 'scroll']
+    window.addEventListener event, tick
 
 MIRROR_LR =
   center: 'center'
