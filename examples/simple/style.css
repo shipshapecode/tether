@@ -34,7 +34,7 @@ body {
 }
 
 body > .container {
-    position: fixed;
+    position: absolute;
     left: 600px;
     top: 0;
 }

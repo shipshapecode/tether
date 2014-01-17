@@ -1,7 +1,7 @@
 (function() {
-  var getBounds, updateClasses, _ref;
+  var defer, getBounds, updateClasses, _ref;
 
-  _ref = Tether.Utils, getBounds = _ref.getBounds, updateClasses = _ref.updateClasses;
+  _ref = Tether.Utils, getBounds = _ref.getBounds, updateClasses = _ref.updateClasses, defer = _ref.defer;
 
   Tether.modules.push({
     position: function(_arg) {
@@ -48,8 +48,10 @@
         side = abutted[_l];
         addClasses.push("" + (this.getClass('abutted')) + "-" + side);
       }
-      updateClasses(this.target, addClasses, allClasses);
-      updateClasses(this.element, addClasses, allClasses);
+      defer(function() {
+        updateClasses(_this.target, addClasses, allClasses);
+        return updateClasses(_this.element, addClasses, allClasses);
+      });
       return true;
     }
   });

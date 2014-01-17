@@ -19,6 +19,40 @@ getScrollParent = (el) ->
 
   return document.body
 
+uniqueId = do ->
+  id = 0
+  ->
+    id++
+
+zeroPosCache = {}
+getOrigin = (doc) ->
+  # getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
+  # jitter as the user scrolls that messes with our ability to detect if two positions
+  # are equivilant or not.  We place an element at the top left of the page that will
+  # get the same jitter, so we can cancel the two out.
+  node = doc._tetherZeroElement
+  if not node?
+    node = doc.createElement 'div'
+    node.setAttribute 'data-tether-id', uniqueId()
+    extend node.style,
+      top: 0
+      left: 0
+      position: 'absolute'
+
+    doc.body.appendChild node
+
+    doc._tetherZeroElement = node
+
+  id = node.getAttribute 'data-tether-id'
+  if not zeroPosCache[id]?
+    zeroPosCache[id] = extend {}, node.getBoundingClientRect()
+
+    defer ->
+      zeroPosCache[id] = undefined
+
+  return zeroPosCache[id]
+
+node = null
 getBounds = (el) ->
   if el is document
     doc = document
@@ -30,8 +64,13 @@ getBounds = (el) ->
 
   box = extend {}, el.getBoundingClientRect()
 
-  box.top = box.top + window.pageYOffset - docEl.clientTop
-  box.left = box.left + window.pageXOffset - docEl.clientLeft
+  origin = getOrigin doc
+
+  box.top -= origin.top
+  box.left -= origin.left
+
+  box.top = box.top - docEl.clientTop
+  box.left = box.left - docEl.clientLeft
   box.right = doc.body.clientWidth - box.width - box.left
   box.bottom = doc.body.clientHeight - box.height - box.top
 
@@ -72,7 +111,6 @@ hasClass = (el, name) ->
 updateClasses = (el, add, all) ->
   # Of the set of 'all' classes, we need the 'add' classes, and only the
   # 'add' classes to be set.
-  
   for cls in all when cls not in add
     if hasClass(el, cls)
       removeClass el, cls
@@ -81,6 +119,14 @@ updateClasses = (el, add, all) ->
     if not hasClass(el, cls)
       addClass el, cls
 
+deferred = []
+
+defer = (fn) ->
+  deferred.push fn
+
+flush = ->
+  fn() while fn = deferred.pop()
+    
 class Evented
   on: (event, handler, ctx, once=false) ->
     @bindings ?= {}
@@ -116,4 +162,4 @@ class Evented
         else
           i++
 
-Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, Evented}
+Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, defer, flush, uniqueId, Evented}

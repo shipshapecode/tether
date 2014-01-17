@@ -1,4 +1,4 @@
-{getOuterSize, getBounds, getSize, extend, updateClasses} = Tether.Utils
+{getOuterSize, getBounds, getSize, extend, updateClasses, defer} = Tether.Utils
 
 MIRROR_ATTACH =
     left: 'right'
@@ -225,7 +225,8 @@ Tether.modules.push
       if tAttachment.top isnt targetAttachment.top or tAttachment.left isnt targetAttachment.left or eAttachment.top isnt @attachment.top or eAttachment.left isnt @attachment.left
         @updateAttachClasses eAttachment, tAttachment
 
-    updateClasses @target, addClasses, allClasses
-    updateClasses @element, addClasses, allClasses
+    defer = =>
+      updateClasses @target, addClasses, allClasses
+      updateClasses @element, addClasses, allClasses
 
     {top, left}

@@ -1,4 +1,4 @@
-{getBounds, updateClasses} = Tether.Utils
+{getBounds, updateClasses, defer} = Tether.Utils
 
 Tether.modules.push
   position: ({top, left}) ->
@@ -33,7 +33,8 @@ Tether.modules.push
     for side in abutted
       addClasses.push "#{ @getClass('abutted') }-#{ side }"
 
-    updateClasses @target, addClasses, allClasses
-    updateClasses @element, addClasses, allClasses
+    defer =>
+      updateClasses @target, addClasses, allClasses
+      updateClasses @element, addClasses, allClasses
 
     true

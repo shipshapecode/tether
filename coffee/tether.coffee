@@ -1,7 +1,7 @@
 if not Tether?
   throw new Error "You must include the utils.js file before tether.js"
 
-{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses} = Tether.Utils
+{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses, defer, flush} = Tether.Utils
 
 debounce = (fn, time=16) ->
   pending = false
@@ -20,11 +20,22 @@ debounce = (fn, time=16) ->
 within = (a, b, diff=1) ->
   a + diff >= b >= a - diff
 
+transformKey = do ->
+  el = document.createElement 'div'
+  
+  for key in ['transform', 'webkitTransform', 'OTransform', 'MozTransform', 'msTransform']
+    if el.style[key] isnt undefined
+      return key
+
 tethers = []
 
 position = ->
+  # Let updateStyle know to batch up all the css changes we do in this
+  # block until we're done.
   for tether in tethers
-    tether.position()
+    tether.position(false)
+
+  flush()
 
 now = ->
   performance?.now() ? +new Date
@@ -35,16 +46,15 @@ do ->
   pendingTimeout = null
 
   tick = ->
-    console.log lastDuration
-    if lastDuration? and lastDuration > 17
+    if lastDuration? and lastDuration > 16
       # We voluntarily throttle ourselves if we can't manage 60fps
-      lastDuration = Math.min(lastDuration - 17, 250)
+      lastDuration = Math.min(lastDuration - 16, 250)
 
       # Just in case this is the last event, remember to position just once more
       pendingTimeout = setTimeout tick, 250
       return
 
-    if lastCall? and (now() - lastCall) < 17
+    if lastCall? and (now() - lastCall) < 16
       # Some browsers call events a little too frequently, refuse to run more than 60fps
       return
 
@@ -229,7 +239,8 @@ class _Tether
     addClass @element, @getClass 'enabled'
     @enabled = true
 
-    @scrollParent.addEventListener 'scroll', @position
+    if @scrollParent isnt document
+      @scrollParent.addEventListener 'scroll', @position
 
     if position
       @position()
@@ -263,10 +274,14 @@ class _Tether
     all.push "#{ @getClass('element-attached') }-#{ side }" for side in sides
     all.push "#{ @getClass('target-attached') }-#{ side }" for side in sides
 
-    updateClasses @element, add, all
-    updateClasses @target, add, all
+    defer =>
+      updateClasses @element, add, all
+      updateClasses @target, add, all
 
-  position: =>
+  position: (flushChanges=true) =>
+    # flushChanges commits the changes immediately, leave true unless you are positioning multiple
+    # tethers (in which case call Tether.Utils.flush yourself when you're done)
+
     return unless @enabled
 
     @clearCache()
@@ -340,8 +355,8 @@ class _Tether
       offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right
       offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom
 
-      if next.page.top + 0.5 >= (offsetPosition.top + offsetBorder.top) and next.page.bottom >= offsetPosition.bottom
-        if next.page.left + 0.5 >= (offsetPosition.left + offsetBorder.left) and next.page.right >= offsetPosition.right
+      if next.page.top >= (offsetPosition.top + offsetBorder.top) and next.page.bottom >= offsetPosition.bottom
+        if next.page.left >= (offsetPosition.left + offsetBorder.left) and next.page.right >= offsetPosition.right
           # We're within the visible part of the target's scroll parent
 
           scrollTop = offsetParent.scrollTop
@@ -362,6 +377,9 @@ class _Tether
 
     if @history.length > 3
       @history.pop()
+
+    if flushChanges
+      flush()
 
     true
 
@@ -386,16 +404,35 @@ class _Tether
      
     css = {top: '', left: '', right: '', bottom: ''}
 
-    transcribe = (same, pos) ->
-      if same.top
-        css.top = "#{ pos.top }px"
-      else
-        css.bottom = "#{ pos.bottom }px"
+    transcribe = (same, pos) =>
+      if @options.optimizations?.gpu isnt false
+        if same.top
+          css.top = 0
+          yPos = pos.top
+        else
+          css.bottom = 0
+          yPos = -pos.bottom
 
-      if same.left
-        css.left = "#{ pos.left }px"
+        if same.left
+          css.left = 0
+          xPos = pos.left
+        else
+          css.right = 0
+          xPos = -pos.right
+
+        # The Z transform is to keep this in the GPU (faster, and prevents artifacts)
+        css[transformKey] = "translateZ(0) translateX(#{ Math.round xPos }px) translateY(#{ Math.round yPos }px)"
+
       else
-        css.right = "#{ pos.right }px"
+        if same.top
+          css.top = "#{ pos.top }px"
+        else
+          css.bottom = "#{ pos.bottom }px"
+
+        if same.left
+          css.left = "#{ pos.left }px"
+        else
+          css.right = "#{ pos.right }px"
 
     moved = false
     if (same.page.top or same.page.bottom) and (same.page.left or same.page.right)
@@ -406,14 +443,15 @@ class _Tether
       css.position = 'fixed'
       transcribe same.viewport, position.viewport
 
-    else if same.offset? and (same.offset.top or same.offset.bottom) and (same.offset.left or same.offset.right)
+    else if same.offset? and same.offset.top and same.offset.left
       css.position = 'absolute'
 
       offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
 
       if getOffsetParent(@element) isnt offsetParent
-        @element.parentNode.removeChild @element
-        offsetParent.appendChild @element
+        defer =>
+          @element.parentNode.removeChild @element
+          offsetParent.appendChild @element
 
       transcribe same.offset, position.offset
 
@@ -421,21 +459,28 @@ class _Tether
       
     else
       css.position = 'absolute'
-      css.top = "#{ position.page.top }px"
-      css.left = "#{ position.page.left }px"
+      transcribe {top: true, left: true}, position.page
 
     if not moved and @element.parentNode.tagName isnt 'BODY'
       @element.parentNode.removeChild @element
       document.body.appendChild @element
 
     # Any css change will trigger a repaint, so let's avoid one if nothing changed
+    writeCSS = {}
     write = false
     for key, val of css
-      if @element.style[key] isnt val
+      elVal = @element.style[key]
+
+      if elVal isnt '' and val isnt '' and key in ['top', 'left', 'bottom', 'right']
+        elVal = parseFloat elVal
+        val = parseFloat val
+
+      if elVal isnt val
         write = true
-        break
+        writeCSS[key] = css[key]
 
     if write
-      extend @element.style, css
+      defer =>
+        extend @element.style, writeCSS
 
 window.Tether = extend _Tether, Tether

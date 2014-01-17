@@ -1,8 +1,8 @@
 (function() {
-  var BOUNDS_FORMAT, MIRROR_ATTACH, extend, getBoundingRect, getBounds, getOuterSize, getSize, updateClasses, _ref,
+  var BOUNDS_FORMAT, MIRROR_ATTACH, defer, extend, getBoundingRect, getBounds, getOuterSize, getSize, updateClasses, _ref,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  _ref = Tether.Utils, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getSize = _ref.getSize, extend = _ref.extend, updateClasses = _ref.updateClasses;
+  _ref = Tether.Utils, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getSize = _ref.getSize, extend = _ref.extend, updateClasses = _ref.updateClasses, defer = _ref.defer;
 
   MIRROR_ATTACH = {
     left: 'right',
@@ -265,8 +265,10 @@
           this.updateAttachClasses(eAttachment, tAttachment);
         }
       }
-      updateClasses(this.target, addClasses, allClasses);
-      updateClasses(this.element, addClasses, allClasses);
+      defer = function() {
+        updateClasses(_this.target, addClasses, allClasses);
+        return updateClasses(_this.element, addClasses, allClasses);
+      };
       return {
         top: top,
         left: left

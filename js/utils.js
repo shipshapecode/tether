@@ -1,5 +1,5 @@
 (function() {
-  var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass, updateClasses,
+  var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __slice = [].slice;
@@ -29,8 +29,44 @@
     return document.body;
   };
 
+  uniqueId = (function() {
+    var id;
+    id = 0;
+    return function() {
+      return id++;
+    };
+  })();
+
+  zeroPosCache = {};
+
+  getOrigin = function(doc) {
+    var id, node;
+    node = doc._tetherZeroElement;
+    if (node == null) {
+      node = doc.createElement('div');
+      node.setAttribute('data-tether-id', uniqueId());
+      extend(node.style, {
+        top: 0,
+        left: 0,
+        position: 'absolute'
+      });
+      doc.body.appendChild(node);
+      doc._tetherZeroElement = node;
+    }
+    id = node.getAttribute('data-tether-id');
+    if (zeroPosCache[id] == null) {
+      zeroPosCache[id] = extend({}, node.getBoundingClientRect());
+      defer(function() {
+        return zeroPosCache[id] = void 0;
+      });
+    }
+    return zeroPosCache[id];
+  };
+
+  node = null;
+
   getBounds = function(el) {
-    var box, doc, docEl;
+    var box, doc, docEl, origin;
     if (el === document) {
       doc = document;
       el = document.documentElement;
@@ -39,8 +75,11 @@
     }
     docEl = doc.documentElement;
     box = extend({}, el.getBoundingClientRect());
-    box.top = box.top + window.pageYOffset - docEl.clientTop;
-    box.left = box.left + window.pageXOffset - docEl.clientLeft;
+    origin = getOrigin(doc);
+    box.top -= origin.top;
+    box.left -= origin.left;
+    box.top = box.top - docEl.clientTop;
+    box.left = box.left - docEl.clientLeft;
     box.right = doc.body.clientWidth - box.width - box.left;
     box.bottom = doc.body.clientHeight - box.height - box.top;
     return box;
@@ -132,6 +171,21 @@
     return _results;
   };
 
+  deferred = [];
+
+  defer = function(fn) {
+    return deferred.push(fn);
+  };
+
+  flush = function() {
+    var fn, _results;
+    _results = [];
+    while (fn = deferred.pop()) {
+      _results.push(fn());
+    }
+    return _results;
+  };
+
   Evented = (function() {
     function Evented() {}
 
@@ -210,6 +264,9 @@
     removeClass: removeClass,
     hasClass: hasClass,
     updateClasses: updateClasses,
+    defer: defer,
+    flush: flush,
+    uniqueId: uniqueId,
     Evented: Evented
   };
 
