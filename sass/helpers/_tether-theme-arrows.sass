@@ -31,9 +31,10 @@
 
         // Centers and middles
 
-        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-center .#{ $themePrefix }-content
-            margin-bottom: $arrowSize
+        .#{ $themePrefix }-content
+            margin: $arrowSize
 
+        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-center .#{ $themePrefix }-content
             &:before
                 top: 100%
                 left: 50%
@@ -41,8 +42,6 @@
                 border-top-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-center .#{ $themePrefix }-content
-            margin-top: $arrowSize
-
             &:before
                 bottom: 100%
                 left: 50%
@@ -50,8 +49,6 @@
                 border-bottom-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-element-attached-middle .#{ $themePrefix }-content
-            margin-right: $arrowSize
-
             &:before
                 left: 100%
                 top: 50%
@@ -59,8 +56,6 @@
                 border-left-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-element-attached-middle .#{ $themePrefix }-content
-            margin-left: $arrowSize
-
             &:before
                 right: 100%
                 top: 50%
@@ -70,32 +65,24 @@
         // Top and bottom corners
 
         &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
-            margin-top: $arrowSize
-
             &:before
                 bottom: 100%
                 left: $arrowSize
                 border-bottom-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
-            margin-top: $arrowSize
-
             &:before
                 bottom: 100%
                 right: $arrowSize
                 border-bottom-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-top .#{ $themePrefix }-content
-            margin-bottom: $arrowSize
-
             &:before
                 top: 100%
                 left: $arrowSize
                 border-top-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-top .#{ $themePrefix }-content
-            margin-bottom: $arrowSize
-
             &:before
                 top: 100%
                 right: $arrowSize
@@ -104,32 +91,24 @@
         // Side corners
 
         &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-left .#{ $themePrefix }-content
-            margin-right: $arrowSize
-
             &:before
                 top: $arrowSize
                 left: 100%
                 border-left-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-right .#{ $themePrefix }-content
-            margin-left: $arrowSize
-
             &:before
                 top: $arrowSize
                 right: 100%
                 border-right-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-left .#{ $themePrefix }-content
-            margin-right: $arrowSize
-
             &:before
                 bottom: $arrowSize
                 left: 100%
                 border-left-color: $backgroundColor
 
         &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-right .#{ $themePrefix }-content
-            margin-left: $arrowSize
-
             &:before
                 bottom: $arrowSize
                 right: 100%
