@@ -42,7 +42,7 @@
 
   Tether.modules.push({
     position: function(_arg) {
-      var addClasses, allClasses, attachment, bounds, changeAttachX, changeAttachY, constraint, eAttachment, height, left, oob, oobClass, p, pin, pinned, pinnedClass, removeClass, side, tAttachment, targetAttachment, targetHeight, targetSize, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6,
+      var addClasses, allClasses, attachment, bounds, changeAttachX, changeAttachY, cls, constraint, eAttachment, height, left, oob, oobClass, p, pin, pinned, pinnedClass, removeClass, side, tAttachment, targetAttachment, targetHeight, targetSize, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _len5, _m, _n, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7,
         _this = this;
       top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
       if (!this.options.constraints) {
@@ -79,18 +79,26 @@
           allClasses.push(constraint.pinnedClass);
         }
       }
+      for (_j = 0, _len1 = allClasses.length; _j < _len1; _j++) {
+        cls = allClasses[_j];
+        _ref3 = ['left', 'top', 'right', 'bottom'];
+        for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
+          side = _ref3[_k];
+          allClasses.push("" + cls + "-" + side);
+        }
+      }
       addClasses = [];
       tAttachment = extend({}, targetAttachment);
       eAttachment = extend({}, this.attachment);
-      _ref3 = this.options.constraints;
-      for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
-        constraint = _ref3[_j];
+      _ref4 = this.options.constraints;
+      for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
+        constraint = _ref4[_l];
         to = constraint.to, attachment = constraint.attachment, pin = constraint.pin;
         if (attachment == null) {
           attachment = '';
         }
         if (__indexOf.call(attachment, ' ') >= 0) {
-          _ref4 = attachment.split(' '), changeAttachY = _ref4[0], changeAttachX = _ref4[1];
+          _ref5 = attachment.split(' '), changeAttachY = _ref5[0], changeAttachX = _ref5[1];
         } else {
           changeAttachX = changeAttachY = attachment;
         }
@@ -192,11 +200,11 @@
         }
         if (typeof pin === 'string') {
           pin = (function() {
-            var _k, _len2, _ref5, _results;
-            _ref5 = pin.split(',');
+            var _len4, _m, _ref6, _results;
+            _ref6 = pin.split(',');
             _results = [];
-            for (_k = 0, _len2 = _ref5.length; _k < _len2; _k++) {
-              p = _ref5[_k];
+            for (_m = 0, _len4 = _ref6.length; _m < _len4; _m++) {
+              p = _ref6[_m];
               _results.push(p.trim());
             }
             return _results;
@@ -240,18 +248,18 @@
           }
         }
         if (pinned.length) {
-          pinnedClass = (_ref5 = this.options.pinnedClass) != null ? _ref5 : this.getClass('pinned');
+          pinnedClass = (_ref6 = this.options.pinnedClass) != null ? _ref6 : this.getClass('pinned');
           addClasses.push(pinnedClass);
-          for (_k = 0, _len2 = pinned.length; _k < _len2; _k++) {
-            side = pinned[_k];
+          for (_m = 0, _len4 = pinned.length; _m < _len4; _m++) {
+            side = pinned[_m];
             addClasses.push("" + pinnedClass + "-" + side);
           }
         }
         if (oob.length) {
-          oobClass = (_ref6 = this.options.outOfBoundsClass) != null ? _ref6 : this.getClass('out-of-bounds');
+          oobClass = (_ref7 = this.options.outOfBoundsClass) != null ? _ref7 : this.getClass('out-of-bounds');
           addClasses.push(oobClass);
-          for (_l = 0, _len3 = oob.length; _l < _len3; _l++) {
-            side = oob[_l];
+          for (_n = 0, _len5 = oob.length; _n < _len5; _n++) {
+            side = oob[_n];
             addClasses.push("" + oobClass + "-" + side);
           }
         }
@@ -265,10 +273,10 @@
           this.updateAttachClasses(eAttachment, tAttachment);
         }
       }
-      defer = function() {
+      defer(function() {
         updateClasses(_this.target, addClasses, allClasses);
         return updateClasses(_this.element, addClasses, allClasses);
-      };
+      });
       return {
         top: top,
         left: left

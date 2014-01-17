@@ -55,6 +55,10 @@ Tether.modules.push
       allClasses.push(constraint.outOfBoundsClass) if constraint.outOfBoundsClass
       allClasses.push(constraint.pinnedClass) if constraint.pinnedClass
 
+    for cls in allClasses
+      for side in ['left', 'top', 'right', 'bottom']
+        allClasses.push "#{ cls }-#{ side }"
+
     addClasses = []
 
     tAttachment = extend {}, targetAttachment
@@ -225,7 +229,7 @@ Tether.modules.push
       if tAttachment.top isnt targetAttachment.top or tAttachment.left isnt targetAttachment.left or eAttachment.top isnt @attachment.top or eAttachment.left isnt @attachment.left
         @updateAttachClasses eAttachment, tAttachment
 
-    defer = =>
+    defer =>
       updateClasses @target, addClasses, allClasses
       updateClasses @element, addClasses, allClasses
 
