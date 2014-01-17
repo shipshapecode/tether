@@ -1,6 +1,7 @@
 (function() {
-  var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
+  var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass, updateClasses,
     __hasProp = {}.hasOwnProperty,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __slice = [].slice;
 
   if (window.Tether == null) {
@@ -109,6 +110,28 @@
     }
   };
 
+  updateClasses = function(el, add, all) {
+    var cls, _i, _j, _len, _len1, _results;
+    for (_i = 0, _len = all.length; _i < _len; _i++) {
+      cls = all[_i];
+      if (__indexOf.call(add, cls) < 0) {
+        if (hasClass(el, cls)) {
+          removeClass(el, cls);
+        }
+      }
+    }
+    _results = [];
+    for (_j = 0, _len1 = add.length; _j < _len1; _j++) {
+      cls = add[_j];
+      if (!hasClass(el, cls)) {
+        _results.push(addClass(el, cls));
+      } else {
+        _results.push(void 0);
+      }
+    }
+    return _results;
+  };
+
   Evented = (function() {
     function Evented() {}
 
@@ -186,6 +209,7 @@
     addClass: addClass,
     removeClass: removeClass,
     hasClass: hasClass,
+    updateClasses: updateClasses,
     Evented: Evented
   };
 

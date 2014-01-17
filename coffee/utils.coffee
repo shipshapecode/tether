@@ -69,6 +69,18 @@ hasClass = (el, name) ->
   else
     new RegExp("(^| )#{ name }( |$)", 'gi').test(el.className)
 
+updateClasses = (el, add, all) ->
+  # Of the set of 'all' classes, we need the 'add' classes, and only the
+  # 'add' classes to be set.
+  
+  for cls in all when cls not in add
+    if hasClass(el, cls)
+      removeClass el, cls
+
+  for cls in add
+    if not hasClass(el, cls)
+      addClass el, cls
+
 class Evented
   on: (event, handler, ctx, once=false) ->
     @bindings ?= {}
@@ -104,4 +116,4 @@ class Evented
         else
           i++
 
-Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, Evented}
+Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, Evented}

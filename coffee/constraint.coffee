@@ -1,4 +1,4 @@
-{getOuterSize, getBounds, getSize, extend} = Tether.Utils
+{getOuterSize, getBounds, getSize, extend, updateClasses} = Tether.Utils
 
 MIRROR_ATTACH =
     left: 'right'
@@ -50,12 +50,12 @@ Tether.modules.push
     tAttachment = {}
     eAttachment = {}
 
-    removeClasses = [@getClass('pinned'), @getClass('out-of-bounds')]
+    allClasses = [@getClass('pinned'), @getClass('out-of-bounds')]
     for constraint in @options.constraints
-      removeClasses.push(constraint.outOfBoundsClass) if constraint.outOfBoundsClass
-      removeClasses.push(constraint.pinnedClass) if constraint.pinnedClass
+      allClasses.push(constraint.outOfBoundsClass) if constraint.outOfBoundsClass
+      allClasses.push(constraint.pinnedClass) if constraint.pinnedClass
 
-    removeClass(cls) for cls in removeClasses
+    addClasses = []
 
     tAttachment = extend {}, targetAttachment
     eAttachment = extend {}, @attachment
@@ -207,15 +207,15 @@ Tether.modules.push
 
       if pinned.length
         pinnedClass = @options.pinnedClass ? @getClass('pinned')
-        @addClass pinnedClass
+        addClasses.push pinnedClass
         for side in pinned
-          @addClass "#{ pinnedClass }-#{ side }"
+          addClasses.push "#{ pinnedClass }-#{ side }"
 
       if oob.length
         oobClass = @options.outOfBoundsClass ? @getClass('out-of-bounds')
-        @addClass oobClass
+        addClasses.push oobClass
         for side in oob
-          @addClass "#{ oobClass }-#{ side }"
+          addClasses.push "#{ oobClass }-#{ side }"
 
       if 'left' in pinned or 'right' in pinned
         eAttachment.left = tAttachment.left = false
@@ -224,5 +224,8 @@ Tether.modules.push
 
       if tAttachment.top isnt targetAttachment.top or tAttachment.left isnt targetAttachment.left or eAttachment.top isnt @attachment.top or eAttachment.left isnt @attachment.left
         @updateAttachClasses eAttachment, tAttachment
+
+    updateClasses @target, addClasses, allClasses
+    updateClasses @element, addClasses, allClasses
 
     {top, left}

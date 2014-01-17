@@ -1,7 +1,7 @@
 if not Tether?
   throw new Error "You must include the utils.js file before tether.js"
 
-{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass} = Tether.Utils
+{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses} = Tether.Utils
 
 debounce = (fn, time=16) ->
   pending = false
@@ -17,7 +17,8 @@ debounce = (fn, time=16) ->
       fn.apply @, args
     , time
 
-round = Math.round
+within = (a, b, diff=1) ->
+  a + diff >= b >= a - diff
 
 tethers = []
 
@@ -198,7 +199,8 @@ class _Tether
     @_cache[k]
 
   enable: (position=true) ->
-    @addClass @getClass 'enabled'
+    addClass @target, @getClass 'enabled'
+    addClass @element, @getClass 'enabled'
     @enabled = true
 
     @scrollParent.addEventListener 'scroll', @position
@@ -207,7 +209,8 @@ class _Tether
       @position()
 
   disable: ->
-    @removeClass @getClass 'enabled'
+    removeClass @target, @getClass 'enabled'
+    removeClass @element, @getClass 'enabled'
     @enabled = false
 
     if @scrollParent?
@@ -224,21 +227,18 @@ class _Tether
   updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->
     sides = ['left', 'top', 'bottom', 'right', 'middle', 'center']
   
-    @removeClass "#{ @getClass('element-attached') }-#{ side }" for side in sides
-    @addClass "#{ @getClass('element-attached') }-#{ elementAttach.top }" if elementAttach.top
-    @addClass "#{ @getClass('element-attached') }-#{ elementAttach.left }" if elementAttach.left
+    add = []
+    add.push "#{ @getClass('element-attached') }-#{ elementAttach.top }" if elementAttach.top
+    add.push "#{ @getClass('element-attached') }-#{ elementAttach.left }" if elementAttach.left
+    add.push "#{ @getClass('target-attached') }-#{ targetAttach.top }" if targetAttach.top
+    add.push "#{ @getClass('target-attached') }-#{ targetAttach.left }" if targetAttach.left
 
-    @removeClass "#{ @getClass('target-attached') }-#{ side }" for side in sides
-    @addClass "#{ @getClass('target-attached') }-#{ targetAttach.top }" if targetAttach.top
-    @addClass "#{ @getClass('target-attached') }-#{ targetAttach.left }" if targetAttach.left
+    all = []
+    all.push "#{ @getClass('element-attached') }-#{ side }" for side in sides
+    all.push "#{ @getClass('target-attached') }-#{ side }" for side in sides
 
-  addClass: (classes) ->
-    addClass @element, classes
-    addClass @target, classes
-
-  removeClass: (classes) ->
-    removeClass @element, classes
-    removeClass @target, classes
+    updateClasses @element, add, all
+    updateClasses @target, add, all
 
   position: =>
     return unless @enabled
@@ -312,8 +312,6 @@ class _Tether
 
       offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right
       offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom
-      offsetPosition.left += offsetBorder.left
-      offsetPosition.top += offsetBorder.top
 
       if next.page.top >= offsetPosition.top and next.page.bottom >= offsetPosition.bottom
         if next.page.left >= offsetPosition.left and next.page.right >= offsetPosition.right
@@ -325,10 +323,8 @@ class _Tether
           # It's position relative to the target's offset parent (absolute positioning when
           # the element is moved to be a child of the target's offset parent).
           next.offset =
-            top: round(next.page.top) - offsetPosition.top + scrollTop + offsetBorder.top
-            left: round(next.page.left) - offsetPosition.left + scrollLeft + offsetBorder.left
-            right: round(next.page.right) - offsetPosition.right + offsetParent.scrollWidth - scrollLeft + offsetBorder.right
-            bottom: round(next.page.bottom) - offsetPosition.bottom + offsetParent.scrollHeight - scrollTop + offsetBorder.bottom
+            top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top
+            left: next.page.left - offsetPosition.left + scrollLeft - offsetBorder.left
 
     # We could also travel up the DOM and try each containing context, rather than only
     # looking at the body, but we're gonna get diminishing returns.
@@ -354,7 +350,7 @@ class _Tether
         found = false
 
         for point in @history
-          unless point[type]?[key] is position[type][key]
+          unless within(point[type]?[key], position[type][key])
             found = true
             break
 
@@ -392,13 +388,7 @@ class _Tether
         @element.parentNode.removeChild @element
         offsetParent.appendChild @element
 
-      offsetParentStyle = getComputedStyle offsetParent
-
-      offset = extend {}, position.offset
-      for side in ['top', 'left', 'bottom', 'right']
-        offset[side] -= parseFloat offsetParentStyle["border-#{ side }-width"]
-
-      transcribe same.offset, offset
+      transcribe same.offset, position.offset
 
       moved = true
       

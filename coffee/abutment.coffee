@@ -1,4 +1,4 @@
-{getBounds} = Tether.Utils
+{getBounds, updateClasses} = Tether.Utils
 
 Tether.modules.push
   position: ({top, left}) ->
@@ -20,14 +20,20 @@ Tether.modules.push
         if targetPos[side] in [top, bottom]
           abutted.push side
 
+    allClasses = []
+    addClasses = []
+    
     sides = ['left', 'top', 'right', 'bottom']
-    @removeClass @getClass('abutted')
+    allClasses.push @getClass('abutted')
     for side in sides
-      @removeClass "#{ @getClass('abutted') }-#{ side }"
+      allClasses.push "#{ @getClass('abutted') }-#{ side }"
 
     if abutted.length
-      @addClass @getClass('abutted')
+      addClasses.push @getClass('abutted')
     for side in abutted
-      @addClass "#{ @getClass('abutted') }-#{ side }"
+      addClasses.push "#{ @getClass('abutted') }-#{ side }"
+
+    updateClasses @target, addClasses, allClasses
+    updateClasses @element, addClasses, allClasses
 
     true
