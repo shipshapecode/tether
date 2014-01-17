@@ -488,4 +488,6 @@ class _Tether
       defer =>
         extend @element.style, writeCSS
 
+Tether.position = position
+
 window.Tether = extend _Tether, Tether
