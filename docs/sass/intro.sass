@@ -1,9 +1,11 @@
+@import compass/css3
+
 $scrollableArea: 2000px
 $exampleWidth: 400px
 $exampleHeight: 180px
 
-*
-  box-sizing: border-box
+*, *:after, *:before
+  +box-sizing(border-box)
 
 body
   position: relative
@@ -67,7 +69,12 @@ output
   &.scrolled:after
     opacity: 0
 
-  &[deactivated]
+  &[deactivated], &[activated]
+    .scroll-box
+      pointer-events: none
+
+    cursor: pointer
+
     &:after
       position: absolute
       top: 0
@@ -76,9 +83,16 @@ output
       bottom: 0
       opacity: 1
       content: "Click To Activate"
-      background-color: rgba(0, 0, 0, 0.3)
+      background-color: #AAA
+      border-left: 10px solid #EEE
       color: white
       font-size: 24px
+      font-variant: normal
+      padding-top: 75px
+
+  &[activated]
+    &:after
+      content: "Click To Deactivate"
 
 .attachment-mark
   position: relative
@@ -117,10 +131,10 @@ span.attachment-mark
     position: absolute
 
     @each $side in left, top, bottom, right
-      .tether-#{ $type }-attached-#{ $side } &
+      div.tether-#{ $type }-attached-#{ $side } &
         #{ $side }: 0
 
-    .tether-#{ $type }-attached-center &
+    div.tether-#{ $type }-attached-center &
       left: 50%
 
 .tether-element-attached-middle .tether-element-marker

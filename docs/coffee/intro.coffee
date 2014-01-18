@@ -1,3 +1,5 @@
+{uniqueId} = Tether.Utils
+
 SETUP_JS = """
 yellowBox = $('.yellow-box', $output);
 greenBox = $('.green-box', $output);
@@ -13,6 +15,8 @@ OUTPUT_HTML = (key) -> """
 </div>
 """
 
+tethers = {}
+
 getOutput = ($block) ->
   key = $block.data('example')
   if key and typeof key is 'string'
@@ -26,21 +30,25 @@ run = (key) ->
   else
     $block = key
 
+  key = $block.attr('data-example')
+
   $output = getOutput $block
 
   code = $block.text()
-
-  if code.indexOf(SETUP_JS) is -1
-    code = SETUP_JS + code
+  code = SETUP_JS + code
 
   window.$output = $output
-  eval code
+  tethers[key] = eval code
 
 setupBlock = ($block) ->
-  #addSetupLink $block
-
   key = $block.data('example')
+
   $output = getOutput $block
+
+  if not key
+    key = uniqueId()
+    $block.attr('data-example', key)
+    $output.attr('data-example', key)
 
   $output.html OUTPUT_HTML(key)
 
@@ -54,9 +62,44 @@ setupBlock = ($block) ->
 
   $scrollBox.css 'height', "#{ $block.parent().outerHeight() }px"
 
-  console.log $output.attr('deactivated')
   if not $output.attr('deactivated')?
     run $block
+
+$(document.body).on 'click', (e) ->
+  if $(e.target).is('output[deactivated]')
+    activate $(e.target)
+    false
+  else if $(e.target).is('output[activated]')
+    deactivate $(e.target)
+    false
+
+activate = ($output) ->
+  $block = $output.prev().find('code')
+
+  run $block
+
+  $output.find('.tether-element').show()
+
+  key = $output.data('example')
+  $(tethers[key].element).show()
+  tethers[key].enable()
+
+  $output.removeAttr('deactivated')
+  $output.attr('activated', true)
+
+deactivate = ($output) ->
+  $block = $output.prev().find('code')
+  key = $output.data('example')
+
+  tethers[key].disable()
+
+  $el = $(tethers[key].element)
+  $el.detach()
+  $output.find('.scroll-content').append $el
+  $el.hide()
+
+  $output.removeAttr('activated')
+  $output.attr('deactivated', true)
 
 init = ->
   $blocks = $('code[data-example]')
