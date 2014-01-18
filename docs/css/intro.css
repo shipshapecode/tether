@@ -32,11 +32,11 @@ body {
   width: 2000px;
   padding: 910px 809px; }
 
-pre {
+pre.pre-with-output {
   margin: 0;
   width: 50%;
   float: left; }
-  pre code mark {
+  pre.pre-with-output code mark {
     background: #b8daff;
     color: black; }
 
