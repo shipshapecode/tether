@@ -262,19 +262,27 @@
               };
             } else {
               bounds = getBounds(this.target);
-              style = getComputedStyle(this.target);
-              delete bounds.right;
-              delete bounds.bottom;
-              if (bounds.top < pageYOffset) {
-                bounds.top = pageYOffset;
+              out = {
+                height: bounds.height,
+                width: bounds.width,
+                top: bounds.top,
+                left: bounds.left
+              };
+              out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
+              out.height = Math.min(out.height, bounds.height - ((bounds.top + bounds.height) - (pageYOffset + innerHeight)));
+              out.height = Math.min(innerHeight, out.height);
+              out.height -= 2;
+              out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
+              out.width = Math.min(out.width, bounds.width - ((bounds.left + bounds.width) - (pageXOffset + innerWidth)));
+              out.width = Math.min(innerWidth, out.width);
+              out.width -= 2;
+              if (out.top < pageYOffset) {
+                out.top = pageYOffset;
               }
-              if (bounds.left < 0) {
-                bounds.left = 0;
+              if (out.left < pageXOffset) {
+                out.left = pageXOffset;
               }
-              bounds.height = Math.min(bounds.height, innerHeight + pageYOffset - bounds.top + parseFloat(style.borderTopWidth));
-              bounds.width = Math.min(bounds.width, innerWidth + pageXOffset - bounds.left + parseFloat(style.borderLeftWidth));
-              console.log(bounds);
-              return bounds;
+              return out;
             }
             break;
           case 'scroll-handle':

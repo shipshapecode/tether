@@ -18,11 +18,11 @@ body {
 }
 
 .container {
-    height: 1000px;
+    height: 200px;
     overflow: scroll;
     width: 600px;
     border: 20px solid #CCC;
-    margin-top: 200px;
+    margin-top: 500px;
 }
 
 body {

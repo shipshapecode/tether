@@ -200,21 +200,29 @@ class _Tether
             {top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth}
           else
             bounds = getBounds @target
-            style = getComputedStyle @target
 
-            delete bounds.right
-            delete bounds.bottom
+            out =
+              height: bounds.height
+              width: bounds.width
+              top: bounds.top
+              left: bounds.left
 
-            if bounds.top < pageYOffset
-              bounds.top = pageYOffset
-            if bounds.left < 0
-              bounds.left = 0
+            out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top))
+            out.height = Math.min(out.height, bounds.height - ((bounds.top + bounds.height) - (pageYOffset + innerHeight)))
+            out.height = Math.min(innerHeight, out.height)
+            out.height -= 2
 
-            bounds.height = Math.min(bounds.height, innerHeight + pageYOffset - bounds.top + parseFloat(style.borderTopWidth))
-            bounds.width = Math.min(bounds.width, innerWidth + pageXOffset - bounds.left + parseFloat(style.borderLeftWidth))
-            console.log bounds
+            out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left))
+            out.width = Math.min(out.width, bounds.width - ((bounds.left + bounds.width) - (pageXOffset + innerWidth)))
+            out.width = Math.min(innerWidth, out.width)
+            out.width -= 2
 
-            bounds
+            if out.top < pageYOffset
+              out.top = pageYOffset
+            if out.left < pageXOffset
+              out.left = pageXOffset
+
+            out
 
         when 'scroll-handle'
           if @target is document.body
