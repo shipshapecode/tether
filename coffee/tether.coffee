@@ -298,6 +298,13 @@ class _Tether
     elementPos = @cache 'element-bounds', => getBounds @element
     {width, height} = elementPos
 
+    if width is 0 and height is 0 and @lastSize?
+      # We cache the height and width to make it possible to position elements that are
+      # getting hidden.
+      {width, height} = @lastSize
+    else
+      @lastSize = {width, height}
+
     targetSize = targetPos = @cache 'target-bounds', => @getTargetBounds()
 
     # Get an actual px offset from the attachment
