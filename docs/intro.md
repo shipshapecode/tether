@@ -157,7 +157,7 @@ of an element.  It only works for the body currently:
   target: document.body,
   attachment: 'middle center',
   targetAttachment: 'middle center',
-  targetModifier: 'visible'
+  <mark>targetModifier: 'visible'</mark>
 });
 </code></pre><output deactivated></output>
 
