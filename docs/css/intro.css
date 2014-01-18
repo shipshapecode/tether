@@ -51,6 +51,10 @@ output {
   width: 50%;
   float: right;
   margin-bottom: 15px; }
+  output.scroll-page .scroll-box {
+    overflow: hidden; }
+  output.scroll-page:after {
+    content: "↕ scroll the page ↕"; }
   output:after {
     content: "↕ scroll this area ↕";
     position: absolute;
@@ -84,6 +88,8 @@ output {
       padding-top: 80px; }
   output[activated]:after {
     content: "Click To Hide"; }
+  output[activated].visible-enabled:after {
+    display: none; }
 
 .attachment-mark, .tether-marker-dot {
   position: relative; }
@@ -173,11 +179,6 @@ span.attachment-mark:after, span.tether-marker-dot:after {
   color: #666666; }
 [data-example^="optimizer"] .scroll-box .tether-element:before {
   content: "I'm in my scroll parent!"; }
-
-output.scroll-page .scroll-box {
-  overflow: hidden; }
-output.scroll-page:after {
-  content: "↕ scroll the page ↕"; }
 
 .tether-element[data-example="scroll-visible"] {
   height: 30px; }

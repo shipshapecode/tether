@@ -57,6 +57,13 @@ output
   float: right
   margin-bottom: 15px
 
+  &.scroll-page
+    .scroll-box
+      overflow: hidden
+
+    &:after
+      content: "↕ scroll the page ↕"
+
   &:after
     content: "↕ scroll this area ↕"
     position: absolute
@@ -96,6 +103,10 @@ output
   &[activated]
     &:after
       content: "Click To Hide"
+
+    &.visible-enabled
+      &:after
+        display: none
 
 .attachment-mark
   position: relative
@@ -183,13 +194,6 @@ span.attachment-mark
 
   .scroll-box .tether-element:before
     content: "I'm in my scroll parent!"
-
-output.scroll-page
-  .scroll-box
-    overflow: hidden
-
-  &:after
-    content: "↕ scroll the page ↕"
 
 .tether-element[data-example="scroll-visible"]
   height: 30px

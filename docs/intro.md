@@ -309,8 +309,7 @@ tether will hide.
 </code></pre><output data-example="hide"></output>
 
 You can also constrain the element to the viewport, you'll have to scroll the
-page to see this one.  You can, of course, use pin with the window as well to
-make it always visible no matter where the user scrolls.
+page to see this one.
 
 <pre class="pre-with-output"><code class="lang-javascript" data-example="window">new Tether({
   element: yellowBox,
@@ -325,6 +324,24 @@ make it always visible no matter where the user scrolls.
   ]
 });
 </code></pre><output data-example="window" class="scroll-page"></output>
+
+You can, of course, use pin with the window as well to
+make it always visible no matter where the user scrolls:
+
+<pre class="pre-with-output"><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: greenBox,
+  attachment: 'top left',
+  targetAttachment: 'bottom left',
+  constraints: [
+    {
+      to: 'window',
+      attachment: 'together',
+      <mark>pin: true</mark>
+    }
+  ]
+});
+</code></pre><output deactivated class="scroll-page visible-enabled"></output>
 
 `to` can be any of:
 
