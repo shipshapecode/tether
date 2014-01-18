@@ -14,6 +14,10 @@ gulp.task 'coffee', ->
     .pipe(coffee())
     .pipe(gulp.dest('./js/'))
 
+  gulp.src('./docs/coffee/*')
+    .pipe(coffee())
+    .pipe(gulp.dest('./docs/js/'))
+
   gulp.src('./docs/welcome/coffee/*')
     .pipe(coffee())
     .pipe(gulp.dest('./docs/welcome/js/'))
@@ -49,7 +53,7 @@ gulp.task 'compass', ->
 gulp.task 'default', ->
   gulp.run 'js', 'compass'
 
-  gulp.watch ['./coffee/*', './docs/welcome/coffee/*'], ->
+  gulp.watch './**/*.coffee', ->
     gulp.run 'js'
 
   gulp.watch './**/*.sass', ->

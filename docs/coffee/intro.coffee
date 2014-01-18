@@ -1,6 +1,7 @@
 SETUP_JS = """
 yellowBox = $('.yellow-box', $output);
 greenBox = $('.green-box', $output);
+scrollBox = $('.scroll-box', $output);
 """
 
 OUTPUT_HTML = (key) -> """
@@ -53,7 +54,9 @@ setupBlock = ($block) ->
 
   $scrollBox.css 'height', "#{ $block.parent().outerHeight() }px"
 
-  run $block
+  console.log $output.attr('deactivated')
+  if not $output.attr('deactivated')?
+    run $block
 
 init = ->
   $blocks = $('code[data-example]')

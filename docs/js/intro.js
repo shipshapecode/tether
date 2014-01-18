@@ -1,7 +1,7 @@
 (function() {
   var OUTPUT_HTML, SETUP_JS, getOutput, init, run, setupBlock;
 
-  SETUP_JS = "yellowBox = $('.yellow-box', $output);\ngreenBox = $('.green-box', $output);";
+  SETUP_JS = "yellowBox = $('.yellow-box', $output);\ngreenBox = $('.green-box', $output);\nscrollBox = $('.scroll-box', $output);";
 
   OUTPUT_HTML = function(key) {
     return "<div class=\"scroll-box\">\n  <div class=\"scroll-content\">\n    <div class=\"yellow-box\" data-example=\"" + key + "\"></div>\n    <div class=\"green-box\" data-example=\"" + key + "\"></div>\n  </div>\n</div>";
@@ -48,7 +48,10 @@
       });
     });
     $scrollBox.css('height', "" + ($block.parent().outerHeight()) + "px");
-    return run($block);
+    console.log($output.attr('deactivated'));
+    if ($output.attr('deactivated') == null) {
+      return run($block);
+    }
   };
 
   init = function() {

@@ -1,4 +1,4 @@
-/*! tether 0.4.2 */
+/*! tether 0.4.3 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
@@ -551,11 +551,15 @@
               bounds = getBounds(this.target);
               style = getComputedStyle(this.target);
               height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth);
+              if (this.target.scrollWidth > this.target.offsetWidth) {
+                height -= 15;
+              }
               out = {
                 width: 15,
                 height: height * 0.975 * (height / this.target.scrollHeight),
                 left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
               };
+              out.height = Math.max(out.height, 30);
               scrollPercentage = this.target.scrollTop / (this.target.scrollHeight - height);
               out.top = 0.975 * scrollPercentage * (height - out.height) + bounds.top + parseFloat(style.borderTopWidth);
               return out;

@@ -50,7 +50,7 @@ output {
   output:after {
     content: "↕ scroll this area ↕";
     position: absolute;
-    bottom: 10px;
+    bottom: 25px;
     width: 100%;
     text-align: center;
     font-size: 16px;
@@ -60,6 +60,17 @@ output {
     transition: opacity 0.2s; }
   output.scrolled:after {
     opacity: 0; }
+  output[deactivated]:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 1;
+    content: "Click To Activate";
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 24px; }
 
 .attachment-mark, .tether-marker-dot {
   position: relative; }

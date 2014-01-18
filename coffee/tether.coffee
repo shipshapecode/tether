@@ -213,10 +213,15 @@ class _Tether
 
             height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth)
 
+            if @target.scrollWidth > @target.offsetWidth
+              height -= 15
+
             out =
               width: 15
               height: height * 0.975 * (height / @target.scrollHeight)
               left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
+
+            out.height = Math.max out.height, 30
 
             scrollPercentage = @target.scrollTop / (@target.scrollHeight - height)
             out.top = 0.975 * scrollPercentage * (height - out.height) + bounds.top + parseFloat(style.borderTopWidth)

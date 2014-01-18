@@ -135,6 +135,32 @@ the target.
 
 The syntax of the offset properties is `"vertical-offset horizontal-offset"`
 
+Tether offers a couple of special attachments, using the `targetModifier`
+option:
+
+<pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: scrollBox,
+  attachment: 'middle right',
+  targetAttachment: 'middle left',
+  targetModifier: 'scroll-handle'
+});
+</code></pre><output></output>
+
+Set the target to `document.body` to have the element follow the page's scroll bar.
+
+The `targetModifier` `visible` can be used to attach an element to the visible part
+of an element.  It only works for the body currently:
+
+<pre><code class="lang-javascript" data-example>new Tether({
+  element: yellowBox,
+  target: document.body,
+  attachment: 'middle center',
+  targetAttachment: 'middle center',
+  targetModifier: 'visible'
+});
+</code></pre><output deactivated></output>
+
 Constraints
 -----------
 
@@ -290,7 +316,6 @@ make it always visible no matter where the user scrolls.
   ]
 });
 </code></pre><output data-example="window"></output>
-
 
 `to` can be any of:
 
