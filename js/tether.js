@@ -383,7 +383,7 @@
     };
 
     _Tether.prototype.position = function(flushChanges) {
-      var elementPos, elementStyle, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _i, _j, _len, _len1, _ref1, _ref2, _ref3,
+      var elementPos, elementStyle, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _i, _j, _len, _len1, _ref1, _ref2, _ref3, _ref4,
         _this = this;
       if (flushChanges == null) {
         flushChanges = true;
@@ -398,6 +398,14 @@
         return getBounds(_this.element);
       });
       width = elementPos.width, height = elementPos.height;
+      if (width === 0 && height === 0 && (this.lastSize != null)) {
+        _ref1 = this.lastSize, width = _ref1.width, height = _ref1.height;
+      } else {
+        this.lastSize = {
+          width: width,
+          height: height
+        };
+      }
       targetSize = targetPos = this.cache('target-bounds', function() {
         return _this.getTargetBounds();
       });
@@ -415,9 +423,9 @@
       targetOffset = addOffset(targetOffset, manualTargetOffset);
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
-      _ref1 = Tether.modules;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        module = _ref1[_i];
+      _ref2 = Tether.modules;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        module = _ref2[_i];
         ret = module.position.call(this, {
           left: left,
           top: top,
@@ -451,7 +459,7 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
-      if (((_ref2 = this.options.optimizations) != null ? _ref2.moveElement : void 0) !== false && (this.targetModifier == null)) {
+      if (((_ref3 = this.options.optimizations) != null ? _ref3.moveElement : void 0) !== false && (this.targetModifier == null)) {
         offsetParent = this.cache('target-offsetparent', function() {
           return getOffsetParent(_this.target);
         });
@@ -462,9 +470,9 @@
         elementStyle = getComputedStyle(this.element);
         offsetParentSize = offsetPosition;
         offsetBorder = {};
-        _ref3 = ['top', 'left', 'bottom', 'right'];
-        for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
-          side = _ref3[_j];
+        _ref4 = ['top', 'left', 'bottom', 'right'];
+        for (_j = 0, _len1 = _ref4.length; _j < _len1; _j++) {
+          side = _ref4[_j];
           offsetBorder[side] = parseFloat(offsetParentStyle["border-" + side + "-width"]);
         }
         offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;

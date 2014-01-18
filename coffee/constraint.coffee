@@ -43,6 +43,11 @@ Tether.modules.push
 
     {height, width} = @cache 'element-bounds', => getBounds @element
 
+    if width is 0 and height is 0 and @lastSize?
+      # Handle the item getting hidden as a result of our positioning without glitching
+      # the classes in and out
+      {width, height} = @lastSize
+
     targetSize = @cache 'target-bounds', => @getTargetBounds()
     targetHeight = targetSize.height
     targetWidth = targetSize.width
