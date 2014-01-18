@@ -45,8 +45,12 @@ getOrigin = (doc) ->
 
   id = node.getAttribute 'data-tether-id'
   if not zeroPosCache[id]?
-    zeroPosCache[id] = extend {}, node.getBoundingClientRect()
+    zeroPosCache[id] = {}
+    for k, v of node.getBoundingClientRect()
+      # Can't use extend, as on IE9, elements don't resolve to be hasOwnProperty
+      zeroPosCache[id][k] = v
 
+    # Clear the cache when this position call is done
     defer ->
       zeroPosCache[id] = undefined
 

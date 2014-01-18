@@ -41,7 +41,7 @@
   zeroPosCache = {};
 
   getOrigin = function(doc) {
-    var id, node;
+    var id, k, node, v, _ref;
     node = doc._tetherZeroElement;
     if (node == null) {
       node = doc.createElement('div');
@@ -56,7 +56,12 @@
     }
     id = node.getAttribute('data-tether-id');
     if (zeroPosCache[id] == null) {
-      zeroPosCache[id] = extend({}, node.getBoundingClientRect());
+      zeroPosCache[id] = {};
+      _ref = node.getBoundingClientRect();
+      for (k in _ref) {
+        v = _ref[k];
+        zeroPosCache[id][k] = v;
+      }
       defer(function() {
         return zeroPosCache[id] = void 0;
       });
