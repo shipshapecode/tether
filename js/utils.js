@@ -66,7 +66,7 @@
   node = null;
 
   getBounds = function(el) {
-    var box, doc, docEl, origin;
+    var box, doc, docEl, k, origin, v, _ref;
     if (el === document) {
       doc = document;
       el = document.documentElement;
@@ -74,7 +74,12 @@
       doc = el.ownerDocument;
     }
     docEl = doc.documentElement;
-    box = extend({}, el.getBoundingClientRect());
+    box = {};
+    _ref = el.getBoundingClientRect();
+    for (k in _ref) {
+      v = _ref[k];
+      box[k] = v;
+    }
     origin = getOrigin(doc);
     box.top -= origin.top;
     box.left -= origin.left;

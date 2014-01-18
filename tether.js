@@ -67,7 +67,7 @@
   node = null;
 
   getBounds = function(el) {
-    var box, doc, docEl, origin;
+    var box, doc, docEl, k, origin, v, _ref;
     if (el === document) {
       doc = document;
       el = document.documentElement;
@@ -75,7 +75,12 @@
       doc = el.ownerDocument;
     }
     docEl = doc.documentElement;
-    box = extend({}, el.getBoundingClientRect());
+    box = {};
+    _ref = el.getBoundingClientRect();
+    for (k in _ref) {
+      v = _ref[k];
+      box[k] = v;
+    }
     origin = getOrigin(doc);
     box.top -= origin.top;
     box.left -= origin.left;
@@ -274,7 +279,7 @@
 }).call(this);
 
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
+  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -283,27 +288,6 @@
   }
 
   _ref = Tether.Utils, getScrollParent = _ref.getScrollParent, getSize = _ref.getSize, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getOffsetParent = _ref.getOffsetParent, extend = _ref.extend, addClass = _ref.addClass, removeClass = _ref.removeClass, updateClasses = _ref.updateClasses, defer = _ref.defer, flush = _ref.flush;
-
-  debounce = function(fn, time) {
-    var pending;
-    if (time == null) {
-      time = 16;
-    }
-    pending = false;
-    return function() {
-      var args,
-        _this = this;
-      if (pending) {
-        return;
-      }
-      args = arguments;
-      pending = true;
-      return setTimeout(function() {
-        pending = false;
-        return fn.apply(_this, args);
-      }, time);
-    };
-  };
 
   within = function(a, b, diff) {
     if (diff == null) {
@@ -351,7 +335,7 @@
         pendingTimeout = setTimeout(tick, 250);
         return;
       }
-      if ((lastCall != null) && (now() - lastCall) < 16) {
+      if ((lastCall != null) && (now() - lastCall) < 10) {
         return;
       }
       if (pendingTimeout != null) {
@@ -534,13 +518,18 @@
       if (this.scrollParent != null) {
         this.disable();
       }
-      this.scrollParent = getScrollParent(this.target);
+      if (this.targetModifier === 'scroll-handle') {
+        this.scrollParent = this.target;
+      } else {
+        this.scrollParent = getScrollParent(this.target);
+      }
       if (this.options.enabled !== false) {
         return this.enable(position);
       }
     };
 
     _Tether.prototype.getTargetBounds = function() {
+      var bounds, height, out, scrollPercentage, style;
       if (this.targetModifier != null) {
         switch (this.targetModifier) {
           case 'visible':
@@ -551,12 +540,26 @@
               width: innerWidth
             };
           case 'scroll-handle':
-            return {
-              top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight),
-              left: innerWidth - 15,
-              height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight),
-              width: 15
-            };
+            if (this.target === document.body) {
+              return {
+                top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight),
+                left: innerWidth - 15,
+                height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight),
+                width: 15
+              };
+            } else {
+              bounds = getBounds(this.target);
+              style = getComputedStyle(this.target);
+              height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth);
+              out = {
+                width: 15,
+                height: height * 0.975 * (height / this.target.scrollHeight),
+                left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
+              };
+              scrollPercentage = this.target.scrollTop / (this.target.scrollHeight - height);
+              out.top = 0.975 * scrollPercentage * (height - out.height) + bounds.top + parseFloat(style.borderTopWidth);
+              return out;
+            }
         }
       } else {
         return getBounds(this.target);

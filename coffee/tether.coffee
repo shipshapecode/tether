@@ -3,20 +3,6 @@ if not Tether?
 
 {getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses, defer, flush} = Tether.Utils
 
-debounce = (fn, time=16) ->
-  pending = false
-
-  return ->
-    return if pending
-
-    args = arguments
-
-    pending = true
-    setTimeout =>
-      pending = false
-      fn.apply @, args
-    , time
-
 within = (a, b, diff=1) ->
   a + diff >= b >= a - diff
 
@@ -54,8 +40,8 @@ do ->
       pendingTimeout = setTimeout tick, 250
       return
 
-    if lastCall? and (now() - lastCall) < 16
-      # Some browsers call events a little too frequently, refuse to run more than 60fps
+    if lastCall? and (now() - lastCall) < 10
+      # Some browsers call events a little too frequently, refuse to run more than is reasonable
       return
 
     if pendingTimeout?
@@ -184,7 +170,6 @@ class _Tether
       if @[key].jquery?
         @[key] = @[key][0]
       else if typeof @[key] is 'string'
-        # This breaks viewport and scroll-handle attachment for the moment
         @[key] = document.querySelector @[key]
 
     addClass @element, @getClass 'element'
@@ -201,7 +186,10 @@ class _Tether
     if @scrollParent?
       @disable()
 
-    @scrollParent = getScrollParent @target
+    if @targetModifier is 'scroll-handle'
+      @scrollParent = @target
+    else
+      @scrollParent = getScrollParent @target
 
     unless @options.enabled is false
       @enable(position)
@@ -212,12 +200,28 @@ class _Tether
         when 'visible'
           {top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth}
         when 'scroll-handle'
-          {
-            top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight)
-            left: innerWidth - 15
-            height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight)
-            width: 15
-          }
+          if @target is document.body
+            {
+              top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight)
+              left: innerWidth - 15
+              height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight)
+              width: 15
+            }
+          else
+            bounds = getBounds @target
+            style = getComputedStyle @target
+
+            height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth)
+
+            out =
+              width: 15
+              height: height * 0.975 * (height / @target.scrollHeight)
+              left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
+
+            scrollPercentage = @target.scrollTop / (@target.scrollHeight - height)
+            out.top = 0.975 * scrollPercentage * (height - out.height) + bounds.top + parseFloat(style.borderTopWidth)
+
+            out
     else
       getBounds @target
 

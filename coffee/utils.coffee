@@ -62,7 +62,11 @@ getBounds = (el) ->
 
   docEl = doc.documentElement
 
-  box = extend {}, el.getBoundingClientRect()
+  box = {}
+  # The original object returned by getBoundingClientRect is immutable, so we clone it
+  # We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
+  for k, v of el.getBoundingClientRect()
+    box[k] = v
 
   origin = getOrigin doc
 
