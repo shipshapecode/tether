@@ -20,8 +20,9 @@ body {
 .container {
     height: 1000px;
     overflow: scroll;
-    width: 30%;
+    width: 600px;
     border: 20px solid #CCC;
+    margin-top: 200px;
 }
 
 body {

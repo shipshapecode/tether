@@ -16,8 +16,6 @@ transformKey = do ->
 tethers = []
 
 position = ->
-  # Let updateStyle know to batch up all the css changes we do in this
-  # block until we're done.
   for tether in tethers
     tether.position(false)
 
@@ -198,7 +196,26 @@ class _Tether
     if @targetModifier?
       switch @targetModifier
         when 'visible'
-          {top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth}
+          if @target is document.body
+            {top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth}
+          else
+            bounds = getBounds @target
+            style = getComputedStyle @target
+
+            delete bounds.right
+            delete bounds.bottom
+
+            if bounds.top < pageYOffset
+              bounds.top = pageYOffset
+            if bounds.left < 0
+              bounds.left = 0
+
+            bounds.height = Math.min(bounds.height, innerHeight + pageYOffset - bounds.top + parseFloat(style.borderTopWidth))
+            bounds.width = Math.min(bounds.width, innerWidth + pageXOffset - bounds.left + parseFloat(style.borderLeftWidth))
+            console.log bounds
+
+            bounds
+
         when 'scroll-handle'
           if @target is document.body
             {
@@ -214,6 +231,7 @@ class _Tether
             height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth)
 
             if @target.scrollWidth > @target.offsetWidth
+              # Bottom scroll bar
               height -= 15
 
             out =

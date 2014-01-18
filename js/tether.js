@@ -253,12 +253,30 @@
       if (this.targetModifier != null) {
         switch (this.targetModifier) {
           case 'visible':
-            return {
-              top: pageYOffset,
-              left: pageXOffset,
-              height: innerHeight,
-              width: innerWidth
-            };
+            if (this.target === document.body) {
+              return {
+                top: pageYOffset,
+                left: pageXOffset,
+                height: innerHeight,
+                width: innerWidth
+              };
+            } else {
+              bounds = getBounds(this.target);
+              style = getComputedStyle(this.target);
+              delete bounds.right;
+              delete bounds.bottom;
+              if (bounds.top < pageYOffset) {
+                bounds.top = pageYOffset;
+              }
+              if (bounds.left < 0) {
+                bounds.left = 0;
+              }
+              bounds.height = Math.min(bounds.height, innerHeight + pageYOffset - bounds.top + parseFloat(style.borderTopWidth));
+              bounds.width = Math.min(bounds.width, innerWidth + pageXOffset - bounds.left + parseFloat(style.borderLeftWidth));
+              console.log(bounds);
+              return bounds;
+            }
+            break;
           case 'scroll-handle':
             if (this.target === document.body) {
               return {

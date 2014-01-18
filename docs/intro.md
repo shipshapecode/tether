@@ -138,7 +138,7 @@ The syntax of the offset properties is `"vertical-offset horizontal-offset"`
 Tether offers a couple of special attachments, using the `targetModifier`
 option:
 
-<pre><code class="lang-javascript" data-example>new Tether({
+<pre class="pre-with-output"><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: scrollBox,
   attachment: 'middle right',
@@ -150,9 +150,9 @@ option:
 Set the target to `document.body` to have the element follow the page's scroll bar.
 
 The `targetModifier` `visible` can be used to attach an element to the visible part
-of an element.  It only works for the body currently:
+of an element:
 
-<pre><code class="lang-javascript" data-example>new Tether({
+<pre class="pre-with-output"><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: document.body,
   attachment: 'middle center',
@@ -160,6 +160,15 @@ of an element.  It only works for the body currently:
   <mark>targetModifier: 'visible'</mark>
 });
 </code></pre><output deactivated></output>
+
+<pre class="pre-with-output"><code class="lang-javascript" data-example="scroll-visible">new Tether({
+  element: yellowBox,
+  <mark>target: scrollBox</mark>,
+  attachment: 'middle center',
+  targetAttachment: 'middle center',
+  targetModifier: 'visible'
+});
+</code></pre><output class="no-green scroll-page" data-example="scroll-visible"></output>
 
 Constraints
 -----------
@@ -315,7 +324,7 @@ make it always visible no matter where the user scrolls.
     }
   ]
 });
-</code></pre><output data-example="window"></output>
+</code></pre><output data-example="window" class="scroll-page"></output>
 
 `to` can be any of:
 

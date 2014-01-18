@@ -23,6 +23,9 @@ body
   height: 50px
   background-color: #4e9
 
+  .no-green &
+    display: none
+
 .scroll-box
   height: 150px
   border: 10px solid #eee
@@ -82,17 +85,17 @@ output
       right: 0
       bottom: 0
       opacity: 1
-      content: "Click To Activate"
+      content: "Click To Show"
       background-color: #AAA
       border-left: 10px solid #EEE
       color: white
       font-size: 24px
       font-variant: normal
-      padding-top: 75px
+      padding-top: 80px
 
   &[activated]
     &:after
-      content: "Click To Deactivate"
+      content: "Click To Hide"
 
 .attachment-mark
   position: relative
@@ -181,9 +184,15 @@ span.attachment-mark
   .scroll-box .tether-element:before
     content: "I'm in my scroll parent!"
 
-output[data-example="window"]
+output.scroll-page
   .scroll-box
     overflow: hidden
 
   &:after
     content: "↕ scroll the page ↕"
+
+.tether-element[data-example="scroll-visible"]
+  height: 30px
+
+  .tether-marker-dot
+    display: none

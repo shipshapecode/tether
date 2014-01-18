@@ -49,6 +49,7 @@ setupBlock = ($block) ->
     key = uniqueId()
     $block.attr('data-example', key)
     $output.attr('data-example', key)
+    $output.find('.tether-element').attr('data-example', key)
 
   $output.html OUTPUT_HTML(key)
 

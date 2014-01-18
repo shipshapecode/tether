@@ -19,6 +19,8 @@ body {
   width: 200px;
   height: 50px;
   background-color: #44ee99; }
+  .no-green .green-box {
+    display: none; }
 
 .scroll-box {
   height: 150px;
@@ -73,15 +75,15 @@ output {
       right: 0;
       bottom: 0;
       opacity: 1;
-      content: "Click To Activate";
+      content: "Click To Show";
       background-color: #aaaaaa;
       border-left: 10px solid #eeeeee;
       color: white;
       font-size: 24px;
       font-variant: normal;
-      padding-top: 75px; }
+      padding-top: 80px; }
   output[activated]:after {
-    content: "Click To Deactivate"; }
+    content: "Click To Hide"; }
 
 .attachment-mark, .tether-marker-dot {
   position: relative; }
@@ -172,7 +174,12 @@ span.attachment-mark:after, span.tether-marker-dot:after {
 [data-example^="optimizer"] .scroll-box .tether-element:before {
   content: "I'm in my scroll parent!"; }
 
-output[data-example="window"] .scroll-box {
+output.scroll-page .scroll-box {
   overflow: hidden; }
-output[data-example="window"]:after {
+output.scroll-page:after {
   content: "↕ scroll the page ↕"; }
+
+.tether-element[data-example="scroll-visible"] {
+  height: 30px; }
+  .tether-element[data-example="scroll-visible"] .tether-marker-dot {
+    display: none; }
