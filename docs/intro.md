@@ -556,27 +556,29 @@ To build Tether, you need:
 - Node.js
 - Ruby (for compass)
 
-1. Install compass (if you don't have it already)
+#### Instructions
+
+- Install compass (if you don't have it already)
 
 ```bash
 gem update --system
 gem install compass
 ```
 
-2. Install the build tool
+- Install the build tool
 
 ```bash
 npm install -g gulp
 ```
 
-3. Install the project
+- Install the project
 
 ```bash
 # In the project directory
 npm install
 ```
 
-4. Build
+- Build / Watch
 
 ```bash
 gulp
