@@ -249,7 +249,7 @@
     };
 
     _Tether.prototype.getTargetBounds = function() {
-      var bounds, height, out, scrollPercentage, style;
+      var bounds, fitAdj, hasBottomScroll, height, out, scrollBottom, scrollPercentage, style, target;
       if (this.targetModifier != null) {
         switch (this.targetModifier) {
           case 'visible':
@@ -286,30 +286,43 @@
             }
             break;
           case 'scroll-handle':
-            if (this.target === document.body) {
-              return {
-                top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight),
-                left: innerWidth - 15,
-                height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight),
-                width: 15
+            target = this.target;
+            if (target === document.body) {
+              target = document.documentElement;
+              bounds = {
+                left: pageXOffset,
+                top: pageYOffset,
+                height: innerHeight,
+                width: innerWidth
               };
             } else {
-              bounds = getBounds(this.target);
-              style = getComputedStyle(this.target);
-              height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth);
-              if (this.target.scrollWidth > this.target.offsetWidth) {
-                height -= 15;
-              }
-              out = {
-                width: 15,
-                height: height * 0.975 * (height / this.target.scrollHeight),
-                left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
-              };
-              out.height = Math.max(out.height, 30);
-              scrollPercentage = this.target.scrollTop / (this.target.scrollHeight - height);
-              out.top = 0.975 * scrollPercentage * (height - out.height) + bounds.top + parseFloat(style.borderTopWidth);
-              return out;
+              bounds = getBounds(target);
             }
+            style = getComputedStyle(target);
+            hasBottomScroll = target.scrollWidth > target.clientWidth || 'scroll' === [style.overflow, style.overflowX] || this.target !== document.body;
+            scrollBottom = 0;
+            if (hasBottomScroll) {
+              scrollBottom = 15;
+            }
+            height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - scrollBottom;
+            out = {
+              width: 15,
+              height: height * 0.975 * (height / target.scrollHeight),
+              left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
+            };
+            fitAdj = 0;
+            if (height < 408 && this.target === document.body) {
+              fitAdj = -0.00011 * Math.pow(height, 2) - 0.00727 * height + 22.58;
+            }
+            if (this.target !== document.body) {
+              out.height = Math.max(out.height, 24);
+            }
+            scrollPercentage = target.scrollTop / (target.scrollHeight - height);
+            out.top = scrollPercentage * (height - out.height - fitAdj) + bounds.top + parseFloat(style.borderTopWidth);
+            if (this.target === document.body) {
+              out.height = Math.max(out.height, 24);
+            }
+            return out;
         }
       } else {
         return getBounds(this.target);

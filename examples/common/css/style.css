@@ -3,7 +3,7 @@ body {
 }
 .element {
     width: 200px;
-    height: 200px;
+    height: 20px;
     background-color: #fe8;
     position: absolute;
     z-index: 6;
@@ -44,7 +44,7 @@ body > .container {
 }
 
 .pad {
-    height: 600px;
+    height: 1200px;
     width: 100px;
 }
 

@@ -225,34 +225,47 @@ class _Tether
             out
 
         when 'scroll-handle'
-          if @target is document.body
-            {
-              top: pageYOffset + innerHeight * (pageYOffset / document.body.scrollHeight)
-              left: innerWidth - 15
-              height: innerHeight * 0.98 * (innerHeight / document.body.scrollHeight)
-              width: 15
-            }
+          target = @target
+          if target is document.body
+            target = document.documentElement
+
+            bounds =
+              left: pageXOffset
+              top: pageYOffset
+              height: innerHeight
+              width: innerWidth
           else
-            bounds = getBounds @target
-            style = getComputedStyle @target
+            bounds = getBounds target
 
-            height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth)
+          style = getComputedStyle target
 
-            if @target.scrollWidth > @target.offsetWidth
-              # Bottom scroll bar
-              height -= 15
+          hasBottomScroll = target.scrollWidth > target.clientWidth or 'scroll' is [style.overflow, style.overflowX] or @target isnt document.body
 
-            out =
-              width: 15
-              height: height * 0.975 * (height / @target.scrollHeight)
-              left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
+          scrollBottom = 0
+          if hasBottomScroll
+            scrollBottom = 15
 
-            out.height = Math.max out.height, 30
+          height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - scrollBottom
 
-            scrollPercentage = @target.scrollTop / (@target.scrollHeight - height)
-            out.top = 0.975 * scrollPercentage * (height - out.height) + bounds.top + parseFloat(style.borderTopWidth)
+          out =
+            width: 15
+            height: height * 0.975 * (height / target.scrollHeight)
+            left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
 
-            out
+          fitAdj = 0
+          if height < 408 and @target is document.body
+            fitAdj = -0.00011 * Math.pow(height, 2) - 0.00727 * height + 22.58
+
+          if @target isnt document.body
+            out.height = Math.max out.height, 24
+
+          scrollPercentage = target.scrollTop / (target.scrollHeight - height)
+          out.top = scrollPercentage * (height - out.height - fitAdj) + bounds.top + parseFloat(style.borderTopWidth)
+
+          if @target is document.body
+            out.height = Math.max out.height, 24
+
+          out
     else
       getBounds @target
 
