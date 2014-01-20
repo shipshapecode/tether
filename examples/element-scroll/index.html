@@ -444,15 +444,19 @@
     <script src="/tether/tether.js"></script>
     <script>
       var pointer = document.querySelector('.pointer');
+      var scroll = document.querySelector('.scroll');
 
+      // This creates the pointer tether and links it up
+      // with the scroll handle
       new Tether({
-        element: '.pointer',
-        target: '.scroll',
+        element: pointer,
+        target: scroll,
         attachment: 'middle right',
         targetAttachment: 'middle left',
         targetModifier: 'scroll-handle'
       });
 
+      // Everything after this is for the highlighting effect
       var paras = document.querySelectorAll('p');
       for(var i=paras.length; i--;){
         var sents = paras[i].innerHTML.split('.');
@@ -464,8 +468,6 @@
       }
 
       var spans = document.querySelectorAll('p span');
-      var scroll = document.querySelector('.scroll');
-      var pointer = document.querySelector('.pointer');
 
       function highlight(){
         if (!spans) return;
