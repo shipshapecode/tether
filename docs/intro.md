@@ -465,8 +465,12 @@ The full list of options which can be passed to the `Tether` constructor and
   image of `attachment`.
 - `offset`: A string of the form `'vert-offset horiz-offset'`
   - `vert-offset` and `horiz-offset` can be of the form `"20px"` or `"55%"`
-- `targetOffset`: A string similar to `offset`
+- `targetOffset`: A string similar to `offset`, but refering to the offset of the target
+- `targetModifier`: Can be set to `'visible'` or `'scroll-handle'`
 - `enabled`: Should the tether be enabled initially? Defaults to `true`.
+- `classes`: A hash of classes which should be changed or disabled
+- `classPrefix`: The prefix placed at the beginning of the default classes, defaults to `'tether'`
+- `optimizations`: A hash of optimizations, used to disable them
 - `constraints`: An array of constraint definition objects.  Each definition is of the form:
   - `to`: A DOM element, bounding box, the string `'window'`, or the string `'scrollParent'`
   - `pin`: `true` or an array of strings representing the sides of the constraint
