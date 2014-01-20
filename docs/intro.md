@@ -425,7 +425,7 @@ This method of positioning can cause some issues however, including color shifts
 If you experience these issues, you can disable this optimization by setting `optimizations.gpu`
 to false:
 
-<pre><code class="lang-javascript" data-example>new Tether({
+<pre class="pre-with-output"><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: greenBox,
   attachment: 'top left',
