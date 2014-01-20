@@ -4,8 +4,10 @@ html, body {
   font-family: "proxima-nova", sans-serif; }
 
 .tether.tether-theme-arrows-dark .tether-content {
-  background: black;
-  -webkit-filter: none; }
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
+  background: black; }
   .tether.tether-theme-arrows-dark .tether-content ul {
     color: white;
     list-style: none;
