@@ -10,8 +10,10 @@ getScrollParent = (el) ->
 
   parent = el
   while parent = parent.parentNode
-    unless style = getComputedStyle parent
-      return parent
+    try
+      style = getComputedStyle parent
+
+    return parent if not style?
 
     if /(auto|scroll)/.test(style['overflow'] + style['overflow-y'] + style['overflow-x'])
       if position isnt 'absolute' or style['position'] in ['relative', 'absolute', 'fixed']

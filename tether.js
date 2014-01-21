@@ -1,4 +1,4 @@
-/*! tether 0.4.7 */
+/*! tether 0.4.6 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
@@ -18,7 +18,10 @@
     scrollParent = void 0;
     parent = el;
     while (parent = parent.parentNode) {
-      if (!(style = getComputedStyle(parent))) {
+      try {
+        style = getComputedStyle(parent);
+      } catch (_error) {}
+      if (style == null) {
         return parent;
       }
       if (/(auto|scroll)/.test(style['overflow'] + style['overflow-y'] + style['overflow-x'])) {
