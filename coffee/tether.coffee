@@ -311,8 +311,14 @@ class _Tether
 
   updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->
     sides = ['left', 'top', 'bottom', 'right', 'middle', 'center']
-  
-    add = []
+
+    if @_addAttachClasses?.length
+        # updateAttachClasses can be called more than once in a position call, so
+        # we need to clean up after ourselves such that when the last defer gets
+        # ran it doesn't add any extra classes from previous calls.
+        @_addAttachClasses.splice 0, @_addAttachClasses.length
+
+    add = @_addAttachClasses ?= []
     add.push "#{ @getClass('element-attached') }-#{ elementAttach.top }" if elementAttach.top
     add.push "#{ @getClass('element-attached') }-#{ elementAttach.left }" if elementAttach.left
     add.push "#{ @getClass('target-attached') }-#{ targetAttach.top }" if targetAttach.top
@@ -323,8 +329,12 @@ class _Tether
     all.push "#{ @getClass('target-attached') }-#{ side }" for side in sides
 
     defer =>
-      updateClasses @element, add, all
-      updateClasses @target, add, all
+      return unless @_addAttachClasses?
+
+      updateClasses @element, @_addAttachClasses, all
+      updateClasses @target, @_addAttachClasses, all
+
+      @_addAttachClasses = undefined
 
   position: (flushChanges=true) =>
     # flushChanges commits the changes immediately, leave true unless you are positioning multiple

@@ -23,10 +23,13 @@
         <script>
             new Tether({
                 element: '.element',
-                attachment: 'left right',
-                targetAttachment: 'top left',
-                targetModifier: 'scroll-handle',
-                target: '.container'
+                target: '.target',
+                attachment: 'top center',
+                targetAttachment: 'bottom center',
+                constraints: [{
+                  to: 'scrollParent',
+                  attachment: 'together'
+                }]
             });
         </script>
     </body>

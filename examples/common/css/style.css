@@ -3,10 +3,17 @@ body {
 }
 .element {
     width: 200px;
-    height: 20px;
+    height: 200px;
     background-color: #fe8;
     position: absolute;
     z-index: 6;
+    border: 30px solid grey;
+}
+.element.tether-element-attached-bottom {
+    border-bottom-color: black;
+}
+.element.tether-element-attached-top {
+    border-top-color: black;
 }
 
 .target {
@@ -15,26 +22,26 @@ body {
     width: 30%;
     margin: 0 35%;
     background-color: #4e9;
+    border: 10px solid transparent;
+}
+
+.target.tether-target-attached-bottom {
+    border-bottom-color: black;
+}
+.target.tether-target-attached-top {
+    border-top-color: black;
 }
 
 .container {
-    height: 200px;
+    height: 600px;
     overflow: scroll;
     width: 600px;
     border: 20px solid #CCC;
-    margin-top: 500px;
+    margin-top: 100px;
 }
 
 body {
     height: 1000px;
-}
-
-.element {
-    border: 30px solid grey;
-}
-
-.container .element {
-    border-color: blue;
 }
 
 body > .container {
@@ -44,7 +51,7 @@ body > .container {
 }
 
 .pad {
-    height: 1200px;
+    height: 400px;
     width: 100px;
 }
 
