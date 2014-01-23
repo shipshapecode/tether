@@ -52,7 +52,7 @@ do ->
 
     lastDuration = now() - lastCall
     
-  for event in ['resize', 'scroll']
+  for event in ['resize', 'scroll', 'touchmove']
     window.addEventListener event, tick
 
 MIRROR_LR =

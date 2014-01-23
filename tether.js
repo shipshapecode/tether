@@ -354,7 +354,7 @@
       position();
       return lastDuration = now() - lastCall;
     };
-    _ref1 = ['resize', 'scroll'];
+    _ref1 = ['resize', 'scroll', 'touchmove'];
     _results = [];
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       event = _ref1[_i];
