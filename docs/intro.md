@@ -24,10 +24,13 @@ devtools timeline as you scroll this page).
 Tether is 5kb minified and gzipped, and supports IE9+, and all modern
 browsers.
 
-Projects Built With Tether
---------------------------
-
-[Select](http://github.hubspot.com/select/docs/welcome) - [Drop](http://github.hubspot.com/drop/docs/welcome) - [Tooltip](http://github.hubspot.com/tooltip/docs/welcome) - [Shepherd](http://github.hubspot.com/shepherd/docs/welcome)
+<h2 class="projects-header">Projects Built With Tether</h2>
+<p class="projects-paragraph">
+<a href="http://github.hubspot.com/select/docs/welcome"><span>Select</span><img src="http://github.hubspot.com/os-icons/select-icon.png" /></a>
+<a href="http://github.hubspot.com/drop/docs/welcome"><span>Drop</span><img src="http://github.hubspot.com/os-icons/drop-icon.png" /></a>
+<a href="http://github.hubspot.com/tooltip/docs/welcome"><span>Tooltip</span><img src="http://github.hubspot.com/os-icons/tooltip-icon.png" /></a>
+<a href="http://github.hubspot.com/shepherd/docs/welcome"><span>Shepherd</span><img src="http://github.hubspot.com/os-icons/shepherd-icon.png" /></a>
+</p>
 
 Usage
 -----
