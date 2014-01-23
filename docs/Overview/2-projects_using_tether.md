@@ -1,3 +1,9 @@
+## Projects Using Tether
+
+Here at HubSpot we have built a bunch of libraries on top of Tether,
+both because we wanted Tether-performance, and because we saw opportunities
+to improve on what was available in the client-side ecosystem.
+
 ### [Select](http://github.hubspot.com/select/docs/welcome)
 
 Select is a replacement for native browser select elements that is fully stylable.

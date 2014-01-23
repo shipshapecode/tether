@@ -5,7 +5,7 @@ Things like [tooltips](http://github.hubspot.com/tooltip/docs/welcome),
 [dropdowns](http://github.hubspot.com/select/docs/welcome), [hover-activiated info boxes](http://github.hubspot.com/drop/docs/welcome), etc.
 
 Those elements need to be attached to something on the page.  Actually placing them next to
-the element in the DOM causes problems though, cause if any parent element is anything
+the element in the DOM causes problems though, if any parent element is anything
 but `overflow: visible`, the element gets cut off.  So you need absolute positioning
 in the body.
 
