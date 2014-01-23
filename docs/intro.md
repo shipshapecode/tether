@@ -17,10 +17,17 @@ exceedes those constraints it can be pinned to the edge, flip to the other
 side of it's target, or hide itself.
 
 Tether optimizes it's location placement to result in the minimum amount of
-'jankyness' as the page is scrolled and resized.
+'jankyness' as the page is scrolled and resized.  The page can maintain 60fps
+scrolling even with dozens or hundreds of tethers on screen (pop open the
+devtools timeline as you scroll this page).
 
 Tether is 5kb minified and gzipped, and supports IE9+, and all modern
 browsers.
+
+Projects Built With Tether
+--------------------------
+
+[Select](http://github.hubspot.com/select/docs/welcome) - [Drop](http://github.hubspot.com/drop/docs/welcome) - [Tooltip](http://github.hubspot.com/tooltip/docs/welcome) - [Shepherd](http://github.hubspot.com/shepherd/docs/welcome)
 
 Usage
 -----
