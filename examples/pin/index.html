@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="../common/css/style.css" />
     </head>
     <body>
-        <div class="instructions">Resize the page to see the Tether flip.</div>
+        <div class="instructions">Resize the screen to see the tethered element stick to the edges of the screen when it's resized.</div>
   
         <div class="element"></div>
         <div class="target"></div>
@@ -22,7 +22,7 @@
                 targetAttachment: 'top right',
                 constraints: [{
                     to: 'window',
-                    attachment: 'together'
+                    pin: true
                 }]
             });
         </script>
