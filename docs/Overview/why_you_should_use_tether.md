@@ -1,11 +1,4 @@
-### tl;dr
-
-- Optimized GPU-accelerated repositioning for 60fps scrolling
-- Reliable positioning on any possible corner, edge or point in between.
-- Support for repositioning or pinning the element when it would be offscreen
-- Designed to be embeddable in other libraries
-
-### Details
+## Why You Should Use Tether
 
 Virtually every app includes some sort of overlay attached to an element on the page.
 Things like [tooltips](http://github.hubspot.com/tooltip/docs/welcome),
@@ -41,3 +34,10 @@ elements.  It would be cool if the library could optimize all of their repositio
 into a single repaint.
 
 All of that is baked into Tether.
+
+### tl;dr
+
+- Optimized GPU-accelerated repositioning for 60fps scrolling
+- Reliable positioning on any possible corner, edge or point in between.
+- Support for repositioning or pinning the element when it would be offscreen
+- Designed to be embeddable in other libraries
