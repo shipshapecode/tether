@@ -1,0 +1,19 @@
+{
+  "name": "tether",
+  "repo": "HubSpot/tether",
+  "version": "0.4.8",
+  "description": "A client-side library to make absolutely positioned elements attach to elements in the page efficiently.",
+  "authors": [
+    "Zack Bloom <zbloom@hubspot.com>",
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
+  ],
+  "license": "MIT",
+  "demo": "http://github.hubspot.com/tether/docs/welcome/",
+  "main": "tether.js",
+  "styles": [
+    "css/tether.css"
+  ],
+  "scripts": [
+    "tether.js"
+  ]
+}
