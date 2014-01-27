@@ -1,5 +1,6 @@
-title: "tether"
+name: "Tether"
 description: "Marrying DOM elements for life"
 source: "coffee/*.coffee"
 examples: "**/*.md"
 assets: "{deps/*,*.js,*.coffee,css/*.css,docs/css/*.css,docs/js/*,js,docs/welcome/*,examples/*}"
+domain: tether.io
