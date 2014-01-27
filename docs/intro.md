@@ -1,3 +1,4 @@
+<script src="docs/js/jquery.js"></script>
 <script src="/tether/tether.js"></script>
 <script src="js/markAttachment.js"></script>
 <script src="docs/js/intro.js"></script>
