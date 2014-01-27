@@ -6,6 +6,6 @@ It aims to be the canonical implementation of this type of positioning, such tha
 
 Take a look at the documentation for a more detailed explanation of why you should star it now to remember it for your next project.
 
-[![Tether Docs](http://i.imgur.com/YCx8cLr.png)](http://github.hubspot.com/tether/)
+[![Tether Docs](http://i.imgur.com/YCx8cLr.png)](http://github.hubspot.com/tether/#usage)
 
 ### [Demo](http://github.hubspot.com/tether/docs/welcome/) &nbsp;&nbsp; [Documentation](http://github.hubspot.com/tether/)
