@@ -1,7 +1,7 @@
 Why we don't support IE 8
 -------------------------
 
-We've been living in 2007 for a while now, pretending that new browser features didn't
+We've been living in 2007 for a while now, pretending that new browser features don't
 exist because they aren't in IE8.  You might not even know about some of these features,
 or think they are only enabled by jQuery or underscore, simply because it hasen't
 been an option to rely upon them.
@@ -30,7 +30,7 @@ Here is the list of features you don't have if you choose to support IE 8:
 - Tether
 
 It's true that IE 8 still holds a big chunk of the browsing population, but the reasons
-why they can't update dre dwinding.  There are two big reasons for continuing IE 8 support.
+why they can't update are dwinding.  There are two big reasons for continuing IE 8 support.
 
 #### Enterprises
 
