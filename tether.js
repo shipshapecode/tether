@@ -1,4 +1,4 @@
-/*! tether 0.5.0 */
+/*! tether 0.5.1 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
@@ -813,7 +813,7 @@
         _ref4 = ['Top', 'Left', 'Bottom', 'Right'];
         for (_j = 0, _len1 = _ref4.length; _j < _len1; _j++) {
           side = _ref4[_j];
-          offsetBorder[side] = parseFloat(offsetParentStyle["border" + side + "Width"]);
+          offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle["border" + side + "Width"]);
         }
         offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
         offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
