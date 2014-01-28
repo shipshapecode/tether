@@ -415,7 +415,7 @@ class _Tether
 
       offsetBorder = {}
       for side in ['Top', 'Left', 'Bottom', 'Right']
-        offsetBorder[side] = parseFloat offsetParentStyle["border#{ side }Width"]
+        offsetBorder[side.toLowerCase()] = parseFloat offsetParentStyle["border#{ side }Width"]
 
       offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right
       offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom
