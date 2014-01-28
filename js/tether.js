@@ -516,10 +516,10 @@
         elementStyle = getComputedStyle(this.element);
         offsetParentSize = offsetPosition;
         offsetBorder = {};
-        _ref4 = ['top', 'left', 'bottom', 'right'];
+        _ref4 = ['Top', 'Left', 'Bottom', 'Right'];
         for (_j = 0, _len1 = _ref4.length; _j < _len1; _j++) {
           side = _ref4[_j];
-          offsetBorder[side] = parseFloat(offsetParentStyle["border-" + side + "-width"]);
+          offsetBorder[side] = parseFloat(offsetParentStyle["border" + side + "Width"]);
         }
         offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
         offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;

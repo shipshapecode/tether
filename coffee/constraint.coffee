@@ -25,10 +25,11 @@ getBoundingRect = (tether, to) ->
     to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top]
 
     for side, i in BOUNDS_FORMAT
-      if side in ['top', 'left']
-        to[i] += parseFloat style["border-#{ side }-width"]
+      side = side[0].toUpperCase() + side.substr(1)
+      if side in ['Top', 'Left']
+        to[i] += parseFloat style["border#{ side }Width"]
       else
-        to[i] -= parseFloat style["border-#{ side }-width"]
+        to[i] -= parseFloat style["border#{ side }Width"]
 
   to
 

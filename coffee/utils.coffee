@@ -79,6 +79,9 @@ getBounds = (el) ->
   box.top -= origin.top
   box.left -= origin.left
 
+  box.width ?= document.body.scrollWidth - box.left - box.right
+  box.height ?= document.body.scrollHeight - box.top - box.bottom
+
   box.top = box.top - docEl.clientTop
   box.left = box.left - docEl.clientLeft
   box.right = doc.body.clientWidth - box.width - box.left

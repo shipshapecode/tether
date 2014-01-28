@@ -30,10 +30,11 @@
       to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
       for (i = _i = 0, _len = BOUNDS_FORMAT.length; _i < _len; i = ++_i) {
         side = BOUNDS_FORMAT[i];
-        if (side === 'top' || side === 'left') {
-          to[i] += parseFloat(style["border-" + side + "-width"]);
+        side = side[0].toUpperCase() + side.substr(1);
+        if (side === 'Top' || side === 'Left') {
+          to[i] += parseFloat(style["border" + side + "Width"]);
         } else {
-          to[i] -= parseFloat(style["border-" + side + "-width"]);
+          to[i] -= parseFloat(style["border" + side + "Width"]);
         }
       }
     }
