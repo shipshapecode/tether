@@ -8,4 +8,4 @@ Take a look at the documentation for a more detailed explanation of why you shou
 
 [![Tether Docs](http://i.imgur.com/YCx8cLr.png)](http://github.hubspot.com/tether/#usage)
 
-### [Demo](http://github.hubspot.com/tether/docs/welcome/) &nbsp;&nbsp; [Documentation](http://github.hubspot.com/tether/)
+### [Demo & Documentation](http://github.hubspot.com/tether/)
