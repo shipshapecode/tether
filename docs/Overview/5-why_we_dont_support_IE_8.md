@@ -30,7 +30,7 @@ Here is the list of features you don't have if you choose to support IE 8:
 - Tether
 
 It's true that IE 8 still holds a big chunk of the browsing population, but the reasons
-why they can't update are dwinding.  There are two big reasons for continuing IE 8 support.
+why they can't update are dwindling.  There are two big reasons for continuing IE 8 support.
 
 #### Enterprises
 
