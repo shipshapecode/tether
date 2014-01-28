@@ -1,5 +1,7 @@
 @charset "UTF-8";
-* {
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
 body {
@@ -17,6 +19,8 @@ body {
   width: 200px;
   height: 50px;
   background-color: #44ee99; }
+  .no-green .green-box {
+    display: none; }
 
 .scroll-box {
   height: 150px;
@@ -30,11 +34,11 @@ body {
   width: 2000px;
   padding: 910px 809px; }
 
-pre {
+pre.pre-with-output {
   margin: 0;
   width: 50%;
   float: left; }
-  pre code mark {
+  pre.pre-with-output code mark {
     background: #b8daff;
     color: black; }
 
@@ -47,10 +51,14 @@ output {
   width: 50%;
   float: right;
   margin-bottom: 15px; }
+  output.scroll-page .scroll-box {
+    overflow: hidden; }
+  output.scroll-page:after {
+    content: "↕ scroll the page ↕"; }
   output:after {
     content: "↕ scroll this area ↕";
     position: absolute;
-    bottom: 10px;
+    bottom: 25px;
     width: 100%;
     text-align: center;
     font-size: 16px;
@@ -60,6 +68,29 @@ output {
     transition: opacity 0.2s; }
   output.scrolled:after {
     opacity: 0; }
+  output[deactivated], output[activated] {
+    cursor: pointer; }
+    output[deactivated] .scroll-box, output[activated] .scroll-box {
+      pointer-events: none; }
+    output[deactivated]:after, output[activated]:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 1;
+      content: "Click To Show";
+      background-color: #aaaaaa;
+      border-left: 10px solid #eeeeee;
+      color: white;
+      font-size: 24px;
+      font-variant: normal;
+      padding-top: 80px; }
+  output[activated]:after {
+    content: "Click To Hide"; }
+  output[activated].visible-enabled:after {
+    height: 35px;
+    padding-top: 5px; }
 
 .attachment-mark, .tether-marker-dot {
   position: relative; }
@@ -88,28 +119,28 @@ span.attachment-mark:after, span.tether-marker-dot:after {
 
 .tether-target-marker {
   position: absolute; }
-  .tether-target-attached-left .tether-target-marker {
+  div.tether-target-attached-left .tether-target-marker {
     left: 0; }
-  .tether-target-attached-top .tether-target-marker {
+  div.tether-target-attached-top .tether-target-marker {
     top: 0; }
-  .tether-target-attached-bottom .tether-target-marker {
+  div.tether-target-attached-bottom .tether-target-marker {
     bottom: 0; }
-  .tether-target-attached-right .tether-target-marker {
+  div.tether-target-attached-right .tether-target-marker {
     right: 0; }
-  .tether-target-attached-center .tether-target-marker {
+  div.tether-target-attached-center .tether-target-marker {
     left: 50%; }
 
 .tether-element-marker {
   position: absolute; }
-  .tether-element-attached-left .tether-element-marker {
+  div.tether-element-attached-left .tether-element-marker {
     left: 0; }
-  .tether-element-attached-top .tether-element-marker {
+  div.tether-element-attached-top .tether-element-marker {
     top: 0; }
-  .tether-element-attached-bottom .tether-element-marker {
+  div.tether-element-attached-bottom .tether-element-marker {
     bottom: 0; }
-  .tether-element-attached-right .tether-element-marker {
+  div.tether-element-attached-right .tether-element-marker {
     right: 0; }
-  .tether-element-attached-center .tether-element-marker {
+  div.tether-element-attached-center .tether-element-marker {
     left: 50%; }
 
 .tether-element-attached-middle .tether-element-marker {
@@ -150,7 +181,39 @@ span.attachment-mark:after, span.tether-marker-dot:after {
 [data-example^="optimizer"] .scroll-box .tether-element:before {
   content: "I'm in my scroll parent!"; }
 
-output[data-example="window"] .scroll-box {
-  overflow: hidden; }
-output[data-example="window"]:after {
-  content: "↕ scroll the page ↕"; }
+.tether-element[data-example="scroll-visible"] {
+  height: 30px; }
+  .tether-element[data-example="scroll-visible"] .tether-marker-dot {
+    display: none; }
+
+.hs-doc-content h2.projects-header {
+  text-align: center;
+  font-weight: 300; }
+
+.projects-paragraph {
+  text-align: center; }
+  .projects-paragraph a {
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: middle;
+    *vertical-align: auto;
+    zoom: 1;
+    *display: inline;
+    text-align: center;
+    margin-right: 30px;
+    color: inherit; }
+    .projects-paragraph a span {
+      display: -moz-inline-stack;
+      display: inline-block;
+      vertical-align: middle;
+      *vertical-align: auto;
+      zoom: 1;
+      *display: inline;
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: inherit;
+      font-weight: 300; }
+    .projects-paragraph a img {
+      display: block;
+      max-width: 100%;
+      width: 100px; }

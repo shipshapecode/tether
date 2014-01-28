@@ -5,9 +5,9 @@ html, body
     overflow: hidden
     font-family: "proxima-nova", sans-serif
 
-.drop.drop-theme-arrows .drop-content
+.tether.tether-theme-arrows-dark .tether-content
+    +filter(none)
     background: #000
-    -webkit-filter: none
 
     ul
         color: #fff
@@ -15,7 +15,7 @@ html, body
         padding: 0
         margin: 0
 
-.drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-right .drop-content:before
+.tether.tether-theme-arrows-dark.tether-element-attached-top.tether-element-attached-left.tether-target-attached-right .tether-content:before
     border-right-color: #000
 
 .browser-demo
@@ -54,7 +54,7 @@ html, body
                 border-bottom: 1px solid rgba(0, 0, 0, .1)
                 cursor: pointer
 
-                &:hover, &.drop-open
+                &:hover, &.tether-open
                     background: rgba(0, 0, 0, .1)
                     border-bottom: 1px solid rgba(0, 0, 0, 0)
 

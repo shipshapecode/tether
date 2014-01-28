@@ -1,62 +1,35 @@
 (function() {
-  var MIRROR_ATTACH, init, isMobile, setupBrowserDemo, setupHero, sortAttach;
+  var init, isMobile, setupBrowserDemo, setupHero, _Drop;
+
+  _Drop = Drop.createContext({
+    classPrefix: 'tether'
+  });
 
   isMobile = $(window).width() < 567;
 
-  MIRROR_ATTACH = {
-    left: 'right',
-    right: 'left',
-    top: 'bottom',
-    bottom: 'top',
-    middle: 'middle',
-    center: 'center'
-  };
-
-  sortAttach = function(str) {
-    var first, second, _ref, _ref1;
-    _ref = str.split(' '), first = _ref[0], second = _ref[1];
-    if (first === 'left' || first === 'right') {
-      _ref1 = [second, first], first = _ref1[0], second = _ref1[1];
-    }
-    return [first, second].join(' ');
-  };
-
   init = function() {
+    setupHero();
     return setupBrowserDemo();
   };
 
   setupHero = function() {
-    var $target, dropAttach, finalDropState, frameLengthMS, frames, openAllDrops, openIndex, openNextDrop, targetAttachment, targetAttachments, _i, _len;
+    var $target, finalDropState, frameLengthMS, frames, openAllDrops, openIndex, openNextDrop, position, positions, _i, _len;
     $target = $('.tether-target-demo');
-    targetAttachments = ['top left', 'left top', 'left middle', 'left bottom', 'bottom left', 'bottom center', 'bottom right', 'right bottom', 'right middle', 'right top', 'top right', 'top center'];
+    positions = ['top left', 'left top', 'left middle', 'left bottom', 'bottom left', 'bottom center', 'bottom right', 'right bottom', 'right middle', 'right top', 'top right', 'top center'];
     if (isMobile) {
-      targetAttachments = ['top left', 'bottom left', 'bottom right', 'top right'];
+      positions = ['top left', 'bottom left', 'bottom right', 'top right'];
     }
     window.drops = {};
-    for (_i = 0, _len = targetAttachments.length; _i < _len; _i++) {
-      targetAttachment = targetAttachments[_i];
-      dropAttach = targetAttachment.split(' ');
-      dropAttach[0] = MIRROR_ATTACH[dropAttach[0]];
-      dropAttach = dropAttach.join(' ');
-      drops[targetAttachment] = new Tether({
+    for (_i = 0, _len = positions.length; _i < _len; _i++) {
+      position = positions[_i];
+      drops[position] = new _Drop({
         target: $target[0],
-        element: $('<div style="height: 50px; width: 50px"></div>'),
-        className: 'tooltip-theme-arrows',
-        classPrefix: 'tooltip',
-        enabled: false,
-        offset: '0 0',
-        targetOffset: '0 0',
-        attachment: sortAttach(dropAttach),
-        targetAttachment: sortAttach(targetAttachment),
-        constraints: [
-          {
-            to: 'window',
-            pin: true,
-            attachment: 'together'
-          }
-        ]
+        classes: 'tether-theme-arrows-dark',
+        position: position,
+        constrainToWindow: false,
+        openOn: '',
+        content: '<div style="height: 50px; width: 50px"></div>'
       });
-      $(drops[targetAttachment].drop).addClass("drop-attached-" + (targetAttachment.replace(' ', '-')));
     }
     openIndex = 0;
     frames = 0;
@@ -64,21 +37,21 @@
     openAllDrops = function() {
       var drop, _results;
       _results = [];
-      for (targetAttachment in drops) {
-        drop = drops[targetAttachment];
+      for (position in drops) {
+        drop = drops[position];
         _results.push(drop.open());
       }
       return _results;
     };
     openNextDrop = function() {
       var drop;
-      for (targetAttachment in drops) {
-        drop = drops[targetAttachment];
+      for (position in drops) {
+        drop = drops[position];
         drop.close();
       }
-      drops[targetAttachments[openIndex]].open();
-      drops[targetAttachments[(openIndex + 6) % targetAttachments.length]].open();
-      openIndex = (openIndex + 1) % targetAttachments.length;
+      drops[positions[openIndex]].open();
+      drops[positions[(openIndex + 6) % positions.length]].open();
+      openIndex = (openIndex + 1) % positions.length;
       if (frames > 5) {
         finalDropState();
         return;
@@ -87,14 +60,17 @@
       return setTimeout(openNextDrop, frameLengthMS * frames);
     };
     finalDropState = function() {
-      drops['top left'].$dropContent.html('Marrying DOM elements for life.');
-      drops['bottom right'].$dropContent.html('<a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>');
+      $(drops['top left'].dropContent).html('Marrying DOM elements for life.');
+      $(drops['bottom right'].dropContent).html('<a class="button" href="http://github.com/HubSpot/tether">★ On Github</a>');
       drops['top left'].open();
       return drops['bottom right'].open();
     };
-    if (isMobile) {
+    if (true || isMobile) {
       drops['top left'].open();
-      return drops['bottom right'].open();
+      drops['top left'].tether.position();
+      drops['bottom right'].open();
+      drops['bottom right'].tether.position();
+      return finalDropState();
     } else {
       return openNextDrop();
     }
@@ -138,24 +114,20 @@
       iframeWindow = $iframe[0].contentWindow;
       $items = $iframe.contents().find('.item');
       return $items.each(function(i) {
-        var $item, drop;
+        var $item, drop, _iframeWindowDrop;
         $item = $(this);
-        drop = new iframeWindow.Tether({
-          target: $item[0],
-          className: 'drop-theme-arrows',
-          targetAttach: 'right top',
-          attach: 'left top',
-          constraints: [
-            {
-              to: 'window',
-              pin: true,
-              attachment: 'together'
-            }
-          ],
-          element: $('<ul>\n    <li>Action&nbsp;1</li>\n    <li>Action&nbsp;2</li>\n    <li>Action&nbsp;3</li>\n</ul>')
+        _iframeWindowDrop = iframeWindow.Drop.createContext({
+          classPrefix: 'tether'
         });
-        $item.data('drop', drop);
-        return drop.$drop.addClass("drop-attached-right-top");
+        drop = new _iframeWindowDrop({
+          target: $item[0],
+          classes: 'tether-theme-arrows-dark',
+          position: 'right top',
+          constrainToWindow: true,
+          openOn: 'click',
+          content: '<ul>\n    <li>Action&nbsp;1</li>\n    <li>Action&nbsp;2</li>\n    <li>Action&nbsp;3</li>\n</ul>'
+        });
+        return $item.data('drop', drop);
       });
     });
     scrollInterval = void 0;
