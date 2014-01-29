@@ -259,7 +259,7 @@ class _Tether
           if @target isnt document.body
             out.height = Math.max out.height, 24
 
-          scrollPercentage = target.scrollTop / (target.scrollHeight - height)
+          scrollPercentage = @target.scrollTop / (target.scrollHeight - height)
           out.top = scrollPercentage * (height - out.height - fitAdj) + bounds.top + parseFloat(style.borderTopWidth)
 
           if @target is document.body

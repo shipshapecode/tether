@@ -611,7 +611,7 @@
             if (this.target !== document.body) {
               out.height = Math.max(out.height, 24);
             }
-            scrollPercentage = target.scrollTop / (target.scrollHeight - height);
+            scrollPercentage = this.target.scrollTop / (target.scrollHeight - height);
             out.top = scrollPercentage * (height - out.height - fitAdj) + bounds.top + parseFloat(style.borderTopWidth);
             if (this.target === document.body) {
               out.height = Math.max(out.height, 24);
