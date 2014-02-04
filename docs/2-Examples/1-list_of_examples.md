@@ -17,7 +17,7 @@ in javascript
 
 - [content-visible](../../examples/content-visible): Demonstrates using the `'visible'`
 `targetModifier` to align an element with the visible portion of another.
-- [dolls](../../examples/dolls): A performance test to show several hundred elements,
+- [dolls](../../examples/dolls): A performance test to show several dozen elements,
 each tethered to the previous.  Try dragging the top left tether.
 - [element-scroll](../../examples/element-scroll): Demonstrates using the `'scroll-handle'`
 `targetModifier` to align an element with the scrollbar of an element.
