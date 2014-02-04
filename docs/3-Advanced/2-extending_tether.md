@@ -13,13 +13,26 @@ Tether.modules.push
     {top, left}
 ```
 
-Your position function can either return a new object with `top` and `left`, null/undefined to leave the coordinates unchanged, or
-false to cancel the positioning.
+#### Position
+
+Your position function can either return a new object with `top` and `left`, `null`/`undefined` to leave the coordinates unchanged, or
+`false` to cancel the positioning.
 
 The position function is passed an object with the following elements:
 
 ```javascript
-{left, top, targetAttachment, targetPos, elementPos, offset, targetOffset, manualOffset, manualTargetOffset
+{
+  left, // The element's new position, from the top left corner of the page
+  top,
+  targetAttachment, // The targetAttachment, with 'auto' resolved to an actual attachment
+  targetPos, // The coordinates of the target
+  attachment, // The attachment, as passed in the option
+  elementPos, // The cooridinates of the element
+  offset, // The offset, after it's converted into pixels and the manual offset is added
+  targetOffset, // The attachment is converted into an offset and is included in these values
+  manualOffset, // The manual offset, in pixels
+  manualTargetOffset
+}
 ```
 
 It is called with the Tether instance as its context (`this`).
@@ -37,4 +50,5 @@ Tether.modules.push
 
 #### Examples
 
-Constraints and shift are both implemented as modules, in the coffee/ directory.
+[Constraints](https://github.com/HubSpot/tether/blob/master/coffee/constraint.coffee) and [shift](https://github.com/HubSpot/tether/blob/master/coffee/shift.coffee) are both implemented as modules.
+[Mark Attachment](https://github.com/HubSpot/tether/blob/master/coffee/markAttachment.coffee) is used by the docs.

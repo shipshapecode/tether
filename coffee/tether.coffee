@@ -377,7 +377,7 @@ class _Tether
     top = targetPos.top + targetOffset.top - offset.top
 
     for module in Tether.modules
-      ret = module.position.call(@, {left, top, targetAttachment, targetPos, elementPos, offset, targetOffset, manualOffset, manualTargetOffset})
+      ret = module.position.call(@, {left, top, targetAttachment, targetPos, @attachment, elementPos, offset, targetOffset, manualOffset, manualTargetOffset})
 
       if not ret? or typeof ret isnt 'object'
         continue

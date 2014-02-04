@@ -477,6 +477,7 @@
           top: top,
           targetAttachment: targetAttachment,
           targetPos: targetPos,
+          attachment: this.attachment,
           elementPos: elementPos,
           offset: offset,
           targetOffset: targetOffset,
