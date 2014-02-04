@@ -27,8 +27,8 @@ tether.position()
 
 #### Tethering Hidden Elements
 
-If you are using
-anything other than attachment `top left`, your Tether may not be able to position itself properly.  One way around this is to
+If you are creating a tether involving elements which are `display: none`, or not actually in the DOM, 
+your Tether may not be able to position itself properly.  One way around this is to
 ensure that a position call happens after all layouts have finished:
 
 ```javascript
