@@ -24,3 +24,23 @@ tether = new Tether({ ... })
 // Later:
 tether.position()
 ```
+
+#### Tethering Hidden Elements
+
+If you are using
+anything other than attachment `top left`, your Tether may not be able to position itself properly.  One way around this is to
+ensure that a position call happens after all layouts have finished:
+
+```javascript
+myElement.style.display = 'block'
+
+tether = new Tether({ ... })
+
+setTimeout(function(){
+  tether.position();
+})
+```
+
+In general however, you shouldn't have any trouble if both the element and the target are visible and in the DOM when you
+create the Tether.  If that is not the case, create the Tether disabled (option `enabled`: `false`), and enable it when
+the elements are ready.
