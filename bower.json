@@ -1,6 +1,7 @@
 {
   "name": "tether",
   "version": "0.5.2",
+  "main": "tether.js",
   "homepage": "https://github.hubspot.com/tether",
   "authors": [
     "Zack Bloom <zbloom@hubspot.com>",
