@@ -1,4 +1,4 @@
-window.Tether ?= {}
+this.Tether ?= {}
 
 getScrollParent = (el) ->
   position = getComputedStyle(el).position
@@ -139,7 +139,7 @@ defer = (fn) ->
 
 flush = ->
   fn() while fn = deferred.pop()
-    
+
 class Evented
   on: (event, handler, ctx, once=false) ->
     @bindings ?= {}
