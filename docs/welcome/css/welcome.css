@@ -17,12 +17,13 @@ body {
   cursor: pointer;
   width: 140px;
   font-size: 0.8em;
-  line-height: 1.3em; }
+  line-height: 1.3em;
+  text-align: center; }
 
-.drop.drop-tooltip-theme-arrows .drop-content {
+.tether-element.tether-theme-arrows-dark .tether-content {
   padding: 1em;
   font-size: 1.1em; }
-  .drop.drop-tooltip-theme-arrows .drop-content .button {
+  .tether-element.tether-theme-arrows-dark .tether-content .button {
     border-color: white;
     color: white;
     width: 170px;

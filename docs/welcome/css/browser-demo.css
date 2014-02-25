@@ -3,16 +3,18 @@ html, body {
   overflow: hidden;
   font-family: "proxima-nova", sans-serif; }
 
-.drop.drop-theme-arrows .drop-content {
-  background: black;
-  -webkit-filter: none; }
-  .drop.drop-theme-arrows .drop-content ul {
+.tether.tether-theme-arrows-dark .tether-content {
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
+  background: black; }
+  .tether.tether-theme-arrows-dark .tether-content ul {
     color: white;
     list-style: none;
     padding: 0;
     margin: 0; }
 
-.drop.drop-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-right .drop-content:before {
+.tether.tether-theme-arrows-dark.tether-element-attached-top.tether-element-attached-left.tether-target-attached-right .tether-content:before {
   border-right-color: black; }
 
 .browser-demo {
@@ -47,7 +49,7 @@ html, body {
         height: 64px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         cursor: pointer; }
-        .browser-demo .bottom .left .item:hover, .browser-demo .bottom .left .item.drop-open {
+        .browser-demo .bottom .left .item:hover, .browser-demo .bottom .left .item.tether-open {
           background: rgba(0, 0, 0, 0.1);
           border-bottom: 1px solid rgba(0, 0, 0, 0); }
         .browser-demo .bottom .left .item:last-child {
