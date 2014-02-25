@@ -465,8 +465,8 @@ Options
 The full list of options which can be passed to the `Tether` constructor and
 `setOptions`:
 
-- `element`: A DOM or jQuery element
-- `target`: A DOM or jQuery element
+- `element`: The DOM element, jQuery element, or a selector string of an element which will be moved
+- `target`: The DOM element, jQuery element, or a selector string of an element which the `element` will be attached to
 - `attachment`: A string of the form `'vert-attachment horiz-attachment'`
   - `vert-attachment` can be any of `'top'`, `'middle'`, `'bottom'`
   - `horiz-attachment` can be any of `'left'`, `'center'`, `'right'`
