@@ -6,7 +6,7 @@
 Tether
 ======
 
-Tether is a javascript library for efficiently making an absolutely positioned
+Tether is a JavaScript library for efficiently making an absolutely positioned
 element stay next to another element on the page. For example, you might
 want a tooltip or dialog to open, and remain, next to the relevant item
 on the page.
@@ -559,7 +559,7 @@ Contributing
 ------------
 
 Please contribute! Tether is developed in Coffeescript, but if that's problematic for you, feel free
-to submit pull requests which just change the javascript files, we can adapt them as needed.
+to submit pull requests which just change the JavaScript files, we can adapt them as needed.
 
 To build Tether, you need:
 
