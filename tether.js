@@ -1,12 +1,24 @@
 /*! tether 0.5.2 */
+
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory(require,exports,module);
+  } else {
+    root.Tether = factory();
+  }
+}(this, function(require,exports,module) {
+
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __slice = [].slice;
 
-  if (window.Tether == null) {
-    window.Tether = {};
+  if (this.Tether == null) {
+    this.Tether = {};
   }
 
   getScrollParent = function(el) {
@@ -962,7 +974,7 @@
 
   Tether.position = position;
 
-  window.Tether = extend(_Tether, Tether);
+  this.Tether = extend(_Tether, Tether);
 
 }).call(this);
 
@@ -1356,3 +1368,7 @@
   });
 
 }).call(this);
+
+return Tether;
+
+}));
