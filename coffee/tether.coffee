@@ -394,9 +394,7 @@ class _Tether
       # the element is a child of the body)
       page:
         top: top
-        bottom: document.body.scrollHeight - top - height
         left: left
-        right: document.body.scrollWidth - left - width
 
       # It's position relative to the viewport (fixed positioning)
       viewport:
@@ -406,6 +404,11 @@ class _Tether
         right: pageXOffset - left - width + innerWidth
     }
 
+    if document.body.style.position not in ['', 'static'] or document.body.parentElement.style.position not in ['', 'static']
+      # Absolute positioning in the body will be relative to the page, not the 'initial containing block'
+      next.page.bottom = document.body.scrollHeight - top - height
+      next.page.right = document.body.scrollWidth - left - width
+      
     if @options.optimizations?.moveElement isnt false and not @targetModifier?
       offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
       offsetPosition = @cache 'target-offsetparent-bounds', -> getBounds offsetParent
@@ -432,6 +435,7 @@ class _Tether
           next.offset =
             top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top
             left: next.page.left - offsetPosition.left + scrollLeft - offsetBorder.left
+
 
     # We could also travel up the DOM and try each containing context, rather than only
     # looking at the body, but we're gonna get diminishing returns.
