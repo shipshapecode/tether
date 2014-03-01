@@ -11,12 +11,12 @@ element stay next to another element on the page. For example, you might
 want a tooltip or dialog to open, and remain, next to the relevant item
 on the page.
 
-Tether includes the ability to constrain the element within the viewport, it's
+Tether includes the ability to constrain the element within the viewport, its
 scroll parent, any other element on the page, or a fixed bounding box.  When it
 exceeds those constraints it can be pinned to the edge, flip to the other
-side of it's target, or hide itself.
+side of its target, or hide itself.
 
-Tether optimizes it's location placement to result in the minimum amount of
+Tether optimizes its location placement to result in the minimum amount of
 'jankyness' as the page is scrolled and resized.  The page can maintain 60fps
 scrolling even with dozens or hundreds of tethers on screen (pop open the
 devtools timeline as you scroll this page).
@@ -185,7 +185,7 @@ Constraints
 
 If you have tried any of the previous examples, you'll notice that it's pretty
 easy to scroll the regions in such a way that the element is hanging out on
-it's own, with no target in sight.
+its own, with no target in sight.
 
 Constraints allow you to control what happens when the tethered element would
 have to fall outside of a defined region to maintain the attachment.
@@ -204,7 +204,7 @@ have to fall outside of a defined region to maintain the attachment.
 });
 </code></pre><output></output>
 
-We've created a constraint which will keep the element within it's scroll
+We've created a constraint which will keep the element within its scroll
 parent by 'pinning' it to the edges if it tries to escape.  For the sake
 of the example, we're also highlighting the pinned edge in red.
 
@@ -224,8 +224,8 @@ Specify an array of sides if you'd only like to pin those edges:
 });
 </code></pre><output></output>
 
-You might want to allow the element to change it's attachment, if doing so
-would keep more of it within it's assigned region:
+You might want to allow the element to change its attachment, if doing so
+would keep more of it within its assigned region:
 
 <pre class="pre-with-output"><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
@@ -391,7 +391,7 @@ CSS as the page is scrolled or resized.  To accomplish this it looks at the
 last few positions, finds commonalities, and uses them to decide whether to
 position the element absolutely or with fixed positioning.
 
-If the element is fully contained within it's scroll parent, its DOM node
+If the element is fully contained within its scroll parent, its DOM node
 can also be moved inside the scroll parent, to avoid repaints as the
 container is scrolled.
 
@@ -427,7 +427,7 @@ setting `optimizations.moveElement` to false.
 ### GPU
 
 By default tether positions elements using CSS transforms.  These transforms allow the
-tethered element to be moved as it's own layer to not force a repaint of the underlying
+tethered element to be moved as its own layer to not force a repaint of the underlying
 page.
 
 This method of positioning can cause some issues however, including color shifts and artifacts.
@@ -542,7 +542,7 @@ same as for element-attached.
 ### Constraint-related Classes
 
 - `tether-out-of-bounds`, `tether-out-of-bounds-[side]` are added to both the element and the target
-when the element is placed outside of it's constraint.
+when the element is placed outside of its constraint.
 - `tether-pinned`, `tether-pinned-[side]` are added to both the element and target when a constraint
 has pinned the element to the [side] of the container.
 
