@@ -1,4 +1,4 @@
-/*! tether 0.5.2 */
+/*! tether 0.6.0 */
 
 
 (function(root, factory) {
