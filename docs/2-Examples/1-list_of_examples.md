@@ -11,7 +11,7 @@ any examples you might create.
 otherwise be offscreen
 - [pin](../../examples/pin): How to pin the element so it never goes offscreen
 - [enable-disable](../../examples/enable-disable): How to enable and disable the Tether
-in javascript
+in JavaScript
 
 #### Advanced
 
