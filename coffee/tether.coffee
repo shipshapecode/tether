@@ -8,7 +8,7 @@ within = (a, b, diff=1) ->
 
 transformKey = do ->
   el = document.createElement 'div'
-  
+
   for key in ['transform', 'webkitTransform', 'OTransform', 'MozTransform', 'msTransform']
     if el.style[key] isnt undefined
       return key
@@ -47,11 +47,11 @@ do ->
       pendingTimeout = null
 
     lastCall = now()
-    
+
     position()
 
     lastDuration = now() - lastCall
-    
+
   for event in ['resize', 'scroll', 'touchmove']
     window.addEventListener event, tick
 
@@ -151,7 +151,7 @@ class _Tether
       classPrefix: 'tether'
 
     @options = extend defaults, @options
-      
+
     {@element, @target, @targetModifier} = @options
 
     if @target is 'viewport'
@@ -466,7 +466,7 @@ class _Tether
 
         if not found
           same[type][key] = true
-     
+
     css = {top: '', left: '', right: '', bottom: ''}
 
     transcribe = (same, pos) =>
@@ -485,7 +485,7 @@ class _Tether
           css.right = 0
           xPos = -pos.right
 
-        
+
         css[transformKey] = "translateX(#{ Math.round xPos }px) translateY(#{ Math.round yPos }px)"
 
         if transformKey isnt 'msTransform'
@@ -526,7 +526,7 @@ class _Tether
       transcribe same.offset, position.offset
 
       moved = true
-      
+
     else
       css.position = 'absolute'
       transcribe {top: true, left: true}, position.page
@@ -555,4 +555,4 @@ class _Tether
 
 Tether.position = position
 
-window.Tether = extend _Tether, Tether
+this.Tether = extend _Tether, Tether
