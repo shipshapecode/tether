@@ -1,6 +1,6 @@
 ## Tether
 
-Tether is a javascript library for efficiently making an absolutely positioned element stay next to another element on the page.
+Tether is a JavaScript library for efficiently making an absolutely positioned element stay next to another element on the page.
 
 It aims to be the canonical implementation of this type of positioning, such that you can build products, not positioning libraries.
 

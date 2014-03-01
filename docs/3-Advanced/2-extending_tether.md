@@ -27,7 +27,7 @@ The position function is passed an object with the following elements:
   targetAttachment, // The targetAttachment, with 'auto' resolved to an actual attachment
   targetPos, // The coordinates of the target
   attachment, // The attachment, as passed in the option
-  elementPos, // The cooridinates of the element
+  elementPos, // The coordinates of the element
   offset, // The offset, after it's converted into pixels and the manual offset is added
   targetOffset, // The attachment is converted into an offset and is included in these values
   manualOffset, // The manual offset, in pixels

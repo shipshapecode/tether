@@ -2,7 +2,7 @@ Repositioning
 -----
 
 Tethers will be automatically repositioned when the page is resized, and when any element containing the Tether is scrolled.
-If the element moves for some other reason (e.g. with javascript), Tether won't know to reposition the element.
+If the element moves for some other reason (e.g. with JavaScript), Tether won't know to reposition the element.
 
 #### Manually Repositioning
 

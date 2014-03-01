@@ -3,7 +3,7 @@ Why we don't support IE 8
 
 We've been living in 2007 for a while now, pretending that new browser features don't
 exist because they aren't in IE8.  You might not even know about some of these features,
-or think they are only enabled by jQuery or underscore, simply because it hasen't
+or think they are only enabled by jQuery or underscore, simply because it hasn't
 been an option to rely upon them.
 
 Here is the list of features you don't have if you choose to support IE 8:
@@ -22,7 +22,7 @@ Here is the list of features you don't have if you choose to support IE 8:
 - addEventListener
 - Object.create, .seal, .freeze, .defineProperty
 - Array.isArray, .indexOf, .every, .some, .forEach, .map, .filter, .reduce
-- A modern javascript engine
+- A modern JavaScript engine
 - A real developer tools
 - A consistent box model
 - jQuery 2
