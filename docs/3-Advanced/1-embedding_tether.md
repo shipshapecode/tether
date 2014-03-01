@@ -1,6 +1,6 @@
 ## Embedding Tether
 
-Tether is designed to be embedable in other libraries.
+Tether is designed to be embeddable in other libraries.
 
 There is one thing you should think about doing to create an embedded Tether:
 

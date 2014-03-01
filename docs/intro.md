@@ -13,7 +13,7 @@ on the page.
 
 Tether includes the ability to constrain the element within the viewport, it's
 scroll parent, any other element on the page, or a fixed bounding box.  When it
-exceedes those constraints it can be pinned to the edge, flip to the other
+exceeds those constraints it can be pinned to the edge, flip to the other
 side of it's target, or hide itself.
 
 Tether optimizes it's location placement to result in the minimum amount of
