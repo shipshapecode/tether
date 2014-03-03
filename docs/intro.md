@@ -501,9 +501,10 @@ You can change the prefix of the classes with the `classPrefix` option.  It is `
 default, but you could, for example, change it to be `'bill'` if you were building the bill
 library and all the classes would be `'bill-*'`.
 
-```coffeescript
-new Tether
+```javascript
+new Tether({
   classPrefix: 'bill'
+});
 ```
 
 The sass/css is similarily configurable, see
@@ -513,18 +514,22 @@ an example of how to make your own prefixed css file.
 All classes can be changed or disabled with the `classes` option.  For example, to change the
 `tether-element` class to be `my-box`:
 
-```coffeescript
-new Tether
-  classes:
+```javascript
+new Tether({
+  classes: {
     element: 'my-box'
+  }
+});
 ```
 
 You can also disable classes you're not going to use:
 
-```coffeescript
-new Tether
-  classes:
+```javascript
+new Tether({
+  classes: {
     out-of-bounds: false
+  }
+});
 ```
 
 - `tether-element` is added to the element
