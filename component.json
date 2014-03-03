@@ -1,7 +1,7 @@
 {
   "name": "tether",
   "repo": "HubSpot/tether",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A client-side library to make absolutely positioned elements attach to elements in the page efficiently.",
   "authors": [
     "Zack Bloom <zbloom@hubspot.com>",
