@@ -144,6 +144,15 @@
               eAttachment.top = 'top';
             }
           }
+          if (tAttachment.top === 'middle') {
+            if (top + height > bounds[3] && eAttachment.top === 'top') {
+              top -= height;
+              eAttachment.top = 'bottom';
+            } else if (top < bounds[1] && eAttachment.top === 'bottom') {
+              top += height;
+              eAttachment.top = 'top';
+            }
+          }
         }
         if (changeAttachX === 'target' || changeAttachX === 'both') {
           if (left < bounds[0] && tAttachment.left === 'left') {
@@ -177,6 +186,14 @@
             } else if (eAttachment.left === 'right') {
               left -= targetWidth;
               tAttachment.left = 'left';
+              left += width;
+              eAttachment.left = 'left';
+            }
+          } else if (tAttachment.left === 'center') {
+            if (left + width > bounds[2] && eAttachment.left === 'left') {
+              left -= width;
+              eAttachment.left = 'right';
+            } else if (left < bounds[0] && eAttachment.left === 'right') {
               left += width;
               eAttachment.left = 'left';
             }
