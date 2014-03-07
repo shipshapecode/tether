@@ -104,13 +104,13 @@ extend = (out={}) ->
 
 removeClass = (el, name) ->
   if el.classList?
-    el.classList.remove(cls) for cls in name.split(' ')
+    el.classList.remove(cls) for cls in name.split(' ') when cls.trim()
   else
     el.className = el.className.replace new RegExp("(^| )#{ name.split(' ').join('|') }( |$)", 'gi'), ' '
 
 addClass = (el, name) ->
   if el.classList?
-    el.classList.add(cls) for cls in name.split(' ')
+    el.classList.add(cls) for cls in name.split(' ') when cls.trim()
   else
     removeClass el, name
     el.className += " #{ name }"
