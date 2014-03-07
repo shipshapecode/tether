@@ -120,6 +120,15 @@ Tether.modules.push
             top += height
             eAttachment.top = 'top'
 
+        if tAttachment.top is 'middle'
+          if top + height > bounds[3] and eAttachment.top is 'top'
+            top -= height
+            eAttachment.top = 'bottom'
+
+          else if top < bounds[1] and eAttachment.top is 'bottom'
+            top += height
+            eAttachment.top = 'top'
+
       if changeAttachX in ['target', 'both']
         if (left < bounds[0] and tAttachment.left is 'left')
           left += targetWidth
@@ -157,6 +166,15 @@ Tether.modules.push
             left -= targetWidth
             tAttachment.left = 'left'
 
+            left += width
+            eAttachment.left = 'left'
+
+        else if tAttachment.left is 'center'
+          if left + width > bounds[2] and eAttachment.left is 'left'
+            left -= width
+            eAttachment.left = 'right'
+
+          else if left < bounds[0] and eAttachment.left is 'right'
             left += width
             eAttachment.left = 'left'
 
