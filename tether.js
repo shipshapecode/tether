@@ -1,4 +1,4 @@
-/*! tether 0.6.1 */
+/*! tether 0.6.2 */
 
 
 (function(root, factory) {
@@ -149,7 +149,9 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         cls = _ref[_i];
-        _results.push(el.classList.remove(cls));
+        if (cls.trim()) {
+          _results.push(el.classList.remove(cls));
+        }
       }
       return _results;
     } else {
@@ -164,7 +166,9 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         cls = _ref[_i];
-        _results.push(el.classList.add(cls));
+        if (cls.trim()) {
+          _results.push(el.classList.add(cls));
+        }
       }
       return _results;
     } else {
