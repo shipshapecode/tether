@@ -1,5 +1,7 @@
-if not Tether?
+if not @Tether?
   throw new Error "You must include the utils.js file before tether.js"
+
+Tether = @Tether
 
 {getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses, defer, flush} = Tether.Utils
 
@@ -559,4 +561,4 @@ class _Tether
 
 Tether.position = position
 
-this.Tether = extend _Tether, Tether
+@Tether = extend _Tether, Tether

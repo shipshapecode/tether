@@ -1,6 +1,6 @@
-{getBounds, updateClasses, defer} = Tether.Utils
+{getBounds, updateClasses, defer} = @Tether.Utils
 
-Tether.modules.push
+@Tether.modules.push
   position: ({top, left}) ->
     {height, width} = @cache 'element-bounds', => getBounds @element
 

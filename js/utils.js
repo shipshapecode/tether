@@ -5,7 +5,9 @@
     __slice = [].slice;
 
   if (this.Tether == null) {
-    this.Tether = {};
+    this.Tether = {
+      modules: []
+    };
   }
 
   getScrollParent = function(el) {
@@ -278,7 +280,7 @@
 
   })();
 
-  Tether.Utils = {
+  this.Tether.Utils = {
     getScrollParent: getScrollParent,
     getBounds: getBounds,
     getOffsetParent: getOffsetParent,

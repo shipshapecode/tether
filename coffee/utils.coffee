@@ -1,4 +1,4 @@
-this.Tether ?= {}
+@Tether ?= {modules: []}
 
 getScrollParent = (el) ->
   position = getComputedStyle(el).position
@@ -175,4 +175,4 @@ class Evented
         else
           i++
 
-Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, defer, flush, uniqueId, Evented}
+@Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, defer, flush, uniqueId, Evented}

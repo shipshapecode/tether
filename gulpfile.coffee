@@ -28,7 +28,7 @@ gulp.task 'concat', ->
     .pipe(concat('tether.js'))
     .pipe(wrap(
       namespace: 'Tether'
-      exports: 'Tether'
+      exports: 'this.Tether'
     ))
     .pipe(header(banner))
     .pipe(gulp.dest('./'))
