@@ -132,6 +132,13 @@ class _Tether
     for module in Tether.modules
       module.initialize?.call(@)
 
+    @attachedTethers = []
+    for tether in tethers
+      if tether.element.contains @target
+        tether.attachedTethers.push @
+        @tetherAttachedTo = tether
+        break
+
     @position()
 
   getClass: (key) ->
@@ -311,6 +318,12 @@ class _Tether
         tethers.splice i, 1
         break
 
+    if @tetherAttachedTo
+      for tether, i in @tetherAttachedTo.attachedTethers
+        if tether is @
+          @tetherAttachedTo.attachedTethers.splice i, 1
+          break
+
   updateAttachClasses: (elementAttach=@attachment, targetAttach=@targetAttachment) ->
     sides = ['left', 'top', 'bottom', 'right', 'middle', 'center']
 
@@ -410,7 +423,7 @@ class _Tether
       # Absolute positioning in the body will be relative to the page, not the 'initial containing block'
       next.page.bottom = document.body.scrollHeight - top - height
       next.page.right = document.body.scrollWidth - left - width
-      
+
     if @options.optimizations?.moveElement isnt false and not @targetModifier?
       offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
       offsetPosition = @cache 'target-offsetparent-bounds', -> getBounds offsetParent
