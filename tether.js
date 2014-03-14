@@ -478,7 +478,7 @@
 
     function _Tether(options) {
       this.position = __bind(this.position, this);
-      var module, _i, _len, _ref1, _ref2;
+      var module, tether, _i, _j, _len, _len1, _ref1, _ref2;
       tethers.push(this);
       this.history = [];
       this.setOptions(options, false);
@@ -487,6 +487,15 @@
         module = _ref1[_i];
         if ((_ref2 = module.initialize) != null) {
           _ref2.call(this);
+        }
+      }
+      this.attachedTethers = [];
+      for (_j = 0, _len1 = tethers.length; _j < _len1; _j++) {
+        tether = tethers[_j];
+        if (tether.element === this.target || tether.element.contains(this.target)) {
+          tether.attachedTethers.push(this);
+          this.tetherAttachedTo = tether;
+          break;
         }
       }
       this.position();
@@ -682,19 +691,29 @@
     };
 
     _Tether.prototype.destroy = function() {
-      var i, tether, _i, _len, _results;
+      var i, tether, _i, _j, _len, _len1, _ref1, _results;
       this.disable();
-      _results = [];
       for (i = _i = 0, _len = tethers.length; _i < _len; i = ++_i) {
         tether = tethers[i];
         if (tether === this) {
           tethers.splice(i, 1);
           break;
-        } else {
-          _results.push(void 0);
         }
       }
-      return _results;
+      if (this.tetherAttachedTo) {
+        _ref1 = this.tetherAttachedTo.attachedTethers;
+        _results = [];
+        for (i = _j = 0, _len1 = _ref1.length; _j < _len1; i = ++_j) {
+          tether = _ref1[i];
+          if (tether === this) {
+            this.tetherAttachedTo.attachedTethers.splice(i, 1);
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      }
     };
 
     _Tether.prototype.updateAttachClasses = function(elementAttach, targetAttach) {
