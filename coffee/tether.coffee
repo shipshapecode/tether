@@ -134,7 +134,7 @@ class _Tether
 
     @attachedTethers = []
     for tether in tethers
-      if tether.element.contains @target
+      if tether.element is @target or tether.element.contains @target
         tether.attachedTethers.push @
         @tetherAttachedTo = tether
         break

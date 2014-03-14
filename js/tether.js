@@ -180,7 +180,7 @@
       this.attachedTethers = [];
       for (_j = 0, _len1 = tethers.length; _j < _len1; _j++) {
         tether = tethers[_j];
-        if (tether.element.contains(this.target)) {
+        if (tether.element === this.target || tether.element.contains(this.target)) {
           tether.attachedTethers.push(this);
           this.tetherAttachedTo = tether;
           break;
