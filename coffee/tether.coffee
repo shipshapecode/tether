@@ -3,7 +3,7 @@ if not @Tether?
 
 Tether = @Tether
 
-{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses, defer, flush} = Tether.Utils
+{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses, defer, flush, getScrollBarSize} = Tether.Utils
 
 within = (a, b, diff=1) ->
   a + diff >= b >= a - diff
@@ -379,7 +379,7 @@ class _Tether
     top = targetPos.top + targetOffset.top - offset.top
 
     for module in Tether.modules
-      ret = module.position.call(@, {left, top, targetAttachment, targetPos, @attachment, elementPos, offset, targetOffset, manualOffset, manualTargetOffset})
+      ret = module.position.call(@, {left, top, targetAttachment, targetPos, @attachment, elementPos, offset, targetOffset, manualOffset, manualTargetOffset, scrollbarSize})
 
       if not ret? or typeof ret isnt 'object'
         continue
@@ -406,11 +406,19 @@ class _Tether
         right: pageXOffset - left - width + innerWidth
     }
 
+    if document.body.scrollWidth > window.innerWidth
+      scrollbarSize = @cache 'scrollbar-size', getScrollBarSize
+      next.viewport.bottom -= scrollbarSize.height
+
+    if document.body.scrollHeight > window.innerHeight
+      scrollbarSize = @cache 'scrollbar-size', getScrollBarSize
+      next.viewport.right -= scrollbarSize.width
+
     if document.body.style.position not in ['', 'static'] or document.body.parentElement.style.position not in ['', 'static']
       # Absolute positioning in the body will be relative to the page, not the 'initial containing block'
       next.page.bottom = document.body.scrollHeight - top - height
       next.page.right = document.body.scrollWidth - left - width
-      
+
     if @options.optimizations?.moveElement isnt false and not @targetModifier?
       offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
       offsetPosition = @cache 'target-offsetparent-bounds', -> getBounds offsetParent
@@ -517,6 +525,7 @@ class _Tether
 
     else if (same.viewport.top or same.viewport.bottom) and (same.viewport.left or same.viewport.right)
       css.position = 'fixed'
+
       transcribe same.viewport, position.viewport
 
     else if same.offset? and same.offset.top and same.offset.left

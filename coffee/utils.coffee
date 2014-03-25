@@ -92,6 +92,39 @@ getBounds = (el) ->
 getOffsetParent = (el) ->
   el.offsetParent or document.documentElement
 
+getScrollBarSize = ->
+  inner = document.createElement 'div'
+  inner.style.width = '100%'
+  inner.style.height = '200px'
+
+  outer = document.createElement 'div'
+  extend outer.style,
+    position: 'absolute'
+    top: 0
+    left: 0
+    pointerEvents: 'none'
+    visibility: 'hidden'
+    width: '200px'
+    height: '150px'
+    overflow: 'hidden'
+
+  outer.appendChild inner
+
+  document.body.appendChild outer
+
+  widthContained = inner.offsetWidth
+  outer.style.overflow = 'scroll'
+  widthScroll = inner.offsetWidth
+
+  if widthContained is widthScroll
+    widthScroll = outer.clientWidth
+
+  document.body.removeChild outer
+
+  width = widthContained - widthScroll
+
+  {width, height: width}
+
 extend = (out={}) ->
   args = []
   Array::push.apply(args, arguments)
@@ -175,4 +208,4 @@ class Evented
         else
           i++
 
-@Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, defer, flush, uniqueId, Evented}
+@Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, defer, flush, uniqueId, Evented, getScrollBarSize}
