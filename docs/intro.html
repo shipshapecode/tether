@@ -34,15 +34,15 @@
 <link rel="stylesheet" href="docs/css/intro.css"></link>
 
 <h1 id="tether">Tether</h1>
-<p>Tether is a javascript library for efficiently making an absolutely positioned
+<p>Tether is a JavaScript library for efficiently making an absolutely positioned
 element stay next to another element on the page. For example, you might
 want a tooltip or dialog to open, and remain, next to the relevant item
 on the page.</p>
-<p>Tether includes the ability to constrain the element within the viewport, it&#39;s
+<p>Tether includes the ability to constrain the element within the viewport, its
 scroll parent, any other element on the page, or a fixed bounding box.  When it
-exceedes those constraints it can be pinned to the edge, flip to the other
-side of it&#39;s target, or hide itself.</p>
-<p>Tether optimizes it&#39;s location placement to result in the minimum amount of
+exceeds those constraints it can be pinned to the edge, flip to the other
+side of its target, or hide itself.</p>
+<p>Tether optimizes its location placement to result in the minimum amount of
 &#39;jankyness&#39; as the page is scrolled and resized.  The page can maintain 60fps
 scrolling even with dozens or hundreds of tethers on screen (pop open the
 devtools timeline as you scroll this page).</p>
@@ -176,7 +176,7 @@ of an element:</p>
 <h2 id="constraints">Constraints</h2>
 <p>If you have tried any of the previous examples, you&#39;ll notice that it&#39;s pretty
 easy to scroll the regions in such a way that the element is hanging out on
-it&#39;s own, with no target in sight.</p>
+its own, with no target in sight.</p>
 <p>Constraints allow you to control what happens when the tethered element would
 have to fall outside of a defined region to maintain the attachment.</p>
 <p><pre class="pre-with-output"><code class="lang-javascript" data-example>new Tether({
@@ -192,7 +192,7 @@ have to fall outside of a defined region to maintain the attachment.</p>
   ]
 });
 </code></pre><output></output></p>
-<p>We&#39;ve created a constraint which will keep the element within it&#39;s scroll
+<p>We&#39;ve created a constraint which will keep the element within its scroll
 parent by &#39;pinning&#39; it to the edges if it tries to escape.  For the sake
 of the example, we&#39;re also highlighting the pinned edge in red.</p>
 <p>Specify an array of sides if you&#39;d only like to pin those edges:</p>
@@ -209,8 +209,8 @@ of the example, we&#39;re also highlighting the pinned edge in red.</p>
   ]
 });
 </code></pre><output></output></p>
-<p>You might want to allow the element to change it&#39;s attachment, if doing so
-would keep more of it within it&#39;s assigned region:</p>
+<p>You might want to allow the element to change its attachment, if doing so
+would keep more of it within its assigned region:</p>
 <p><pre class="pre-with-output"><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
   target: greenBox,
@@ -356,7 +356,7 @@ processed in the order supplied (the last one always has the final word).</p>
 CSS as the page is scrolled or resized.  To accomplish this it looks at the
 last few positions, finds commonalities, and uses them to decide whether to
 position the element absolutely or with fixed positioning.</p>
-<p>If the element is fully contained within it&#39;s scroll parent, its DOM node
+<p>If the element is fully contained within its scroll parent, its DOM node
 can also be moved inside the scroll parent, to avoid repaints as the
 container is scrolled.</p>
 <p><pre class="pre-with-output"><code class="lang-javascript" data-example="optimizer">new Tether({
@@ -386,7 +386,7 @@ setting <code>optimizations.moveElement</code> to false.</p>
 </code></pre><output data-example="optimizer2"></output></p>
 <h3 id="gpu">GPU</h3>
 <p>By default tether positions elements using CSS transforms.  These transforms allow the
-tethered element to be moved as it&#39;s own layer to not force a repaint of the underlying
+tethered element to be moved as its own layer to not force a repaint of the underlying
 page.</p>
 <p>This method of positioning can cause some issues however, including color shifts and artifacts.</p>
 <p>If you experience these issues, you can disable this optimization by setting <code>optimizations.gpu</code>
@@ -455,20 +455,25 @@ them based on their tethering.</p>
 <p>You can change the prefix of the classes with the <code>classPrefix</code> option.  It is <code>&#39;tether&#39;</code> by
 default, but you could, for example, change it to be <code>&#39;bill&#39;</code> if you were building the bill
 library and all the classes would be <code>&#39;bill-*&#39;</code>.</p>
-<pre><code class="lang-coffeescript"><span class="keyword">new</span> Tether
-  classPrefix: <span class="string">'bill'</span></code></pre>
+<pre><code class="lang-javascript"><span class="keyword">new</span> Tether({
+  classPrefix: <span class="string">'bill'</span>
+});</code></pre>
 <p>The sass/css is similarily configurable, see
 <a href="https://github.com/HubSpot/tooltip/blob/master/sass/tooltip-theme-arrows.sass#L14">tooltip</a> for
 an example of how to make your own prefixed css file.</p>
 <p>All classes can be changed or disabled with the <code>classes</code> option.  For example, to change the
 <code>tether-element</code> class to be <code>my-box</code>:</p>
-<pre><code class="lang-coffeescript"><span class="keyword">new</span> Tether
-  classes:
-    element: <span class="string">'my-box'</span></code></pre>
+<pre><code class="lang-javascript"><span class="keyword">new</span> Tether({
+  classes: {
+    element: <span class="string">'my-box'</span>
+  }
+});</code></pre>
 <p>You can also disable classes you&#39;re not going to use:</p>
-<pre><code class="lang-coffeescript"><span class="keyword">new</span> Tether
-  classes:
-    out-<span class="keyword">of</span>-bounds: <span class="literal">false</span></code></pre>
+<pre><code class="lang-javascript"><span class="keyword">new</span> Tether({
+  classes: {
+    out-of-bounds: <span class="literal">false</span>
+  }
+});</code></pre>
 <ul>
 <li><code>tether-element</code> is added to the element</li>
 <li><code>tether-target</code> is added to the target</li>
@@ -485,7 +490,7 @@ same as for element-attached.</li>
 <h3 id="constraint-related-classes">Constraint-related Classes</h3>
 <ul>
 <li><code>tether-out-of-bounds</code>, <code>tether-out-of-bounds-[side]</code> are added to both the element and the target
-when the element is placed outside of it&#39;s constraint.</li>
+when the element is placed outside of its constraint.</li>
 <li><code>tether-pinned</code>, <code>tether-pinned-[side]</code> are added to both the element and target when a constraint
 has pinned the element to the [side] of the container.</li>
 </ul>
@@ -496,7 +501,7 @@ us a whole lot of trouble.  If you are interested in adding support, get in touc
 a PR.</p>
 <h2 id="contributing">Contributing</h2>
 <p>Please contribute! Tether is developed in Coffeescript, but if that&#39;s problematic for you, feel free
-to submit pull requests which just change the javascript files, we can adapt them as needed.</p>
+to submit pull requests which just change the JavaScript files, we can adapt them as needed.</p>
 <p>To build Tether, you need:</p>
 <ul>
 <li>Node.js</li>

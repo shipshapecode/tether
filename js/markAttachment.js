@@ -1,5 +1,5 @@
 (function() {
-  Tether.modules.push({
+  this.Tether.modules.push({
     initialize: function() {
       var dot, el, type, _i, _len, _ref, _results;
       this.markers = {};

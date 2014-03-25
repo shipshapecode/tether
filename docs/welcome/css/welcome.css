@@ -112,6 +112,8 @@ table.showcase {
       float: left;
       text-align: center;
       margin-bottom: 2rem; }
+      table.showcase.projects-showcase .showcase-inner .projects-list .project:nth-child(odd) {
+        clear: left; }
     table.showcase.projects-showcase .showcase-inner .projects-list .os-icon {
       width: 8rem;
       height: 8rem;

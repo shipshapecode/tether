@@ -1,13 +1,15 @@
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
+  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollBarSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  if (typeof Tether === "undefined" || Tether === null) {
+  if (this.Tether == null) {
     throw new Error("You must include the utils.js file before tether.js");
   }
 
-  _ref = Tether.Utils, getScrollParent = _ref.getScrollParent, getSize = _ref.getSize, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getOffsetParent = _ref.getOffsetParent, extend = _ref.extend, addClass = _ref.addClass, removeClass = _ref.removeClass, updateClasses = _ref.updateClasses, defer = _ref.defer, flush = _ref.flush;
+  Tether = this.Tether;
+
+  _ref = Tether.Utils, getScrollParent = _ref.getScrollParent, getSize = _ref.getSize, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getOffsetParent = _ref.getOffsetParent, extend = _ref.extend, addClass = _ref.addClass, removeClass = _ref.removeClass, updateClasses = _ref.updateClasses, defer = _ref.defer, flush = _ref.flush, getScrollBarSize = _ref.getScrollBarSize;
 
   within = function(a, b, diff) {
     if (diff == null) {
@@ -429,7 +431,7 @@
     };
 
     _Tether.prototype.position = function(flushChanges) {
-      var elementPos, elementStyle, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _i, _j, _len, _len1, _ref1, _ref2, _ref3, _ref4,
+      var elementPos, elementStyle, height, left, manualOffset, manualTargetOffset, module, next, offset, offsetBorder, offsetParent, offsetParentSize, offsetParentStyle, offsetPosition, ret, scrollLeft, scrollTop, scrollbarSize, side, targetAttachment, targetOffset, targetPos, targetSize, top, width, _i, _j, _len, _len1, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6,
         _this = this;
       if (flushChanges == null) {
         flushChanges = true;
@@ -482,7 +484,8 @@
           offset: offset,
           targetOffset: targetOffset,
           manualOffset: manualOffset,
-          manualTargetOffset: manualTargetOffset
+          manualTargetOffset: manualTargetOffset,
+          scrollbarSize: scrollbarSize
         });
         if ((ret == null) || typeof ret !== 'object') {
           continue;
@@ -495,9 +498,7 @@
       next = {
         page: {
           top: top,
-          bottom: document.body.scrollHeight - top - height,
-          left: left,
-          right: document.body.scrollWidth - left - width
+          left: left
         },
         viewport: {
           top: top - pageYOffset,
@@ -506,7 +507,19 @@
           right: pageXOffset - left - width + innerWidth
         }
       };
-      if (((_ref3 = this.options.optimizations) != null ? _ref3.moveElement : void 0) !== false && (this.targetModifier == null)) {
+      if (document.body.scrollWidth > window.innerWidth) {
+        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+        next.viewport.bottom -= scrollbarSize.height;
+      }
+      if (document.body.scrollHeight > window.innerHeight) {
+        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+        next.viewport.right -= scrollbarSize.width;
+      }
+      if (((_ref3 = document.body.style.position) !== '' && _ref3 !== 'static') || ((_ref4 = document.body.parentElement.style.position) !== '' && _ref4 !== 'static')) {
+        next.page.bottom = document.body.scrollHeight - top - height;
+        next.page.right = document.body.scrollWidth - left - width;
+      }
+      if (((_ref5 = this.options.optimizations) != null ? _ref5.moveElement : void 0) !== false && (this.targetModifier == null)) {
         offsetParent = this.cache('target-offsetparent', function() {
           return getOffsetParent(_this.target);
         });
@@ -517,9 +530,9 @@
         elementStyle = getComputedStyle(this.element);
         offsetParentSize = offsetPosition;
         offsetBorder = {};
-        _ref4 = ['Top', 'Left', 'Bottom', 'Right'];
-        for (_j = 0, _len1 = _ref4.length; _j < _len1; _j++) {
-          side = _ref4[_j];
+        _ref6 = ['Top', 'Left', 'Bottom', 'Right'];
+        for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
+          side = _ref6[_j];
           offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle["border" + side + "Width"]);
         }
         offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
@@ -668,6 +681,6 @@
 
   Tether.position = position;
 
-  window.Tether = extend(_Tether, Tether);
+  this.Tether = extend(_Tether, Tether);
 
 }).call(this);

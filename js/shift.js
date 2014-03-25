@@ -1,5 +1,5 @@
 (function() {
-  Tether.modules.push({
+  this.Tether.modules.push({
     position: function(_arg) {
       var left, result, shift, shiftLeft, shiftTop, top, _ref;
       top = _arg.top, left = _arg.left;

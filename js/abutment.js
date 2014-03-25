@@ -1,9 +1,9 @@
 (function() {
   var defer, getBounds, updateClasses, _ref;
 
-  _ref = Tether.Utils, getBounds = _ref.getBounds, updateClasses = _ref.updateClasses, defer = _ref.defer;
+  _ref = this.Tether.Utils, getBounds = _ref.getBounds, updateClasses = _ref.updateClasses, defer = _ref.defer;
 
-  Tether.modules.push({
+  this.Tether.modules.push({
     position: function(_arg) {
       var abutted, addClasses, allClasses, bottom, height, left, right, side, sides, targetPos, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4, _ref5,
         _this = this;

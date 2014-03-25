@@ -1,11 +1,13 @@
 (function() {
-  var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
+  var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollBarSize, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __slice = [].slice;
 
-  if (window.Tether == null) {
-    window.Tether = {};
+  if (this.Tether == null) {
+    this.Tether = {
+      modules: []
+    };
   }
 
   getScrollParent = function(el) {
@@ -108,6 +110,38 @@
     return el.offsetParent || document.documentElement;
   };
 
+  getScrollBarSize = function() {
+    var inner, outer, width, widthContained, widthScroll;
+    inner = document.createElement('div');
+    inner.style.width = '100%';
+    inner.style.height = '200px';
+    outer = document.createElement('div');
+    extend(outer.style, {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      pointerEvents: 'none',
+      visibility: 'hidden',
+      width: '200px',
+      height: '150px',
+      overflow: 'hidden'
+    });
+    outer.appendChild(inner);
+    document.body.appendChild(outer);
+    widthContained = inner.offsetWidth;
+    outer.style.overflow = 'scroll';
+    widthScroll = inner.offsetWidth;
+    if (widthContained === widthScroll) {
+      widthScroll = outer.clientWidth;
+    }
+    document.body.removeChild(outer);
+    width = widthContained - widthScroll;
+    return {
+      width: width,
+      height: width
+    };
+  };
+
   extend = function(out) {
     var args, key, obj, val, _i, _len, _ref;
     if (out == null) {
@@ -136,7 +170,9 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         cls = _ref[_i];
-        _results.push(el.classList.remove(cls));
+        if (cls.trim()) {
+          _results.push(el.classList.remove(cls));
+        }
       }
       return _results;
     } else {
@@ -151,7 +187,9 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         cls = _ref[_i];
-        _results.push(el.classList.add(cls));
+        if (cls.trim()) {
+          _results.push(el.classList.add(cls));
+        }
       }
       return _results;
     } else {
@@ -274,7 +312,7 @@
 
   })();
 
-  Tether.Utils = {
+  this.Tether.Utils = {
     getScrollParent: getScrollParent,
     getBounds: getBounds,
     getOffsetParent: getOffsetParent,
@@ -286,7 +324,8 @@
     defer: defer,
     flush: flush,
     uniqueId: uniqueId,
-    Evented: Evented
+    Evented: Evented,
+    getScrollBarSize: getScrollBarSize
   };
 
 }).call(this);
