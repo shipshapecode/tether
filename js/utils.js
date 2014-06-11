@@ -176,7 +176,7 @@
       }
       return _results;
     } else {
-      return el.className = el.className.replace(new RegExp("(^| )" + (name.split(' ').join('|')) + "( |$)", 'gi'), ' ');
+      return el.setAttribute('class', el.getAttribute('class').replace(new RegExp("(^| )" + (name.split(' ').join('|')) + "( |$)", 'gi'), ' '));
     }
   };
 
