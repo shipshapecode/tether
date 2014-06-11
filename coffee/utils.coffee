@@ -139,7 +139,7 @@ removeClass = (el, name) ->
   if el.classList?
     el.classList.remove(cls) for cls in name.split(' ') when cls.trim()
   else
-    el.className = el.className.replace new RegExp("(^| )#{ name.split(' ').join('|') }( |$)", 'gi'), ' '
+    el.setAttribute('class', el.getAttribute('class').replace(new RegExp("(^| )#{ name.split(' ').join('|') }( |$)", 'gi'), ' '))
 
 addClass = (el, name) ->
   if el.classList?
