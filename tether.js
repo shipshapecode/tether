@@ -189,7 +189,7 @@
       }
       return _results;
     } else {
-      return el.className = el.className.replace(new RegExp("(^| )" + (name.split(' ').join('|')) + "( |$)", 'gi'), ' ');
+      return el.setAttribute('class', el.getAttribute('class').replace(new RegExp("(^| )" + (name.split(' ').join('|')) + "( |$)", 'gi'), ' '));
     }
   };
 
@@ -344,7 +344,7 @@
 }).call(this);
 
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollBarSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
+  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollBarSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, startListening, tethers, transformKey, updateClasses, within, _Tether, _ref,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -391,7 +391,7 @@
     return (_ref1 = typeof performance !== "undefined" && performance !== null ? typeof performance.now === "function" ? performance.now() : void 0 : void 0) != null ? _ref1 : +(new Date);
   };
 
-  (function() {
+  startListening = function(container) {
     var event, lastCall, lastDuration, pendingTimeout, tick, _i, _len, _ref1, _results;
     lastCall = null;
     lastDuration = null;
@@ -417,10 +417,10 @@
     _results = [];
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       event = _ref1[_i];
-      _results.push(window.addEventListener(event, tick));
+      _results.push(container.addEventListener(event, tick));
     }
     return _results;
-  })();
+  };
 
   MIRROR_LR = {
     center: 'center',
@@ -515,6 +515,7 @@
       tethers.push(this);
       this.history = [];
       this.setOptions(options, false);
+      startListening(options.container);
       _ref1 = Tether.modules;
       for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
         module = _ref1[_i];
@@ -550,7 +551,8 @@
         offset: '0 0',
         targetOffset: '0 0',
         targetAttachment: 'auto auto',
-        classPrefix: 'tether'
+        classPrefix: 'tether',
+        container: window
       };
       this.options = extend(defaults, this.options);
       _ref1 = this.options, this.element = _ref1.element, this.target = _ref1.target, this.targetModifier = _ref1.targetModifier;

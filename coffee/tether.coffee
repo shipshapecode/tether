@@ -26,7 +26,7 @@ position = ->
 now = ->
   performance?.now?() ? +new Date
 
-do ->
+startListening = (container) ->
   lastCall = null
   lastDuration = null
   pendingTimeout = null
@@ -55,7 +55,7 @@ do ->
     lastDuration = now() - lastCall
 
   for event in ['resize', 'scroll', 'touchmove']
-    window.addEventListener event, tick
+    container.addEventListener event, tick
 
 MIRROR_LR =
   center: 'center'
@@ -129,6 +129,8 @@ class _Tether
 
     @setOptions options, false
 
+    startListening options.container
+
     for module in Tether.modules
       module.initialize?.call(@)
 
@@ -151,6 +153,7 @@ class _Tether
       targetOffset: '0 0'
       targetAttachment: 'auto auto'
       classPrefix: 'tether'
+      container: window
 
     @options = extend defaults, @options
 
