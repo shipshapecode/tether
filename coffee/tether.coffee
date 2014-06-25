@@ -410,7 +410,6 @@ class _Tether
       offsetParent = @cache 'target-offsetparent', => getOffsetParent @target
       offsetPosition = @cache 'target-offsetparent-bounds', -> getBounds offsetParent
       offsetParentStyle = getComputedStyle offsetParent
-      elementStyle = getComputedStyle @element
       offsetParentSize = offsetPosition
 
       offsetBorder = {}
