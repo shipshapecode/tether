@@ -15,7 +15,7 @@ getScrollParent = (el) ->
 
     return parent if not style?
 
-    if /(auto|scroll)/.test(style['overflow'] + style['overflow-y'] + style['overflow-x'])
+    if /(auto|scroll)/.test(style['overflow'] + style['overflowY'] + style['overflowX'])
       if position isnt 'absolute' or style['position'] in ['relative', 'absolute', 'fixed']
         return parent
 
