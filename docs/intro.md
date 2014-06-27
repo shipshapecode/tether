@@ -266,6 +266,8 @@ Attachment will accept any of these values:
 - `both`: Change either's attachment (or both), as needed
 - `together`: Change both the element's and target's attachment at the same time (to
 'flip' the element to the other side of the attachment)
+- `cautious`: The same as `together`, but will only change attachments when the
+element would still be able to be seen in the user's viewport
 - `none`: Don't allow changes to attachment (the default)
 
 Together is the option you will use most commonly:
