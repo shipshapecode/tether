@@ -91,7 +91,7 @@ getBoundingRect = (tether, to) ->
           top -= targetHeight
           tAttachment.top = 'top'
 
-      if changeAttachY is 'together'
+      if changeAttachY in ['together', 'cautious']
         if top < bounds[1] and tAttachment.top is 'top'
           if eAttachment.top is 'bottom'
             top += targetHeight
@@ -108,11 +108,13 @@ getBoundingRect = (tether, to) ->
 
         if top + height > bounds[3] and tAttachment.top is 'bottom'
           if eAttachment.top is 'top'
-            top -= targetHeight
-            tAttachment.top = 'top'
+            unless changeAttachY is 'cautious' and height > targetSize.top
+              top -= targetHeight
+              tAttachment.top = 'top'
 
-            top -= height
-            eAttachment.top = 'bottom'
+              top -= height
+              eAttachment.top = 'bottom'
+
           else if eAttachment.top is 'bottom'
             top -= targetHeight
             tAttachment.top = 'top'
@@ -138,7 +140,7 @@ getBoundingRect = (tether, to) ->
           left -= targetWidth
           tAttachment.left = 'left'
 
-      if changeAttachX is 'together'
+      if changeAttachX in ['together', 'cautious']
         if left < bounds[0] and tAttachment.left is 'left'
           if eAttachment.left is 'right'
             left += targetWidth
@@ -156,11 +158,12 @@ getBoundingRect = (tether, to) ->
 
         else if left + width > bounds[2] and tAttachment.left is 'right'
           if eAttachment.left is 'left'
-            left -= targetWidth
-            tAttachment.left = 'left'
+            unless changeAttachX is 'cautious' and width > targetSize.left
+              left -= targetWidth
+              tAttachment.left = 'left'
 
-            left -= width
-            eAttachment.left = 'right'
+              left -= width
+              eAttachment.left = 'right'
 
           else if eAttachment.left is 'right'
             left -= targetWidth
