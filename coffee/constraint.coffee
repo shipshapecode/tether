@@ -143,7 +143,7 @@ getBoundingRect = (tether, to) ->
       if changeAttachX in ['together', 'cautious']
         if left < bounds[0] and tAttachment.left is 'left'
           if eAttachment.left is 'right'
-            unless changeAttachX is 'cautious' and targetSize.right < width
+            unless changeAttachX is 'cautious' and targetSize.right < width and left > 0
               left += targetWidth
               tAttachment.left = 'right'
 
