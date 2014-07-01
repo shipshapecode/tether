@@ -99,12 +99,14 @@ getBoundingRect = (tether, to) ->
 
             top += height
             eAttachment.top = 'top'
-          else if eAttachment.top is 'top'
-            top += targetHeight
-            tAttachment.top = 'bottom'
 
-            top -= height
-            eAttachment.top = 'bottom'
+          else if eAttachment.top is 'top'
+            unless changeAttachY is 'cautious'
+              top += targetHeight
+              tAttachment.top = 'bottom'
+
+              top -= height
+              eAttachment.top = 'bottom'
 
         if top + height > bounds[3] and tAttachment.top is 'bottom'
           if eAttachment.top is 'top'
