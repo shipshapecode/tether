@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="../resources/css/base.css" />
+        <link rel="stylesheet" href="../common/css/style.css" />
+        <style>
+            .group {
+                height: 80px;
+                margin: 10px;
+                position: absolute;
+                width: 500px;
+                border: 2px solid #ccc;
+            }
+
+            .group .target {
+                margin: 10px;
+                display: inline-block;
+            }
+
+            .together {
+                left: 0;
+            }
+
+            .cautious {
+                right: 0;
+            }
+
+            p.together,
+            p.cautious {
+                position: absolute;
+                margin: 10px;
+                width: 500px;
+            }
+
+            .group.from-100 {
+                top: 100px;
+                text-align: right;
+            }
+
+            .group.from-250 {
+                top: 250px;
+            }
+
+            .blue.target {
+                background: #205081;
+            }
+            .blue.element {
+                background: #3b7fc4;
+                border: 2px solid #003;
+            }
+            .green.target {
+                background: #14892c;
+            }
+            .green.element {
+                background: #89c495;
+                border: 2px solid #030;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="instructions">
+            Resize the page vertically.
+        </div>
+
+        <p class="together">Tethers constrained together will flip whenever they can.</p>
+        <p class="cautious">The cautious tethers will not disappear outside the scrollable region.</p>
+
+        <div class="group cautious from-100">
+                <div class="blue element"></div>
+                <div class="blue target"></div>
+        </div>
+
+        <div class="group cautious from-250">
+                <div class="green element"></div>
+                <div class="green target"></div>
+        </div>
+
+        <div class="group together from-100">
+                <div class="blue element"></div>
+                <div class="blue target"></div>
+        </div>
+
+        <div class="group together from-250">
+                <div class="green element"></div>
+                <div class="green target"></div>
+        </div>
+
+
+        <script src="../../tether.js"></script>
+        <script>
+            new Tether({
+                element: '.group.together.from-100 .element',
+                target: '.group.together.from-100 .target',
+                attachment: 'top left',
+                targetAttachment: 'bottom left',
+                constraints: [{
+                    to: 'window',
+                    attachment: 'together'
+                }]
+            });
+
+            new Tether({
+                element: '.group.together.from-250 .element',
+                target: '.group.together.from-250 .target',
+                attachment: 'top left',
+                targetAttachment: 'bottom left',
+                constraints: [{
+                    to: 'window',
+                    attachment: 'together'
+                }]
+            });
+
+            new Tether({
+                element: '.group.cautious.from-100 .element',
+                target: '.group.cautious.from-100 .target',
+                attachment: 'top left',
+                targetAttachment: 'bottom left',
+                constraints: [{
+                    to: 'window',
+                    attachment: 'cautious'
+                }]
+            });
+
+            new Tether({
+                element: '.group.cautious.from-250 .element',
+                target: '.group.cautious.from-250 .target',
+                attachment: 'top left',
+                targetAttachment: 'bottom left',
+                constraints: [{
+                    to: 'window',
+                    attachment: 'cautious'
+                }]
+            });
+        </script>
+    </body>
+</html>
