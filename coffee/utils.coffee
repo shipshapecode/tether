@@ -139,20 +139,32 @@ removeClass = (el, name) ->
   if el.classList?
     el.classList.remove(cls) for cls in name.split(' ') when cls.trim()
   else
-    el.setAttribute('class', el.getAttribute('class').replace(new RegExp("(^| )#{ name.split(' ').join('|') }( |$)", 'gi'), ' '))
+    className = getClassName(el).replace(new RegExp("(^| )#{ name.split(' ').join('|') }( |$)", 'gi'), ' ')
+    setClassName el, className
 
 addClass = (el, name) ->
   if el.classList?
     el.classList.add(cls) for cls in name.split(' ') when cls.trim()
   else
     removeClass el, name
-    el.className += " #{ name }"
+    cls = getClassName(el) + " #{name}"
+    setClassName el, cls 
 
 hasClass = (el, name) ->
   if el.classList?
     el.classList.contains(name)
   else
-    new RegExp("(^| )#{ name }( |$)", 'gi').test(el.className)
+    new RegExp("(^| )#{ name }( |$)", 'gi').test(getClassName(el))
+
+getClassName = (el) ->
+    if el.className instanceof SVGAnimatedString 
+        el.className.baseVal 
+    else 
+        el.className
+
+setClassName = (el, className) ->
+    el.setAttribute 'class', className
+
 
 updateClasses = (el, add, all) ->
   # Of the set of 'all' classes, we need the 'add' classes, and only the
