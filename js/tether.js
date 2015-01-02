@@ -1,5 +1,5 @@
 (function() {
-  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollBarSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
+  var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollBarSize, getScrollParent, getSize, isTranslateZ, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -28,6 +28,13 @@
         return key;
       }
     }
+  })();
+
+  isTranslateZ = (function() {
+    var el;
+    el = document.createElement('div');
+    el.style[transformKey] = 'translateZ(0px)';
+    return Boolean(el.style[transformKey]);
   })();
 
   tethers = [];
@@ -607,7 +614,7 @@
             xPos = -pos.right;
           }
           css[transformKey] = "translateX(" + (Math.round(xPos)) + "px) translateY(" + (Math.round(yPos)) + "px)";
-          if (transformKey !== 'msTransform') {
+          if (isTranslateZ) {
             return css[transformKey] += " translateZ(0)";
           }
         } else {
