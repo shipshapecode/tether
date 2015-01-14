@@ -446,11 +446,10 @@ class _Tether
             top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top
             left: next.page.left - offsetPosition.left + scrollLeft - offsetBorder.left
 
+      # We could also travel up the DOM and try each containing context, rather than only
+      # looking at the body, but we're gonna get diminishing returns.
 
-    # We could also travel up the DOM and try each containing context, rather than only
-    # looking at the body, but we're gonna get diminishing returns.
-
-    @move next
+      @move next
 
     @history.unshift next
 
