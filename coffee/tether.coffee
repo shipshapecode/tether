@@ -15,6 +15,11 @@ transformKey = do ->
     if el.style[key] isnt undefined
       return key
 
+isTranslateZ = do ->
+  el = document.createElement 'div'
+  el.style[ transformKey ] = 'translateZ(0px)'
+  return Boolean(el.style[ transformKey ])
+
 tethers = []
 
 position = ->
@@ -502,7 +507,7 @@ class _Tether
 
         css[transformKey] = "translateX(#{ Math.round xPos }px) translateY(#{ Math.round yPos }px)"
 
-        if transformKey isnt 'msTransform'
+        if isTranslateZ
           # The Z transform will keep this in the GPU (faster, and prevents artifacts),
           # but IE9 doesn't support 3d transforms and will choke.
           css[transformKey] += " translateZ(0)"
