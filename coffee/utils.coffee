@@ -136,6 +136,10 @@ extend = (out={}) ->
   out
 
 removeClass = (el, name) ->
+  if not el?
+    console?.error('el is undefined')
+    return
+    
   if el.classList?
     el.classList.remove(cls) for cls in name.split(' ') when cls.trim()
   else
@@ -143,6 +147,10 @@ removeClass = (el, name) ->
     setClassName el, className
 
 addClass = (el, name) ->
+  if not el?
+    console?.error('el is undefined')
+    return
+    
   if el.classList?
     el.classList.add(cls) for cls in name.split(' ') when cls.trim()
   else
