@@ -207,7 +207,7 @@ class Evented
         else
           i++
 
-  trigger: (event, args...) ->
+  trigger: (event, callback, args...) ->
     if @bindings?[event]
       i = 0
       while i < @bindings[event].length
@@ -219,5 +219,7 @@ class Evented
           @bindings[event].splice i, 1
         else
           i++
+      if callback && typeof callback is 'function'
+        callback()
 
 @Tether.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, defer, flush, uniqueId, Evented, getScrollBarSize}

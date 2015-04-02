@@ -304,21 +304,22 @@
     };
 
     Evented.prototype.trigger = function() {
-      var args, ctx, event, handler, i, once, _ref, _ref1, _results;
-      event = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      var args, callback, ctx, event, handler, i, once, _ref, _ref1;
+      event = arguments[0], callback = arguments[1], args = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
       if ((_ref = this.bindings) != null ? _ref[event] : void 0) {
         i = 0;
-        _results = [];
         while (i < this.bindings[event].length) {
           _ref1 = this.bindings[event][i], handler = _ref1.handler, ctx = _ref1.ctx, once = _ref1.once;
           handler.apply(ctx != null ? ctx : this, args);
           if (once) {
-            _results.push(this.bindings[event].splice(i, 1));
+            this.bindings[event].splice(i, 1);
           } else {
-            _results.push(i++);
+            i++;
           }
         }
-        return _results;
+        if (callback && typeof callback === 'function') {
+          return callback();
+        }
       }
     };
 
