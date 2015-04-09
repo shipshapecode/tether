@@ -188,19 +188,28 @@ getBoundingRect = (tether, to) ->
           eAttachment.top = 'bottom'
 
       if changeAttachX in ['element', 'both']
-        if (left < bounds[0] and eAttachment.left is 'right')
-          left += width
-          eAttachment.left = 'left'
+        if left < bounds[0]
+          if eAttachment.left is 'right'
+            left += width
+            eAttachment.left = 'left'
+          else if eAttachment.left is 'center'
+            left += (width / 2)
+            eAttachment.left = 'left'
 
-        if (left + width > bounds[2] and eAttachment.left is 'left')
-          left -= width
-          eAttachment.left = 'right'
+
+        if left + width > bounds[2]
+          if eAttachment.left is 'left'
+            left -= width
+            eAttachment.left = 'right'
+          else if eAttachment.left is 'center'
+            left -= (width / 2)
+            eAttachment.left = 'right'
 
       if typeof pin is 'string'
         pin = (p.trim() for p in pin.split ',')
       else if pin is true
         pin = ['top', 'left', 'right', 'bottom']
-      
+
       pin or= []
 
       pinned = []
