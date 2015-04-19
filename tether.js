@@ -1,4 +1,4 @@
-/*! tether 0.6.5 */
+/*! tether 0.7.0 */
 
 
 (function(root, factory) {
@@ -846,10 +846,10 @@
           manualTargetOffset: manualTargetOffset,
           scrollbarSize: scrollbarSize
         });
-        if ((ret == null) || typeof ret !== 'object') {
-          continue;
-        } else if (ret === false) {
+        if (ret === false) {
           return false;
+        } else if ((ret == null) || typeof ret !== 'object') {
+          continue;
         } else {
           top = ret.top, left = ret.left;
         }
