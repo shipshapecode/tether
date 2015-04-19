@@ -381,10 +381,10 @@ class _Tether
     for module in Tether.modules
       ret = module.position.call(@, {left, top, targetAttachment, targetPos, @attachment, elementPos, offset, targetOffset, manualOffset, manualTargetOffset, scrollbarSize})
 
-      if not ret? or typeof ret isnt 'object'
-        continue
-      else if ret is false
+      if ret is false
         return false
+      else if not ret? or typeof ret isnt 'object'
+        continue
       else
         {top, left} = ret
 
