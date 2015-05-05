@@ -286,7 +286,8 @@ class _Tether
     @_cache[k]
 
   enable: (position=true) ->
-    addClass @target, @getClass 'enabled'
+    unless @options.addTargetClasses is false
+      addClass @target, @getClass 'enabled'
     addClass @element, @getClass 'enabled'
     @enabled = true
 

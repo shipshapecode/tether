@@ -351,7 +351,9 @@
       if (position == null) {
         position = true;
       }
-      addClass(this.target, this.getClass('enabled'));
+      if (this.options.addTargetClasses !== false) {
+        addClass(this.target, this.getClass('enabled'));
+      }
       addClass(this.element, this.getClass('enabled'));
       this.enabled = true;
       if (this.scrollParent !== document) {

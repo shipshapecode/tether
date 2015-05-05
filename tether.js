@@ -1,4 +1,4 @@
-/*! tether 0.7.1 */
+/*! tether 0.7.0 */
 
 
 (function(root, factory) {
@@ -710,7 +710,9 @@
       if (position == null) {
         position = true;
       }
-      addClass(this.target, this.getClass('enabled'));
+      if (this.options.addTargetClasses !== false) {
+        addClass(this.target, this.getClass('enabled'));
+      }
       addClass(this.element, this.getClass('enabled'));
       this.enabled = true;
       if (this.scrollParent !== document) {
@@ -1345,7 +1347,9 @@
         }
       }
       defer(function() {
-        updateClasses(_this.target, addClasses, allClasses);
+        if (_this.options.addTargetClasses !== false) {
+          updateClasses(_this.target, addClasses, allClasses);
+        }
         return updateClasses(_this.element, addClasses, allClasses);
       });
       return {

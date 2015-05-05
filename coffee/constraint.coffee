@@ -254,7 +254,8 @@ getBoundingRect = (tether, to) ->
         @updateAttachClasses eAttachment, tAttachment
 
     defer =>
-      updateClasses @target, addClasses, allClasses
+      unless @options.addTargetClasses is false
+        updateClasses @target, addClasses, allClasses
       updateClasses @element, addClasses, allClasses
 
     {top, left}
