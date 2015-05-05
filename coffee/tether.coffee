@@ -173,7 +173,8 @@ class _Tether
         @[key] = document.querySelector @[key]
 
     addClass @element, @getClass 'element'
-    addClass @target, @getClass 'target'
+    unless @options.addClass is false
+      addClass @target, @getClass 'target'
 
     if not @options.attachment
       throw new Error "Tether Error: You must provide an attachment"
@@ -334,7 +335,8 @@ class _Tether
       return unless @_addAttachClasses?
 
       updateClasses @element, @_addAttachClasses, all
-      updateClasses @target, @_addAttachClasses, all
+      unless @options.addTargetClasses is false
+        updateClasses @target, @_addAttachClasses, all
 
       @_addAttachClasses = undefined
 

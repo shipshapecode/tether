@@ -1,4 +1,4 @@
-/*! tether 0.7.0 */
+/*! tether 0.7.1 */
 
 
 (function(root, factory) {
@@ -588,7 +588,9 @@
         }
       }
       addClass(this.element, this.getClass('element'));
-      addClass(this.target, this.getClass('target'));
+      if (this.options.addClass !== false) {
+        addClass(this.target, this.getClass('target'));
+      }
       if (!this.options.attachment) {
         throw new Error("Tether Error: You must provide an attachment");
       }
@@ -784,7 +786,9 @@
           return;
         }
         updateClasses(_this.element, _this._addAttachClasses, all);
-        updateClasses(_this.target, _this._addAttachClasses, all);
+        if (_this.options.addTargetClasses !== false) {
+          updateClasses(_this.target, _this._addAttachClasses, all);
+        }
         return _this._addAttachClasses = void 0;
       });
     };
