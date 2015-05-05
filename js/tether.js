@@ -229,7 +229,7 @@
         }
       }
       addClass(this.element, this.getClass('element'));
-      if (this.options.addClass !== false) {
+      if (this.options.addTargetClasses !== false) {
         addClass(this.target, this.getClass('target'));
       }
       if (!this.options.attachment) {

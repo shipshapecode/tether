@@ -173,7 +173,7 @@ class _Tether
         @[key] = document.querySelector @[key]
 
     addClass @element, @getClass 'element'
-    unless @options.addClass is false
+    unless @options.addTargetClasses is false
       addClass @target, @getClass 'target'
 
     if not @options.attachment
