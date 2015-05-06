@@ -34,7 +34,8 @@
       addClasses.push "#{ @getClass('abutted') }-#{ side }"
 
     defer =>
-      updateClasses @target, addClasses, allClasses
+      unless @options.addTargetClasses is false
+        updateClasses @target, addClasses, allClasses
       updateClasses @element, addClasses, allClasses
 
     true

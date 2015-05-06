@@ -229,7 +229,9 @@
         }
       }
       addClass(this.element, this.getClass('element'));
-      addClass(this.target, this.getClass('target'));
+      if (this.options.addTargetClasses !== false) {
+        addClass(this.target, this.getClass('target'));
+      }
       if (!this.options.attachment) {
         throw new Error("Tether Error: You must provide an attachment");
       }
@@ -349,7 +351,9 @@
       if (position == null) {
         position = true;
       }
-      addClass(this.target, this.getClass('enabled'));
+      if (this.options.addTargetClasses !== false) {
+        addClass(this.target, this.getClass('enabled'));
+      }
       addClass(this.element, this.getClass('enabled'));
       this.enabled = true;
       if (this.scrollParent !== document) {
@@ -425,7 +429,9 @@
           return;
         }
         updateClasses(_this.element, _this._addAttachClasses, all);
-        updateClasses(_this.target, _this._addAttachClasses, all);
+        if (_this.options.addTargetClasses !== false) {
+          updateClasses(_this.target, _this._addAttachClasses, all);
+        }
         return _this._addAttachClasses = void 0;
       });
     };

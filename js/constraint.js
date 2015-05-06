@@ -295,7 +295,9 @@
         }
       }
       defer(function() {
-        updateClasses(_this.target, addClasses, allClasses);
+        if (_this.options.addTargetClasses !== false) {
+          updateClasses(_this.target, addClasses, allClasses);
+        }
         return updateClasses(_this.element, addClasses, allClasses);
       });
       return {
