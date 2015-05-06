@@ -1,4 +1,4 @@
-/*! tether 0.7.0 */
+/*! tether 0.7.1 */
 
 
 (function(root, factory) {
@@ -1412,7 +1412,9 @@
         addClasses.push("" + (this.getClass('abutted')) + "-" + side);
       }
       defer(function() {
-        updateClasses(_this.target, addClasses, allClasses);
+        if (_this.options.addTargetClasses !== false) {
+          updateClasses(_this.target, addClasses, allClasses);
+        }
         return updateClasses(_this.element, addClasses, allClasses);
       });
       return true;

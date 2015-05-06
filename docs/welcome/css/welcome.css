@@ -7,8 +7,8 @@ body {
 
 .button {
   display: inline-block;
-  border: 2px solid #333333;
-  color: #333333;
+  border: 2px solid #333;
+  color: #333;
   padding: 1em 1.25em;
   font-weight: 500;
   text-transform: uppercase;
@@ -24,8 +24,8 @@ body {
   padding: 1em;
   font-size: 1.1em; }
   .tether-element.tether-theme-arrows-dark .tether-content .button {
-    border-color: white;
-    color: white;
+    border-color: #fff;
+    color: #fff;
     width: 170px;
     pointer-events: all; }
 
@@ -36,8 +36,8 @@ body {
       display: block; } }
 
 .button.dark {
-  background: #333333;
-  color: white; }
+  background: #333;
+  color: #fff; }
 
 .hero-wrap {
   height: 100%;
@@ -86,13 +86,12 @@ table.showcase {
   table.showcase.hero {
     text-align: center; }
     table.showcase.hero .tether-target-demo {
-      display: -moz-inline-stack;
       display: inline-block;
       vertical-align: middle;
       *vertical-align: auto;
-      zoom: 1;
+      *zoom: 1;
       *display: inline;
-      border: 2px dotted black;
+      border: 2px dotted #000;
       margin: 5rem auto;
       padding: 5rem; }
       @media (max-width: 567px) {
@@ -124,11 +123,12 @@ table.showcase {
     table.showcase.projects-showcase .showcase-inner .projects-list p {
       font-size: 1.3rem; }
   table.showcase.browser-demo {
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuMCIgeTE9IjAuMCIgeDI9IjEuMCIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzcyMzM2MiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzlkMjIzYyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+    background-size: 100%;
     background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #723362), color-stop(100%, #9d223c));
-    background-image: -webkit-linear-gradient(top left, #723362 0%, #9d223c 100%);
     background-image: -moz-linear-gradient(top left, #723362 0%, #9d223c 100%);
-    background-image: -o-linear-gradient(top left, #723362 0%, #9d223c 100%);
-    background-image: linear-gradient(top left, #723362 0%, #9d223c 100%);
+    background-image: -webkit-linear-gradient(top left, #723362 0%, #9d223c 100%);
+    background-image: linear-gradient(to bottom right, #723362 0%, #9d223c 100%);
     background-color: #9d223c;
     position: absolute;
     top: 100%; }
@@ -140,9 +140,9 @@ table.showcase {
       right: 0;
       z-index: 1; }
       table.showcase.browser-demo.fixed .browser-demo-inner {
-        -webkit-transition: width 2s ease-in-out, height 2s ease-in-out;
         -moz-transition: width 2s ease-in-out, height 2s ease-in-out;
         -o-transition: width 2s ease-in-out, height 2s ease-in-out;
+        -webkit-transition: width 2s ease-in-out, height 2s ease-in-out;
         transition: width 2s ease-in-out, height 2s ease-in-out; }
       table.showcase.browser-demo.fixed[data-section="what"] {
         box-shadow: 0 0 0 0; }
@@ -167,9 +167,9 @@ table.showcase {
       height: 100%;
       width: 100%; }
     table.showcase.browser-demo .section-copy {
-      -webkit-transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
       -moz-transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
       -o-transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
+      -webkit-transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
       transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
       filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
       opacity: 0;
@@ -177,11 +177,11 @@ table.showcase {
       top: 0;
       position: absolute;
       height: 200px;
-      color: white;
+      color: #fff;
       text-align: center;
       width: 100%; }
       table.showcase.browser-demo .section-copy.active {
-        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+        filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
         opacity: 1;
         top: -150px; }
         @media (max-width: 567px) {
@@ -196,12 +196,10 @@ table.showcase {
           table.showcase.browser-demo .section-copy h2 {
             font-size: 30px; } }
     table.showcase.browser-demo .browser-window {
-      -webkit-border-radius: 4px;
       -moz-border-radius: 4px;
-      -ms-border-radius: 4px;
-      -o-border-radius: 4px;
+      -webkit-border-radius: 4px;
       border-radius: 4px;
-      background: white;
+      background: #fff;
       position: relative;
       height: 100%;
       width: 100%;
@@ -212,21 +210,18 @@ table.showcase {
         top: 0;
         left: 0;
         right: 0;
-        border-bottom: 1px solid #eeeeee;
+        border-bottom: 1px solid #eee;
         height: 55px; }
         table.showcase.browser-demo .browser-window .browser-titlebar .browser-dots {
           padding: 16px; }
           table.showcase.browser-demo .browser-window .browser-titlebar .browser-dots b {
-            -webkit-border-radius: 50%;
             -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            -o-border-radius: 50%;
+            -webkit-border-radius: 50%;
             border-radius: 50%;
-            display: -moz-inline-stack;
             display: inline-block;
             vertical-align: middle;
             *vertical-align: auto;
-            zoom: 1;
+            *zoom: 1;
             *display: inline;
             width: 10px;
             height: 10px;
@@ -239,10 +234,8 @@ table.showcase {
         right: 0;
         bottom: 0; }
         table.showcase.browser-demo .browser-window .browser-frame iframe {
-          -webkit-border-radius: 0 0 4px 4px;
           -moz-border-radius: 0 0 4px 4px;
-          -ms-border-radius: 0 0 4px 4px;
-          -o-border-radius: 0 0 4px 4px;
+          -webkit-border-radius: 0;
           border-radius: 0 0 4px 4px;
           border: 0;
           width: 100%;
@@ -250,24 +243,22 @@ table.showcase {
   table.showcase.browser-demo-section .section-scroll-copy {
     position: relative;
     z-index: 10;
-    color: white;
+    color: #fff;
     width: 100%;
     font-size: 22px; }
     table.showcase.browser-demo-section .section-scroll-copy .section-scroll-copy-inner {
       position: absolute;
       z-index: 10;
-      color: white;
+      color: #fff;
       right: 10%;
       width: 23%; }
       table.showcase.browser-demo-section .section-scroll-copy .section-scroll-copy-inner a {
         color: inherit; }
       table.showcase.browser-demo-section .section-scroll-copy .section-scroll-copy-inner .example-paragraph {
-        -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
-        -ms-border-radius: 4px;
-        -o-border-radius: 4px;
+        -webkit-border-radius: 4px;
         border-radius: 4px;
-        background: black;
+        background: #000;
         padding: 1rem; }
 
 .browser-content {
