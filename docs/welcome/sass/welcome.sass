@@ -1,4 +1,4 @@
-@import compass/css3
+@import inline-block
 
 html, body
     height: 100%
@@ -140,7 +140,7 @@ table.showcase
                 font-size: 1.3rem
 
     &.browser-demo
-        +background-image(linear-gradient(top left, #723362 0%, #9d223c 100%))
+        background-image: linear-gradient(top left, #723362 0%, #9d223c 100%)
         background-color: #9d223c
         position: absolute
         top: 100%
@@ -154,7 +154,7 @@ table.showcase
             z-index: 1
 
             .browser-demo-inner
-                +transition(width 2s ease-in-out, height 2s ease-in-out)
+                transition: width 2s ease-in-out, height 2s ease-in-out
 
             // Sections
 
@@ -190,8 +190,8 @@ table.showcase
             width: 100%
 
         .section-copy
-            +transition(opacity .5s ease-in-out, top .5s ease-in-out)
-            +opacity(0)
+            transition: opacity .5s ease-in-out, top .5s ease-in-out
+            opacity: 0
             position: absolute
             top: 0
             position: absolute
@@ -201,7 +201,7 @@ table.showcase
             width: 100%
 
             &.active
-                +opacity(1)
+                opacity: 1
                 top: -150px
 
                 @media (max-width: 567px)
@@ -217,7 +217,7 @@ table.showcase
                     font-size: 30px
 
         .browser-window
-            +border-radius(4px)
+            border-radius: 4px
             background: #fff
             position: relative
             height: 100%
@@ -237,8 +237,8 @@ table.showcase
                     padding: 16px
 
                     b
-                        +border-radius(50%)
                         +inline-block
+                        border-radius: 50%
                         width: 10px
                         height: 10px
                         margin-right: 7px
@@ -252,7 +252,7 @@ table.showcase
                 bottom: 0
 
                 iframe
-                    +border-radius(0 0 4px 4px)
+                    border-radius: 0 0 4px 4px
                     border: 0
                     width: 100%
                     height: 100%
@@ -277,7 +277,7 @@ table.showcase
                     color: inherit
 
                 .example-paragraph
-                    +border-radius(4px)
+                    border-radius: 4px
                     background: #000
                     padding: 1rem
 

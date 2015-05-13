@@ -1,10 +1,8 @@
-@import compass/css3
-
 =tether($themePrefix: "tether")
     .#{ $themePrefix }-element, .#{ $themePrefix }-element *
 
         &, &:after, &:before
-            +box-sizing(border-box)
+            box-sizing: border-box
 
     .#{ $themePrefix }-element
         position: absolute

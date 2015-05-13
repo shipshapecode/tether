@@ -1,13 +1,13 @@
 {
   "name": "tether",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "main": "tether.js",
   "homepage": "https://github.hubspot.com/tether",
   "authors": [
     "Zack Bloom <zackbloom@gmail.com>",
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
   ],
-  "description": "Tether elements together",
+  "description": "A client-side library to make absolutely positioned elements attach to elements in the page efficiently.",
   "keywords": [
     "javascript"
   ],

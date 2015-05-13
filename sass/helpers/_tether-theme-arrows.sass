@@ -1,12 +1,10 @@
-@import compass/css3
-
 =tether-theme-arrows($themePrefix: "tether", $themeName: "arrows", $arrowSize: 16px, $backgroundColor: #fff, $color: inherit, $useDropShadow: false)
     .#{ $themePrefix }-element.#{ $themePrefix }-theme-#{ $themeName }
         max-width: 100%
         max-height: 100%
 
         .#{ $themePrefix }-content
-            +border-radius(5px)
+            border-radius: 5px
             position: relative
             font-family: inherit
             background: $backgroundColor
@@ -16,8 +14,8 @@
             line-height: 1.5em
 
             @if $useDropShadow
-                +transform(translateZ(0))
-                +filter(drop-shadow(0 1px 4px rgba(0, 0, 0, .2)))
+                transform: translateZ(0)
+                filter: drop-shadow(0 1px 4px rgba(0, 0, 0, .2))
 
             &:before
                 content: ""

@@ -1,11 +1,12 @@
-gulp = require('gulp')
-coffee = require('gulp-coffee')
-compass = require('gulp-compass')
-concat = require('gulp-concat')
-uglify = require('gulp-uglify')
-header = require('gulp-header')
-rename = require('gulp-rename')
-wrap = require('gulp-wrap-umd')
+gulp      = require('gulp')
+coffee    = require('gulp-coffee')
+concat    = require('gulp-concat')
+header    = require('gulp-header')
+prefixer  = require('gulp-autoprefixer')
+rename    = require('gulp-rename')
+sass      = require('gulp-sass')
+uglify    = require('gulp-uglify')
+wrap      = require('gulp-wrap-umd')
 
 pkg = require('./package.json')
 banner = "/*! #{ pkg.name } #{ pkg.version } */\n"
@@ -45,21 +46,18 @@ gulp.task 'js', ->
     gulp.run 'concat', ->
       gulp.run 'uglify', ->
 
-gulp.task 'compass', ->
+gulp.task 'sass', ->
   for path in ['', 'docs/', 'docs/welcome/']
     gulp.src("./#{ path }sass/*")
-      .pipe(compass(
-        sass: "#{ path }sass"
-        css: "#{ path }css"
-        comments: false
-      ))
+      .pipe(sass())
+      .pipe(prefixer())
       .pipe(gulp.dest("./#{ path }css"))
 
 gulp.task 'default', ->
-  gulp.run 'js', 'compass'
+  gulp.run 'js', 'sass'
 
   gulp.watch './**/*.coffee', ->
     gulp.run 'js'
 
   gulp.watch './**/*.sass', ->
-    gulp.run 'compass'
+    gulp.run 'sass'
