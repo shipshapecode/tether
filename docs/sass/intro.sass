@@ -1,11 +1,16 @@
-@import compass/css3
-
 $scrollableArea: 2000px
 $exampleWidth: 400px
 $exampleHeight: 180px
 
+@mixin inline-block
+  display: inline-block
+  vertical-align: middle
+  *vertical-align: auto
+  *zoom: 1
+  *display: inline
+
 *, *:after, *:before
-  +box-sizing(border-box)
+  box-sizing: border-box
 
 body
   position: relative

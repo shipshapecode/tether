@@ -5,7 +5,7 @@ html, body {
 
 .tether.tether-theme-arrows-dark .tether-content {
   -webkit-filter: none;
-  filter: none;
+          filter: none;
   background: #000; }
   .tether.tether-theme-arrows-dark .tether-content ul {
     color: #fff;
@@ -23,8 +23,6 @@ html, body {
   bottom: 0;
   right: 0; }
   .browser-demo *, .browser-demo *:after, .browser-demo *:before {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box; }
   .browser-demo .top {
     position: absolute;

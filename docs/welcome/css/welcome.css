@@ -16,7 +16,7 @@ body {
   text-decoration: none;
   cursor: pointer;
   width: 140px;
-  font-size: 0.8em;
+  font-size: .8em;
   line-height: 1.3em;
   text-align: center; }
 
@@ -123,12 +123,8 @@ table.showcase {
     table.showcase.projects-showcase .showcase-inner .projects-list p {
       font-size: 1.3rem; }
   table.showcase.browser-demo {
-    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuMCIgeTE9IjAuMCIgeDI9IjEuMCIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzcyMzM2MiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzlkMjIzYyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-    background-size: 100%;
-    background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #723362), color-stop(100%, #9d223c));
-    background-image: -moz-linear-gradient(top left, #723362 0%, #9d223c 100%);
     background-image: -webkit-linear-gradient(top left, #723362 0%, #9d223c 100%);
-    background-image: linear-gradient(to bottom right, #723362 0%, #9d223c 100%);
+    background-image: linear-gradient(top left, #723362 0%, #9d223c 100%);
     background-color: #9d223c;
     position: absolute;
     top: 100%; }
@@ -140,10 +136,8 @@ table.showcase {
       right: 0;
       z-index: 1; }
       table.showcase.browser-demo.fixed .browser-demo-inner {
-        -moz-transition: width 2s ease-in-out, height 2s ease-in-out;
-        -o-transition: width 2s ease-in-out, height 2s ease-in-out;
         -webkit-transition: width 2s ease-in-out, height 2s ease-in-out;
-        transition: width 2s ease-in-out, height 2s ease-in-out; }
+                transition: width 2s ease-in-out, height 2s ease-in-out; }
       table.showcase.browser-demo.fixed[data-section="what"] {
         box-shadow: 0 0 0 0; }
       table.showcase.browser-demo.fixed[data-section="why"] .browser-demo-inner {
@@ -167,11 +161,8 @@ table.showcase {
       height: 100%;
       width: 100%; }
     table.showcase.browser-demo .section-copy {
-      -moz-transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
-      -o-transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
       -webkit-transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
-      transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
-      filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+              transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
       opacity: 0;
       position: absolute;
       top: 0;
@@ -181,7 +172,6 @@ table.showcase {
       text-align: center;
       width: 100%; }
       table.showcase.browser-demo .section-copy.active {
-        filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
         opacity: 1;
         top: -150px; }
         @media (max-width: 567px) {
@@ -196,8 +186,6 @@ table.showcase {
           table.showcase.browser-demo .section-copy h2 {
             font-size: 30px; } }
     table.showcase.browser-demo .browser-window {
-      -moz-border-radius: 4px;
-      -webkit-border-radius: 4px;
       border-radius: 4px;
       background: #fff;
       position: relative;
@@ -215,14 +203,12 @@ table.showcase {
         table.showcase.browser-demo .browser-window .browser-titlebar .browser-dots {
           padding: 16px; }
           table.showcase.browser-demo .browser-window .browser-titlebar .browser-dots b {
-            -moz-border-radius: 50%;
-            -webkit-border-radius: 50%;
-            border-radius: 50%;
             display: inline-block;
             vertical-align: middle;
             *vertical-align: auto;
             *zoom: 1;
             *display: inline;
+            border-radius: 50%;
             width: 10px;
             height: 10px;
             margin-right: 7px;
@@ -234,8 +220,6 @@ table.showcase {
         right: 0;
         bottom: 0; }
         table.showcase.browser-demo .browser-window .browser-frame iframe {
-          -moz-border-radius: 0 0 4px 4px;
-          -webkit-border-radius: 0;
           border-radius: 0 0 4px 4px;
           border: 0;
           width: 100%;
@@ -255,8 +239,6 @@ table.showcase {
       table.showcase.browser-demo-section .section-scroll-copy .section-scroll-copy-inner a {
         color: inherit; }
       table.showcase.browser-demo-section .section-scroll-copy .section-scroll-copy-inner .example-paragraph {
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
         border-radius: 4px;
         background: #000;
         padding: 1rem; }
