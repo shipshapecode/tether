@@ -569,16 +569,8 @@ to submit pull requests which just change the JavaScript files, we can adapt the
 To build Tether, you need:
 
 - Node.js
-- Ruby (for compass)
 
 #### Instructions
-
-- Install compass (if you don't have it already)
-
-```bash
-gem update --system
-gem install compass
-```
 
 - Install the build tool
 
