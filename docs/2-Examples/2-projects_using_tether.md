@@ -24,6 +24,10 @@ in making something which pops up next to something the user clicks or hovers on
 
 If your building something that fits that pattern, Drop can make things a little easier.
 
+### [ember-tether](https://github.com/yapplabs/ember-tether)
+
+An Ember.js-friendly interface for tether.
+
 ### Your Project Here
 
 If you have a cool open-source library built on Tether, PR this doc, or [get in touch](mailto:zbloom@hubspot.com).
