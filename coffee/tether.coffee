@@ -549,7 +549,7 @@ class _Tether
       css.position = 'absolute'
       transcribe {top: true, left: true}, position.page
 
-    if not moved and @element.parentNode.tagName isnt 'BODY'
+    if @options.moveRoot isnt false and not moved and @element.parentNode.tagName isnt 'BODY'
       @element.parentNode.removeChild @element
       document.body.appendChild @element
 
