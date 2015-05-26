@@ -5,11 +5,11 @@
   if (typeof define === 'function' && define.amd) {
     define(factory);
   } else if (typeof exports === 'object') {
-    module.exports = factory(require,exports,module);
+    module.exports = factory(root,require,exports,module);
   } else {
-    root.Tether = factory();
+    root.Tether = factory(root);
   }
-}(this, function(require,exports,module) {
+}(this, function(root,require,exports,module) {
 
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getClassName, getOffsetParent, getOrigin, getScrollBarSize, getScrollParent, hasClass, node, removeClass, setClassName, uniqueId, updateClasses, zeroPosCache,
@@ -355,7 +355,7 @@
     getScrollBarSize: getScrollBarSize
   };
 
-}).call(this);
+}).call(root);
 
 (function() {
   var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, defer, extend, flush, getBounds, getOffsetParent, getOuterSize, getScrollBarSize, getScrollParent, getSize, now, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, transformKey, updateClasses, within, _Tether, _ref,
@@ -1048,7 +1048,7 @@
 
   this.Tether = extend(_Tether, Tether);
 
-}).call(this);
+}).call(root);
 
 (function() {
   var BOUNDS_FORMAT, MIRROR_ATTACH, defer, extend, getBoundingRect, getBounds, getOuterSize, getSize, updateClasses, _ref,
@@ -1359,7 +1359,7 @@
     }
   });
 
-}).call(this);
+}).call(root);
 
 (function() {
   var defer, getBounds, updateClasses, _ref;
@@ -1421,7 +1421,7 @@
     }
   });
 
-}).call(this);
+}).call(root);
 
 (function() {
   this.Tether.modules.push({
@@ -1460,8 +1460,8 @@
     }
   });
 
-}).call(this);
+}).call(root);
 
-return this.Tether;
+return root.Tether;
 
 }));
