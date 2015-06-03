@@ -1,4 +1,4 @@
-{getOuterSize, getBounds, getSize, extend, updateClasses, defer} = @Tether.Utils
+{getOuterSize, getBounds, getSize, extend, updateClasses, defer} = TetherBuilder.Utils
 
 MIRROR_ATTACH =
     left: 'right'
@@ -33,7 +33,7 @@ getBoundingRect = (tether, to) ->
 
   to
 
-@Tether.modules.push
+TetherBuilder.modules.push
   position: ({top, left, targetAttachment}) ->
     return true unless @options.constraints
 

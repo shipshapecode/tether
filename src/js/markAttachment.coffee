@@ -1,4 +1,4 @@
-@Tether.modules.push
+TetherBuilder.modules.push
   initialize: ->
     @markers = {}
 

@@ -1,4 +1,4 @@
-@Tether.modules.push
+TetherBuilder.modules.push
   position: ({top, left}) ->
     return unless @options.shift
 
