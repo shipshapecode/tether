@@ -30,52 +30,28 @@ gulp.task('clean', function() {
 });
 
 
-// TEMPORARY START
-gulp.task('coffee', function() {
-  gulp.src('./src/js/*.coffee')
-    .pipe(plumber())
-    .pipe(coffee({bare: true}))
-    .pipe(gulp.dest(distDir + '/js/temp'));
-});
-gulp.task('combine', ['js', 'coffee'], function() {
-  gulp.src([
-    './dist/js/temp/utils.js',
-    './dist/js/temp/tether.js',
-    './dist/js/temp/constraint.js',
-    './dist/js/temp/abutment.js',
-    './dist/js/temp/shift.js'
-  ])
-    .pipe(concat('tether.js'))
-    .pipe(umd(umdOptions))
-    .pipe(gulp.dest(distDir + '/js'));
-});
-gulp.task('watch', ['combine'], function() {
-  gulp.watch('./src/js/**/*', ['combine']);
-});
-// TEMPORARY END
-
 // Javascript
 gulp.task('js', function() {
   gulp.src([
     './src/js/utils.js',
-    // './src/js/tether.js',
+    './src/js/tether.js',
     './src/js/constraint.js',
     './src/js/abutment.js',
     './src/js/shift.js'
   ])
     .pipe(plumber())
     .pipe(babel())
-    // .pipe(concat('tether.js'))
-    // .pipe(umd(umdOptions))
-    // .pipe(header(banner))
+    .pipe(concat('tether.js'))
+    .pipe(umd(umdOptions))
+    .pipe(header(banner))
 
     // Original
-    .pipe(gulp.dest(distDir + '/js/temp'))
+    .pipe(gulp.dest(distDir + '/js'))
 
     // Minified
-    // .pipe(uglify())
-    // .pipe(rename({suffix: '.min'}))
-    // .pipe(gulp.dest(distDir + '/js'));
+    .pipe(uglify())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest(distDir + '/js'));
 });
 
 
@@ -99,20 +75,20 @@ for (var i = 0; i < VERSIONS.length; ++i){
         .pipe(pkgFilter)
         .pipe(tagVersion())
         .pipe(pkgFilter.restore())
-        .pipe(gulp.dest('.'))
+        .pipe(gulp.dest('.'));
     });
   })(VERSIONS[i]);
 }
 
 
 // Watch
-// gulp.task('watch', ['js', 'css'], function() {
-//   gulp.watch('./src/js/**/*', ['js']);
-//   gulp.watch('./src/css/**/*', ['css']);
-// });
+gulp.task('watch', ['js', 'css'], function() {
+  gulp.watch('./src/js/**/*', ['js']);
+  gulp.watch('./src/css/**/*', ['css']);
+});
 
 
 // Defaults
-gulp.task('build', ['js', 'css'])
-gulp.task('default', ['build'])
+gulp.task('build', ['js', 'css']);
+gulp.task('default', ['build']);
 
