@@ -61,7 +61,7 @@ gulp.task('js', function() {
     // './src/js/tether.js',
     './src/js/constraint.js',
     './src/js/abutment.js',
-    // './src/js/shift.js'
+    './src/js/shift.js'
   ])
     .pipe(plumber())
     .pipe(babel())
