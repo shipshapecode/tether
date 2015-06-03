@@ -6,6 +6,7 @@ var coffee      = require('gulp-coffee');
 var concat      = require('gulp-concat');
 var filter      = require('gulp-filter');
 var header      = require('gulp-header');
+var minify      = require('gulp-minify-css');
 var plumber     = require('gulp-plumber');
 var prefixer    = require('gulp-autoprefixer');
 var rename      = require('gulp-rename');
@@ -58,8 +59,16 @@ gulp.task('js', function() {
 // CSS
 gulp.task('css', function() {
   gulp.src('./src/css/**/*.sass')
+    .pipe(plumber())
     .pipe(sass())
     .pipe(prefixer())
+
+    // Original
+    .pipe(gulp.dest(distDir + '/css'))
+
+    // Minified
+    .pipe(minify())
+    .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(distDir + '/css'));
 });
 

@@ -24,6 +24,7 @@
     "gulp-concat": "^2.5.2",
     "gulp-filter": "^2.0.2",
     "gulp-header": "^1.2.2",
+    "gulp-minify-css": "^1.1.5",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.1",
