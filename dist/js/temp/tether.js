@@ -2,11 +2,11 @@ var MIRROR_LR, MIRROR_TB, OFFSET_MAP, Tether, TetherClass, addClass, addOffset, 
   slice = [].slice,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-if (typeof TetherBuilder === "undefined" || TetherBuilder === null) {
+if (typeof TetherBase === "undefined" || TetherBase === null) {
   throw new Error("You must include the utils.js file before tether.js");
 }
 
-ref = TetherBuilder.Utils, getScrollParent = ref.getScrollParent, getSize = ref.getSize, getOuterSize = ref.getOuterSize, getBounds = ref.getBounds, getOffsetParent = ref.getOffsetParent, extend = ref.extend, addClass = ref.addClass, removeClass = ref.removeClass, updateClasses = ref.updateClasses, defer = ref.defer, flush = ref.flush, getScrollBarSize = ref.getScrollBarSize;
+ref = TetherBase.Utils, getScrollParent = ref.getScrollParent, getSize = ref.getSize, getOuterSize = ref.getOuterSize, getBounds = ref.getBounds, getOffsetParent = ref.getOffsetParent, extend = ref.extend, addClass = ref.addClass, removeClass = ref.removeClass, updateClasses = ref.updateClasses, defer = ref.defer, flush = ref.flush, getScrollBarSize = ref.getScrollBarSize;
 
 within = function(a, b, diff) {
   if (diff == null) {
@@ -167,7 +167,7 @@ TetherClass = (function() {
     tethers.push(this);
     this.history = [];
     this.setOptions(options, false);
-    ref1 = TetherBuilder.modules;
+    ref1 = TetherBase.modules;
     for (j = 0, len = ref1.length; j < len; j++) {
       module = ref1[j];
       if ((ref2 = module.initialize) != null) {
@@ -478,7 +478,7 @@ TetherClass = (function() {
     targetOffset = addOffset(targetOffset, manualTargetOffset);
     left = targetPos.left + targetOffset.left - offset.left;
     top = targetPos.top + targetOffset.top - offset.top;
-    ref2 = TetherBuilder.modules;
+    ref2 = TetherBase.modules;
     for (j = 0, len = ref2.length; j < len; j++) {
       module = ref2[j];
       ret = module.position.call(this, {
@@ -695,6 +695,6 @@ TetherClass = (function() {
 
 })();
 
-TetherBuilder.position = position;
+TetherBase.position = position;
 
-Tether = extend(TetherClass, TetherBuilder);
+Tether = extend(TetherClass, TetherBase);

@@ -1,8 +1,8 @@
-/* globals TetherBuilder */
+/* globals TetherBase */
 
-const {getBounds, updateClasses, defer} = TetherBuilder.Utils;
+const {getBounds, updateClasses, defer} = TetherBase.Utils;
 
-TetherBuilder.modules.push({
+TetherBase.modules.push({
   position({top, left}) {
     const {height, width} = this.cache('element-bounds', () => {
       return getBounds(this.element);

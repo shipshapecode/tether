@@ -1,9 +1,9 @@
-if not TetherBuilder?
+if not TetherBase?
   throw new Error "You must include the utils.js file before tether.js"
 
-# Tether = TetherBuilder
+# Tether = TetherBase
 
-{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses, defer, flush, getScrollBarSize} = TetherBuilder.Utils
+{getScrollParent, getSize, getOuterSize, getBounds, getOffsetParent, extend, addClass, removeClass, updateClasses, defer, flush, getScrollBarSize} = TetherBase.Utils
 
 within = (a, b, diff=1) ->
   a + diff >= b >= a - diff
@@ -129,7 +129,7 @@ class TetherClass
 
     @setOptions options, false
 
-    for module in TetherBuilder.modules
+    for module in TetherBase.modules
       module.initialize?.call(@)
 
     @position()
@@ -381,7 +381,7 @@ class TetherClass
     left = targetPos.left + targetOffset.left - offset.left
     top = targetPos.top + targetOffset.top - offset.top
 
-    for module in TetherBuilder.modules
+    for module in TetherBase.modules
       ret = module.position.call(@, {left, top, targetAttachment, targetPos, @attachment, elementPos, offset, targetOffset, manualOffset, manualTargetOffset, scrollbarSize})
 
       if ret is false
@@ -571,6 +571,6 @@ class TetherClass
       defer =>
         extend @element.style, writeCSS
 
-TetherBuilder.position = position
+TetherBase.position = position
 
-Tether = extend TetherClass, TetherBuilder
+Tether = extend TetherClass, TetherBase

@@ -1,13 +1,13 @@
-/* globals TetherBuilder */
+/* globals TetherBase */
 
 'use strict';
 
-var _TetherBuilder$Utils = TetherBuilder.Utils;
-var getBounds = _TetherBuilder$Utils.getBounds;
-var updateClasses = _TetherBuilder$Utils.updateClasses;
-var defer = _TetherBuilder$Utils.defer;
+var _TetherBase$Utils = TetherBase.Utils;
+var getBounds = _TetherBase$Utils.getBounds;
+var updateClasses = _TetherBase$Utils.updateClasses;
+var defer = _TetherBase$Utils.defer;
 
-TetherBuilder.modules.push({
+TetherBase.modules.push({
   position: function position(_ref) {
     var _this = this;
 

@@ -1,4 +1,4 @@
-TetherBuilder.modules.push({
+TetherBase.modules.push({
   initialize: function() {
     var dot, el, i, len, ref, results, type;
     this.markers = {};

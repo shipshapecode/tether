@@ -1,16 +1,13 @@
 /* globals TetherBase */
 
-'use strict';
+const {
+  getBounds,
+  extend,
+  updateClasses,
+  defer
+} = TetherBase.Utils;
 
-function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }
-
-var _TetherBase$Utils = TetherBase.Utils;
-var getBounds = _TetherBase$Utils.getBounds;
-var extend = _TetherBase$Utils.extend;
-var updateClasses = _TetherBase$Utils.updateClasses;
-var defer = _TetherBase$Utils.defer;
-
-var BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
+const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
 function getBoundingRect(tether, to) {
   if (to === 'scrollParent') {
@@ -24,67 +21,51 @@ function getBoundingRect(tether, to) {
   }
 
   if (typeof to.nodeType !== 'undefined') {
-    (function () {
-      var size = getBounds(to);
-      var pos = size;
-      var style = getComputedStyle(to);
+    const size = getBounds(to);
+    const pos = size;
+    const style = getComputedStyle(to);
 
-      to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
+    to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
 
-      BOUNDS_FORMAT.forEach(function (side, i) {
-        side = side[0].toUpperCase() + side.substr(1);
-        if (side === 'Top' || side === 'Left') {
-          to[i] += parseFloat(style['border' + side + 'Width']);
-        } else {
-          to[i] -= parseFloat(style['border' + side + 'Width']);
-        }
-      });
-    })();
+    BOUNDS_FORMAT.forEach((side, i) => {
+      side = side[0].toUpperCase() + side.substr(1);
+      if (side === 'Top' || side === 'Left') {
+        to[i] += parseFloat(style[`border${ side }Width`]);
+      } else {
+        to[i] -= parseFloat(style[`border${ side }Width`]);
+      }
+    });
   }
 
   return to;
 }
 
 TetherBase.modules.push({
-  position: function position(_ref) {
-    var _this = this;
-
-    var top = _ref.top;
-    var left = _ref.left;
-    var targetAttachment = _ref.targetAttachment;
-
+  position({top, left, targetAttachment}) {
     if (!this.options.constraints) {
       return true;
     }
 
-    var _cache = this.cache('element-bounds', function () {
-      return getBounds(_this.element);
+    let {height, width} = this.cache('element-bounds', () => {
+      return getBounds(this.element);
     });
-
-    var height = _cache.height;
-    var width = _cache.width;
 
     if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
       // Handle the item getting hidden as a result of our positioning without glitching
       // the classes in and out
-      var _lastSize = this.lastSize;
-      width = _lastSize.width;
-      height = _lastSize.height;
+      ({width, height} = this.lastSize);
     }
 
-    var targetSize = this.cache('target-bounds', function () {
-      return _this.getTargetBounds();
+    const targetSize = this.cache('target-bounds', () => {
+      return this.getTargetBounds();
     });
 
-    var targetHeight = targetSize.height;
-    var targetWidth = targetSize.width;
+    const {height: targetHeight, width: targetWidth} = targetSize;
 
-    var allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
+    const allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
 
-    this.options.constraints.forEach(function (constraint) {
-      var outOfBoundsClass = constraint.outOfBoundsClass;
-      var pinnedClass = constraint.pinnedClass;
-
+    this.options.constraints.forEach(constraint => {
+      const {outOfBoundsClass, pinnedClass} = constraint;
       if (outOfBoundsClass) {
         allClasses.push(outOfBoundsClass);
       }
@@ -93,40 +74,32 @@ TetherBase.modules.push({
       }
     });
 
-    allClasses.forEach(function (cls) {
-      ['left', 'top', 'right', 'bottom'].forEach(function (side) {
-        allClasses.push('' + cls + '-' + side);
+    allClasses.forEach(cls => {
+      ['left', 'top', 'right', 'bottom'].forEach(side => {
+        allClasses.push(`${ cls }-${ side }`);
       });
     });
 
-    var addClasses = [];
+    const addClasses = [];
 
-    var tAttachment = extend({}, targetAttachment);
-    var eAttachment = extend({}, this.attachment);
+    const tAttachment = extend({}, targetAttachment);
+    const eAttachment = extend({}, this.attachment);
 
-    this.options.constraints.forEach(function (constraint) {
-      var to = constraint.to;
-      var attachment = constraint.attachment;
-      var pin = constraint.pin;
+    this.options.constraints.forEach(constraint => {
+      let {to, attachment, pin} = constraint;
 
       if (typeof attachment === 'undefined') {
         attachment = '';
       }
 
-      var changeAttachX = undefined,
-          changeAttachY = undefined;
+      let changeAttachX, changeAttachY;
       if (attachment.indexOf(' ') >= 0) {
-        var _attachment$split = attachment.split(' ');
-
-        var _attachment$split2 = _slicedToArray(_attachment$split, 2);
-
-        changeAttachY = _attachment$split2[0];
-        changeAttachX = _attachment$split2[1];
+        [changeAttachY, changeAttachX] = attachment.split(' ');
       } else {
         changeAttachX = changeAttachY = attachment;
       }
 
-      var bounds = getBoundingRect(_this, to);
+      const bounds = getBoundingRect(this, to);
 
       if (changeAttachY === 'target' || changeAttachY === 'both') {
         if (top < bounds[1] && tAttachment.top === 'top') {
@@ -148,6 +121,7 @@ TetherBase.modules.push({
 
             top += height;
             eAttachment.top = 'top';
+
           } else if (eAttachment.top === 'top') {
             top += targetHeight;
             tAttachment.top = 'bottom';
@@ -164,6 +138,7 @@ TetherBase.modules.push({
 
             top -= height;
             eAttachment.top = 'bottom';
+
           } else if (eAttachment.top === 'bottom') {
             top -= targetHeight;
             tAttachment.top = 'top';
@@ -177,6 +152,7 @@ TetherBase.modules.push({
           if (top + height > bounds[3] && eAttachment.top === 'top') {
             top -= height;
             eAttachment.top = 'bottom';
+
           } else if (top < bounds[1] && eAttachment.top === 'bottom') {
             top += height;
             eAttachment.top = 'top';
@@ -204,6 +180,7 @@ TetherBase.modules.push({
 
             left += width;
             eAttachment.left = 'left';
+
           } else if (eAttachment.left === 'left') {
             left += targetWidth;
             tAttachment.left = 'right';
@@ -211,6 +188,7 @@ TetherBase.modules.push({
             left -= width;
             eAttachment.left = 'right';
           }
+
         } else if (left + width > bounds[2] && tAttachment.left === 'right') {
           if (eAttachment.left === 'left') {
             left -= targetWidth;
@@ -218,6 +196,7 @@ TetherBase.modules.push({
 
             left -= width;
             eAttachment.left = 'right';
+
           } else if (eAttachment.left === 'right') {
             left -= targetWidth;
             tAttachment.left = 'left';
@@ -225,10 +204,12 @@ TetherBase.modules.push({
             left += width;
             eAttachment.left = 'left';
           }
+
         } else if (tAttachment.left === 'center') {
           if (left + width > bounds[2] && eAttachment.left === 'left') {
             left -= width;
             eAttachment.left = 'right';
+
           } else if (left < bounds[0] && eAttachment.left === 'right') {
             left += width;
             eAttachment.left = 'left';
@@ -261,17 +242,15 @@ TetherBase.modules.push({
       }
 
       if (typeof pin === 'string') {
-        pin = pin.split(',').map(function (p) {
-          return p.trim();
-        });
+        pin = pin.split(',').map(p => p.trim());
       } else if (pin === true) {
         pin = ['top', 'left', 'right', 'bottom'];
       }
 
       pin = pin || [];
 
-      var pinned = [];
-      var oob = [];
+      const pinned = [];
+      const oob = [];
 
       if (top < bounds[1]) {
         if (pin.indexOf('top') >= 0) {
@@ -310,35 +289,31 @@ TetherBase.modules.push({
       }
 
       if (pinned.length) {
-        (function () {
-          var pinnedClass = undefined;
-          if (typeof _this.options.pinnedClass !== 'undefined') {
-            pinnedClass = _this.options.pinnedClass;
-          } else {
-            pinnedClass = _this.getClass('pinned');
-          }
+        let pinnedClass;
+        if (typeof this.options.pinnedClass !== 'undefined') {
+          pinnedClass = this.options.pinnedClass;
+        } else {
+          pinnedClass = this.getClass('pinned');
+        }
 
-          addClasses.push(pinnedClass);
-          pinned.forEach(function (side) {
-            addClasses.push('' + pinnedClass + '-' + side);
-          });
-        })();
+        addClasses.push(pinnedClass);
+        pinned.forEach(side => {
+          addClasses.push(`${ pinnedClass }-${ side }`);
+        });
       }
 
       if (oob.length) {
-        (function () {
-          var oobClass = undefined;
-          if (typeof _this.options.outOfBoundsClass !== 'undefined') {
-            oobClass = _this.options.outOfBoundsClass;
-          } else {
-            oobClass = _this.getClass('out-of-bounds');
-          }
+        let oobClass;
+        if (typeof this.options.outOfBoundsClass !== 'undefined') {
+          oobClass = this.options.outOfBoundsClass;
+        } else {
+          oobClass = this.getClass('out-of-bounds');
+        }
 
-          addClasses.push(oobClass);
-          oob.forEach(function (side) {
-            addClasses.push('' + oobClass + '-' + side);
-          });
-        })();
+        addClasses.push(oobClass);
+        oob.forEach(side => {
+          addClasses.push(`${ oobClass }-${ side }`);
+        });
       }
 
       if (pinned.indexOf('left') >= 0 || pinned.indexOf('right') >= 0) {
@@ -348,18 +323,21 @@ TetherBase.modules.push({
         eAttachment.top = tAttachment.top = false;
       }
 
-      if (tAttachment.top !== targetAttachment.top || tAttachment.left !== targetAttachment.left || eAttachment.top !== _this.attachment.top || eAttachment.left !== _this.attachment.left) {
-        _this.updateAttachClasses(eAttachment, tAttachment);
+      if (tAttachment.top !== targetAttachment.top ||
+          tAttachment.left !== targetAttachment.left ||
+          eAttachment.top !== this.attachment.top ||
+          eAttachment.left !== this.attachment.left) {
+        this.updateAttachClasses(eAttachment, tAttachment);
       }
     });
 
-    defer(function () {
-      if (!(_this.options.addTargetClasses === false)) {
-        updateClasses(_this.target, addClasses, allClasses);
+    defer(() => {
+      if (!(this.options.addTargetClasses === false)) {
+        updateClasses(this.target, addClasses, allClasses);
       }
-      updateClasses(_this.element, addClasses, allClasses);
+      updateClasses(this.element, addClasses, allClasses);
     });
 
-    return { top: top, left: left };
+    return {top, left};
   }
 });

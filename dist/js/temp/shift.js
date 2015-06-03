@@ -1,4 +1,4 @@
-TetherBuilder.modules.push({
+TetherBase.modules.push({
   position: function(arg) {
     var left, ref, result, shift, shiftLeft, shiftTop, top;
     top = arg.top, left = arg.left;

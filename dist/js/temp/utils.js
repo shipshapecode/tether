@@ -1,10 +1,10 @@
-var Evented, TetherBuilder, addClass, defer, deferred, extend, flush, getBounds, getClassName, getOffsetParent, getOrigin, getScrollBarSize, getScrollParent, hasClass, node, removeClass, setClassName, uniqueId, updateClasses, zeroPosCache,
+var Evented, TetherBase, addClass, defer, deferred, extend, flush, getBounds, getClassName, getOffsetParent, getOrigin, getScrollBarSize, getScrollParent, hasClass, node, removeClass, setClassName, uniqueId, updateClasses, zeroPosCache,
   hasProp = {}.hasOwnProperty,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
   slice = [].slice;
 
-if (typeof TetherBuilder === 'undefined') {
-  TetherBuilder = {
+if (typeof TetherBase === 'undefined') {
+  TetherBase = {
     modules: []
   };
 }
@@ -325,7 +325,7 @@ Evented = (function() {
 
 })();
 
-TetherBuilder.Utils = {
+TetherBase.Utils = {
   getScrollParent: getScrollParent,
   getBounds: getBounds,
   getOffsetParent: getOffsetParent,

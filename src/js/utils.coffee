@@ -1,5 +1,5 @@
-if typeof TetherBuilder is 'undefined'
-  TetherBuilder = {modules: []}
+if typeof TetherBase is 'undefined'
+  TetherBase = {modules: []}
 
 getScrollParent = (el) ->
   position = getComputedStyle(el).position
@@ -221,4 +221,4 @@ class Evented
         else
           i++
 
-TetherBuilder.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, defer, flush, uniqueId, Evented, getScrollBarSize}
+TetherBase.Utils = {getScrollParent, getBounds, getOffsetParent, extend, addClass, removeClass, hasClass, updateClasses, defer, flush, uniqueId, Evented, getScrollBarSize}
