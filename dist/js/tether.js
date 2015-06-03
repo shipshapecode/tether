@@ -9,55 +9,66 @@
   }
 }(this, function(require, exports, module) {
 
-var Evented, TetherBase, addClass, defer, deferred, extend, flush, getBounds, getClassName, getOffsetParent, getOrigin, getScrollBarSize, getScrollParent, hasClass, node, removeClass, setClassName, uniqueId, updateClasses, zeroPosCache,
-  hasProp = {}.hasOwnProperty,
-  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
-  slice = [].slice;
+'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var TetherBase = undefined;
 if (typeof TetherBase === 'undefined') {
-  TetherBase = {
-    modules: []
-  };
+  TetherBase = { modules: [] };
 }
 
-getScrollParent = function(el) {
-  var parent, position, ref, scrollParent, style;
-  position = getComputedStyle(el).position;
+function getScrollParent(el) {
+  var _getComputedStyle = getComputedStyle(el);
+
+  var position = _getComputedStyle.position;
+
   if (position === 'fixed') {
     return el;
   }
-  scrollParent = void 0;
-  parent = el;
+
+  var parent = el;
   while (parent = parent.parentNode) {
+    var style = undefined;
     try {
       style = getComputedStyle(parent);
-    } catch (_error) {}
-    if (style == null) {
+    } catch (err) {}
+
+    if (typeof style === 'undefined') {
       return parent;
     }
-    if (/(auto|scroll)/.test(style['overflow'] + style['overflowY'] + style['overflowX'])) {
-      if (position !== 'absolute' || ((ref = style['position']) === 'relative' || ref === 'absolute' || ref === 'fixed')) {
+
+    var overflow = style.overflow;
+    var overflowX = style.overflowX;
+    var overflowY = style.overflowY;
+
+    if (/(auto|scroll)/.test(overflow + overflowY + overflowX)) {
+      if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
         return parent;
       }
     }
   }
-  return document.body;
-};
 
-uniqueId = (function() {
-  var id;
-  id = 0;
-  return function() {
-    return id++;
+  return document.body;
+}
+
+var uniqueId = (function () {
+  var id = 0;
+  return function () {
+    return ++id;
   };
 })();
 
-zeroPosCache = {};
-
-getOrigin = function(doc) {
-  var id, k, node, ref, v;
-  node = doc._tetherZeroElement;
-  if (node == null) {
+var zeroPosCache = {};
+var getOrigin = function getOrigin(doc) {
+  // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
+  // jitter as the user scrolls that messes with our ability to detect if two positions
+  // are equivilant or not.  We place an element at the top left of the page that will
+  // get the same jitter, so we can cancel the two out.
+  var node = doc._tetherZeroElement;
+  if (typeof node === 'undefined') {
     node = doc.createElement('div');
     node.setAttribute('data-tether-id', uniqueId());
     extend(node.style, {
@@ -65,67 +76,80 @@ getOrigin = function(doc) {
       left: 0,
       position: 'absolute'
     });
+
     doc.body.appendChild(node);
+
     doc._tetherZeroElement = node;
   }
-  id = node.getAttribute('data-tether-id');
-  if (zeroPosCache[id] == null) {
+
+  var id = node.getAttribute('data-tether-id');
+  if (typeof zeroPosCache[id] === 'undefined') {
     zeroPosCache[id] = {};
-    ref = node.getBoundingClientRect();
-    for (k in ref) {
-      v = ref[k];
-      zeroPosCache[id][k] = v;
+
+    var rect = node.getBoundingClientRect();
+    for (var k in rect) {
+      // Can't use extend, as on IE9, elements don't resolve to be hasOwnProperty
+      zeroPosCache[id][k] = rect[k];
     }
-    defer(function() {
-      return zeroPosCache[id] = void 0;
+
+    // Clear the cache when this position call is done
+    defer(function () {
+      delete zeroPosCache[id];
     });
   }
+
   return zeroPosCache[id];
 };
 
-node = null;
-
-getBounds = function(el) {
-  var box, doc, docEl, k, origin, ref, v;
+function getBounds(el) {
+  var doc = undefined;
   if (el === document) {
     doc = document;
     el = document.documentElement;
   } else {
     doc = el.ownerDocument;
   }
-  docEl = doc.documentElement;
-  box = {};
-  ref = el.getBoundingClientRect();
-  for (k in ref) {
-    v = ref[k];
-    box[k] = v;
+
+  var docEl = doc.documentElement;
+
+  var box = {};
+  // The original object returned by getBoundingClientRect is immutable, so we clone it
+  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
+  var rect = el.getBoundingClientRect();
+  for (var k in rect) {
+    box[k] = rect[k];
   }
-  origin = getOrigin(doc);
+
+  var origin = getOrigin(doc);
+
   box.top -= origin.top;
   box.left -= origin.left;
-  if (box.width == null) {
+
+  if (typeof box.width === 'undefined') {
     box.width = document.body.scrollWidth - box.left - box.right;
   }
-  if (box.height == null) {
+  if (typeof box.height === 'undefined') {
     box.height = document.body.scrollHeight - box.top - box.bottom;
   }
+
   box.top = box.top - docEl.clientTop;
   box.left = box.left - docEl.clientLeft;
   box.right = doc.body.clientWidth - box.width - box.left;
   box.bottom = doc.body.clientHeight - box.height - box.top;
+
   return box;
-};
+}
 
-getOffsetParent = function(el) {
+function getOffsetParent(el) {
   return el.offsetParent || document.documentElement;
-};
+}
 
-getScrollBarSize = function() {
-  var inner, outer, width, widthContained, widthScroll;
-  inner = document.createElement('div');
+function getScrollBarSize() {
+  var inner = document.createElement('div');
   inner.style.width = '100%';
   inner.style.height = '200px';
-  outer = document.createElement('div');
+
+  var outer = document.createElement('div');
   extend(outer.style, {
     position: 'absolute',
     top: 0,
@@ -136,204 +160,198 @@ getScrollBarSize = function() {
     height: '150px',
     overflow: 'hidden'
   });
+
   outer.appendChild(inner);
+
   document.body.appendChild(outer);
-  widthContained = inner.offsetWidth;
+
+  var widthContained = inner.offsetWidth;
   outer.style.overflow = 'scroll';
-  widthScroll = inner.offsetWidth;
+  var widthScroll = inner.offsetWidth;
+
   if (widthContained === widthScroll) {
     widthScroll = outer.clientWidth;
   }
+
   document.body.removeChild(outer);
-  width = widthContained - widthScroll;
-  return {
-    width: width,
-    height: width
-  };
-};
 
-extend = function(out) {
-  var args, j, key, len, obj, ref, val;
-  if (out == null) {
-    out = {};
-  }
-  args = [];
+  var width = widthContained - widthScroll;
+
+  return { width: width, height: width };
+}
+
+function extend() {
+  var out = arguments[0] === undefined ? {} : arguments[0];
+
+  var args = [];
+
   Array.prototype.push.apply(args, arguments);
-  ref = args.slice(1);
-  for (j = 0, len = ref.length; j < len; j++) {
-    obj = ref[j];
+
+  args.slice(1).forEach(function (obj) {
     if (obj) {
-      for (key in obj) {
-        if (!hasProp.call(obj, key)) continue;
-        val = obj[key];
-        out[key] = val;
+      for (var key in obj) {
+        if (({}).hasOwnProperty.call(obj, key)) {
+          out[key] = obj[key];
+        }
       }
     }
-  }
+  });
+
   return out;
-};
+}
 
-removeClass = function(el, name) {
-  var className, cls, j, len, ref, results;
-  if (el.classList != null) {
-    ref = name.split(' ');
-    results = [];
-    for (j = 0, len = ref.length; j < len; j++) {
-      cls = ref[j];
+function removeClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
+    name.split(' ').forEach(function (cls) {
       if (cls.trim()) {
-        results.push(el.classList.remove(cls));
+        el.classList.remove(cls);
       }
-    }
-    return results;
+    });
   } else {
-    className = getClassName(el).replace(new RegExp("(^| )" + (name.split(' ').join('|')) + "( |$)", 'gi'), ' ');
-    return setClassName(el, className);
+    var regex = new RegExp('(^| )' + name.split(' ').join('|') + '( |$)', 'gi');
+    var className = getClassName(el).replace(regex, ' ');
+    setClassName(el, className);
   }
-};
+}
 
-addClass = function(el, name) {
-  var cls, j, len, ref, results;
-  if (el.classList != null) {
-    ref = name.split(' ');
-    results = [];
-    for (j = 0, len = ref.length; j < len; j++) {
-      cls = ref[j];
+function addClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
+    name.split(' ').forEach(function (cls) {
       if (cls.trim()) {
-        results.push(el.classList.add(cls));
+        el.classList.add(cls);
       }
-    }
-    return results;
+    });
   } else {
     removeClass(el, name);
-    cls = getClassName(el) + (" " + name);
-    return setClassName(el, cls);
+    var cls = getClassName(el) + ' #{name}';
+    setClassName(el, cls);
   }
-};
+}
 
-hasClass = function(el, name) {
-  if (el.classList != null) {
+function hasClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
     return el.classList.contains(name);
-  } else {
-    return new RegExp("(^| )" + name + "( |$)", 'gi').test(getClassName(el));
   }
-};
+  var className = getClassName(el);
+  return new RegExp('(^| )' + name + '( |$)', 'gi').test(className);
+}
 
-getClassName = function(el) {
+function getClassName(el) {
   if (el.className instanceof SVGAnimatedString) {
     return el.className.baseVal;
-  } else {
-    return el.className;
   }
-};
+  return el.className;
+}
 
-setClassName = function(el, className) {
-  return el.setAttribute('class', className);
-};
+function setClassName(el, className) {
+  el.setAttribute('class', className);
+}
 
-updateClasses = function(el, add, all) {
-  var cls, j, l, len, len1, results;
-  for (j = 0, len = all.length; j < len; j++) {
-    cls = all[j];
-    if (indexOf.call(add, cls) < 0) {
-      if (hasClass(el, cls)) {
-        removeClass(el, cls);
-      }
+function updateClasses(el, add, all) {
+  // Of the set of 'all' classes, we need the 'add' classes, and only the
+  // 'add' classes to be set.
+  all.forEach(function (cls) {
+    if (add.indexOf(cls) === -1 && hasClass(el, cls)) {
+      removeClass(el, cls);
     }
-  }
-  results = [];
-  for (l = 0, len1 = add.length; l < len1; l++) {
-    cls = add[l];
+  });
+
+  add.forEach(function (cls) {
     if (!hasClass(el, cls)) {
-      results.push(addClass(el, cls));
-    } else {
-      results.push(void 0);
+      addClass(el, cls);
     }
-  }
-  return results;
+  });
+}
+
+var deferred = [];
+
+var defer = function defer(fn) {
+  deferred.push(fn);
 };
 
-deferred = [];
-
-defer = function(fn) {
-  return deferred.push(fn);
-};
-
-flush = function() {
-  var fn, results;
-  results = [];
+var flush = function flush() {
+  var fn = undefined;
   while (fn = deferred.pop()) {
-    results.push(fn());
+    fn();
   }
-  return results;
 };
 
-Evented = (function() {
-  function Evented() {}
+var Evented = (function () {
+  function Evented() {
+    _classCallCheck(this, Evented);
+  }
 
-  Evented.prototype.on = function(event, handler, ctx, once) {
-    var base;
-    if (once == null) {
-      once = false;
-    }
-    if (this.bindings == null) {
-      this.bindings = {};
-    }
-    if ((base = this.bindings)[event] == null) {
-      base[event] = [];
-    }
-    return this.bindings[event].push({
-      handler: handler,
-      ctx: ctx,
-      once: once
-    });
-  };
+  _createClass(Evented, [{
+    key: 'on',
+    value: function on(event, handler, ctx) {
+      var once = arguments[3] === undefined ? false : arguments[3];
 
-  Evented.prototype.once = function(event, handler, ctx) {
-    return this.on(event, handler, ctx, true);
-  };
-
-  Evented.prototype.off = function(event, handler) {
-    var i, ref, results;
-    if (((ref = this.bindings) != null ? ref[event] : void 0) == null) {
-      return;
+      if (typeof this.bindings === 'undefined') {
+        this.bindings = {};
+      }
+      if (typeof this.bindings[event] === 'undefined') {
+        this.bindings[event] = [];
+      }
+      this.bindings[event].push({ handler: handler, ctx: ctx, once: once });
     }
-    if (handler == null) {
-      return delete this.bindings[event];
-    } else {
-      i = 0;
-      results = [];
-      while (i < this.bindings[event].length) {
-        if (this.bindings[event][i].handler === handler) {
-          results.push(this.bindings[event].splice(i, 1));
-        } else {
-          results.push(i++);
+  }, {
+    key: 'once',
+    value: function once(event, handler, ctx) {
+      this.on(event, handler, ctx, true);
+    }
+  }, {
+    key: 'off',
+    value: function off(event, handler) {
+      if (typeof this.bindings !== 'undefined' && typeof this.bindings[event] !== 'undefined') {
+        return;
+      }
+
+      if (typeof handler === 'undefined') {
+        delete this.bindings[event];
+      } else {
+        var i = 0;
+        while (i < this.bindings[event].length) {
+          if (this.bindings[event][i].handler === handler) {
+            this.bindings[event].splice(i, 1);
+          } else {
+            ++i;
+          }
         }
       }
-      return results;
     }
-  };
+  }, {
+    key: 'trigger',
+    value: function trigger(event) {
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
 
-  Evented.prototype.trigger = function() {
-    var args, ctx, event, handler, i, once, ref, ref1, results;
-    event = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
-    if ((ref = this.bindings) != null ? ref[event] : void 0) {
-      i = 0;
-      results = [];
-      while (i < this.bindings[event].length) {
-        ref1 = this.bindings[event][i], handler = ref1.handler, ctx = ref1.ctx, once = ref1.once;
-        handler.apply(ctx != null ? ctx : this, args);
-        if (once) {
-          results.push(this.bindings[event].splice(i, 1));
-        } else {
-          results.push(i++);
+      if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
+        var i = 0;
+        while (i < this.bindings[event].length) {
+          var _bindings$event$i = this.bindings[event][i];
+          var handler = _bindings$event$i.handler;
+          var ctx = _bindings$event$i.ctx;
+          var once = _bindings$event$i.once;
+
+          var context = ctx;
+          if (typeof context === 'undefined') {
+            context = this;
+          }
+
+          handler.apply(context, args);
+
+          if (once) {
+            this.bindings[event].splice(i, 1);
+          } else {
+            ++i;
+          }
         }
       }
-      return results;
     }
-  };
+  }]);
 
   return Evented;
-
 })();
 
 TetherBase.Utils = {
@@ -351,7 +369,6 @@ TetherBase.Utils = {
   Evented: Evented,
   getScrollBarSize: getScrollBarSize
 };
-
 
 /* globals TetherBase */
 

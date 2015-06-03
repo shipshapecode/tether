@@ -57,7 +57,7 @@ gulp.task('watch', ['combine'], function() {
 // Javascript
 gulp.task('js', function() {
   gulp.src([
-    // './src/js/utils.js',
+    './src/js/utils.js',
     // './src/js/tether.js',
     './src/js/constraint.js',
     './src/js/abutment.js',
