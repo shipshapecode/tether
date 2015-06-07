@@ -911,9 +911,10 @@ var TetherClass = (function () {
       var height = elementPos.height;
 
       if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
+        var _lastSize = this.lastSize;
+
         // We cache the height and width to make it possible to position elements that are
         // getting hidden.
-        var _lastSize = this.lastSize;
         width = _lastSize.width;
         height = _lastSize.height;
       } else {
@@ -1270,9 +1271,10 @@ TetherBase.modules.push({
     var width = _cache.width;
 
     if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
+      var _lastSize = this.lastSize;
+
       // Handle the item getting hidden as a result of our positioning without glitching
       // the classes in and out
-      var _lastSize = this.lastSize;
       width = _lastSize.width;
       height = _lastSize.height;
     }

@@ -2,7 +2,6 @@ var del         = require('del');
 var gulp        = require('gulp');
 var babel       = require('gulp-babel');
 var bump        = require('gulp-bump');
-var coffee      = require('gulp-coffee');
 var concat      = require('gulp-concat');
 var filter      = require('gulp-filter');
 var header      = require('gulp-header');
