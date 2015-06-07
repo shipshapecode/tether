@@ -1,4 +1,4 @@
-=tether-theme-arrows($themePrefix: "tether", $themeName: "arrows", $arrowSize: 16px, $backgroundColor: #fff, $color: inherit, $useDropShadow: false)
+=tether-theme-arrows($themePrefix: "tether", $themeName: "arrows", $arrowSize: 16px, $arrowPointerEvents: null, $backgroundColor: #fff, $color: inherit, $useDropShadow: false)
     .#{ $themePrefix }-element.#{ $themePrefix }-theme-#{ $themeName }
         max-width: 100%
         max-height: 100%
@@ -26,6 +26,7 @@
                 border-color: transparent
                 border-width: $arrowSize
                 border-style: solid
+                pointer-events: $arrowPointerEvents
 
         // Centers and middles
 
