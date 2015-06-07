@@ -1,5 +1,10 @@
 ## Tether
 
+[![npm
+version](https://badge.fury.io/js/tether.svg)](http://badge.fury.io/js/tether)
+[![Bower
+version](https://badge.fury.io/bo/tether.svg)](http://badge.fury.io/bo/tether)
+
 Tether is a JavaScript library for efficiently making an absolutely positioned element stay next to another element on the page.
 
 It aims to be the canonical implementation of this type of positioning, such that you can build products, not positioning libraries.
