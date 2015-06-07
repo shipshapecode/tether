@@ -834,8 +834,8 @@ var TetherClass = (function () {
     value: function updateAttachClasses(elementAttach, targetAttach) {
       var _this4 = this;
 
-      elementAttach = this.attachment;
-      targetAttach = this.targetAttachment;
+      elementAttach = elementAttach || this.attachment;
+      targetAttach = targetAttach || this.targetAttachment;
       var sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
 
       if (typeof this._addAttachClasses !== 'undefined' && this._addAttachClasses.length) {
@@ -866,8 +866,6 @@ var TetherClass = (function () {
       var all = [];
       sides.forEach(function (side) {
         all.push('' + _this4.getClass('element-attached') + '-' + side);
-      });
-      sides.forEach(function (side) {
         all.push('' + _this4.getClass('target-attached') + '-' + side);
       });
 

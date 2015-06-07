@@ -414,8 +414,8 @@ class TetherClass {
   }
 
   updateAttachClasses(elementAttach, targetAttach) {
-    elementAttach = this.attachment;
-    targetAttach = this.targetAttachment;
+    elementAttach = elementAttach || this.attachment;
+    targetAttach = targetAttach || this.targetAttachment;
     const sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
 
     if (typeof this._addAttachClasses !== 'undefined' && this._addAttachClasses.length) {
@@ -446,8 +446,6 @@ class TetherClass {
     const all = [];
     sides.forEach(side => {
       all.push(`${ this.getClass('element-attached') }-${ side }`);
-    });
-    sides.forEach(side => {
       all.push(`${ this.getClass('target-attached') }-${ side }`);
     });
 
