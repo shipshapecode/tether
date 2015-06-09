@@ -17,7 +17,7 @@ function getScrollParent(el) {
       style = getComputedStyle(parent);
     } catch (err) {}
 
-    if (typeof style === 'undefined') {
+    if (typeof style === 'undefined' || style === null) {
       return parent;
     }
 

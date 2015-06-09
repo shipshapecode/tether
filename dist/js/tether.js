@@ -1,4 +1,4 @@
-/*! tether 1.0.1 */
+/*! tether 1.0.2 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -37,7 +37,7 @@ function getScrollParent(el) {
       style = getComputedStyle(parent);
     } catch (err) {}
 
-    if (typeof style === 'undefined') {
+    if (typeof style === 'undefined' || style === null) {
       return parent;
     }
 
