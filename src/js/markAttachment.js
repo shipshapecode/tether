@@ -1,6 +1,6 @@
-/* globals TetherBase */
+/* globals Tether */
 
-TetherBase.modules.push({
+Tether.modules.push({
   initialize() {
     this.markers = {};
 
@@ -29,9 +29,9 @@ TetherBase.modules.push({
       for (let side in offset) {
         let val = offset[side];
         const notString = typeof val !== 'string';
-        const notPercent = val.indexOf('%') === -1;
-        const notPixel = val.indexOf('px') === -1;
-        if (notString || (notPercent && notPixel)) {
+        if (notString ||
+            val.indexOf('%') === -1 &&
+            val.indexOf('px') === -1) {
           val += 'px';
         }
 

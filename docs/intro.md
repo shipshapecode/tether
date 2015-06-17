@@ -1,5 +1,5 @@
-<script src="tether.js"></script>
-<script src="js/markAttachment.js"></script>
+<script src="dist/js/tether.js"></script>
+<script src="docs/js/markAttachment.js"></script>
 <script src="docs/js/intro.js"></script>
 <link rel="stylesheet" href="docs/css/intro.css"></link>
 
