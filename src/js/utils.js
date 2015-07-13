@@ -197,7 +197,7 @@ function addClass(el, name) {
     });
   } else {
     removeClass(el, name);
-    const cls = getClassName(el) + ` #{name}`;
+    const cls = getClassName(el) + ` ${name}`;
     setClassName(el, cls);
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "tether",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A client-side library to make absolutely positioned elements attach to elements in the page efficiently.",
   "authors": [
     "Zack Bloom <zackbloom@gmail.com>",

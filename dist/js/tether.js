@@ -1,4 +1,4 @@
-/*! tether 1.0.2 */
+/*! tether 1.0.3 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -224,7 +224,7 @@ function addClass(el, name) {
     });
   } else {
     removeClass(el, name);
-    var cls = getClassName(el) + ' #{name}';
+    var cls = getClassName(el) + (' ' + name);
     setClassName(el, cls);
   }
 }
@@ -323,10 +323,6 @@ var Evented = (function () {
   }, {
     key: 'trigger',
     value: function trigger(event) {
-      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
       if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
         var i = 0;
         while (i < this.bindings[event].length) {
@@ -338,6 +334,10 @@ var Evented = (function () {
           var context = ctx;
           if (typeof context === 'undefined') {
             context = this;
+          }
+
+          for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+            args[_key - 1] = arguments[_key];
           }
 
           handler.apply(context, args);
@@ -374,9 +374,9 @@ TetherBase.Utils = {
 
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
-function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
@@ -517,11 +517,11 @@ var attachmentToOffset = function attachmentToOffset(attachment) {
 };
 
 function addOffset() {
+  var out = { top: 0, left: 0 };
+
   for (var _len = arguments.length, offsets = Array(_len), _key = 0; _key < _len; _key++) {
     offsets[_key] = arguments[_key];
   }
-
-  var out = { top: 0, left: 0 };
 
   offsets.forEach(function (_ref) {
     var top = _ref.top;
@@ -596,7 +596,7 @@ var TetherClass = (function () {
       if (typeof classes !== 'undefined' && classes[key]) {
         return this.options.classes[key];
       } else if (this.options.classPrefix) {
-        return '' + this.options.classPrefix + '-' + key;
+        return this.options.classPrefix + '-' + key;
       } else {
         return key;
       }
@@ -851,22 +851,22 @@ var TetherClass = (function () {
       var add = this._addAttachClasses;
 
       if (elementAttach.top) {
-        add.push('' + this.getClass('element-attached') + '-' + elementAttach.top);
+        add.push(this.getClass('element-attached') + '-' + elementAttach.top);
       }
       if (elementAttach.left) {
-        add.push('' + this.getClass('element-attached') + '-' + elementAttach.left);
+        add.push(this.getClass('element-attached') + '-' + elementAttach.left);
       }
       if (targetAttach.top) {
-        add.push('' + this.getClass('target-attached') + '-' + targetAttach.top);
+        add.push(this.getClass('target-attached') + '-' + targetAttach.top);
       }
       if (targetAttach.left) {
-        add.push('' + this.getClass('target-attached') + '-' + targetAttach.left);
+        add.push(this.getClass('target-attached') + '-' + targetAttach.left);
       }
 
       var all = [];
       sides.forEach(function (side) {
-        all.push('' + _this4.getClass('element-attached') + '-' + side);
-        all.push('' + _this4.getClass('target-attached') + '-' + side);
+        all.push(_this4.getClass('element-attached') + '-' + side);
+        all.push(_this4.getClass('target-attached') + '-' + side);
       });
 
       defer(function () {
@@ -1123,15 +1123,15 @@ var TetherClass = (function () {
           }
         } else {
           if (_same.top) {
-            css.top = '' + _pos.top + 'px';
+            css.top = _pos.top + 'px';
           } else {
-            css.bottom = '' + _pos.bottom + 'px';
+            css.bottom = _pos.bottom + 'px';
           }
 
           if (_same.left) {
-            css.left = '' + _pos.left + 'px';
+            css.left = _pos.left + 'px';
           } else {
-            css.right = '' + _pos.right + 'px';
+            css.right = _pos.right + 'px';
           }
         }
       };
@@ -1208,7 +1208,7 @@ var Tether = extend(TetherClass, TetherBase);
 
 'use strict';
 
-function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
 var _TetherBase$Utils = TetherBase.Utils;
 var getBounds = _TetherBase$Utils.getBounds;
@@ -1302,7 +1302,7 @@ TetherBase.modules.push({
 
     allClasses.forEach(function (cls) {
       ['left', 'top', 'right', 'bottom'].forEach(function (side) {
-        allClasses.push('' + cls + '-' + side);
+        allClasses.push(cls + '-' + side);
       });
     });
 
@@ -1527,7 +1527,7 @@ TetherBase.modules.push({
 
           addClasses.push(pinnedClass);
           pinned.forEach(function (side) {
-            addClasses.push('' + pinnedClass + '-' + side);
+            addClasses.push(pinnedClass + '-' + side);
           });
         })();
       }
@@ -1543,7 +1543,7 @@ TetherBase.modules.push({
 
           addClasses.push(oobClass);
           oob.forEach(function (side) {
-            addClasses.push('' + oobClass + '-' + side);
+            addClasses.push(oobClass + '-' + side);
           });
         })();
       }
@@ -1623,7 +1623,7 @@ TetherBase.modules.push({
     var sides = ['left', 'top', 'right', 'bottom'];
     allClasses.push(this.getClass('abutted'));
     sides.forEach(function (side) {
-      allClasses.push('' + _this.getClass('abutted') + '-' + side);
+      allClasses.push(_this.getClass('abutted') + '-' + side);
     });
 
     if (abutted.length) {
@@ -1631,7 +1631,7 @@ TetherBase.modules.push({
     }
 
     abutted.forEach(function (side) {
-      addClasses.push('' + _this.getClass('abutted') + '-' + side);
+      addClasses.push(_this.getClass('abutted') + '-' + side);
     });
 
     defer(function () {
@@ -1648,7 +1648,7 @@ TetherBase.modules.push({
 
 'use strict';
 
-function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
 TetherBase.modules.push({
   position: function position(_ref) {
