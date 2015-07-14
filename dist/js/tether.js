@@ -1,4 +1,4 @@
-/*! tether 1.0.3 */
+/*! tether 1.1.0 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -182,7 +182,7 @@ function getScrollBarSize() {
 }
 
 function extend() {
-  var out = arguments[0] === undefined ? {} : arguments[0];
+  var out = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
   var args = [];
 
@@ -285,7 +285,7 @@ var Evented = (function () {
   _createClass(Evented, [{
     key: 'on',
     value: function on(event, handler, ctx) {
-      var once = arguments[3] === undefined ? false : arguments[3];
+      var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
       if (typeof this.bindings === 'undefined') {
         this.bindings = {};
@@ -397,7 +397,7 @@ var flush = _TetherBase$Utils.flush;
 var getScrollBarSize = _TetherBase$Utils.getScrollBarSize;
 
 function within(a, b) {
-  var diff = arguments[2] === undefined ? 1 : arguments[2];
+  var diff = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
 
   return a + diff >= b && b >= a - diff;
 }
@@ -590,7 +590,7 @@ var TetherClass = (function () {
   _createClass(TetherClass, [{
     key: 'getClass',
     value: function getClass() {
-      var key = arguments[0] === undefined ? '' : arguments[0];
+      var key = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
       var classes = this.options.classes;
 
       if (typeof classes !== 'undefined' && classes[key]) {
@@ -606,7 +606,7 @@ var TetherClass = (function () {
     value: function setOptions(options) {
       var _this2 = this;
 
-      var pos = arguments[1] === undefined ? true : arguments[1];
+      var pos = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
       var defaults = {
         offset: '0 0',
@@ -788,7 +788,7 @@ var TetherClass = (function () {
   }, {
     key: 'enable',
     value: function enable() {
-      var pos = arguments[0] === undefined ? true : arguments[0];
+      var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
       if (!(this.options.addTargetClasses === false)) {
         addClass(this.target, this.getClass('enabled'));
@@ -887,7 +887,7 @@ var TetherClass = (function () {
     value: function position() {
       var _this5 = this;
 
-      var flushChanges = arguments[0] === undefined ? true : arguments[0];
+      var flushChanges = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
       // flushChanges commits the changes immediately, leave true unless you are positioning multiple
       // tethers (in which case call Tether.Utils.flush yourself when you're done)
@@ -1165,7 +1165,7 @@ var TetherClass = (function () {
         transcribe({ top: true, left: true }, pos.page);
       }
 
-      if (!moved && this.element.parentNode.tagName !== 'BODY') {
+      if (this.options.moveRoot !== false && !moved && this.element.parentNode.tagName !== 'BODY') {
         this.element.parentNode.removeChild(this.element);
         document.body.appendChild(this.element);
       }
