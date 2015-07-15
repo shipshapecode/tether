@@ -730,9 +730,22 @@ class TetherClass {
       transcribe({top: true, left: true}, pos.page);
     }
 
-    if(!moved && this.element.parentNode.tagName !== 'BODY') {
-      this.element.parentNode.removeChild(this.element);
-      document.body.appendChild(this.element);
+    if (!moved) {
+      let offsetParentIsBody = true;
+      let currentNode = this.element.parentNode;
+      while (currentNode && currentNode.tagName !== 'BODY') {
+        if (getComputedStyle(currentNode).position !== 'static') {
+          offsetParentIsBody = false;
+          break;
+        }
+
+        currentNode = currentNode.parentNode;
+      }
+
+      if (!offsetParentIsBody) {
+        this.element.parentNode.removeChild(this.element);
+        document.body.appendChild(this.element);
+      }
     }
 
     // Any css change will trigger a repaint, so let's avoid one if nothing changed
