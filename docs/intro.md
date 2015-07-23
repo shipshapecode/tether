@@ -97,7 +97,7 @@ All told, Tether provides six built in attachment positions:
 - middle
 - bottom
 
-The syntax of the attachment properties is: `"vertical-attachment horizontal-attachment"`
+The syntax of the attachment properties is: `"vertical-attachment horizontal-attachment"`.
 
 You must always supply an `attachment`.  If you don't supply a `target-attachment`, it is
 assumed to be the mirror image of `attachment`.
@@ -284,8 +284,7 @@ Together is the option you will use most commonly:
 });
 </code></pre><output></output>
 
-You can also provide different settings for the horizontal
-and vertical attachments:
+You can also provide different settings for the vertical and horizontal attachments:
 
 <pre class="pre-with-output"><code class="lang-javascript" data-example>new Tether({
   element: yellowBox,
