@@ -22,6 +22,11 @@ A simple, easy-to-use implementation of tooltips that works well.
 Where Tether does general-purpose positioning, Drop assumes that you are interested
 in making something which pops up next to something the user clicks or hovers on.
 
+### [React Datepicker](https://github.com/Hacker0x01/react-datepicker)
+
+A simple and reusable datepicker component for React
+
+
 If you're building something that fits that pattern, Drop can make things a little easier.
 
 ### Your Project Here
