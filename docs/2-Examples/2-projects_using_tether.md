@@ -24,6 +24,10 @@ in making something which pops up next to something the user clicks or hovers on
 
 If you're building something that fits that pattern, Drop can make things a little easier.
 
+### [React Datepicker](https://github.com/Hacker0x01/react-datepicker)
+
+A simple and reusable datepicker component for React
+
 ### Your Project Here
 
 If you have a cool open-source library built on Tether, PR this doc, or [get in touch](mailto:zbloom@hubspot.com).
