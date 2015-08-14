@@ -50,5 +50,5 @@ Tether.modules.push
 
 #### Examples
 
-[Constraints](https://github.com/HubSpot/tether/blob/master/coffee/constraint.coffee) and [shift](https://github.com/HubSpot/tether/blob/master/coffee/shift.coffee) are both implemented as modules.
-[Mark Attachment](https://github.com/HubSpot/tether/blob/master/coffee/markAttachment.coffee) is used by the docs.
+[Constraints](https://github.com/HubSpot/tether/blob/master/src/js/constraint.js) and [shift](https://github.com/HubSpot/tether/blob/master/src/js/shift.js) are both implemented as modules.
+[Mark Attachment](https://github.com/HubSpot/tether/blob/master/src/js/markAttachment.js) is used by the docs.
