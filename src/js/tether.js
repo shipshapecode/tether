@@ -22,6 +22,9 @@ function within(a, b, diff=1) {
 }
 
 const transformKey = (() => {
+  if(typeof document === 'undefined') {
+    return '';
+  }
   const el = document.createElement('div');
 
   const transforms = ['transform', 'webkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
@@ -79,9 +82,11 @@ function now() {
     lastDuration = now() - lastCall;
   };
 
-  ['resize', 'scroll', 'touchmove'].forEach(event => {
-    window.addEventListener(event, tick);
-  });
+  if(typeof window !== 'undefined') {
+    ['resize', 'scroll', 'touchmove'].forEach(event => {
+      window.addEventListener(event, tick);
+    });
+  }
 })();
 
 const MIRROR_LR = {
