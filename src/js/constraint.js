@@ -323,6 +323,18 @@ TetherBase.modules.push({
         eAttachment.top = tAttachment.top = false;
       }
 
+      let oldPosition = this.positionChanged;
+      let newPosition = this.positionChanged = {
+        newTarget: tAttachment,
+        oldTarget: targetAttachment,
+        newElement: eAttachment,
+        oldElement: attachment
+      };
+
+      if (oldPosition == null || JSON.stringify(oldPosition) != JSON.stringify(newPosition)) {
+        this.trigger('positionChanged', newPosition);
+      }
+
       if (tAttachment.top !== targetAttachment.top ||
           tAttachment.left !== targetAttachment.left ||
           eAttachment.top !== this.attachment.top ||
