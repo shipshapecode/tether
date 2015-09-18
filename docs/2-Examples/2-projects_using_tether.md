@@ -28,6 +28,10 @@ If you're building something that fits that pattern, Drop can make things a litt
 
 A simple and reusable datepicker component for React
 
+### [ember-tether](https://github.com/yapplabs/ember-tether)
+
+An Ember.js-friendly interface for tether.
+
 ### Your Project Here
 
 If you have a cool open-source library built on Tether, PR this doc, or [get in touch](mailto:zbloom@hubspot.com).
