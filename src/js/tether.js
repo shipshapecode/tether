@@ -22,6 +22,7 @@ function within(a, b, diff=1) {
 }
 
 const transformKey = (() => {
+  if (typeof document !== 'object') return;
   const el = document.createElement('div');
 
   const transforms = ['transform', 'webkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
@@ -80,6 +81,7 @@ function now() {
   };
 
   ['resize', 'scroll', 'touchmove'].forEach(event => {
+    if (typeof window !== 'object') return;
     window.addEventListener(event, tick);
   });
 })();
