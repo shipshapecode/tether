@@ -411,6 +411,12 @@ class TetherClass {
         return;
       }
     });
+
+    // Cleanup page
+    // If no tethers delete tether zero element on document
+    if (tethers.length === 0) {
+      delete document._tetherZeroElement;
+    }
   }
 
   updateAttachClasses(elementAttach, targetAttach) {
