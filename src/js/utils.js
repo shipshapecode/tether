@@ -4,7 +4,10 @@ if (typeof TetherBase === 'undefined') {
 }
 
 function getScrollParent(el) {
-  const {position} = getComputedStyle(el);
+  // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
+  const computedStyle = getComputedStyle(el) || {};
+  const position = computedStyle.position;
 
   if (position === 'fixed') {
     return el;
