@@ -416,6 +416,12 @@ class TetherClass {
         return;
       }
     });
+
+    if (tethers.length === 0) {
+      let tetherZeroElement = document._tetherZeroElement;
+      tetherZeroElement.parentNode.removeChild(tetherZeroElement);
+      delete document._tetherZeroElement;
+    }
   }
 
   updateAttachClasses(elementAttach, targetAttach) {
