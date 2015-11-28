@@ -3,14 +3,15 @@ if (typeof TetherBase === 'undefined') {
   TetherBase = {modules: []};
 }
 
-function getScrollParent(el) {
+function getScrollParents(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
   const computedStyle = getComputedStyle(el) || {};
   const position = computedStyle.position;
+  let parents = [];
 
   if (position === 'fixed') {
-    return el;
+    return [el];
   }
 
   let parent = el;
@@ -21,18 +22,20 @@ function getScrollParent(el) {
     } catch (err) {}
 
     if (typeof style === 'undefined' || style === null) {
-      return parent;
+      parents.push(parent);
+      return parents;
     }
 
     const {overflow, overflowX, overflowY} = style;
     if (/(auto|scroll)/.test(overflow + overflowY + overflowX)) {
       if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
-        return parent;
+        parents.push(parent)
       }
     }
   }
 
-  return document.body;
+  parents.push(document.body);
+  return parents;
 }
 
 const uniqueId = (() => {
@@ -313,7 +316,7 @@ class Evented {
 }
 
 TetherBase.Utils = {
-  getScrollParent,
+  getScrollParents,
   getBounds,
   getOffsetParent,
   extend,
