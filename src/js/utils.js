@@ -89,6 +89,10 @@ function getBounds(el) {
     doc = el.ownerDocument;
   }
 
+  if (el.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+    el = document.documentElement;
+  }
+
   const docEl = doc.documentElement;
 
   const box = {};

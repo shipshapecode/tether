@@ -20,7 +20,7 @@ function getBoundingRect(tether, to) {
     to = to.documentElement;
   }
 
-  if (typeof to.nodeType !== 'undefined') {
+  if (typeof to.nodeType !== 'undefined' && to.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
     const size = getBounds(to);
     const pos = size;
     const style = getComputedStyle(to);
