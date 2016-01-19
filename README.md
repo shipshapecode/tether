@@ -34,4 +34,4 @@ We encourage contributions of all kinds. If you would like to contribute in some
 
 
 ## License
-Copyright &copy; 2015 HubSpot - [MIT License](LICENSE)
+Copyright &copy; 2014-2016 HubSpot - [MIT License](LICENSE)
