@@ -13,11 +13,11 @@ Please have a look at the [documentation](http://github.hubspot.com/tether/) for
 
 ## What to Use Tether for and When to Use It
 
-Tether is a small, focused JavaScript library. For those who might be new to JavaScript, a library is simply a JavaScript file (or files) that contain useful JavaScript code to help achieve tasks easier and faster. Since Tether is a JavaScript user interface (**UI**) library it contains code to help you to manage the way your website or web app appears.
+Tether is a small, focused JavaScript library. For those who might be new to JavaScript, a library is simply a JavaScript file (or files) that contain useful JavaScript code to help achieve tasks easier and faster. Since Tether is a JavaScript user interface (**UI**) library, it contains code to help you to manage the way your website or web app appears.
 
 Tether’s goal to is to help you position your elements side-by-side when needed.
 
-Let’s say you’ve started working on your dream project---a fancy web app that’s sure to become the next big thing! An important feature of your new app is to allow users to comment on shared photos. However, due to limited vertical space and the overall layout of your new app, you’d like to display the comments **next** to the image, similar to how Instagram does it.
+Let’s say you’ve started working on your dream project&mdash;a fancy web app that’s sure to become the next big thing! An important feature of your new app is to allow users to comment on shared photos. However, due to limited vertical space and the overall layout of your new app, you’d like to display the comments **next** to the image, similar to how Instagram does it.
 
 Your HTML code might look something like this:
 
