@@ -22,9 +22,10 @@ if (typeof TetherBase === 'undefined') {
 }
 
 function getScrollParent(el) {
-  var _getComputedStyle = getComputedStyle(el);
-
-  var position = _getComputedStyle.position;
+  // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
+  var computedStyle = getComputedStyle(el) || {};
+  var position = computedStyle.position;
 
   if (position === 'fixed') {
     return el;
@@ -835,6 +836,12 @@ var TetherClass = (function () {
           return;
         }
       });
+
+      if (tethers.length === 0) {
+        var tetherZeroElement = document._tetherZeroElement;
+        tetherZeroElement.parentNode.removeChild(tetherZeroElement);
+        delete document._tetherZeroElement;
+      }
     }
   }, {
     key: 'updateAttachClasses',
