@@ -1,135 +1,181 @@
-=tether-theme-arrows($themePrefix: "tether", $themeName: "arrows", $arrowSize: 16px, $arrowPointerEvents: null, $backgroundColor: #fff, $color: inherit, $useDropShadow: false)
-    .#{ $themePrefix }-element.#{ $themePrefix }-theme-#{ $themeName }
-        max-width: 100%
-        max-height: 100%
+$box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.2)
 
-        .#{ $themePrefix }-content
-            border-radius: 5px
-            position: relative
-            font-family: inherit
-            background: $backgroundColor
-            color: $color
-            padding: 1em
-            font-size: 1.1em
-            line-height: 1.5em
+@mixin tether-theme-arrows($themePrefix: "tether", $themeName: "arrows", $arrowSize: 16px, $arrowPointerEvents: null, $backgroundColor: #fff, $color: inherit, $useDropShadow: false)
+  .#{ $themePrefix }-element.#{ $themePrefix }-theme-#{ $themeName }
+    max-width: 100%
+    max-height: 100%
 
-            @if $useDropShadow
-                transform: translateZ(0)
-                filter: drop-shadow(0 1px 4px rgba(0, 0, 0, .2))
+    .#{ $themePrefix }-content
+      border-radius: 5px
+      position: relative
+      font-family: inherit
+      background: $backgroundColor
+      color: $color
+      padding: 1em
+      font-size: 1.1em
+      line-height: 1.5em
 
-            &:before
-                content: ""
-                display: block
-                position: absolute
-                width: 0
-                height: 0
-                border-color: transparent
-                border-width: $arrowSize
-                border-style: solid
-                pointer-events: $arrowPointerEvents
+      @if $useDropShadow
+        transform: translateZ(0)
+        box-shadow: $box-shadow
 
-        // Centers and middles
+      .#{ $themePrefix }-triangle
+        position: absolute
+        width: $arrowSize * 2
+        height: $arrowSize * 2
+        transform: translateZ(0)
+        pointer-events: $arrowPointerEvents
 
-        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-center .#{ $themePrefix }-content
-            margin-bottom: $arrowSize
+        &::after
+          content: ''
+          position: absolute
+          width: $arrowSize
+          height: $arrowSize
+          background-color: $backgroundColor
+          transform: rotate(45deg) translateZ(0)
 
-            &:before
-                top: 100%
-                left: 50%
-                margin-left: - $arrowSize
-                border-top-color: $backgroundColor
+          @if $useDropShadow
+            box-shadow: $box-shadow
 
-        &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-center .#{ $themePrefix }-content
-            margin-top: $arrowSize
 
-            &:before
-                bottom: 100%
-                left: 50%
-                margin-left: - $arrowSize
-                border-bottom-color: $backgroundColor
+    // Centers and middles
 
-        &.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-element-attached-middle .#{ $themePrefix }-content
-            margin-right: $arrowSize
+    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-center .#{ $themePrefix }-content
+      margin-bottom: $arrowSize
 
-            &:before
-                left: 100%
-                top: 50%
-                margin-top: - $arrowSize
-                border-left-color: $backgroundColor
+      .#{ $themePrefix }-triangle
+        top: 100%
+        left: 50%
+        margin-left: -$arrowSize
 
-        &.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-element-attached-middle .#{ $themePrefix }-content
-            margin-left: $arrowSize
+        &::after
+          top: -$arrowSize / 2
+          left: $arrowSize / 2
 
-            &:before
-                right: 100%
-                top: 50%
-                margin-top: - $arrowSize
-                border-right-color: $backgroundColor
+    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-center .#{ $themePrefix }-content
+      margin-top: $arrowSize
 
-        // Top and bottom corners
+      .#{ $themePrefix }-triangle
+        bottom: 100%
+        left: 50%
+        margin-left: -$arrowSize
 
-        &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
-            margin-top: $arrowSize
+        &::after
+          bottom: -$arrowSize / 2
+          left: $arrowSize / 2
 
-            &:before
-                bottom: 100%
-                left: $arrowSize
-                border-bottom-color: $backgroundColor
+    &.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-element-attached-middle .#{ $themePrefix }-content
+      margin-right: $arrowSize
 
-        &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
-            margin-top: $arrowSize
+      .#{ $themePrefix }-triangle
+        left: 100%
+        top: 50%
+        margin-top: -$arrowSize
 
-            &:before
-                bottom: 100%
-                right: $arrowSize
-                border-bottom-color: $backgroundColor
+        &::after
+          left: -$arrowSize / 2
+          top: $arrowSize / 2
 
-        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-top .#{ $themePrefix }-content
-            margin-bottom: $arrowSize
+    &.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-element-attached-middle .#{ $themePrefix }-content
+      margin-left: $arrowSize
 
-            &:before
-                top: 100%
-                left: $arrowSize
-                border-top-color: $backgroundColor
+      .#{ $themePrefix }-triangle
+        right: 100%
+        top: 50%
+        margin-top: -$arrowSize
 
-        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-top .#{ $themePrefix }-content
-            margin-bottom: $arrowSize
+        &::after
+          right: -$arrowSize / 2
+          top: $arrowSize / 2
 
-            &:before
-                top: 100%
-                right: $arrowSize
-                border-top-color: $backgroundColor
+    // Top and bottom corners
 
-        // Side corners
+    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
+      margin-top: $arrowSize
 
-        &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-left .#{ $themePrefix }-content
-            margin-right: $arrowSize
+      .#{ $themePrefix }-triangle
+        bottom: 100%
+        left: $arrowSize
 
-            &:before
-                top: $arrowSize
-                left: 100%
-                border-left-color: $backgroundColor
+        &::after
+          bottom: -$arrowSize / 2
+          margin-left: -$arrowSize / 2
 
-        &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-right .#{ $themePrefix }-content
-            margin-left: $arrowSize
+    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
+      margin-top: $arrowSize
 
-            &:before
-                top: $arrowSize
-                right: 100%
-                border-right-color: $backgroundColor
+      .#{ $themePrefix }-triangle
+        bottom: 100%
+        right: $arrowSize
 
-        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-left .#{ $themePrefix }-content
-            margin-right: $arrowSize
+        &::after
+          bottom: -$arrowSize / 2
+          margin-right: -$arrowSize / 2
 
-            &:before
-                bottom: $arrowSize
-                left: 100%
-                border-left-color: $backgroundColor
+    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-top .#{ $themePrefix }-content
+      margin-bottom: $arrowSize
 
-        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-right .#{ $themePrefix }-content
-            margin-left: $arrowSize
+      .#{ $themePrefix }-triangle
+        top: 100%
+        left: $arrowSize
 
-            &:before
-                bottom: $arrowSize
-                right: 100%
-                border-right-color: $backgroundColor
+        &::after
+          top: -$arrowSize / 2
+          margin-left: -$arrowSize / 2
+
+    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-top .#{ $themePrefix }-content
+      margin-bottom: $arrowSize
+
+      .#{ $themePrefix }-triangle
+        top: 100%
+        right: $arrowSize
+
+        &::after
+          top: -$arrowSize / 2
+          margin-right: -$arrowSize / 2
+
+    // Side corners
+
+    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-left .#{ $themePrefix }-content
+      margin-right: $arrowSize
+
+      .#{ $themePrefix }-triangle
+        top: $arrowSize
+        left: 100%
+
+        &::after
+          top: 0
+          left: -$arrowSize / 2
+
+    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-right .#{ $themePrefix }-content
+      margin-left: $arrowSize
+
+      .#{ $themePrefix }-triangle
+        top: $arrowSize
+        right: 100%
+
+        &::after
+          top: 0
+          right: -$arrowSize / 2
+
+    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-left .#{ $themePrefix }-content
+      margin-right: $arrowSize
+
+      .#{ $themePrefix }-triangle
+        bottom: $arrowSize
+        left: 100%
+
+        &::after
+          bottom: 0
+          left: -$arrowSize / 2
+
+    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-right .#{ $themePrefix }-content
+      margin-left: $arrowSize
+
+      .#{ $themePrefix }-triangle
+        bottom: $arrowSize
+        right: 100%
+
+        &::after
+          bottom: 0
+          right: -$arrowSize / 2

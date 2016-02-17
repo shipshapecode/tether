@@ -1,12 +1,12 @@
 =tether($themePrefix: "tether")
-    .#{ $themePrefix }-element, .#{ $themePrefix }-element *
+  .#{ $themePrefix }-element, .#{ $themePrefix }-element *
 
-        &, &:after, &:before
-            box-sizing: border-box
+    &, &:after, &:before
+      box-sizing: border-box
 
-    .#{ $themePrefix }-element
-        position: absolute
-        display: none
+  .#{ $themePrefix }-element
+    position: absolute
+    display: none
 
-        &.#{ $themePrefix }-open
-            display: block
+    &.#{ $themePrefix }-open
+      display: block
