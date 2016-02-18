@@ -60,6 +60,34 @@
       top: 50%;
       margin-top: -16px;
       border-right-color: #fff; }
+  .tether-element.tether-theme-arrows.tether-element-attached-left.tether-target-attached-center .tether-content {
+    left: -32px; }
+  .tether-element.tether-theme-arrows.tether-element-attached-right.tether-target-attached-center .tether-content {
+    left: 32px; }
+  .tether-element.tether-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-middle .tether-content {
+    margin-top: 16px; }
+    .tether-element.tether-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-middle .tether-content:before {
+      bottom: 100%;
+      left: 16px;
+      border-bottom-color: #fff; }
+  .tether-element.tether-theme-arrows.tether-element-attached-top.tether-element-attached-right.tether-target-attached-middle .tether-content {
+    margin-top: 16px; }
+    .tether-element.tether-theme-arrows.tether-element-attached-top.tether-element-attached-right.tether-target-attached-middle .tether-content:before {
+      bottom: 100%;
+      right: 16px;
+      border-bottom-color: #fff; }
+  .tether-element.tether-theme-arrows.tether-element-attached-bottom.tether-element-attached-left.tether-target-attached-middle .tether-content {
+    margin-bottom: 16px; }
+    .tether-element.tether-theme-arrows.tether-element-attached-bottom.tether-element-attached-left.tether-target-attached-middle .tether-content:before {
+      top: 100%;
+      left: 16px;
+      border-top-color: #fff; }
+  .tether-element.tether-theme-arrows.tether-element-attached-bottom.tether-element-attached-right.tether-target-attached-middle .tether-content {
+    margin-bottom: 16px; }
+    .tether-element.tether-theme-arrows.tether-element-attached-bottom.tether-element-attached-right.tether-target-attached-middle .tether-content:before {
+      top: 100%;
+      right: 16px;
+      border-top-color: #fff; }
   .tether-element.tether-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-bottom .tether-content {
     margin-top: 16px; }
     .tether-element.tether-theme-arrows.tether-element-attached-top.tether-element-attached-left.tether-target-attached-bottom .tether-content:before {

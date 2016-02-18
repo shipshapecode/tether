@@ -66,6 +66,47 @@
                 margin-top: - $arrowSize
                 border-right-color: $backgroundColor
 
+        // Target middle/center, element corner
+
+        &.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-center .#{ $themePrefix }-content
+            left: - $arrowSize * 2
+
+        &.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-center .#{ $themePrefix }-content
+            left: $arrowSize * 2
+
+        &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-middle .#{ $themePrefix }-content
+            margin-top: $arrowSize
+
+            &:before
+                bottom: 100%
+                left: $arrowSize
+                border-bottom-color: $backgroundColor
+
+        &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-middle .#{ $themePrefix }-content
+            margin-top: $arrowSize
+
+            &:before
+                bottom: 100%
+                right: $arrowSize
+                border-bottom-color: $backgroundColor
+
+        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-middle .#{ $themePrefix }-content
+            margin-bottom: $arrowSize
+
+            &:before
+                top: 100%
+                left: $arrowSize
+                border-top-color: $backgroundColor
+
+        &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-middle .#{ $themePrefix }-content
+            margin-bottom: $arrowSize
+
+            &:before
+                top: 100%
+                right: $arrowSize
+                border-top-color: $backgroundColor
+
+
         // Top and bottom corners
 
         &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
