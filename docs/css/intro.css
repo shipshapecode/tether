@@ -1,7 +1,5 @@
 @charset "UTF-8";
 *, *:after, *:before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
 body {
@@ -10,7 +8,7 @@ body {
 .yellow-box {
   width: 100px;
   height: 100px;
-  background-color: #ffee88;
+  background-color: #fe8;
   pointer-events: none; }
 
 .green-box {
@@ -18,13 +16,13 @@ body {
   margin-left: 100px;
   width: 200px;
   height: 50px;
-  background-color: #44ee99; }
+  background-color: #4e9; }
   .no-green .green-box {
     display: none; }
 
 .scroll-box {
   height: 150px;
-  border: 10px solid #eeeeee;
+  border: 10px solid #eee;
   background: #fbfbfb;
   overflow: auto;
   position: relative; }
@@ -40,7 +38,7 @@ pre.pre-with-output {
   float: left; }
   pre.pre-with-output code mark {
     background: #b8daff;
-    color: black; }
+    color: #000; }
 
 p, h2, h3 {
   clear: both; }
@@ -63,9 +61,10 @@ output {
     text-align: center;
     font-size: 16px;
     font-variant: small-caps;
-    color: #777777;
+    color: #777;
     opacity: 1;
-    transition: opacity 0.2s; }
+    -webkit-transition: opacity 0.2s;
+            transition: opacity 0.2s; }
   output.scrolled:after {
     opacity: 0; }
   output[deactivated], output[activated] {
@@ -80,8 +79,8 @@ output {
       bottom: 0;
       opacity: 1;
       content: "Click To Show";
-      background-color: #aaaaaa;
-      border-left: 10px solid #eeeeee;
+      background-color: #AAA;
+      border-left: 10px solid #EEE;
       color: white;
       font-size: 24px;
       font-variant: normal;
@@ -169,6 +168,7 @@ span.attachment-mark:after, span.tether-marker-dot:after {
 [data-example^="optimizer"].lang-javascript {
   /* This should just be a `code` selector, but sass doesn't allow that with & */
   min-height: 220px; }
+
 [data-example^="optimizer"].tether-element:before {
   margin-top: 26px;
   display: block;
@@ -177,7 +177,8 @@ span.attachment-mark:after, span.tether-marker-dot:after {
   line-height: 1.2;
   font-size: 15px;
   padding: 4px;
-  color: #666666; }
+  color: #666; }
+
 [data-example^="optimizer"] .scroll-box .tether-element:before {
   content: "I'm in my scroll parent!"; }
 
@@ -193,21 +194,19 @@ span.attachment-mark:after, span.tether-marker-dot:after {
 .projects-paragraph {
   text-align: center; }
   .projects-paragraph a {
-    display: -moz-inline-stack;
     display: inline-block;
     vertical-align: middle;
     *vertical-align: auto;
-    zoom: 1;
+    *zoom: 1;
     *display: inline;
     text-align: center;
     margin-right: 30px;
     color: inherit; }
     .projects-paragraph a span {
-      display: -moz-inline-stack;
       display: inline-block;
       vertical-align: middle;
       *vertical-align: auto;
-      zoom: 1;
+      *zoom: 1;
       *display: inline;
       margin-bottom: 20px;
       font-size: 20px;

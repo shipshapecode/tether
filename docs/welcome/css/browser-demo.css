@@ -5,17 +5,16 @@ html, body {
 
 .tether.tether-theme-arrows-dark .tether-content {
   -webkit-filter: none;
-  -moz-filter: none;
-  filter: none;
-  background: black; }
+          filter: none;
+  background: #000; }
   .tether.tether-theme-arrows-dark .tether-content ul {
-    color: white;
+    color: #fff;
     list-style: none;
     padding: 0;
     margin: 0; }
 
 .tether.tether-theme-arrows-dark.tether-element-attached-top.tether-element-attached-left.tether-target-attached-right .tether-content:before {
-  border-right-color: black; }
+  border-right-color: #000; }
 
 .browser-demo {
   position: absolute;
@@ -24,8 +23,6 @@ html, body {
   bottom: 0;
   right: 0; }
   .browser-demo *, .browser-demo *:after, .browser-demo *:before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box; }
   .browser-demo .top {
     position: absolute;
@@ -51,7 +48,7 @@ html, body {
         cursor: pointer; }
         .browser-demo .bottom .left .item:hover, .browser-demo .bottom .left .item.tether-open {
           background: rgba(0, 0, 0, 0.1);
-          border-bottom: 1px solid rgba(0, 0, 0, 0); }
+          border-bottom: 1px solid transparent; }
         .browser-demo .bottom .left .item:last-child {
           border-bottom: 0; }
     .browser-demo .bottom .right {
@@ -61,22 +58,20 @@ html, body {
       height: 100%;
       padding: 20px; }
   .browser-demo .title {
-    display: -moz-inline-stack;
     display: inline-block;
     vertical-align: middle;
     *vertical-align: auto;
-    zoom: 1;
+    *zoom: 1;
     *display: inline;
     background: rgba(0, 0, 0, 0.1);
     width: 150px;
     height: 15px;
     margin-bottom: 20px; }
   .browser-demo .word {
-    display: -moz-inline-stack;
     display: inline-block;
     vertical-align: middle;
     *vertical-align: auto;
-    zoom: 1;
+    *zoom: 1;
     *display: inline;
     background: rgba(0, 0, 0, 0.1);
     width: 50px;
