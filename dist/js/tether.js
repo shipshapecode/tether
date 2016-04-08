@@ -1,4 +1,4 @@
-/*! tether 1.2.0 */
+/*! tether 1.2.1 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -1369,7 +1369,7 @@ TetherBase.modules.push({
       }
 
       if (changeAttachY === 'together') {
-        if (top < bounds[1] && tAttachment.top === 'top') {
+        if (top + height > bounds[3] && tAttachment.top === 'top') {
           if (eAttachment.top === 'bottom') {
             top += targetHeight;
             tAttachment.top = 'bottom';
@@ -1385,7 +1385,7 @@ TetherBase.modules.push({
           }
         }
 
-        if (top + height > bounds[3] && tAttachment.top === 'bottom') {
+        if (top > bounds[3] && tAttachment.top === 'bottom') {
           if (eAttachment.top === 'top') {
             top -= targetHeight;
             tAttachment.top = 'top';

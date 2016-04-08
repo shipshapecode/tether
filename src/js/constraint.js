@@ -114,7 +114,7 @@ TetherBase.modules.push({
       }
 
       if (changeAttachY === 'together') {
-        if (top < bounds[1] && tAttachment.top === 'top') {
+        if (top + height > bounds[3] && tAttachment.top === 'top') {
           if (eAttachment.top === 'bottom') {
             top += targetHeight;
             tAttachment.top = 'bottom';
@@ -131,7 +131,7 @@ TetherBase.modules.push({
           }
         }
 
-        if (top + height > bounds[3] && tAttachment.top === 'bottom') {
+        if (top > bounds[3] && tAttachment.top === 'bottom') {
           if (eAttachment.top === 'top') {
             top -= targetHeight;
             tAttachment.top = 'top';
