@@ -131,7 +131,7 @@ TetherBase.modules.push({
           }
         }
 
-        if (top > bounds[3] && tAttachment.top === 'bottom') {
+        if (top > bounds[3] - height && tAttachment.top === 'bottom') {
           if (eAttachment.top === 'top') {
             top -= targetHeight;
             tAttachment.top = 'top';
