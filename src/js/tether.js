@@ -760,11 +760,6 @@ class TetherClass {
       let val = css[key];
       let elVal = this.element.style[key];
 
-      if (elVal !== '' && val !== '' && ['top', 'left', 'bottom', 'right'].indexOf(key) >= 0) {
-        elVal = parseFloat(elVal);
-        val = parseFloat(val);
-      }
-
       if (elVal !== val) {
         write = true;
         writeCSS[key] = val;
