@@ -1,4 +1,4 @@
-/*! tether 1.2.0 */
+/*! tether 1.2.2 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -1197,11 +1197,6 @@ var TetherClass = (function () {
       for (var key in css) {
         var val = css[key];
         var elVal = this.element.style[key];
-
-        if (elVal !== '' && val !== '' && ['top', 'left', 'bottom', 'right'].indexOf(key) >= 0) {
-          elVal = parseFloat(elVal);
-          val = parseFloat(val);
-        }
 
         if (elVal !== val) {
           write = true;
