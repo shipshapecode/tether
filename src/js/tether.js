@@ -256,7 +256,7 @@ class TetherClass extends Evented {
     this.offset = parseOffset(this.options.offset);
     this.targetOffset = parseOffset(this.options.targetOffset);
 
-    if (typeof this.scrollParent !== 'undefined') {
+    if (typeof this.scrollParents !== 'undefined') {
       this.disable();
     }
 
