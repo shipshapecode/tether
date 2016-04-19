@@ -337,6 +337,10 @@ TetherBase.modules.push({
           eAttachment.top !== this.attachment.top ||
           eAttachment.left !== this.attachment.left) {
         this.updateAttachClasses(eAttachment, tAttachment);
+        this.trigger('update', {
+          attachment: eAttachment,
+          targetAttachment: tAttachment,
+        });
       }
     });
 

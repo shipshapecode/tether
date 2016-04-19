@@ -174,9 +174,10 @@ const parseOffset = (value) => {
 };
 const parseAttachment = parseOffset;
 
-class TetherClass {
+class TetherClass extends Evented {
 
   constructor(options) {
+    super();
     this.position = this.position.bind(this);
 
     tethers.push(this);
