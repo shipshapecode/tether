@@ -7,7 +7,8 @@
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
   ],
   "maintainers": [
-    "Nicholas Hwang <nick.joosung.hwang@gmail.com>"
+    "Nicholas Hwang <nick.joosung.hwang@gmail.com>",
+    "Trevor Burnham <trevorburnham@gmail.com>"
   ],
   "description": "A client-side library to make absolutely positioned elements attach to elements in the page efficiently.",
   "keywords": [
