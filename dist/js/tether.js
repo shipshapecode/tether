@@ -671,7 +671,7 @@ var TetherClass = (function () {
       this.offset = parseOffset(this.options.offset);
       this.targetOffset = parseOffset(this.options.targetOffset);
 
-      if (typeof this.scrollParent !== 'undefined') {
+      if (typeof this.scrollParents !== 'undefined') {
         this.disable();
       }
 
@@ -1247,7 +1247,7 @@ var BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
 function getBoundingRect(tether, to) {
   if (to === 'scrollParent') {
-    to = tether.scrollParent;
+    to = tether.scrollParents[0];
   } else if (to === 'window') {
     to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
   }
