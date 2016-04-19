@@ -1,4 +1,4 @@
-/*! tether 1.3.0 */
+/*! tether 1.2.0 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -21,27 +21,25 @@ if (typeof TetherBase === 'undefined') {
   TetherBase = { modules: [] };
 }
 
-function getScrollParents(el) {
+function getScrollParent(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
   var computedStyle = getComputedStyle(el) || {};
   var position = computedStyle.position;
-  var parents = [];
 
   if (position === 'fixed') {
-    return [el];
+    return el;
   }
 
   var parent = el;
-  while ((parent = parent.parentNode) && parent.nodeType === 1) {
+  while (parent = parent.parentNode) {
     var style = undefined;
     try {
       style = getComputedStyle(parent);
     } catch (err) {}
 
     if (typeof style === 'undefined' || style === null) {
-      parents.push(parent);
-      return parents;
+      return parent;
     }
 
     var _style = style;
@@ -51,13 +49,12 @@ function getScrollParents(el) {
 
     if (/(auto|scroll)/.test(overflow + overflowY + overflowX)) {
       if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
-        parents.push(parent);
+        return parent;
       }
     }
   }
 
-  parents.push(document.body);
-  return parents;
+  return document.body;
 }
 
 var uniqueId = (function () {
@@ -362,7 +359,7 @@ var Evented = (function () {
 })();
 
 TetherBase.Utils = {
-  getScrollParents: getScrollParents,
+  getScrollParent: getScrollParent,
   getBounds: getBounds,
   getOffsetParent: getOffsetParent,
   extend: extend,
@@ -384,18 +381,14 @@ var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = 
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x6, _x7, _x8) { var _again = true; _function: while (_again) { var object = _x6, property = _x7, receiver = _x8; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x6 = parent; _x7 = property; _x8 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 if (typeof TetherBase === 'undefined') {
   throw new Error('You must include the utils.js file before tether.js');
 }
 
 var _TetherBase$Utils = TetherBase.Utils;
-var getScrollParents = _TetherBase$Utils.getScrollParents;
+var getScrollParent = _TetherBase$Utils.getScrollParent;
 var getBounds = _TetherBase$Utils.getBounds;
 var getOffsetParent = _TetherBase$Utils.getOffsetParent;
 var extend = _TetherBase$Utils.extend;
@@ -473,7 +466,7 @@ function now() {
     lastDuration = now() - lastCall;
   };
 
-  if (typeof window !== 'undefined' && typeof window.addEventListener !== 'undefined') {
+  if (typeof window !== 'undefined') {
     ['resize', 'scroll', 'touchmove'].forEach(function (event) {
       window.addEventListener(event, tick);
     });
@@ -579,15 +572,12 @@ var parseOffset = function parseOffset(value) {
 };
 var parseAttachment = parseOffset;
 
-var TetherClass = (function (_Evented) {
-  _inherits(TetherClass, _Evented);
-
+var TetherClass = (function () {
   function TetherClass(options) {
     var _this = this;
 
     _classCallCheck(this, TetherClass);
 
-    _get(Object.getPrototypeOf(TetherClass.prototype), 'constructor', this).call(this);
     this.position = this.position.bind(this);
 
     tethers.push(this);
@@ -683,9 +673,9 @@ var TetherClass = (function (_Evented) {
       }
 
       if (this.targetModifier === 'scroll-handle') {
-        this.scrollParents = [this.target];
+        this.scrollParent = this.target;
       } else {
-        this.scrollParents = getScrollParents(this.target);
+        this.scrollParent = getScrollParent(this.target);
       }
 
       if (!(this.options.enabled === false)) {
@@ -806,8 +796,6 @@ var TetherClass = (function (_Evented) {
   }, {
     key: 'enable',
     value: function enable() {
-      var _this3 = this;
-
       var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
       if (!(this.options.addTargetClasses === false)) {
@@ -816,11 +804,9 @@ var TetherClass = (function (_Evented) {
       addClass(this.element, this.getClass('enabled'));
       this.enabled = true;
 
-      this.scrollParents.forEach(function (parent) {
-        if (parent !== document) {
-          parent.addEventListener('scroll', _this3.position);
-        }
-      });
+      if (this.scrollParent !== document) {
+        this.scrollParent.addEventListener('scroll', this.position);
+      }
 
       if (pos) {
         this.position();
@@ -829,27 +815,23 @@ var TetherClass = (function (_Evented) {
   }, {
     key: 'disable',
     value: function disable() {
-      var _this4 = this;
-
       removeClass(this.target, this.getClass('enabled'));
       removeClass(this.element, this.getClass('enabled'));
       this.enabled = false;
 
-      if (typeof this.scrollParents !== 'undefined') {
-        this.scrollParents.forEach(function (parent) {
-          parent.removeEventListener('scroll', _this4.position);
-        });
+      if (typeof this.scrollParent !== 'undefined') {
+        this.scrollParent.removeEventListener('scroll', this.position);
       }
     }
   }, {
     key: 'destroy',
     value: function destroy() {
-      var _this5 = this;
+      var _this3 = this;
 
       this.disable();
 
       tethers.forEach(function (tether, i) {
-        if (tether === _this5) {
+        if (tether === _this3) {
           tethers.splice(i, 1);
           return;
         }
@@ -858,7 +840,7 @@ var TetherClass = (function (_Evented) {
   }, {
     key: 'updateAttachClasses',
     value: function updateAttachClasses(elementAttach, targetAttach) {
-      var _this6 = this;
+      var _this4 = this;
 
       elementAttach = elementAttach || this.attachment;
       targetAttach = targetAttach || this.targetAttachment;
@@ -891,27 +873,27 @@ var TetherClass = (function (_Evented) {
 
       var all = [];
       sides.forEach(function (side) {
-        all.push(_this6.getClass('element-attached') + '-' + side);
-        all.push(_this6.getClass('target-attached') + '-' + side);
+        all.push(_this4.getClass('element-attached') + '-' + side);
+        all.push(_this4.getClass('target-attached') + '-' + side);
       });
 
       defer(function () {
-        if (!(typeof _this6._addAttachClasses !== 'undefined')) {
+        if (!(typeof _this4._addAttachClasses !== 'undefined')) {
           return;
         }
 
-        updateClasses(_this6.element, _this6._addAttachClasses, all);
-        if (!(_this6.options.addTargetClasses === false)) {
-          updateClasses(_this6.target, _this6._addAttachClasses, all);
+        updateClasses(_this4.element, _this4._addAttachClasses, all);
+        if (!(_this4.options.addTargetClasses === false)) {
+          updateClasses(_this4.target, _this4._addAttachClasses, all);
         }
 
-        delete _this6._addAttachClasses;
+        delete _this4._addAttachClasses;
       });
     }
   }, {
     key: 'position',
     value: function position() {
-      var _this7 = this;
+      var _this5 = this;
 
       var flushChanges = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
@@ -930,7 +912,7 @@ var TetherClass = (function (_Evented) {
       this.updateAttachClasses(this.attachment, targetAttachment);
 
       var elementPos = this.cache('element-bounds', function () {
-        return getBounds(_this7.element);
+        return getBounds(_this5.element);
       });
 
       var width = elementPos.width;
@@ -948,7 +930,7 @@ var TetherClass = (function (_Evented) {
       }
 
       var targetPos = this.cache('target-bounds', function () {
-        return _this7.getTargetBounds();
+        return _this5.getTargetBounds();
       });
       var targetSize = targetPos;
 
@@ -1032,10 +1014,10 @@ var TetherClass = (function (_Evented) {
 
       if (typeof this.options.optimizations !== 'undefined' && this.options.optimizations.moveElement !== false && !(typeof this.targetModifier !== 'undefined')) {
         (function () {
-          var offsetParent = _this7.cache('target-offsetparent', function () {
-            return getOffsetParent(_this7.target);
+          var offsetParent = _this5.cache('target-offsetparent', function () {
+            return getOffsetParent(_this5.target);
           });
-          var offsetPosition = _this7.cache('target-offsetparent-bounds', function () {
+          var offsetPosition = _this5.cache('target-offsetparent-bounds', function () {
             return getBounds(offsetParent);
           });
           var offsetParentStyle = getComputedStyle(offsetParent);
@@ -1088,7 +1070,7 @@ var TetherClass = (function (_Evented) {
   }, {
     key: 'move',
     value: function move(pos) {
-      var _this8 = this;
+      var _this6 = this;
 
       if (!(typeof this.element.parentNode !== 'undefined')) {
         return;
@@ -1119,8 +1101,8 @@ var TetherClass = (function (_Evented) {
       var css = { top: '', left: '', right: '', bottom: '' };
 
       var transcribe = function transcribe(_same, _pos) {
-        var hasOptimizations = typeof _this8.options.optimizations !== 'undefined';
-        var gpu = hasOptimizations ? _this8.options.optimizations.gpu : null;
+        var hasOptimizations = typeof _this6.options.optimizations !== 'undefined';
+        var gpu = hasOptimizations ? _this6.options.optimizations.gpu : null;
         if (gpu !== false) {
           var yPos = undefined,
               xPos = undefined;
@@ -1172,14 +1154,14 @@ var TetherClass = (function (_Evented) {
       } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
         (function () {
           css.position = 'absolute';
-          var offsetParent = _this8.cache('target-offsetparent', function () {
-            return getOffsetParent(_this8.target);
+          var offsetParent = _this6.cache('target-offsetparent', function () {
+            return getOffsetParent(_this6.target);
           });
 
-          if (getOffsetParent(_this8.element) !== offsetParent) {
+          if (getOffsetParent(_this6.element) !== offsetParent) {
             defer(function () {
-              _this8.element.parentNode.removeChild(_this8.element);
-              offsetParent.appendChild(_this8.element);
+              _this6.element.parentNode.removeChild(_this6.element);
+              offsetParent.appendChild(_this6.element);
             });
           }
 
@@ -1194,7 +1176,7 @@ var TetherClass = (function (_Evented) {
       if (!moved) {
         var offsetParentIsBody = true;
         var currentNode = this.element.parentNode;
-        while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
+        while (currentNode && currentNode.tagName !== 'BODY') {
           if (getComputedStyle(currentNode).position !== 'static') {
             offsetParentIsBody = false;
             break;
@@ -1216,6 +1198,11 @@ var TetherClass = (function (_Evented) {
         var val = css[key];
         var elVal = this.element.style[key];
 
+        if (elVal !== '' && val !== '' && ['top', 'left', 'bottom', 'right'].indexOf(key) >= 0) {
+          elVal = parseFloat(elVal);
+          val = parseFloat(val);
+        }
+
         if (elVal !== val) {
           write = true;
           writeCSS[key] = val;
@@ -1224,14 +1211,14 @@ var TetherClass = (function (_Evented) {
 
       if (write) {
         defer(function () {
-          extend(_this8.element.style, writeCSS);
+          extend(_this6.element.style, writeCSS);
         });
       }
     }
   }]);
 
   return TetherClass;
-})(Evented);
+})();
 
 TetherClass.modules = [];
 
@@ -1382,32 +1369,34 @@ TetherBase.modules.push({
       }
 
       if (changeAttachY === 'together') {
-        if (tAttachment.top === 'top') {
-          if (eAttachment.top === 'bottom' && top < bounds[1]) {
+        if (top < bounds[1] && tAttachment.top === 'top') {
+          if (eAttachment.top === 'bottom') {
             top += targetHeight;
             tAttachment.top = 'bottom';
 
             top += height;
             eAttachment.top = 'top';
-          } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
-            top -= height - targetHeight;
+          } else if (eAttachment.top === 'top') {
+            top += targetHeight;
             tAttachment.top = 'bottom';
 
+            top -= height;
             eAttachment.top = 'bottom';
           }
         }
 
-        if (tAttachment.top === 'bottom') {
-          if (eAttachment.top === 'top' && top + height > bounds[3]) {
+        if (top + height > bounds[3] && tAttachment.top === 'bottom') {
+          if (eAttachment.top === 'top') {
             top -= targetHeight;
             tAttachment.top = 'top';
 
             top -= height;
             eAttachment.top = 'bottom';
-          } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
-            top += height - targetHeight;
+          } else if (eAttachment.top === 'bottom') {
+            top -= targetHeight;
             tAttachment.top = 'top';
 
+            top += height;
             eAttachment.top = 'top';
           }
         }
@@ -1599,10 +1588,6 @@ TetherBase.modules.push({
 
       if (tAttachment.top !== targetAttachment.top || tAttachment.left !== targetAttachment.left || eAttachment.top !== _this.attachment.top || eAttachment.left !== _this.attachment.left) {
         _this.updateAttachClasses(eAttachment, tAttachment);
-        _this.trigger('update', {
-          attachment: eAttachment,
-          targetAttachment: tAttachment
-        });
       }
     });
 
