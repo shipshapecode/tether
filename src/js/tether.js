@@ -744,7 +744,7 @@ class TetherClass extends Evented {
       let offsetParentIsBody = true;
       let currentNode = this.element.parentNode;
       while (currentNode && currentNode.tagName !== 'BODY') {
-        if (getComputedStyle(currentNode).position !== 'static') {
+        if (currentNode.nodeType === 11 || getComputedStyle(currentNode).position !== 'static') {
           offsetParentIsBody = false;
           break;
         }
