@@ -21,6 +21,8 @@ if (typeof TetherBase === 'undefined') {
   TetherBase = { modules: [] };
 }
 
+var zeroElement = null;
+
 function getScrollParents(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
@@ -68,14 +70,14 @@ var uniqueId = (function () {
 })();
 
 var zeroPosCache = {};
-var getOrigin = function getOrigin(doc) {
+var getOrigin = function getOrigin() {
   // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
   // jitter as the user scrolls that messes with our ability to detect if two positions
   // are equivilant or not.  We place an element at the top left of the page that will
   // get the same jitter, so we can cancel the two out.
-  var node = doc._tetherZeroElement;
-  if (typeof node === 'undefined') {
-    node = doc.createElement('div');
+  var node = zeroElement;
+  if (!node) {
+    node = document.createElement('div');
     node.setAttribute('data-tether-id', uniqueId());
     extend(node.style, {
       top: 0,
@@ -83,9 +85,9 @@ var getOrigin = function getOrigin(doc) {
       position: 'absolute'
     });
 
-    doc.body.appendChild(node);
+    document.body.appendChild(node);
 
-    doc._tetherZeroElement = node;
+    zeroElement = node;
   }
 
   var id = node.getAttribute('data-tether-id');
@@ -107,6 +109,11 @@ var getOrigin = function getOrigin(doc) {
   return zeroPosCache[id];
 };
 
+function removeUtilElements() {
+  document.body.removeChild(zeroElement);
+  zeroElement = undefined;
+};
+
 function getBounds(el) {
   var doc = undefined;
   if (el === document) {
@@ -126,7 +133,7 @@ function getBounds(el) {
     box[k] = rect[k];
   }
 
-  var origin = getOrigin(doc);
+  var origin = getOrigin();
 
   box.top -= origin.top;
   box.left -= origin.left;
@@ -374,7 +381,8 @@ TetherBase.Utils = {
   flush: flush,
   uniqueId: uniqueId,
   Evented: Evented,
-  getScrollBarSize: getScrollBarSize
+  getScrollBarSize: getScrollBarSize,
+  removeUtilElements: removeUtilElements
 };
 /* globals TetherBase, performance */
 
@@ -405,6 +413,7 @@ var updateClasses = _TetherBase$Utils.updateClasses;
 var defer = _TetherBase$Utils.defer;
 var flush = _TetherBase$Utils.flush;
 var getScrollBarSize = _TetherBase$Utils.getScrollBarSize;
+var removeUtilElements = _TetherBase$Utils.removeUtilElements;
 
 function within(a, b) {
   var diff = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
@@ -851,9 +860,13 @@ var TetherClass = (function (_Evented) {
       tethers.forEach(function (tether, i) {
         if (tether === _this5) {
           tethers.splice(i, 1);
-          return;
         }
       });
+
+      // Remove any elements we were using for convenience from the DOM
+      if (tethers.length === 0) {
+        removeUtilElements();
+      }
     }
   }, {
     key: 'updateAttachClasses',

@@ -14,7 +14,8 @@ const {
   updateClasses,
   defer,
   flush,
-  getScrollBarSize
+  getScrollBarSize,
+  removeUtilElements
 } = TetherBase.Utils;
 
 function within(a, b, diff=1) {
@@ -418,9 +419,13 @@ class TetherClass extends Evented {
     tethers.forEach((tether, i) => {
       if (tether === this) {
         tethers.splice(i, 1);
-        return;
       }
     });
+
+    // Remove any elements we were using for convenience from the DOM
+    if (tethers.length === 0) {
+      removeUtilElements();
+    }
   }
 
   updateAttachClasses(elementAttach, targetAttach) {
