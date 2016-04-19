@@ -15,7 +15,7 @@ function getScrollParents(el) {
   }
 
   let parent = el;
-  while ((parent = parent.parentNode) && parent.nodeType === 1) {
+  while ((parent = parent.parentNode) && parent && parent.nodeType === 1) {
     let style;
     try {
       style = getComputedStyle(parent);
