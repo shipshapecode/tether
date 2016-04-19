@@ -1,4 +1,4 @@
-/*! tether 1.2.2 */
+/*! tether 1.2.3 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
