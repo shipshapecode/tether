@@ -5,7 +5,7 @@ if (typeof TetherBase === 'undefined') {
 }
 
 const {
-  getScrollParent,
+  getScrollParents,
   getBounds,
   getOffsetParent,
   extend,
@@ -259,9 +259,9 @@ class TetherClass {
     }
 
     if (this.targetModifier === 'scroll-handle') {
-      this.scrollParent = this.target;
+      this.scrollParents = [this.target];
     } else {
-      this.scrollParent = getScrollParent(this.target);
+      this.scrollParents = getScrollParents(this.target);
     }
 
     if(!(this.options.enabled === false)) {
@@ -388,9 +388,11 @@ class TetherClass {
     addClass(this.element, this.getClass('enabled'));
     this.enabled = true;
 
-    if (this.scrollParent !== document) {
-      this.scrollParent.addEventListener('scroll', this.position);
-    }
+    this.scrollParents.forEach((parent) => {
+      if (parent !== document) {
+        parent.addEventListener('scroll', this.position);
+      }
+    })
 
     if (pos) {
       this.position();
@@ -402,8 +404,10 @@ class TetherClass {
     removeClass(this.element, this.getClass('enabled'));
     this.enabled = false;
 
-    if (typeof this.scrollParent !== 'undefined') {
-      this.scrollParent.removeEventListener('scroll', this.position);
+    if (typeof this.scrollParents !== 'undefined') {
+      this.scrollParents.forEach((parent) => {
+        parent.removeEventListener('scroll', this.position);
+      })
     }
   }
 
