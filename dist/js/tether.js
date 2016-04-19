@@ -33,7 +33,7 @@ function getScrollParents(el) {
   }
 
   var parent = el;
-  while (parent = parent.parentNode) {
+  while ((parent = parent.parentNode) && parent.nodeType === 1) {
     var style = undefined;
     try {
       style = getComputedStyle(parent);
@@ -1194,7 +1194,7 @@ var TetherClass = (function (_Evented) {
       if (!moved) {
         var offsetParentIsBody = true;
         var currentNode = this.element.parentNode;
-        while (currentNode && currentNode.tagName !== 'BODY') {
+        while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
           if (getComputedStyle(currentNode).position !== 'static') {
             offsetParentIsBody = false;
             break;
