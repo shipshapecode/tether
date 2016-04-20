@@ -73,7 +73,7 @@ function now() {
       return;
     }
 
-    if (typeof pendingTimeout !== 'undefined') {
+    if (pendingTimeout != null) {
       clearTimeout(pendingTimeout);
       pendingTimeout = null;
     }
