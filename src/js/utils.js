@@ -86,8 +86,10 @@ const getOrigin = () => {
 };
 
 function removeUtilElements() {
-  document.body.removeChild(zeroElement);
-  zeroElement = undefined;
+  if (zeroElement) {
+    document.body.removeChild(zeroElement);
+  }
+  zeroElement = null;
 };
 
 function getBounds(el) {
