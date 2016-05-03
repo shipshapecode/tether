@@ -83,7 +83,7 @@ Or just download from the [releases](https://github.com/HubSpot/tether/releases)
 ## Usage
 You only need to include [tether.min.js](https://github.com/HubSpot/tether/blob/master/dist/js/tether.min.js) in your page:
 ```
-<script type="text/javascript" src="path/to/dist/js/tether.min.js" />
+<script src="path/to/dist/js/tether.min.js"></script>
 ```
 Or just use a CDN:
 ```
