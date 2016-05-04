@@ -87,7 +87,7 @@ You only need to include [tether.min.js](https://github.com/HubSpot/tether/blob/
 ```
 Or just use a CDN:
 ```
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/tether/1.3.1/js/tether.min.js" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.3.1/js/tether.min.js"></script>
 ```
 
 The css files in the [dist/css](https://github.com/HubSpot/tether/tree/master/dist/css) folder are not required to get tether running.
