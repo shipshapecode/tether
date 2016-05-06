@@ -1,4 +1,4 @@
-/*! tether 1.3.1 */
+/*! tether 1.3.2 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -317,7 +317,7 @@ var Evented = (function () {
   }, {
     key: 'off',
     value: function off(event, handler) {
-      if (typeof this.bindings !== 'undefined' && typeof this.bindings[event] !== 'undefined') {
+      if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
         return;
       }
 

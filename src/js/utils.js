@@ -282,8 +282,8 @@ class Evented {
   }
 
   off(event, handler) {
-    if (typeof this.bindings !== 'undefined' &&
-        typeof this.bindings[event] !== 'undefined') {
+    if (typeof this.bindings === 'undefined' ||
+        typeof this.bindings[event] === 'undefined') {
       return;
     }
 
