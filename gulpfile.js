@@ -1,8 +1,6 @@
 var del         = require('del');
 var gulp        = require('gulp');
-var babel       = require('gulp-babel');
 var bump        = require('gulp-bump');
-var concat      = require('gulp-concat');
 var header      = require('gulp-header');
 var minify      = require('gulp-minify-css');
 var plumber     = require('gulp-plumber');
@@ -10,16 +8,14 @@ var prefixer    = require('gulp-autoprefixer');
 var rename      = require('gulp-rename');
 var uglify      = require('gulp-uglify');
 var sass        = require('gulp-sass');
-var umd         = require('gulp-wrap-umd');
+var browserify  = require('browserify');
+var source      = require('vinyl-source-stream');
+var buffer      = require('vinyl-buffer');
 
 // Variables
 var distDir = './dist';
 var pkg = require('./package.json');
 var banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
-var umdOptions = {
-  exports: 'Tether',
-  namespace: 'Tether'
-};
 
 
 // Clean
@@ -30,17 +26,16 @@ gulp.task('clean', function() {
 
 // Javascript
 gulp.task('js', function() {
-  gulp.src([
-    './src/js/utils.js',
-    './src/js/tether.js',
-    './src/js/constraint.js',
-    './src/js/abutment.js',
-    './src/js/shift.js'
-  ])
+  browserify({
+    entries: [
+      './src/js/tether.js'
+    ],
+    standalone: 'Tether',
+    transform: ['babelify']
+  }).bundle()
     .pipe(plumber())
-    .pipe(babel())
-    .pipe(concat('tether.js'))
-    .pipe(umd(umdOptions))
+    .pipe(source('tether.js'))
+    .pipe(buffer())
     .pipe(header(banner))
 
     // Original
