@@ -13,7 +13,8 @@
   "scripts": {
     "reinstall": "del node_modules && npm install",
     "watch": "gulp watch",
-    "build": "gulp build"
+    "build": "gulp build",
+    "test": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "babelify": "^6.4.0",
     "browserify": "^13.0.0",
+    "chai": "^3.5.0",
     "del": "^2.0.2",
     "del-cli": "^0.2.0",
     "gulp": "^3.9.0",
@@ -35,7 +37,13 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.4",
     "gulp-uglify": "^1.4.1",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.5",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-mocha": "^1.0.1",
+    "mocha": "^2.4.5",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
   }
 }
