@@ -5,6 +5,32 @@ if (typeof TetherBase === 'undefined') {
 
 let zeroElement = null;
 
+// Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
+// if the element lies within a nested document (<frame> or <iframe>-like).
+function getActualBoundingClientRect(node) {
+  let boundingRect = node.getBoundingClientRect();
+
+  // The original object returned by getBoundingClientRect is immutable, so we clone it
+  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
+  let rect = {};
+  for (var k in boundingRect) {
+    rect[k] = boundingRect[k];
+  }
+
+  if (node.ownerDocument !== document) {
+    let frameElement = node.ownerDocument.defaultView.frameElement;
+    if (frameElement) {
+      let frameRect = getActualBoundingClientRect(frameElement);
+      rect.top += frameRect.top;
+      rect.bottom += frameRect.top;
+      rect.left += frameRect.left;
+      rect.right += frameRect.left;
+    }
+  }
+
+  return rect;
+}
+
 function getScrollParents(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
@@ -74,13 +100,7 @@ const getOrigin = () => {
 
   const id = node.getAttribute('data-tether-id');
   if (typeof zeroPosCache[id] === 'undefined') {
-    zeroPosCache[id] = {};
-
-    const rect = node.getBoundingClientRect();
-    for (let k in rect) {
-      // Can't use extend, as on IE9, elements don't resolve to be hasOwnProperty
-      zeroPosCache[id][k] = rect[k];
-    }
+    zeroPosCache[id] = getActualBoundingClientRect(node);
 
     // Clear the cache when this position call is done
     defer(() => {
@@ -109,26 +129,7 @@ function getBounds(el) {
 
   const docEl = doc.documentElement;
 
-  const box = {};
-  // The original object returned by getBoundingClientRect is immutable, so we clone it
-  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
-  const rect = el.getBoundingClientRect();
-  for (let k in rect) {
-    box[k] = rect[k];
-  }
-
-  // Take into account DOMElements that reside in another Frame by adjusting the
-  // getBoundingClientRect properties by the outer Frame's getBoundingClientRect offset
-  if (doc !== document) {
-    let frameElement = doc.defaultView.frameElement;
-    if (frameElement) {
-      let frameRect = getBounds(frameElement);
-      box.top += frameRect.top;
-      box.bottom += frameRect.top;
-      box.left += frameRect.left;
-      box.right += frameRect.left;
-    }
-  }
+  const box = getActualBoundingClientRect(el);
 
   const origin = getOrigin();
 
@@ -344,6 +345,7 @@ class Evented {
 }
 
 TetherBase.Utils = {
+  getActualBoundingClientRect,
   getScrollParents,
   getBounds,
   getOffsetParent,
