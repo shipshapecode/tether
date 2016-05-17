@@ -111,6 +111,19 @@ function getBounds(el) {
     box[k] = rect[k];
   }
 
+  // Take into account DOMElements that reside in another Frame by adjusting the
+  // getBoundingClientRect properties by the outer Frame's getBoundingClientRect offset
+  if (doc !== document) {
+    let frameElement = doc.defaultView.frameElement;
+    if (frameElement) {
+      let frameRect = getBounds(frameElement);
+      box.top += frameRect.top;
+      box.bottom += frameRect.top;
+      box.left += frameRect.left;
+      box.right += frameRect.left;
+    }
+  }
+
   const origin = getOrigin();
 
   box.top -= origin.top;
