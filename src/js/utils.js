@@ -226,7 +226,9 @@ function hasClass(el, name) {
 }
 
 function getClassName(el) {
-  if (el.className instanceof SVGAnimatedString) {
+  let ownerWindow = el.ownerDocument.defaultView;
+  
+  if (el.className instanceof ownerWindow.SVGAnimatedString) {
     return el.className.baseVal;
   }
   return el.className;
