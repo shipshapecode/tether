@@ -36,7 +36,13 @@ function getScrollParents(el) {
     }
   }
 
-  parents.push(document.body);
+  parents.push(el.ownerDocument.body);
+  
+  // If the node is within a frame, account for the parent window scroll
+  if (el.ownerDocument !== document) {
+    parents.push(el.ownerDocument.defaultView);
+  }
+  
   return parents;
 }
 
