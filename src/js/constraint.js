@@ -26,7 +26,16 @@ function getBoundingRect(tether, to) {
     const style = getComputedStyle(to);
 
     to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
-
+  
+    // Account any parent Frames scroll offset
+    if (node.ownerDocument !== document) {
+      let win = node.ownerDocument.defaultView;
+      to[0] += win.pageXOffset;
+      to[1] += win.pageYOffset;
+      to[2] += win.pageXOffset;
+      to[3] += win.pageYOffset;
+    }
+  
     BOUNDS_FORMAT.forEach((side, i) => {
       side = side[0].toUpperCase() + side.substr(1);
       if (side === 'Top' || side === 'Left') {
