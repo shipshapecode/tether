@@ -21,6 +21,7 @@ function getBoundingRect(tether, to) {
   }
 
   if (typeof to.nodeType !== 'undefined') {
+    const node = to;
     const size = getBounds(to);
     const pos = size;
     const style = getComputedStyle(to);
