@@ -1,6 +1,6 @@
 /* globals TetherBase */
 
-const {getBounds, updateClasses, defer} = TetherBase.Utils;
+const {} = TetherBase.Utils;
 
 TetherBase.modules.push({
   position({top, left}) {
