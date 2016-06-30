@@ -1,7 +1,5 @@
 /* globals TetherBase */
 
-const {} = TetherBase.Utils;
-
 TetherBase.modules.push({
   position({top, left}) {
     const {height, width} = this.cache('element-bounds', () => {

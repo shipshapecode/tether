@@ -396,8 +396,6 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 var _get = function get(_x6, _x7, _x8) { var _again = true; _function: while (_again) { var object = _x6, property = _x7, receiver = _x8; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x6 = parent; _x7 = property; _x8 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError('Cannot destructure undefined'); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -405,8 +403,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 if (typeof TetherBase === 'undefined') {
   throw new Error('You must include the utils.js file before tether.js');
 }
-
-_objectDestructuringEmpty(TetherBase.Utils);
 
 function within(a, b) {
   var diff = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
@@ -1250,10 +1246,6 @@ var Tether = extend(TetherClass, TetherBase);
 
 var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError('Cannot destructure undefined'); }
-
-_objectDestructuringEmpty(TetherBase.Utils);
-
 var BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
 function getBoundingRect(tether, to) {
@@ -1623,10 +1615,6 @@ TetherBase.modules.push({
 /* globals TetherBase */
 
 'use strict';
-
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError('Cannot destructure undefined'); }
-
-_objectDestructuringEmpty(TetherBase.Utils);
 
 TetherBase.modules.push({
   position: function position(_ref) {

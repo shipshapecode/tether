@@ -1,9 +1,5 @@
 /* globals TetherBase */
 
-const {
-
-} = TetherBase.Utils;
-
 const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
 function getBoundingRect(tether, to) {

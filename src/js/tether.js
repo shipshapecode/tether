@@ -4,10 +4,6 @@ if (typeof TetherBase === 'undefined') {
   throw new Error('You must include the utils.js file before tether.js');
 }
 
-const {
-
-} = TetherBase.Utils;
-
 function within(a, b, diff=1) {
   return (a + diff >= b && b >= a - diff);
 }
