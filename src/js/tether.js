@@ -28,7 +28,7 @@ const transformKey = (() => {
   }
   const el = document.createElement('div');
 
-  const transforms = ['transform', 'webkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
+  const transforms = ['transform', 'WebkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
   for (let i = 0; i < transforms.length; ++i) {
     const key = transforms[i];
     if (el.style[key] !== undefined) {
