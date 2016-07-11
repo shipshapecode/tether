@@ -1,4 +1,4 @@
-/*! tether 1.3.2 */
+/*! tether 1.3.3 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -1185,7 +1185,7 @@ var TetherClass = (function (_Evented) {
         } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
           transcribe(same.offset, pos.offset);
         } else {
-          transcribe({ top: true, left: true }, pos.page);
+          transcribe({ top: true, left: true }, pos.viewport);
         }
       } else if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
         css.position = 'absolute';
