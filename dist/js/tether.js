@@ -1215,7 +1215,7 @@ var TetherClass = (function (_Evented) {
         transcribe({ top: true, left: true }, pos.page);
       }
 
-      if (!this.options.optimizations && this.options.optimizations.doNotMoveInDOM && !moved) {
+      if (!(this.options.optimizations && this.options.optimizations.doNotMoveInDOM) && !moved) {
         var offsetParentIsBody = true;
         var currentNode = this.element.parentNode;
         while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
