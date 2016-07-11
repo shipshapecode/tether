@@ -429,7 +429,7 @@ var transformKey = (function () {
   }
   var el = document.createElement('div');
 
-  var transforms = ['transform', 'webkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
+  var transforms = ['transform', 'WebkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
   for (var i = 0; i < transforms.length; ++i) {
     var key = transforms[i];
     if (el.style[key] !== undefined) {
@@ -1178,7 +1178,16 @@ var TetherClass = (function (_Evented) {
       };
 
       var moved = false;
-      if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
+      if (this.options.optimizations && this.options.optimizations.doNotMoveInDOM) {
+        css.position = 'fixed';
+        if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
+          transcribe(same.viewport, pos.viewport);
+        } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
+          transcribe(same.offset, pos.offset);
+        } else {
+          transcribe({ top: true, left: true }, pos.page);
+        }
+      } else if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
         css.position = 'absolute';
         transcribe(same.page, pos.page);
       } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
@@ -1206,7 +1215,7 @@ var TetherClass = (function (_Evented) {
         transcribe({ top: true, left: true }, pos.page);
       }
 
-      if (!moved) {
+      if (!this.options.optimizations && this.options.optimizations.doNotMoveInDOM && !moved) {
         var offsetParentIsBody = true;
         var currentNode = this.element.parentNode;
         while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
