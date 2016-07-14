@@ -5,6 +5,32 @@ if (typeof TetherBase === 'undefined') {
 
 let zeroElement = null;
 
+// Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
+// if the element lies within a nested document (<frame> or <iframe>-like).
+function getActualBoundingClientRect(node) {
+  let boundingRect = node.getBoundingClientRect();
+
+  // The original object returned by getBoundingClientRect is immutable, so we clone it
+  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
+  let rect = {};
+  for (var k in boundingRect) {
+    rect[k] = boundingRect[k];
+  }
+
+  if (node.ownerDocument !== document) {
+    let frameElement = node.ownerDocument.defaultView.frameElement;
+    if (frameElement) {
+      let frameRect = getActualBoundingClientRect(frameElement);
+      rect.top += frameRect.top;
+      rect.bottom += frameRect.top;
+      rect.left += frameRect.left;
+      rect.right += frameRect.left;
+    }
+  }
+
+  return rect;
+}
+
 function getScrollParents(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
@@ -36,7 +62,13 @@ function getScrollParents(el) {
     }
   }
 
-  parents.push(document.body);
+  parents.push(el.ownerDocument.body);
+  
+  // If the node is within a frame, account for the parent window scroll
+  if (el.ownerDocument !== document) {
+    parents.push(el.ownerDocument.defaultView);
+  }
+  
   return parents;
 }
 
@@ -68,13 +100,7 @@ const getOrigin = () => {
 
   const id = node.getAttribute('data-tether-id');
   if (typeof zeroPosCache[id] === 'undefined') {
-    zeroPosCache[id] = {};
-
-    const rect = node.getBoundingClientRect();
-    for (let k in rect) {
-      // Can't use extend, as on IE9, elements don't resolve to be hasOwnProperty
-      zeroPosCache[id][k] = rect[k];
-    }
+    zeroPosCache[id] = getActualBoundingClientRect(node);
 
     // Clear the cache when this position call is done
     defer(() => {
@@ -103,13 +129,7 @@ function getBounds(el) {
 
   const docEl = doc.documentElement;
 
-  const box = {};
-  // The original object returned by getBoundingClientRect is immutable, so we clone it
-  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
-  const rect = el.getBoundingClientRect();
-  for (let k in rect) {
-    box[k] = rect[k];
-  }
+  const box = getActualBoundingClientRect(el);
 
   const origin = getOrigin();
 
@@ -226,7 +246,9 @@ function hasClass(el, name) {
 }
 
 function getClassName(el) {
-  if (el.className instanceof SVGAnimatedString) {
+  // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
+  // completely separately SVGAnimatedString base classes
+  if (el.className instanceof el.ownerDocument.defaultView.SVGAnimatedString) {
     return el.className.baseVal;
   }
   return el.className;
@@ -325,6 +347,7 @@ class Evented {
 }
 
 TetherBase.Utils = {
+  getActualBoundingClientRect,
   getScrollParents,
   getBounds,
   getOffsetParent,

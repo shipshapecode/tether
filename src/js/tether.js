@@ -391,7 +391,7 @@ class TetherClass extends Evented {
     this.enabled = true;
 
     this.scrollParents.forEach((parent) => {
-      if (parent !== document) {
+      if (parent !== this.target.ownerDocument) {
         parent.addEventListener('scroll', this.position);
       }
     })
@@ -571,23 +571,26 @@ class TetherClass extends Evented {
         right: pageXOffset - left - width + innerWidth
       }
     };
+    
+    var doc = this.target.ownerDocument;
+    var win = doc.defaultView;
 
     let scrollbarSize;
-    if (document.body.scrollWidth > window.innerWidth) {
+    if (doc.body.scrollWidth > win.innerWidth) {
       scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
       next.viewport.bottom -= scrollbarSize.height;
     }
 
-    if (document.body.scrollHeight > window.innerHeight) {
+    if (doc.body.scrollHeight > win.innerHeight) {
       scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
       next.viewport.right -= scrollbarSize.width;
     }
 
-    if (['', 'static'].indexOf(document.body.style.position) === -1 ||
-        ['', 'static'].indexOf(document.body.parentElement.style.position) === -1) {
+    if (['', 'static'].indexOf(doc.body.style.position) === -1 ||
+        ['', 'static'].indexOf(doc.body.parentElement.style.position) === -1) {
       // Absolute positioning in the body will be relative to the page, not the 'initial containing block'
-      next.page.bottom = document.body.scrollHeight - top - height;
-      next.page.right = document.body.scrollWidth - left - width;
+      next.page.bottom = doc.body.scrollHeight - top - height;
+      next.page.right = doc.body.scrollWidth - left - width;
     }
 
     if (typeof this.options.optimizations !== 'undefined' &&
@@ -603,8 +606,8 @@ class TetherClass extends Evented {
         offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle[`border${ side }Width`]);
       });
 
-      offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
-      offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
+      offsetPosition.right = doc.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
+      offsetPosition.bottom = doc.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
 
       if (next.page.top >= (offsetPosition.top + offsetBorder.top) && next.page.bottom >= offsetPosition.bottom) {
         if (next.page.left >= (offsetPosition.left + offsetBorder.left) && next.page.right >= offsetPosition.right) {
@@ -759,7 +762,7 @@ class TetherClass extends Evented {
 
       if (!offsetParentIsBody) {
         this.element.parentNode.removeChild(this.element);
-        document.body.appendChild(this.element);
+        this.element.ownerDocument.body.appendChild(this.element);
       }
     }
 
