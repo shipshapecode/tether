@@ -721,7 +721,16 @@ class TetherClass extends Evented {
     };
 
     let moved = false;
-    if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
+    if (this.options.optimizations && this.options.optimizations.doNotMoveInDOM ) {
+      css.position = 'fixed';
+      if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
+        transcribe(same.viewport, pos.viewport);
+      } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
+        transcribe(same.offset, pos.offset);
+      } else {
+        transcribe({ top: true, left: true }, pos.viewport);
+      }
+    } else if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
       css.position = 'absolute';
       transcribe(same.page, pos.page);
 
@@ -748,7 +757,7 @@ class TetherClass extends Evented {
       transcribe({top: true, left: true}, pos.page);
     }
 
-    if (!moved) {
+    if (!(this.options.optimizations && this.options.optimizations.doNotMoveInDOM) && !moved) {
       let offsetParentIsBody = true;
       let currentNode = this.element.parentNode;
       while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
