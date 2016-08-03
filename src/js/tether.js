@@ -571,7 +571,7 @@ class TetherClass extends Evented {
         right: pageXOffset - left - width + innerWidth
       }
     };
-    
+
     var doc = this.target.ownerDocument;
     var win = doc.defaultView;
 
@@ -782,6 +782,7 @@ class TetherClass extends Evented {
     if (write) {
       defer(() => {
         extend(this.element.style, writeCSS);
+        this.trigger('repositioned');
       });
     }
   }

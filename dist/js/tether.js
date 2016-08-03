@@ -1,4 +1,4 @@
-/*! tether 1.3.3 */
+/*! tether 1.3.4 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -1266,6 +1266,7 @@ var TetherClass = (function (_Evented) {
       if (write) {
         defer(function () {
           extend(_this8.element.style, writeCSS);
+          _this8.trigger('repositioned');
         });
       }
     }
