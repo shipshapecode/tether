@@ -576,12 +576,12 @@ class TetherClass extends Evented {
     var win = doc.defaultView;
 
     let scrollbarSize;
-    if (doc.body.scrollWidth > win.innerWidth) {
+    if (win.innerHeight > doc.documentElement.clientHeight) {
       scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
       next.viewport.bottom -= scrollbarSize.height;
     }
 
-    if (doc.body.scrollHeight > win.innerHeight) {
+    if (win.innerWidth > doc.documentElement.clientWidth) {
       scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
       next.viewport.right -= scrollbarSize.width;
     }
