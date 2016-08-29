@@ -501,6 +501,9 @@ class TetherClass extends Evented {
     if (this.options.copyTargetWidth)
       this.element.style.width = `${ targetSize.width }px`;
 
+    if (this.options.copyTargetHeight)
+      this.element.style.height = `${ targetSize.height }px`;
+
     const elementPos = this.cache('element-bounds', () => {
       return getBounds(this.element);
     });
