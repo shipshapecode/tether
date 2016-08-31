@@ -697,7 +697,7 @@ class TetherClass extends Evented {
           xPos = -_pos.right;
         }
 
-        css[transformKey] = `translateX(${ Math.round(xPos) }px) translateY(${ Math.round(yPos) }px)`;
+        css[transformKey] = `translateX(${ xPos }px) translateY(${ yPos }px)`;
 
         if (transformKey !== 'msTransform') {
           // The Z transform will keep this in the GPU (faster, and prevents artifacts),
