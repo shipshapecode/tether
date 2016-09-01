@@ -1,4 +1,4 @@
-/*! tether 1.3.5 */
+/*! tether 1.3.6 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -1179,6 +1179,15 @@ var TetherClass = (function (_Evented) {
           } else {
             css.right = 0;
             xPos = -_pos.right;
+          }
+
+          if (window.matchMedia) {
+            // HubSpot/tether#207
+            var retina = window.matchMedia('only screen and (min-resolution: 1.3dppx)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3)').matches;
+            if (!retina) {
+              xPos = Math.round(xPos);
+              yPos = Math.round(yPos);
+            }
           }
 
           css[transformKey] = 'translateX(' + xPos + 'px) translateY(' + yPos + 'px)';
