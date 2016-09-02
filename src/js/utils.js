@@ -63,12 +63,12 @@ function getScrollParents(el) {
   }
 
   parents.push(el.ownerDocument.body);
-  
+
   // If the node is within a frame, account for the parent window scroll
   if (el.ownerDocument !== document) {
     parents.push(el.ownerDocument.defaultView);
   }
-  
+
   return parents;
 }
 
@@ -155,7 +155,11 @@ function getOffsetParent(el) {
   return el.offsetParent || document.documentElement;
 }
 
+let _scrollBarSize = null;
 function getScrollBarSize() {
+  if (_scrollBarSize) {
+    return _scrollBarSize;
+  }
   const inner = document.createElement('div');
   inner.style.width = '100%';
   inner.style.height = '200px';
@@ -188,7 +192,8 @@ function getScrollBarSize() {
 
   const width = widthContained - widthScroll;
 
-  return {width, height: width};
+  _scrollBarSize = {width, height: width};
+  return _scrollBarSize;
 }
 
 function extend(out={}) {
