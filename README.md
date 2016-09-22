@@ -50,7 +50,7 @@ After installing Tether and including it in your project, you can begin using it
     new Tether({
       element: '.comments',
       target: '.picture',
-      attachment: 'top right'
+      attachment: 'top right',
       targetAttachment: 'top left'
     });
     ```
