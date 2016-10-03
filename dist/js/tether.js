@@ -972,6 +972,15 @@ var TetherClass = (function (_Evented) {
 
       this.updateAttachClasses(this.attachment, targetAttachment);
 
+      var targetPos = this.cache('target-bounds', function () {
+        return _this7.getTargetBounds();
+      });
+      var targetSize = targetPos;
+
+      if (this.options.copyTargetWidth) this.element.style.width = targetSize.width + 'px';
+
+      if (this.options.copyTargetHeight) this.element.style.height = targetSize.height + 'px';
+
       var elementPos = this.cache('element-bounds', function () {
         return getBounds(_this7.element);
       });
@@ -989,11 +998,6 @@ var TetherClass = (function (_Evented) {
       } else {
         this.lastSize = { width: width, height: height };
       }
-
-      var targetPos = this.cache('target-bounds', function () {
-        return _this7.getTargetBounds();
-      });
-      var targetSize = targetPos;
 
       // Get an actual px offset from the attachment
       var offset = offsetToPx(attachmentToOffset(this.attachment), { width: width, height: height });
