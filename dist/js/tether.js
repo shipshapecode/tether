@@ -1681,7 +1681,7 @@ TetherBase.modules.push({
     var height = _cache.height;
     var width = _cache.width;
 
-    var targetPos = this.getTarTetherBase.Utils.getBounds();
+    var targetPos = this.getTargetBounds();
 
     var bottom = top + height;
     var right = left + width;
