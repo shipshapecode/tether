@@ -4,20 +4,6 @@ if (typeof TetherBase === 'undefined') {
   throw new Error('You must include the utils.js file before tether.js');
 }
 
-const {
-  getScrollParents,
-  getBounds,
-  getOffsetParent,
-  extend,
-  addClass,
-  removeClass,
-  updateClasses,
-  defer,
-  flush,
-  getScrollBarSize,
-  removeUtilElements
-} = TetherBase.Utils;
-
 function within(a, b, diff=1) {
   return (a + diff >= b && b >= a - diff);
 }
@@ -43,7 +29,7 @@ const position = () => {
   tethers.forEach(tether => {
     tether.position(false);
   });
-  flush();
+  TetherBase.Utils.flush();
 };
 
 function now() {
@@ -215,7 +201,7 @@ class TetherClass extends Evented {
       classPrefix: 'tether'
     };
 
-    this.options = extend(defaults, options);
+    this.options = TetherBase.Utils.extend(defaults, options);
 
     let {element, target, targetModifier} = this.options;
     this.element = element;
@@ -242,9 +228,9 @@ class TetherClass extends Evented {
       }
     });
 
-    addClass(this.element, this.getClass('element'));
+    TetherBase.Utils.addClass(this.element, this.getClass('element'));
     if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, this.getClass('target'));
+      TetherBase.Utils.addClass(this.target, this.getClass('target'));
     }
 
     if (!this.options.attachment) {
@@ -263,7 +249,7 @@ class TetherClass extends Evented {
     if (this.targetModifier === 'scroll-handle') {
       this.scrollParents = [this.target];
     } else {
-      this.scrollParents = getScrollParents(this.target);
+      this.scrollParents = TetherBase.Utils.getScrollParents(this.target);
     }
 
     if(!(this.options.enabled === false)) {
@@ -277,7 +263,7 @@ class TetherClass extends Evented {
         if (this.target === document.body) {
           return {top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth};
         } else {
-          const bounds = getBounds(this.target);
+          const bounds = TetherBase.Utils.getBounds(this.target);
 
           const out = {
             height: bounds.height,
@@ -318,7 +304,7 @@ class TetherClass extends Evented {
             width: innerWidth
           };
         } else {
-          bounds = getBounds(target);
+          bounds = TetherBase.Utils.getBounds(target);
         }
 
         const style = getComputedStyle(target);
@@ -361,7 +347,7 @@ class TetherClass extends Evented {
         return out;
       }
     } else {
-      return getBounds(this.target);
+      return TetherBase.Utils.getBounds(this.target);
     }
   }
 
@@ -385,9 +371,9 @@ class TetherClass extends Evented {
 
   enable(pos=true) {
     if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, this.getClass('enabled'));
+      TetherBase.Utils.addClass(this.target, this.getClass('enabled'));
     }
-    addClass(this.element, this.getClass('enabled'));
+    TetherBase.Utils.addClass(this.element, this.getClass('enabled'));
     this.enabled = true;
 
     this.scrollParents.forEach((parent) => {
@@ -402,8 +388,8 @@ class TetherClass extends Evented {
   }
 
   disable() {
-    removeClass(this.target, this.getClass('enabled'));
-    removeClass(this.element, this.getClass('enabled'));
+    TetherBase.Utils.removeClass(this.target, this.getClass('enabled'));
+    TetherBase.Utils.removeClass(this.element, this.getClass('enabled'));
     this.enabled = false;
 
     if (typeof this.scrollParents !== 'undefined') {
@@ -424,7 +410,7 @@ class TetherClass extends Evented {
 
     // Remove any elements we were using for convenience from the DOM
     if (tethers.length === 0) {
-      removeUtilElements();
+      TetherBase.Utils.removeUtilElements();
     }
   }
 
@@ -464,14 +450,14 @@ class TetherClass extends Evented {
       all.push(`${ this.getClass('target-attached') }-${ side }`);
     });
 
-    defer(() => {
+    TetherBase.Utils.defer(() => {
       if (!(typeof this._addAttachClasses !== 'undefined')) {
         return;
       }
 
-      updateClasses(this.element, this._addAttachClasses, all);
+      TetherBase.Utils.updateClasses(this.element, this._addAttachClasses, all);
       if (!(this.options.addTargetClasses === false)) {
-        updateClasses(this.target, this._addAttachClasses, all);
+        TetherBase.Utils.updateClasses(this.target, this._addAttachClasses, all);
       }
 
       delete this._addAttachClasses;
@@ -494,7 +480,7 @@ class TetherClass extends Evented {
     this.updateAttachClasses(this.attachment, targetAttachment);
 
     const elementPos = this.cache('element-bounds', () => {
-      return getBounds(this.element);
+      return TetherBase.Utils.getBounds(this.element);
     });
 
     let {width, height} = elementPos;
@@ -577,12 +563,12 @@ class TetherClass extends Evented {
 
     let scrollbarSize;
     if (win.innerHeight > doc.documentElement.clientHeight) {
-      scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+      scrollbarSize = this.cache('scrollbar-size', TetherBase.Utils.getScrollBarSize);
       next.viewport.bottom -= scrollbarSize.height;
     }
 
     if (win.innerWidth > doc.documentElement.clientWidth) {
-      scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+      scrollbarSize = this.cache('scrollbar-size', TetherBase.Utils.getScrollBarSize);
       next.viewport.right -= scrollbarSize.width;
     }
 
@@ -596,8 +582,8 @@ class TetherClass extends Evented {
     if (typeof this.options.optimizations !== 'undefined' &&
         this.options.optimizations.moveElement !== false &&
         !(typeof this.targetModifier !== 'undefined')) {
-      const offsetParent = this.cache('target-offsetparent', () => getOffsetParent(this.target));
-      const offsetPosition = this.cache('target-offsetparent-bounds', () => getBounds(offsetParent));
+      const offsetParent = this.cache('target-offsetparent', () => TetherBase.Utils.getOffsetParent(this.target));
+      const offsetPosition = this.cache('target-offsetparent-bounds', () => TetherBase.Utils.getBounds(offsetParent));
       const offsetParentStyle = getComputedStyle(offsetParent);
       const offsetParentSize = offsetPosition;
 
@@ -638,7 +624,7 @@ class TetherClass extends Evented {
     }
 
     if (flushChanges) {
-      flush();
+      TetherBase.Utils.flush();
     }
 
     return true;
@@ -741,10 +727,10 @@ class TetherClass extends Evented {
 
     } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
       css.position = 'absolute';
-      const offsetParent = this.cache('target-offsetparent', () => getOffsetParent(this.target));
+      const offsetParent = this.cache('target-offsetparent', () => TetherBase.Utils.getOffsetParent(this.target));
 
-      if (getOffsetParent(this.element) !== offsetParent) {
-        defer(() => {
+      if (TetherBase.Utils.getOffsetParent(this.element) !== offsetParent) {
+        TetherBase.Utils.defer(() => {
           this.element.parentNode.removeChild(this.element);
           offsetParent.appendChild(this.element);
         });
@@ -790,8 +776,8 @@ class TetherClass extends Evented {
     }
 
     if (write) {
-      defer(() => {
-        extend(this.element.style, writeCSS);
+      TetherBase.Utils.defer(() => {
+        TetherBase.Utils.extend(this.element.style, writeCSS);
         this.trigger('repositioned');
       });
     }
@@ -802,4 +788,4 @@ TetherClass.modules = [];
 
 TetherBase.position = position;
 
-let Tether = extend(TetherClass, TetherBase);
+let Tether = TetherBase.Utils.extend(TetherClass, TetherBase);

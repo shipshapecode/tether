@@ -432,19 +432,6 @@ if (typeof TetherBase === 'undefined') {
   throw new Error('You must include the utils.js file before tether.js');
 }
 
-var _TetherBase$Utils = TetherBase.Utils;
-var getScrollParents = _TetherBase$Utils.getScrollParents;
-var getBounds = _TetherBase$Utils.getBounds;
-var getOffsetParent = _TetherBase$Utils.getOffsetParent;
-var extend = _TetherBase$Utils.extend;
-var addClass = _TetherBase$Utils.addClass;
-var removeClass = _TetherBase$Utils.removeClass;
-var updateClasses = _TetherBase$Utils.updateClasses;
-var defer = _TetherBase$Utils.defer;
-var flush = _TetherBase$Utils.flush;
-var getScrollBarSize = _TetherBase$Utils.getScrollBarSize;
-var removeUtilElements = _TetherBase$Utils.removeUtilElements;
-
 function within(a, b) {
   var diff = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
 
@@ -472,7 +459,7 @@ var position = function position() {
   tethers.forEach(function (tether) {
     tether.position(false);
   });
-  flush();
+  TetherBase.Utils.flush();
 };
 
 function now() {
@@ -672,7 +659,7 @@ var TetherClass = (function (_Evented) {
         classPrefix: 'tether'
       };
 
-      this.options = extend(defaults, options);
+      this.options = TetherBase.Utils.extend(defaults, options);
 
       var _options = this.options;
       var element = _options.element;
@@ -703,9 +690,9 @@ var TetherClass = (function (_Evented) {
         }
       });
 
-      addClass(this.element, this.getClass('element'));
+      TetherBase.Utils.addClass(this.element, this.getClass('element'));
       if (!(this.options.addTargetClasses === false)) {
-        addClass(this.target, this.getClass('target'));
+        TetherBase.Utils.addClass(this.target, this.getClass('target'));
       }
 
       if (!this.options.attachment) {
@@ -724,7 +711,7 @@ var TetherClass = (function (_Evented) {
       if (this.targetModifier === 'scroll-handle') {
         this.scrollParents = [this.target];
       } else {
-        this.scrollParents = getScrollParents(this.target);
+        this.scrollParents = TetherBase.Utils.getScrollParents(this.target);
       }
 
       if (!(this.options.enabled === false)) {
@@ -739,7 +726,7 @@ var TetherClass = (function (_Evented) {
           if (this.target === document.body) {
             return { top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth };
           } else {
-            var bounds = getBounds(this.target);
+            var bounds = TetherBase.Utils.getBounds(this.target);
 
             var out = {
               height: bounds.height,
@@ -780,7 +767,7 @@ var TetherClass = (function (_Evented) {
               width: innerWidth
             };
           } else {
-            bounds = getBounds(target);
+            bounds = TetherBase.Utils.getBounds(target);
           }
 
           var style = getComputedStyle(target);
@@ -819,7 +806,7 @@ var TetherClass = (function (_Evented) {
           return out;
         }
       } else {
-        return getBounds(this.target);
+        return TetherBase.Utils.getBounds(this.target);
       }
     }
   }, {
@@ -850,9 +837,9 @@ var TetherClass = (function (_Evented) {
       var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
       if (!(this.options.addTargetClasses === false)) {
-        addClass(this.target, this.getClass('enabled'));
+        TetherBase.Utils.addClass(this.target, this.getClass('enabled'));
       }
-      addClass(this.element, this.getClass('enabled'));
+      TetherBase.Utils.addClass(this.element, this.getClass('enabled'));
       this.enabled = true;
 
       this.scrollParents.forEach(function (parent) {
@@ -870,8 +857,8 @@ var TetherClass = (function (_Evented) {
     value: function disable() {
       var _this4 = this;
 
-      removeClass(this.target, this.getClass('enabled'));
-      removeClass(this.element, this.getClass('enabled'));
+      TetherBase.Utils.removeClass(this.target, this.getClass('enabled'));
+      TetherBase.Utils.removeClass(this.element, this.getClass('enabled'));
       this.enabled = false;
 
       if (typeof this.scrollParents !== 'undefined') {
@@ -895,7 +882,7 @@ var TetherClass = (function (_Evented) {
 
       // Remove any elements we were using for convenience from the DOM
       if (tethers.length === 0) {
-        removeUtilElements();
+        TetherBase.Utils.removeUtilElements();
       }
     }
   }, {
@@ -938,14 +925,14 @@ var TetherClass = (function (_Evented) {
         all.push(_this6.getClass('target-attached') + '-' + side);
       });
 
-      defer(function () {
+      TetherBase.Utils.defer(function () {
         if (!(typeof _this6._addAttachClasses !== 'undefined')) {
           return;
         }
 
-        updateClasses(_this6.element, _this6._addAttachClasses, all);
+        TetherBase.Utils.updateClasses(_this6.element, _this6._addAttachClasses, all);
         if (!(_this6.options.addTargetClasses === false)) {
-          updateClasses(_this6.target, _this6._addAttachClasses, all);
+          TetherBase.Utils.updateClasses(_this6.target, _this6._addAttachClasses, all);
         }
 
         delete _this6._addAttachClasses;
@@ -973,7 +960,7 @@ var TetherClass = (function (_Evented) {
       this.updateAttachClasses(this.attachment, targetAttachment);
 
       var elementPos = this.cache('element-bounds', function () {
-        return getBounds(_this7.element);
+        return TetherBase.Utils.getBounds(_this7.element);
       });
 
       var width = elementPos.width;
@@ -1061,12 +1048,12 @@ var TetherClass = (function (_Evented) {
 
       var scrollbarSize = undefined;
       if (win.innerHeight > doc.documentElement.clientHeight) {
-        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+        scrollbarSize = this.cache('scrollbar-size', TetherBase.Utils.getScrollBarSize);
         next.viewport.bottom -= scrollbarSize.height;
       }
 
       if (win.innerWidth > doc.documentElement.clientWidth) {
-        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+        scrollbarSize = this.cache('scrollbar-size', TetherBase.Utils.getScrollBarSize);
         next.viewport.right -= scrollbarSize.width;
       }
 
@@ -1079,10 +1066,10 @@ var TetherClass = (function (_Evented) {
       if (typeof this.options.optimizations !== 'undefined' && this.options.optimizations.moveElement !== false && !(typeof this.targetModifier !== 'undefined')) {
         (function () {
           var offsetParent = _this7.cache('target-offsetparent', function () {
-            return getOffsetParent(_this7.target);
+            return TetherBase.Utils.getOffsetParent(_this7.target);
           });
           var offsetPosition = _this7.cache('target-offsetparent-bounds', function () {
-            return getBounds(offsetParent);
+            return TetherBase.Utils.getBounds(offsetParent);
           });
           var offsetParentStyle = getComputedStyle(offsetParent);
           var offsetParentSize = offsetPosition;
@@ -1124,7 +1111,7 @@ var TetherClass = (function (_Evented) {
       }
 
       if (flushChanges) {
-        flush();
+        TetherBase.Utils.flush();
       }
 
       return true;
@@ -1228,11 +1215,11 @@ var TetherClass = (function (_Evented) {
         (function () {
           css.position = 'absolute';
           var offsetParent = _this8.cache('target-offsetparent', function () {
-            return getOffsetParent(_this8.target);
+            return TetherBase.Utils.getOffsetParent(_this8.target);
           });
 
-          if (getOffsetParent(_this8.element) !== offsetParent) {
-            defer(function () {
+          if (TetherBase.Utils.getOffsetParent(_this8.element) !== offsetParent) {
+            TetherBase.Utils.defer(function () {
               _this8.element.parentNode.removeChild(_this8.element);
               offsetParent.appendChild(_this8.element);
             });
@@ -1278,8 +1265,8 @@ var TetherClass = (function (_Evented) {
       }
 
       if (write) {
-        defer(function () {
-          extend(_this8.element.style, writeCSS);
+        TetherBase.Utils.defer(function () {
+          TetherBase.Utils.extend(_this8.element.style, writeCSS);
           _this8.trigger('repositioned');
         });
       }
@@ -1293,7 +1280,7 @@ TetherClass.modules = [];
 
 TetherBase.position = position;
 
-var Tether = extend(TetherClass, TetherBase);
+var Tether = TetherBase.Utils.extend(TetherClass, TetherBase);
 /* globals TetherBase */
 
 'use strict';
