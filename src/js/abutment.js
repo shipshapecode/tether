@@ -1,14 +1,12 @@
 /* globals TetherBase */
 
-const {getBounds, updateClasses, defer} = TetherBase.Utils;
-
 TetherBase.modules.push({
   position({top, left}) {
     const {height, width} = this.cache('element-bounds', () => {
-      return getBounds(this.element);
+      return TetherBase.Utils.getBounds(this.element);
     });
 
-    const targetPos = this.getTargetBounds();
+    const targetPos = this.getTarTetherBase.Utils.getBounds();
 
     const bottom = top + height;
     const right = left + width;
@@ -49,11 +47,11 @@ TetherBase.modules.push({
       addClasses.push(`${ this.getClass('abutted') }-${ side }`);
     });
 
-    defer(() => {
+    TetherBase.Utils.defer(() => {
       if (!(this.options.addTargetClasses === false)) {
-        updateClasses(this.target, addClasses, allClasses);
+        TetherBase.Utils.updateClasses(this.target, addClasses, allClasses);
       }
-      updateClasses(this.element, addClasses, allClasses);
+      TetherBase.Utils.updateClasses(this.element, addClasses, allClasses);
     });
 
     return true;

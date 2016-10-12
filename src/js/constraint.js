@@ -1,12 +1,5 @@
 /* globals TetherBase */
 
-const {
-  getBounds,
-  extend,
-  updateClasses,
-  defer
-} = TetherBase.Utils;
-
 const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
 function getBoundingRect(tether, to) {
@@ -22,7 +15,7 @@ function getBoundingRect(tether, to) {
 
   if (typeof to.nodeType !== 'undefined') {
     const node = to;
-    const size = getBounds(to);
+    const size = TetherBase.Utils.getBounds(to);
     const pos = size;
     const style = getComputedStyle(to);
 
@@ -57,7 +50,7 @@ TetherBase.modules.push({
     }
 
     let {height, width} = this.cache('element-bounds', () => {
-      return getBounds(this.element);
+      return TetherBase.Utils.getBounds(this.element);
     });
 
     if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
@@ -92,8 +85,8 @@ TetherBase.modules.push({
 
     const addClasses = [];
 
-    const tAttachment = extend({}, targetAttachment);
-    const eAttachment = extend({}, this.attachment);
+    const tAttachment = TetherBase.Utils.extend({}, targetAttachment);
+    const eAttachment = TetherBase.Utils.extend({}, this.attachment);
 
     this.options.constraints.forEach(constraint => {
       let {to, attachment, pin} = constraint;
@@ -354,11 +347,11 @@ TetherBase.modules.push({
       }
     });
 
-    defer(() => {
+    TetherBase.Utils.defer(() => {
       if (!(this.options.addTargetClasses === false)) {
-        updateClasses(this.target, addClasses, allClasses);
+        TetherBase.Utils.updateClasses(this.target, addClasses, allClasses);
       }
-      updateClasses(this.element, addClasses, allClasses);
+      TetherBase.Utils.updateClasses(this.element, addClasses, allClasses);
     });
 
     return {top, left};

@@ -1287,12 +1287,6 @@ var Tether = TetherBase.Utils.extend(TetherClass, TetherBase);
 
 var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
-var _TetherBase$Utils = TetherBase.Utils;
-var getBounds = _TetherBase$Utils.getBounds;
-var extend = _TetherBase$Utils.extend;
-var updateClasses = _TetherBase$Utils.updateClasses;
-var defer = _TetherBase$Utils.defer;
-
 var BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
 function getBoundingRect(tether, to) {
@@ -1309,7 +1303,7 @@ function getBoundingRect(tether, to) {
   if (typeof to.nodeType !== 'undefined') {
     (function () {
       var node = to;
-      var size = getBounds(to);
+      var size = TetherBase.Utils.getBounds(to);
       var pos = size;
       var style = getComputedStyle(to);
 
@@ -1351,7 +1345,7 @@ TetherBase.modules.push({
     }
 
     var _cache = this.cache('element-bounds', function () {
-      return getBounds(_this.element);
+      return TetherBase.Utils.getBounds(_this.element);
     });
 
     var height = _cache.height;
@@ -1395,8 +1389,8 @@ TetherBase.modules.push({
 
     var addClasses = [];
 
-    var tAttachment = extend({}, targetAttachment);
-    var eAttachment = extend({}, this.attachment);
+    var tAttachment = TetherBase.Utils.extend({}, targetAttachment);
+    var eAttachment = TetherBase.Utils.extend({}, this.attachment);
 
     this.options.constraints.forEach(function (constraint) {
       var to = constraint.to;
@@ -1659,11 +1653,11 @@ TetherBase.modules.push({
       }
     });
 
-    defer(function () {
+    TetherBase.Utils.defer(function () {
       if (!(_this.options.addTargetClasses === false)) {
-        updateClasses(_this.target, addClasses, allClasses);
+        TetherBase.Utils.updateClasses(_this.target, addClasses, allClasses);
       }
-      updateClasses(_this.element, addClasses, allClasses);
+      TetherBase.Utils.updateClasses(_this.element, addClasses, allClasses);
     });
 
     return { top: top, left: left };
@@ -1673,11 +1667,6 @@ TetherBase.modules.push({
 
 'use strict';
 
-var _TetherBase$Utils = TetherBase.Utils;
-var getBounds = _TetherBase$Utils.getBounds;
-var updateClasses = _TetherBase$Utils.updateClasses;
-var defer = _TetherBase$Utils.defer;
-
 TetherBase.modules.push({
   position: function position(_ref) {
     var _this = this;
@@ -1686,13 +1675,13 @@ TetherBase.modules.push({
     var left = _ref.left;
 
     var _cache = this.cache('element-bounds', function () {
-      return getBounds(_this.element);
+      return TetherBase.Utils.getBounds(_this.element);
     });
 
     var height = _cache.height;
     var width = _cache.width;
 
-    var targetPos = this.getTargetBounds();
+    var targetPos = this.getTarTetherBase.Utils.getBounds();
 
     var bottom = top + height;
     var right = left + width;
@@ -1733,11 +1722,11 @@ TetherBase.modules.push({
       addClasses.push(_this.getClass('abutted') + '-' + side);
     });
 
-    defer(function () {
+    TetherBase.Utils.defer(function () {
       if (!(_this.options.addTargetClasses === false)) {
-        updateClasses(_this.target, addClasses, allClasses);
+        TetherBase.Utils.updateClasses(_this.target, addClasses, allClasses);
       }
-      updateClasses(_this.element, addClasses, allClasses);
+      TetherBase.Utils.updateClasses(_this.element, addClasses, allClasses);
     });
 
     return true;
