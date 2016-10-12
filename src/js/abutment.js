@@ -6,7 +6,7 @@ TetherBase.modules.push({
       return TetherBase.Utils.getBounds(this.element);
     });
 
-    const targetPos = this.getTarTetherBase.Utils.getBounds();
+    const targetPos = this.getTargetBounds();
 
     const bottom = top + height;
     const right = left + width;
