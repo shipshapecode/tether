@@ -1509,12 +1509,20 @@ TetherBase.modules.push({
 
             left += width;
             eAttachment.left = 'left';
-          } else if (eAttachment.left === 'left') {
+          } else if (eAttachment.left === 'left' && width <= targetWidth) {
             left += targetWidth;
             tAttachment.left = 'right';
 
             left -= width;
             eAttachment.left = 'right';
+          }
+        } else if (left < bounds[0] && tAttachment.left === 'right') {
+          if (eAttachment.left === 'right' && width > targetWidth) {
+            left -= targetWidth;
+            tAttachment.left = 'left';
+
+            left += width;
+            eAttachment.left = 'left';
           }
         } else if (left + width > bounds[2] && tAttachment.left === 'right') {
           if (eAttachment.left === 'left') {
@@ -1523,12 +1531,20 @@ TetherBase.modules.push({
 
             left -= width;
             eAttachment.left = 'right';
-          } else if (eAttachment.left === 'right') {
+          } else if (eAttachment.left === 'right' && width <= targetWidth) {
             left -= targetWidth;
             tAttachment.left = 'left';
 
             left += width;
             eAttachment.left = 'left';
+          }
+        } else if (left + width > bounds[2] && tAttachment.left === 'left') {
+          if (eAttachment.left == 'left' && width > targetWidth) {
+            left += targetWidth;
+            eAttachment.left = 'right';
+
+            left -= width;
+            eAttachment.left = 'right';
           }
         } else if (tAttachment.left === 'center') {
           if (left + width > bounds[2] && eAttachment.left === 'left') {
