@@ -1,4 +1,4 @@
-/*! tether 1.4.0 */
+/*! tether 1.4.1 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -1506,41 +1506,80 @@ TetherBase.modules.push({
       }
 
       if (changeAttachX === 'together') {
-        if (left < bounds[0] && tAttachment.left === 'left') {
-          if (eAttachment.left === 'right') {
-            left += targetWidth;
-            tAttachment.left = 'right';
 
-            left += width;
-            eAttachment.left = 'left';
-          } else if (eAttachment.left === 'left') {
-            left += targetWidth;
-            tAttachment.left = 'right';
-
-            left -= width;
-            eAttachment.left = 'right';
+        if (width > targetWidth) {
+          // Keep the element, which is larger than the target, pointed towards the center even if the attachment point goes off-screen.
+          if (left < bounds[0] && tAttachment.left === 'left') {
+            if (eAttachment.left === 'right') {
+              left += targetWidth;
+              tAttachment.left = 'right';
+              left += width;
+              eAttachment.left = 'left';
+            }
+          } else if (left < bounds[0] && tAttachment.left === 'right') {
+            if (eAttachment.left === 'right') {
+              left -= targetWidth;
+              tAttachment.left = 'left';
+              left += width;
+              eAttachment.left = 'left';
+            }
+          } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+            if (eAttachment.left === 'left') {
+              left -= targetWidth;
+              tAttachment.left = 'left';
+              left -= width;
+              eAttachment.left = 'right';
+            }
+          } else if (left + width > bounds[2] && tAttachment.left === 'left') {
+            if (eAttachment.left === 'left') {
+              left += targetWidth;
+              tAttachment.left = 'right';
+              left -= width;
+              eAttachment.left = 'right';
+            }
+          } else if (tAttachment.left === 'center') {
+            if (left + width > bounds[2] && eAttachment.left === 'left') {
+              left -= width;
+              eAttachment.left = 'right';
+            } else if (left < bounds[0] && eAttachment.left === 'right') {
+              left += width;
+              eAttachment.left = 'left';
+            }
           }
-        } else if (left + width > bounds[2] && tAttachment.left === 'right') {
-          if (eAttachment.left === 'left') {
-            left -= targetWidth;
-            tAttachment.left = 'left';
+        } else {
 
-            left -= width;
-            eAttachment.left = 'right';
-          } else if (eAttachment.left === 'right') {
-            left -= targetWidth;
-            tAttachment.left = 'left';
-
-            left += width;
-            eAttachment.left = 'left';
-          }
-        } else if (tAttachment.left === 'center') {
-          if (left + width > bounds[2] && eAttachment.left === 'left') {
-            left -= width;
-            eAttachment.left = 'right';
-          } else if (left < bounds[0] && eAttachment.left === 'right') {
-            left += width;
-            eAttachment.left = 'left';
+          if (left < bounds[0] && tAttachment.left === 'left') {
+            if (eAttachment.left === 'right') {
+              left += targetWidth;
+              tAttachment.left = 'right';
+              left += width;
+              eAttachment.left = 'left';
+            } else if (eAttachment.left === 'left') {
+              left += targetWidth;
+              tAttachment.left = 'right';
+              left -= width;
+              eAttachment.left = 'right';
+            }
+          } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+            if (eAttachment.left === 'left') {
+              left -= targetWidth;
+              tAttachment.left = 'left';
+              left -= width;
+              eAttachment.left = 'right';
+            } else if (eAttachment.left === 'right') {
+              left -= targetWidth;
+              tAttachment.left = 'left';
+              left += width;
+              eAttachment.left = 'left';
+            }
+          } else if (tAttachment.left === 'center') {
+            if (left + width > bounds[2] && eAttachment.left === 'left') {
+              left -= width;
+              eAttachment.left = 'right';
+            } else if (left < bounds[0] && eAttachment.left === 'right') {
+              left += width;
+              eAttachment.left = 'left';
+            }
           }
         }
       }
