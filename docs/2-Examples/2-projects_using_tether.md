@@ -32,6 +32,10 @@ A simple and reusable datepicker component for React
 
 An Ember.js-friendly interface for tether.
 
+### [Bootstrap 4](http://getbootstrap.com/)
+
+Tooltip and popovers from Bootstrap 4 are positionned using Tether
+
 ### Your Project Here
 
 If you have a cool open-source library built on Tether, PR this doc.
