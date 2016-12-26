@@ -23,7 +23,7 @@ Here is the list of features you don't have if you choose to support IE 8:
 - Object.create, .seal, .freeze, .defineProperty
 - Array.isArray, .indexOf, .every, .some, .forEach, .map, .filter, .reduce
 - A modern JavaScript engine
-- A real developer tools
+- Real developer tools
 - A consistent box model
 - jQuery 2
 - Google Apps
