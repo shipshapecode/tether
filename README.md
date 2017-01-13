@@ -50,7 +50,7 @@ After installing Tether and including it in your project, you can begin using it
     new Tether({
       element: '.comments',
       target: '.picture',
-      attachment: 'top right'
+      attachment: 'top right',
       targetAttachment: 'top left'
     });
     ```
@@ -87,7 +87,7 @@ You only need to include [tether.min.js](https://github.com/HubSpot/tether/blob/
 ```
 Or just use a CDN:
 ```
-<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.3.1/js/tether.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 ```
 
 The css files in the [dist/css](https://github.com/HubSpot/tether/tree/master/dist/css) folder are not required to get tether running.
