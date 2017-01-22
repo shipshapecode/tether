@@ -2,9 +2,7 @@
 
 TetherBase.modules.push({
   position({top, left}) {
-    const {height, width} = this.cache('element-bounds', () => {
-      return getBounds(this.element);
-    });
+    const {height, width} = this.cache('element-bounds', () => getBounds(this.element));
 
     const targetPos = this.getTargetBounds();
 

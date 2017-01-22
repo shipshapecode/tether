@@ -20,7 +20,7 @@ function getBoundingRect(tether, to) {
     const style = getComputedStyle(to);
 
     to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
-  
+
     // Account any parent Frames scroll offset
     if (node.ownerDocument !== document) {
       const win = node.ownerDocument.defaultView;
@@ -29,7 +29,7 @@ function getBoundingRect(tether, to) {
       to[2] += win.pageXOffset;
       to[3] += win.pageYOffset;
     }
-  
+
     BOUNDS_FORMAT.forEach((side, i) => {
       side = side[0].toUpperCase() + side.substr(1);
       if (side === 'Top' || side === 'Left') {
@@ -49,9 +49,7 @@ TetherBase.modules.push({
       return true;
     }
 
-    let {height, width} = this.cache('element-bounds', () => {
-      return getBounds(this.element);
-    });
+    let {height, width} = this.cache('element-bounds', () => getBounds(this.element));
 
     if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
       // Handle the item getting hidden as a result of our positioning without glitching
@@ -59,9 +57,7 @@ TetherBase.modules.push({
       ({width, height} = this.lastSize);
     }
 
-    const targetSize = this.cache('target-bounds', () => {
-      return this.getTargetBounds();
-    });
+    const targetSize = this.cache('target-bounds', () => this.getTargetBounds());
 
     const {height: targetHeight, width: targetWidth} = targetSize;
 
@@ -125,7 +121,6 @@ TetherBase.modules.push({
 
             top += height;
             eAttachment.top = 'top';
-
           } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
             top -= height - targetHeight;
             tAttachment.top = 'bottom';
@@ -141,13 +136,11 @@ TetherBase.modules.push({
 
             top -= height;
             eAttachment.top = 'bottom';
-
-          } else if (eAttachment.top === 'bottom'&& top < bounds[1] && top + (height*2 - targetHeight) <= bounds[3]) {
+          } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
             top += height - targetHeight;
             tAttachment.top = 'top';
 
             eAttachment.top = 'top';
-
           }
         }
 
@@ -155,7 +148,6 @@ TetherBase.modules.push({
           if (top + height > bounds[3] && eAttachment.top === 'top') {
             top -= height;
             eAttachment.top = 'bottom';
-
           } else if (top < bounds[1] && eAttachment.top === 'bottom') {
             top += height;
             eAttachment.top = 'top';
@@ -183,7 +175,6 @@ TetherBase.modules.push({
 
             left += width;
             eAttachment.left = 'left';
-
           } else if (eAttachment.left === 'left') {
             left += targetWidth;
             tAttachment.left = 'right';
@@ -191,7 +182,6 @@ TetherBase.modules.push({
             left -= width;
             eAttachment.left = 'right';
           }
-
         } else if (left + width > bounds[2] && tAttachment.left === 'right') {
           if (eAttachment.left === 'left') {
             left -= targetWidth;
@@ -199,7 +189,6 @@ TetherBase.modules.push({
 
             left -= width;
             eAttachment.left = 'right';
-
           } else if (eAttachment.left === 'right') {
             left -= targetWidth;
             tAttachment.left = 'left';
@@ -207,12 +196,10 @@ TetherBase.modules.push({
             left += width;
             eAttachment.left = 'left';
           }
-
         } else if (tAttachment.left === 'center') {
           if (left + width > bounds[2] && eAttachment.left === 'left') {
             left -= width;
             eAttachment.left = 'right';
-
           } else if (left < bounds[0] && eAttachment.left === 'right') {
             left += width;
             eAttachment.left = 'left';
@@ -343,7 +330,7 @@ TetherBase.modules.push({
         this.updateAttachClasses(eAttachment, tAttachment);
         this.trigger('update', {
           attachment: eAttachment,
-          targetAttachment: tAttachment,
+          targetAttachment: tAttachment
         });
       }
     });

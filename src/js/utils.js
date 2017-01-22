@@ -54,7 +54,7 @@ function getScrollParents(el) {
     const {overflow, overflowX, overflowY} = style;
     if (/(auto|scroll|overlay)/.test(overflow + overflowY + overflowX)) {
       if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
-        parents.push(parent)
+        parents.push(parent);
       }
     }
   }
@@ -113,7 +113,7 @@ function removeUtilElements() {
     document.body.removeChild(zeroElement);
   }
   zeroElement = null;
-};
+}
 
 function getBounds(el) {
   let doc;
@@ -193,7 +193,7 @@ function getScrollBarSize() {
   return _scrollBarSize;
 }
 
-function extend(out={}) {
+function extend(out = {}) {
   const args = [];
 
   Array.prototype.push.apply(args, arguments);
@@ -285,13 +285,13 @@ const defer = (fn) => {
 
 const flush = () => {
   let fn;
-  while(fn = deferred.pop()) {
+  while (fn = deferred.pop()) {
     fn();
   }
 };
 
 class Evented {
-  on(event, handler, ctx, once=false) {
+  on(event, handler, ctx, once = false) {
     if (typeof this.bindings === 'undefined') {
       this.bindings = {};
     }
