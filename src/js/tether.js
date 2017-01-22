@@ -201,7 +201,7 @@ class TetherClass extends Evented {
 
     this.options = extend(defaults, options);
 
-    let {element, target, targetModifier} = this.options;
+    const {element, target, targetModifier} = this.options;
     this.element = element;
     this.target = target;
     this.targetModifier = targetModifier;
@@ -556,8 +556,8 @@ class TetherClass extends Evented {
       }
     };
 
-    var doc = this.target.ownerDocument;
-    var win = doc.defaultView;
+    const doc = this.target.ownerDocument;
+    const win = doc.defaultView;
 
     let scrollbarSize;
     if (win.innerHeight > doc.documentElement.clientHeight) {
@@ -636,10 +636,10 @@ class TetherClass extends Evented {
 
     const same = {};
 
-    for (let type in pos) {
+    for (const type in pos) {
       same[type] = {};
 
-      for (let key in pos[type]) {
+      for (const key in pos[type]) {
         let found = false;
 
         for (let i = 0; i < this.history.length; ++i) {
@@ -658,7 +658,7 @@ class TetherClass extends Evented {
       }
     }
 
-    let css = {top: '', left: '', right: '', bottom: ''};
+    const css = {top: '', left: '', right: '', bottom: ''};
 
     const transcribe = (_same, _pos) => {
       const hasOptimizations = typeof this.options.optimizations !== 'undefined';
@@ -767,9 +767,9 @@ class TetherClass extends Evented {
     // Any css change will trigger a repaint, so let's avoid one if nothing changed
     const writeCSS = {};
     let write = false;
-    for (let key in css) {
-      let val = css[key];
-      let elVal = this.element.style[key];
+    for (const key in css) {
+      const val = css[key];
+      const elVal = this.element.style[key];
 
       if (elVal !== val) {
         write = true;
@@ -790,4 +790,4 @@ TetherClass.modules = [];
 
 TetherBase.position = position;
 
-let Tether = extend(TetherClass, TetherBase);
+const Tether = extend(TetherClass, TetherBase);

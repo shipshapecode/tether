@@ -23,7 +23,7 @@ function getBoundingRect(tether, to) {
   
     // Account any parent Frames scroll offset
     if (node.ownerDocument !== document) {
-      let win = node.ownerDocument.defaultView;
+      const win = node.ownerDocument.defaultView;
       to[0] += win.pageXOffset;
       to[1] += win.pageYOffset;
       to[2] += win.pageXOffset;
@@ -89,7 +89,8 @@ TetherBase.modules.push({
     const eAttachment = extend({}, this.attachment);
 
     this.options.constraints.forEach(constraint => {
-      let {to, attachment, pin} = constraint;
+      const to = constraint.to;
+      let {attachment, pin} = constraint;
 
       if (typeof attachment === 'undefined') {
         attachment = '';

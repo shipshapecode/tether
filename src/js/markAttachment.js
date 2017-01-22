@@ -24,9 +24,9 @@ Tether.modules.push({
       target: manualTargetOffset
     };
 
-    for (let type in offsets) {
+    for (const type in offsets) {
       const offset = offsets[type];
-      for (let side in offset) {
+      for (const side in offset) {
         let val = offset[side];
         const notString = typeof val !== 'string';
         if (notString ||

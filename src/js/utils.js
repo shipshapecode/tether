@@ -5,19 +5,19 @@ let zeroElement = null;
 // Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
 // if the element lies within a nested document (<frame> or <iframe>-like).
 function getActualBoundingClientRect(node) {
-  let boundingRect = node.getBoundingClientRect();
+  const boundingRect = node.getBoundingClientRect();
 
   // The original object returned by getBoundingClientRect is immutable, so we clone it
   // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
-  let rect = {};
-  for (var k in boundingRect) {
+  const rect = {};
+  for (const k in boundingRect) {
     rect[k] = boundingRect[k];
   }
 
   if (node.ownerDocument !== document) {
-    let frameElement = node.ownerDocument.defaultView.frameElement;
+    const frameElement = node.ownerDocument.defaultView.frameElement;
     if (frameElement) {
-      let frameRect = getActualBoundingClientRect(frameElement);
+      const frameRect = getActualBoundingClientRect(frameElement);
       rect.top += frameRect.top;
       rect.bottom += frameRect.top;
       rect.left += frameRect.left;
@@ -33,7 +33,7 @@ function getScrollParents(el) {
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
   const computedStyle = getComputedStyle(el) || {};
   const position = computedStyle.position;
-  let parents = [];
+  const parents = [];
 
   if (position === 'fixed') {
     return [el];
@@ -200,7 +200,7 @@ function extend(out={}) {
 
   args.slice(1).forEach(obj => {
     if (obj) {
-      for (let key in obj) {
+      for (const key in obj) {
         if ({}.hasOwnProperty.call(obj, key)) {
           out[key] = obj[key];
         }
