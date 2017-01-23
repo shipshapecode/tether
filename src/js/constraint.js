@@ -1,11 +1,4 @@
-/* globals TetherBase */
-
-const {
-  getBounds,
-  extend,
-  updateClasses,
-  defer
-} = TetherBase.Utils;
+/* globals getBounds, extend, updateClasses, defer TetherBase */
 
 const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 

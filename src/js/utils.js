@@ -1,7 +1,4 @@
-let TetherBase;
-if (typeof TetherBase === 'undefined') {
-  TetherBase = {modules: []};
-}
+const TetherBase = { modules: [] };
 
 let zeroElement = null;
 
@@ -350,21 +347,3 @@ class Evented {
     }
   }
 }
-
-TetherBase.Utils = {
-  getActualBoundingClientRect,
-  getScrollParents,
-  getBounds,
-  getOffsetParent,
-  extend,
-  addClass,
-  removeClass,
-  hasClass,
-  updateClasses,
-  defer,
-  flush,
-  uniqueId,
-  Evented,
-  getScrollBarSize,
-  removeUtilElements
-};
