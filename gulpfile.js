@@ -38,8 +38,8 @@ gulp.task('js', function() {
     './src/js/shift.js'
   ])
     .pipe(plumber())
-    .pipe(babel())
     .pipe(concat('tether.js'))
+    .pipe(babel())
     .pipe(umd(umdOptions))
     .pipe(header(banner))
 
