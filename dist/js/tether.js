@@ -704,7 +704,7 @@ var TetherClass = (function (_Evented) {
       });
 
       addClass(this.element, this.getClass('element'));
-      if (!(this.options.addTargetClasses === false)) {
+      if (this.options.addTargetClasses !== false) {
         addClass(this.target, this.getClass('target'));
       }
 
@@ -727,7 +727,7 @@ var TetherClass = (function (_Evented) {
         this.scrollParents = getScrollParents(this.target);
       }
 
-      if (!(this.options.enabled === false)) {
+      if (this.options.enabled !== false) {
         this.enable(pos);
       }
     }
@@ -849,7 +849,7 @@ var TetherClass = (function (_Evented) {
 
       var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
-      if (!(this.options.addTargetClasses === false)) {
+      if (this.options.addTargetClasses !== false) {
         addClass(this.target, this.getClass('enabled'));
       }
       addClass(this.element, this.getClass('enabled'));
@@ -939,12 +939,12 @@ var TetherClass = (function (_Evented) {
       });
 
       defer(function () {
-        if (!(typeof _this6._addAttachClasses !== 'undefined')) {
+        if (typeof _this6._addAttachClasses === 'undefined') {
           return;
         }
 
         updateClasses(_this6.element, _this6._addAttachClasses, all);
-        if (!(_this6.options.addTargetClasses === false)) {
+        if (_this6.options.addTargetClasses !== false) {
           updateClasses(_this6.target, _this6._addAttachClasses, all);
         }
 
@@ -1136,7 +1136,7 @@ var TetherClass = (function (_Evented) {
     value: function move(pos) {
       var _this8 = this;
 
-      if (!(typeof this.element.parentNode !== 'undefined')) {
+      if (typeof this.element.parentNode === 'undefined') {
         return;
       }
 

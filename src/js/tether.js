@@ -227,7 +227,7 @@ class TetherClass extends Evented {
     });
 
     addClass(this.element, this.getClass('element'));
-    if (!(this.options.addTargetClasses === false)) {
+    if (this.options.addTargetClasses !== false) {
       addClass(this.target, this.getClass('target'));
     }
 
@@ -250,7 +250,7 @@ class TetherClass extends Evented {
       this.scrollParents = getScrollParents(this.target);
     }
 
-    if(!(this.options.enabled === false)) {
+    if (this.options.enabled !== false) {
       this.enable(pos);
     }
   }
@@ -368,7 +368,7 @@ class TetherClass extends Evented {
   }
 
   enable(pos=true) {
-    if (!(this.options.addTargetClasses === false)) {
+    if (this.options.addTargetClasses !== false) {
       addClass(this.target, this.getClass('enabled'));
     }
     addClass(this.element, this.getClass('enabled'));
@@ -449,12 +449,12 @@ class TetherClass extends Evented {
     });
 
     defer(() => {
-      if (!(typeof this._addAttachClasses !== 'undefined')) {
+      if (typeof this._addAttachClasses === 'undefined') {
         return;
       }
 
       updateClasses(this.element, this._addAttachClasses, all);
-      if (!(this.options.addTargetClasses === false)) {
+      if (this.options.addTargetClasses !== false) {
         updateClasses(this.target, this._addAttachClasses, all);
       }
 
@@ -630,7 +630,7 @@ class TetherClass extends Evented {
 
   // THE ISSUE
   move(pos) {
-    if (!(typeof this.element.parentNode !== 'undefined')) {
+    if (typeof this.element.parentNode === 'undefined') {
       return;
     }
 

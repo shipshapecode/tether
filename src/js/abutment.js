@@ -48,7 +48,7 @@ TetherBase.modules.push({
     });
 
     defer(() => {
-      if (!(this.options.addTargetClasses === false)) {
+      if (this.options.addTargetClasses !== false) {
         updateClasses(this.target, addClasses, allClasses);
       }
       updateClasses(this.element, addClasses, allClasses);
