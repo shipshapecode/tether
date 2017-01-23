@@ -1,16 +1,16 @@
-var del         = require('del');
-var gulp        = require('gulp');
-var babel       = require('gulp-babel');
-var bump        = require('gulp-bump');
-var concat      = require('gulp-concat');
-var header      = require('gulp-header');
-var minify      = require('gulp-minify-css');
-var plumber     = require('gulp-plumber');
-var prefixer    = require('gulp-autoprefixer');
-var rename      = require('gulp-rename');
-var uglify      = require('gulp-uglify');
-var sass        = require('gulp-sass');
-var umd         = require('gulp-wrap-umd');
+var del      = require('del');
+var gulp     = require('gulp');
+var babel    = require('gulp-babel');
+var bump     = require('gulp-bump');
+var concat   = require('gulp-concat');
+var header   = require('gulp-header');
+var minify   = require('gulp-minify-css');
+var plumber  = require('gulp-plumber');
+var prefixer = require('gulp-autoprefixer');
+var rename   = require('gulp-rename');
+var uglify   = require('gulp-uglify');
+var sass     = require('gulp-sass');
+var umd      = require('gulp-wrap-umd');
 
 // Variables
 var distDir = './dist';
@@ -93,4 +93,3 @@ gulp.task('watch', ['js', 'css'], function() {
 // Defaults
 gulp.task('build', ['js', 'css']);
 gulp.task('default', ['build']);
-
