@@ -19,6 +19,7 @@ const transformKey = (() => {
       return key;
     }
   }
+  return '';
 })();
 
 const tethers = [];
@@ -182,13 +183,14 @@ class TetherClass extends Evented {
 
   getClass(key = '') {
     const {classes} = this.options;
+
     if (typeof classes !== 'undefined' && classes[key]) {
       return this.options.classes[key];
-    } else if (this.options.classPrefix) {
-      return `${ this.options.classPrefix }-${ key }`;
-    } else {
-      return key;
     }
+    if (this.options.classPrefix) {
+      return `${ this.options.classPrefix }-${ key }`;
+    }
+    return key;
   }
 
   setOptions(options, pos = true) {
@@ -260,36 +262,36 @@ class TetherClass extends Evented {
       if (this.targetModifier === 'visible') {
         if (this.target === document.body) {
           return {top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth};
-        } else {
-          const bounds = getBounds(this.target);
-
-          const out = {
-            height: bounds.height,
-            width: bounds.width,
-            top: bounds.top,
-            left: bounds.left
-          };
-
-          out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
-          out.height = Math.min(out.height, bounds.height - ((bounds.top + bounds.height) - (pageYOffset + innerHeight)));
-          out.height = Math.min(innerHeight, out.height);
-          out.height -= 2;
-
-          out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
-          out.width = Math.min(out.width, bounds.width - ((bounds.left + bounds.width) - (pageXOffset + innerWidth)));
-          out.width = Math.min(innerWidth, out.width);
-          out.width -= 2;
-
-          if (out.top < pageYOffset) {
-            out.top = pageYOffset;
-          }
-          if (out.left < pageXOffset) {
-            out.left = pageXOffset;
-          }
-
-          return out;
         }
-      } else if (this.targetModifier === 'scroll-handle') {
+
+        const bounds = getBounds(this.target);
+        const out = {
+          height: bounds.height,
+          width: bounds.width,
+          top: bounds.top,
+          left: bounds.left
+        };
+
+        out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
+        out.height = Math.min(out.height, bounds.height - ((bounds.top + bounds.height) - (pageYOffset + innerHeight)));
+        out.height = Math.min(innerHeight, out.height);
+        out.height -= 2;
+
+        out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
+        out.width = Math.min(out.width, bounds.width - ((bounds.left + bounds.width) - (pageXOffset + innerWidth)));
+        out.width = Math.min(innerWidth, out.width);
+        out.width -= 2;
+
+        if (out.top < pageYOffset) {
+          out.top = pageYOffset;
+        }
+        if (out.left < pageXOffset) {
+          out.left = pageXOffset;
+        }
+
+        return out;
+      }
+      if (this.targetModifier === 'scroll-handle') {
         let bounds;
         let target = this.target;
         if (target === document.body) {
@@ -344,9 +346,8 @@ class TetherClass extends Evented {
 
         return out;
       }
-    } else {
-      return getBounds(this.target);
     }
+    return getBounds(this.target);
   }
 
   clearCache() {
@@ -467,7 +468,7 @@ class TetherClass extends Evented {
     // tethers (in which case call Tether.Utils.flush yourself when you're done)
 
     if (!this.enabled) {
-      return;
+      return undefined;
     }
 
     this.clearCache();
@@ -525,11 +526,11 @@ class TetherClass extends Evented {
 
       if (ret === false) {
         return false;
-      } else if (typeof ret === 'undefined' || typeof ret !== 'object') {
-        continue;
-      } else {
-        ({top, left} = ret);
       }
+      if (typeof ret === 'undefined' || typeof ret !== 'object') {
+        continue;
+      }
+      ({top, left} = ret);
     }
 
     // We describe the position three different ways to give the optimizer

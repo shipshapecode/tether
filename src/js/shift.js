@@ -3,7 +3,7 @@
 TetherBase.modules.push({
   position({top, left}) {
     if (!this.options.shift) {
-      return;
+      return undefined;
     }
 
     let shift = this.options.shift;
