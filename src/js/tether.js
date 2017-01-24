@@ -496,6 +496,7 @@ class TetherClass extends Evented {
     // Get an actual px offset from the attachment
     let offset = offsetToPx(attachmentToOffset(this.attachment), {width, height});
     let targetOffset = offsetToPx(attachmentToOffset(targetAttachment), targetSize);
+    let scrollbarSize;
 
     const manualOffset = offsetToPx(this.offset, {width, height});
     const manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
@@ -556,7 +557,6 @@ class TetherClass extends Evented {
     const doc = this.target.ownerDocument;
     const win = doc.defaultView;
 
-    let scrollbarSize;
     if (win.innerHeight > doc.documentElement.clientHeight) {
       scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
       next.viewport.bottom -= scrollbarSize.height;

@@ -2,6 +2,50 @@ const TetherBase = { modules: [] };
 
 let zeroElement = null;
 
+const deferred = [];
+
+const defer = (fn) => {
+  deferred.push(fn);
+};
+
+const flush = () => {
+  let fn;
+  while (fn = deferred.pop()) {
+    fn();
+  }
+};
+
+function extend(out = {}) {
+  const args = [];
+
+  Array.prototype.push.apply(args, arguments);
+
+  args.slice(1).forEach(obj => {
+    if (obj) {
+      for (const key in obj) {
+        if ({}.hasOwnProperty.call(obj, key)) {
+          out[key] = obj[key];
+        }
+      }
+    }
+  });
+
+  return out;
+}
+
+function getClassName(el) {
+  // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
+  // completely separately SVGAnimatedString base classes
+  if (el.className instanceof el.ownerDocument.defaultView.SVGAnimatedString) {
+    return el.className.baseVal;
+  }
+  return el.className;
+}
+
+function setClassName(el, className) {
+  el.setAttribute('class', className);
+}
+
 // Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
 // if the element lies within a nested document (<frame> or <iframe>-like).
 function getActualBoundingClientRect(node) {
@@ -193,24 +237,6 @@ function getScrollBarSize() {
   return _scrollBarSize;
 }
 
-function extend(out = {}) {
-  const args = [];
-
-  Array.prototype.push.apply(args, arguments);
-
-  args.slice(1).forEach(obj => {
-    if (obj) {
-      for (const key in obj) {
-        if ({}.hasOwnProperty.call(obj, key)) {
-          out[key] = obj[key];
-        }
-      }
-    }
-  });
-
-  return out;
-}
-
 function removeClass(el, name) {
   if (typeof el.classList !== 'undefined') {
     name.split(' ').forEach(cls => {
@@ -247,20 +273,6 @@ function hasClass(el, name) {
   return new RegExp(`(^| )${ name }( |$)`, 'gi').test(className);
 }
 
-function getClassName(el) {
-  // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
-  // completely separately SVGAnimatedString base classes
-  if (el.className instanceof el.ownerDocument.defaultView.SVGAnimatedString) {
-    return el.className.baseVal;
-  }
-  return el.className;
-}
-
-function setClassName(el, className) {
-  el.setAttribute('class', className);
-}
-
-
 function updateClasses(el, add, all) {
   // Of the set of 'all' classes, we need the 'add' classes, and only the
   // 'add' classes to be set.
@@ -276,19 +288,6 @@ function updateClasses(el, add, all) {
     }
   });
 }
-
-const deferred = [];
-
-const defer = (fn) => {
-  deferred.push(fn);
-};
-
-const flush = () => {
-  let fn;
-  while (fn = deferred.pop()) {
-    fn();
-  }
-};
 
 class Evented {
   on(event, handler, ctx, once = false) {
