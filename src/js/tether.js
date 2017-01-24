@@ -35,7 +35,7 @@ function now() {
   if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
     return performance.now();
   }
-  return +new Date;
+  return +new Date();
 }
 
 (() => {
@@ -540,10 +540,7 @@ class TetherClass extends Evented {
     const next = {
       // It's position relative to the page (absolute positioning when
       // the element is a child of the body)
-      page: {
-        top: top,
-        left: left
-      },
+      page: { top, left },
 
       // It's position relative to the viewport (fixed positioning)
       viewport: {
@@ -692,7 +689,7 @@ class TetherClass extends Evented {
         if (transformKey !== 'msTransform') {
           // The Z transform will keep this in the GPU (faster, and prevents artifacts),
           // but IE9 doesn't support 3d transforms and will choke.
-          css[transformKey] += " translateZ(0)";
+          css[transformKey] += ' translateZ(0)';
         }
       } else {
         if (_same.top) {

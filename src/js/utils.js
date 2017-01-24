@@ -15,12 +15,8 @@ const flush = () => {
   }
 };
 
-function extend(out = {}) {
-  const args = [];
-
-  Array.prototype.push.apply(args, arguments);
-
-  args.slice(1).forEach(obj => {
+function extend(out = {}, ...args) {
+  args.forEach(obj => {
     if (obj) {
       for (const key in obj) {
         if ({}.hasOwnProperty.call(obj, key)) {
@@ -184,8 +180,8 @@ function getBounds(el) {
     box.height = document.body.scrollHeight - box.top - box.bottom;
   }
 
-  box.top = box.top - docEl.clientTop;
-  box.left = box.left - docEl.clientLeft;
+  box.top -= docEl.clientTop;
+  box.left -= docEl.clientLeft;
   box.right = doc.body.clientWidth - box.width - box.left;
   box.bottom = doc.body.clientHeight - box.height - box.top;
 
