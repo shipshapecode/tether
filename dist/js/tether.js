@@ -1,4 +1,4 @@
-/*! tether 1.4.0 */
+/*! @appearhere/tether 1.0.0 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -920,22 +920,22 @@ var TetherClass = (function (_Evented) {
       var add = this._addAttachClasses;
 
       if (elementAttach.top) {
-        add.push(this.getClass('element-attached') + '-' + elementAttach.top);
+        add.push(this.getClass('element-attached-' + elementAttach.top));
       }
       if (elementAttach.left) {
-        add.push(this.getClass('element-attached') + '-' + elementAttach.left);
+        add.push(this.getClass('element-attached-' + elementAttach.left));
       }
       if (targetAttach.top) {
-        add.push(this.getClass('target-attached') + '-' + targetAttach.top);
+        add.push(this.getClass('target-attached-' + targetAttach.top));
       }
       if (targetAttach.left) {
-        add.push(this.getClass('target-attached') + '-' + targetAttach.left);
+        add.push(this.getClass('target-attached-' + targetAttach.top));
       }
 
       var all = [];
       sides.forEach(function (side) {
-        all.push(_this6.getClass('element-attached') + '-' + side);
-        all.push(_this6.getClass('target-attached') + '-' + side);
+        all.push(_this6.getClass('element-attached-' + side));
+        all.push(_this6.getClass('target-attached-' + side));
       });
 
       defer(function () {
@@ -1390,7 +1390,7 @@ TetherBase.modules.push({
     var targetHeight = targetSize.height;
     var targetWidth = targetSize.width;
 
-    var allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
+    var allClasses = ['pinned', 'out-of-bounds'];
 
     this.options.constraints.forEach(function (constraint) {
       var outOfBoundsClass = constraint.outOfBoundsClass;
@@ -1405,8 +1405,10 @@ TetherBase.modules.push({
     });
 
     allClasses.forEach(function (cls) {
+      allClasses.push(_this.getClass(cls));
+
       ['left', 'top', 'right', 'bottom'].forEach(function (side) {
-        allClasses.push(cls + '-' + side);
+        allClasses.push(_this.getClass(cls + '-' + side));
       });
     });
 
@@ -1629,35 +1631,31 @@ TetherBase.modules.push({
       }
 
       if (pinned.length) {
-        (function () {
-          var pinnedClass = undefined;
-          if (typeof _this.options.pinnedClass !== 'undefined') {
-            pinnedClass = _this.options.pinnedClass;
-          } else {
-            pinnedClass = _this.getClass('pinned');
-          }
+        var pinnedClass = undefined;
+        if (typeof _this.options.pinnedClass !== 'undefined') {
+          pinnedClass = _this.options.pinnedClass;
+        } else {
+          pinnedClass = _this.getClass('pinned');
+        }
 
-          addClasses.push(pinnedClass);
-          pinned.forEach(function (side) {
-            addClasses.push(pinnedClass + '-' + side);
-          });
-        })();
+        addClasses.push(pinnedClass);
+        pinned.forEach(function (side) {
+          addClasses.push(_this.getClass('pinned-' + side));
+        });
       }
 
       if (oob.length) {
-        (function () {
-          var oobClass = undefined;
-          if (typeof _this.options.outOfBoundsClass !== 'undefined') {
-            oobClass = _this.options.outOfBoundsClass;
-          } else {
-            oobClass = _this.getClass('out-of-bounds');
-          }
+        var oobClass = undefined;
+        if (typeof _this.options.outOfBoundsClass !== 'undefined') {
+          oobClass = _this.options.outOfBoundsClass;
+        } else {
+          oobClass = _this.getClass('out-of-bounds');
+        }
 
-          addClasses.push(oobClass);
-          oob.forEach(function (side) {
-            addClasses.push(oobClass + '-' + side);
-          });
-        })();
+        addClasses.push(oobClass);
+        oob.forEach(function (side) {
+          addClasses.push(_this.getClass('out-of-bounds-' + side));
+        });
       }
 
       if (pinned.indexOf('left') >= 0 || pinned.indexOf('right') >= 0) {
@@ -1739,7 +1737,7 @@ TetherBase.modules.push({
     var sides = ['left', 'top', 'right', 'bottom'];
     allClasses.push(this.getClass('abutted'));
     sides.forEach(function (side) {
-      allClasses.push(_this.getClass('abutted') + '-' + side);
+      allClasses.push(_this.getClass('abutted-' + side));
     });
 
     if (abutted.length) {
@@ -1747,7 +1745,7 @@ TetherBase.modules.push({
     }
 
     abutted.forEach(function (side) {
-      addClasses.push(_this.getClass('abutted') + '-' + side);
+      addClasses.push(_this.getClass('abutted-' + side));
     });
 
     defer(function () {

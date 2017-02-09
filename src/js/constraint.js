@@ -27,7 +27,7 @@ function getBoundingRect(tether, to) {
     const style = getComputedStyle(to);
 
     to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
-  
+
     // Account any parent Frames scroll offset
     if (node.ownerDocument !== document) {
       let win = node.ownerDocument.defaultView;
@@ -36,7 +36,7 @@ function getBoundingRect(tether, to) {
       to[2] += win.pageXOffset;
       to[3] += win.pageYOffset;
     }
-  
+
     BOUNDS_FORMAT.forEach((side, i) => {
       side = side[0].toUpperCase() + side.substr(1);
       if (side === 'Top' || side === 'Left') {
@@ -72,7 +72,7 @@ TetherBase.modules.push({
 
     const {height: targetHeight, width: targetWidth} = targetSize;
 
-    const allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
+    const allClasses = ['pinned', 'out-of-bounds'];
 
     this.options.constraints.forEach(constraint => {
       const {outOfBoundsClass, pinnedClass} = constraint;
@@ -85,8 +85,10 @@ TetherBase.modules.push({
     });
 
     allClasses.forEach(cls => {
+      allClasses.push(this.getClass(cls));
+
       ['left', 'top', 'right', 'bottom'].forEach(side => {
-        allClasses.push(`${ cls }-${ side }`);
+        allClasses.push(this.getClass(`${cls}-${side}`));
       });
     });
 
@@ -94,6 +96,7 @@ TetherBase.modules.push({
 
     const tAttachment = extend({}, targetAttachment);
     const eAttachment = extend({}, this.attachment);
+
 
     this.options.constraints.forEach(constraint => {
       let {to, attachment, pin} = constraint;
@@ -317,7 +320,7 @@ TetherBase.modules.push({
 
         addClasses.push(pinnedClass);
         pinned.forEach(side => {
-          addClasses.push(`${ pinnedClass }-${ side }`);
+          addClasses.push(this.getClass(`pinned-${side}`))
         });
       }
 
@@ -331,7 +334,7 @@ TetherBase.modules.push({
 
         addClasses.push(oobClass);
         oob.forEach(side => {
-          addClasses.push(`${ oobClass }-${ side }`);
+          addClasses.push(this.getClass(`out-of-bounds-${side}`))
         });
       }
 

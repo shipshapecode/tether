@@ -446,22 +446,22 @@ class TetherClass extends Evented {
     const add = this._addAttachClasses;
 
     if (elementAttach.top) {
-      add.push(`${ this.getClass('element-attached') }-${ elementAttach.top }`);
+      add.push(this.getClass(`element-attached-${elementAttach.top}`));
     }
     if (elementAttach.left) {
-      add.push(`${ this.getClass('element-attached') }-${ elementAttach.left }`);
+      add.push(this.getClass(`element-attached-${elementAttach.left}`));
     }
     if (targetAttach.top) {
-      add.push(`${ this.getClass('target-attached') }-${ targetAttach.top }`);
+      add.push(this.getClass(`target-attached-${targetAttach.top}`));
     }
     if (targetAttach.left) {
-      add.push(`${ this.getClass('target-attached') }-${ targetAttach.left }`);
+      add.push(this.getClass(`target-attached-${targetAttach.top}`));
     }
 
     const all = [];
     sides.forEach(side => {
-      all.push(`${ this.getClass('element-attached') }-${ side }`);
-      all.push(`${ this.getClass('target-attached') }-${ side }`);
+      all.push(this.getClass(`element-attached-${side}`));
+      all.push(this.getClass(`target-attached-${side}`));
     });
 
     defer(() => {
