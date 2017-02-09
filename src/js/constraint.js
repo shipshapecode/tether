@@ -88,7 +88,7 @@ TetherBase.modules.push({
       allClasses.push(this.getClass(cls));
 
       ['left', 'top', 'right', 'bottom'].forEach(side => {
-        allClasses.push(this.getClass(`${cls}-${side}`));
+        allClasses.push(this.getClass(cls, side));
       });
     });
 
@@ -334,7 +334,7 @@ TetherBase.modules.push({
 
         addClasses.push(oobClass);
         oob.forEach(side => {
-          addClasses.push(this.getClass(`out-of-bounds-${side}`))
+          addClasses.push(this.getClass('out-of-bounds', side))
         });
       }
 
