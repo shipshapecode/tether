@@ -1,7 +1,17 @@
-## Tether
+# Tether
 
 [![GitHub
 version](https://badge.fury.io/gh/HubSpot%2Ftether.svg)](http://badge.fury.io/gh/HubSpot%2Ftether)
+
+## :rotating_light: Project status :rotating_light:
+
+We at HubSpot have been thrilled by Tether's success! However, the demands of maintaining such a complex project have outstripped our willingness and ability to do so effectively, as a quick glance at the issue tracker will tell you.
+
+If you're a developer and you're looking for an alternative to Tether, check out [Popper.js](https://popper.js.org/). Its maintainers have put a ton of work into it, and it's constantly getting better.
+
+If you're with an organization would like to take ownership of Tether, reach out to us! We'd be happy to see this project in the hands of a team that can give it the love it deserves.
+
+## Introduction
 
 [Tether](http://github.hubspot.com/tether/) is a small, focused JavaScript library for defining and managing the position of user interface (UI) elements in relation to one another on a web page. It is a tool for web developers building features that require certain UI elements to be precisely positioned based on the location of another UI element.
 
