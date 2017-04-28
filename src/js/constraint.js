@@ -352,6 +352,11 @@ TetherBase.modules.push({
           targetAttachment: tAttachment,
         });
       }
+
+      this.trigger('position', {
+          attachment: eAttachment,
+          targetAttachment: tAttachment,
+      });
     });
 
     defer(() => {
