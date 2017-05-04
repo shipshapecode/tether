@@ -309,8 +309,8 @@ TetherBase.modules.push({
 
       if (pinned.length) {
         let pinnedClass;
-        if (typeof this.options.pinnedClass !== 'undefined') {
-          pinnedClass = this.options.pinnedClass;
+        if (typeof constraint.pinnedClass !== 'undefined') {
+          pinnedClass = constraint.pinnedClass;
         } else {
           pinnedClass = this.getClass('pinned');
         }
@@ -323,8 +323,8 @@ TetherBase.modules.push({
 
       if (oob.length) {
         let oobClass;
-        if (typeof this.options.outOfBoundsClass !== 'undefined') {
-          oobClass = this.options.outOfBoundsClass;
+        if (typeof constraint.outOfBoundsClass !== 'undefined') {
+          oobClass = constraint.outOfBoundsClass;
         } else {
           oobClass = this.getClass('out-of-bounds');
         }
