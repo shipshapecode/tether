@@ -14,6 +14,7 @@ const {
   updateClasses,
   defer,
   flush,
+  Evented,
   getScrollBarSize,
   removeUtilElements
 } = TetherBase.Utils;
