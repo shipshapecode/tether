@@ -74,6 +74,25 @@ There are tons of other useful features of Tether as well, instead of “comment
 * Autocomplete popups for forms,
 * and [more](http://github.hubspot.com/tether/examples/list_of_examples/)!
 
+## What to Use Tether for and When to Use It 
+
+Most websites contain at least one overlapping element that needs to be displayed. These elements include:
+* Dropdown Menus
+* Tooltips
+* Infoboxes
+
+You can either use Tether to save yourself work implementing these features or you can use specific libraries built around Tether for these specific interactions. 
+
+Some other features of Tether include:
+* Optional optimizations depending on use
+* Dynamic anchor points
+* Positional constraints
+
+You can check the API Documentation link below under *Usage* for more details on those libraries as well as Tether.
+
+### Restrictions
+Tether currently supports IE9+ and other modern browsers.
+
 ## Install
 
 __npm__
