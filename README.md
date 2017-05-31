@@ -23,7 +23,7 @@ Please have a look at the [documentation](http://github.hubspot.com/tether/) for
 
 ## What to Use Tether for and When to Use It
 
-Tether is a small, focused JavaScript library. For those who might be new to JavaScript, a library is simply a JavaScript file (or files) that contain useful JavaScript code to help achieve tasks easier and faster. Since Tether is a JavaScript user interface (**UI**) library, it contains code to help you to manage the way your website or web app appears.
+For those who might be new to JavaScript, a library is simply a JavaScript file (or files) that contain useful JavaScript code to help achieve tasks easier and faster. Since Tether is a JavaScript user interface (**UI**) library, it contains code to help you to manage the way your website or web app appears and interacts with your users.
 
 Tether’s goal to is to help you position your elements side-by-side when needed.
 
@@ -40,9 +40,9 @@ Your HTML code might look something like this:
 </div>
 ```
 
-Now, you could achieve this with some CSS using its `position` property, but going this route can be problematic since many of `position`’s values take elements **out** of the natural DOM flow. For example, if you have an element at the bottom of your HTML document, using `position: absolute` or `position: fixed` might could move it all the way to the top of your website in the browser.
+Now, you could achieve this with some CSS using its `position` property or `float`, but going this route can be problematic since many of `position`’s values take elements **out** of the natural DOM flow. For example, if you have an element at the bottom of your HTML document, using `position: absolute`, `position: fixed`, or any of `float`'s values could move it all the way to the top of your website in the browser.
 
-Not only that, but you also have to make manual adjustments to ensure **other** elements aren’t negatively affected by the positioned elements. Not to mention, you probably want your comment box to be **responsive**, and look good across different device sizes. Coding a solution for this manually is a challenge all on its own.
+Not only that, but you also have to make manual adjustments to ensure **other** elements aren’t negatively affected by your newly positioned elements. Not to mention, you probably want your comment box to be **responsive**, and look good across different device sizes. Coding a solution for this manually is a challenge all on its own.
 
 **Enter Tether!**
 
