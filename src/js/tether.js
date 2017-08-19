@@ -708,13 +708,6 @@ class TetherClass extends Evented {
         }
 
         css[transformKey] = `translateX(${ xPos }px) translateY(${ yPos }px)`;
-
-        if (transformKey !== 'msTransform') {
-          // The Z transform will keep this in the GPU (faster, and prevents artifacts),
-          // but IE9 doesn't support 3d transforms and will choke.
-          css[transformKey] += " translateZ(0)";
-        }
-
       } else {
         if (_same.top) {
           css.top = `${ _pos.top }px`;
