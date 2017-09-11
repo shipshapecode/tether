@@ -196,15 +196,29 @@ class TetherClass extends Evented {
     this.position();
   }
 
-  getClass(key='') {
+  getClass(key='', modifier='') {
     const {classes} = this.options;
-    if (typeof classes !== 'undefined' && classes[key]) {
-      return this.options.classes[key];
-    } else if (this.options.classPrefix) {
-      return `${ this.options.classPrefix }-${ key }`;
+    let cls = '';
+
+    if (typeof classes !== 'undefined' && this.options.classes[`${key}-${modifier}`]) {
+      cls += this.options.classes[`${key}-${modifier}`];
+    } else if (typeof classes !== 'undefined' && this.options.classes[key] && modifier) {
+      cls += `${this.options.classes[key]}-${modifier}`;
+    } else if (typeof classes !== 'undefined' && this.options.classes[key]) {
+      cls += this.options.classes[key];
     } else {
-      return key;
+      if (this.options.classPrefix) {
+        cls += `${this.options.classPrefix}-`;
+      }
+
+      cls += key;
+
+      if (modifier) {
+        cls += `-${modifier}`;
+      }
     }
+
+    return cls;
   }
 
   setOptions(options, pos=true) {
@@ -446,22 +460,22 @@ class TetherClass extends Evented {
     const add = this._addAttachClasses;
 
     if (elementAttach.top) {
-      add.push(`${ this.getClass('element-attached') }-${ elementAttach.top }`);
+      add.push(this.getClass('element-attached', elementAttach.top));
     }
     if (elementAttach.left) {
-      add.push(`${ this.getClass('element-attached') }-${ elementAttach.left }`);
+      add.push(this.getClass('element-attached', elementAttach.left));
     }
     if (targetAttach.top) {
-      add.push(`${ this.getClass('target-attached') }-${ targetAttach.top }`);
+      add.push(this.getClass('target-attached', targetAttach.top));
     }
     if (targetAttach.left) {
-      add.push(`${ this.getClass('target-attached') }-${ targetAttach.left }`);
+      add.push(this.getClass('target-attached', targetAttach.top));
     }
 
     const all = [];
     sides.forEach(side => {
-      all.push(`${ this.getClass('element-attached') }-${ side }`);
-      all.push(`${ this.getClass('target-attached') }-${ side }`);
+      all.push(this.getClass('element-attached', side));
+      all.push(this.getClass('target-attached', side));
     });
 
     defer(() => {

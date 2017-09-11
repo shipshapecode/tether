@@ -422,7 +422,7 @@ var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = 
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x6, _x7, _x8) { var _again = true; _function: while (_again) { var object = _x6, property = _x7, receiver = _x8; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x6 = parent; _x7 = property; _x8 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x7, _x8, _x9) { var _again = true; _function: while (_again) { var object = _x7, property = _x8, receiver = _x9; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x7 = parent; _x8 = property; _x9 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
@@ -648,15 +648,30 @@ var TetherClass = (function (_Evented) {
     key: 'getClass',
     value: function getClass() {
       var key = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+      var modifier = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
       var classes = this.options.classes;
 
-      if (typeof classes !== 'undefined' && classes[key]) {
-        return this.options.classes[key];
-      } else if (this.options.classPrefix) {
-        return this.options.classPrefix + '-' + key;
+      var cls = '';
+
+      if (typeof classes !== 'undefined' && this.options.classes[key + '-' + modifier]) {
+        cls += this.options.classes[key + '-' + modifier];
+      } else if (typeof classes !== 'undefined' && this.options.classes[key] && modifier) {
+        cls += this.options.classes[key] + '-' + modifier;
+      } else if (typeof classes !== 'undefined' && this.options.classes[key]) {
+        cls += this.options.classes[key];
       } else {
-        return key;
+        if (this.options.classPrefix) {
+          cls += this.options.classPrefix + '-';
+        }
+
+        cls += key;
+
+        if (modifier) {
+          cls += '-' + modifier;
+        }
       }
+
+      return cls;
     }
   }, {
     key: 'setOptions',
@@ -920,22 +935,22 @@ var TetherClass = (function (_Evented) {
       var add = this._addAttachClasses;
 
       if (elementAttach.top) {
-        add.push(this.getClass('element-attached') + '-' + elementAttach.top);
+        add.push(this.getClass('element-attached', elementAttach.top));
       }
       if (elementAttach.left) {
-        add.push(this.getClass('element-attached') + '-' + elementAttach.left);
+        add.push(this.getClass('element-attached', elementAttach.left));
       }
       if (targetAttach.top) {
-        add.push(this.getClass('target-attached') + '-' + targetAttach.top);
+        add.push(this.getClass('target-attached', targetAttach.top));
       }
       if (targetAttach.left) {
-        add.push(this.getClass('target-attached') + '-' + targetAttach.left);
+        add.push(this.getClass('target-attached', targetAttach.top));
       }
 
       var all = [];
       sides.forEach(function (side) {
-        all.push(_this6.getClass('element-attached') + '-' + side);
-        all.push(_this6.getClass('target-attached') + '-' + side);
+        all.push(_this6.getClass('element-attached', side));
+        all.push(_this6.getClass('target-attached', side));
       });
 
       defer(function () {
@@ -1390,7 +1405,7 @@ TetherBase.modules.push({
     var targetHeight = targetSize.height;
     var targetWidth = targetSize.width;
 
-    var allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
+    var allClasses = ['pinned', 'out-of-bounds'];
 
     this.options.constraints.forEach(function (constraint) {
       var outOfBoundsClass = constraint.outOfBoundsClass;
@@ -1405,8 +1420,10 @@ TetherBase.modules.push({
     });
 
     allClasses.forEach(function (cls) {
+      allClasses.push(_this.getClass(cls));
+
       ['left', 'top', 'right', 'bottom'].forEach(function (side) {
-        allClasses.push(cls + '-' + side);
+        allClasses.push(_this.getClass(cls, side));
       });
     });
 
@@ -1629,35 +1646,31 @@ TetherBase.modules.push({
       }
 
       if (pinned.length) {
-        (function () {
-          var pinnedClass = undefined;
-          if (typeof _this.options.pinnedClass !== 'undefined') {
-            pinnedClass = _this.options.pinnedClass;
-          } else {
-            pinnedClass = _this.getClass('pinned');
-          }
+        var pinnedClass = undefined;
+        if (typeof _this.options.pinnedClass !== 'undefined') {
+          pinnedClass = _this.options.pinnedClass;
+        } else {
+          pinnedClass = _this.getClass('pinned');
+        }
 
-          addClasses.push(pinnedClass);
-          pinned.forEach(function (side) {
-            addClasses.push(pinnedClass + '-' + side);
-          });
-        })();
+        addClasses.push(pinnedClass);
+        pinned.forEach(function (side) {
+          addClasses.push(_this.getClass('pinned-' + side));
+        });
       }
 
       if (oob.length) {
-        (function () {
-          var oobClass = undefined;
-          if (typeof _this.options.outOfBoundsClass !== 'undefined') {
-            oobClass = _this.options.outOfBoundsClass;
-          } else {
-            oobClass = _this.getClass('out-of-bounds');
-          }
+        var oobClass = undefined;
+        if (typeof _this.options.outOfBoundsClass !== 'undefined') {
+          oobClass = _this.options.outOfBoundsClass;
+        } else {
+          oobClass = _this.getClass('out-of-bounds');
+        }
 
-          addClasses.push(oobClass);
-          oob.forEach(function (side) {
-            addClasses.push(oobClass + '-' + side);
-          });
-        })();
+        addClasses.push(oobClass);
+        oob.forEach(function (side) {
+          addClasses.push(_this.getClass('out-of-bounds', side));
+        });
       }
 
       if (pinned.indexOf('left') >= 0 || pinned.indexOf('right') >= 0) {
@@ -1739,7 +1752,7 @@ TetherBase.modules.push({
     var sides = ['left', 'top', 'right', 'bottom'];
     allClasses.push(this.getClass('abutted'));
     sides.forEach(function (side) {
-      allClasses.push(_this.getClass('abutted') + '-' + side);
+      allClasses.push(_this.getClass('abutted', side));
     });
 
     if (abutted.length) {
@@ -1747,7 +1760,7 @@ TetherBase.modules.push({
     }
 
     abutted.forEach(function (side) {
-      addClasses.push(_this.getClass('abutted') + '-' + side);
+      addClasses.push(_this.getClass('abutted', side));
     });
 
     defer(function () {

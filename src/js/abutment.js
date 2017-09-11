@@ -38,7 +38,7 @@ TetherBase.modules.push({
     const sides = ['left', 'top', 'right', 'bottom'];
     allClasses.push(this.getClass('abutted'));
     sides.forEach(side => {
-      allClasses.push(`${ this.getClass('abutted') }-${ side }`);
+      allClasses.push(this.getClass('abutted', side));
     });
 
     if (abutted.length) {
@@ -46,7 +46,7 @@ TetherBase.modules.push({
     }
 
     abutted.forEach(side => {
-      addClasses.push(`${ this.getClass('abutted') }-${ side }`);
+      addClasses.push(this.getClass('abutted', side));
     });
 
     defer(() => {
