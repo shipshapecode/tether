@@ -47,7 +47,7 @@ const position = () => {
 };
 
 function now() {
-  if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
+  if (performance && performance.now) {
     return performance.now();
   }
   return +new Date;
