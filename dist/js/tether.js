@@ -476,7 +476,7 @@ var position = function position() {
 };
 
 function now() {
-  if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
+  if (performance && performance.now) {
     return performance.now();
   }
   return +new Date();
@@ -1248,7 +1248,9 @@ var TetherClass = (function (_Evented) {
 
       if (!moved) {
         if (this.options.bodyElement) {
-          this.options.bodyElement.appendChild(this.element);
+          if (this.element.parentNode !== this.options.bodyElement) {
+            this.options.bodyElement.appendChild(this.element);
+          }
         } else {
           var offsetParentIsBody = true;
           var currentNode = this.element.parentNode;

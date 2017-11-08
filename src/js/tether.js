@@ -760,7 +760,9 @@ class TetherClass extends Evented {
 
     if (!moved) {
       if (this.options.bodyElement) {
-        this.options.bodyElement.appendChild(this.element);
+        if (this.element.parentNode !== this.options.bodyElement) {
+          this.options.bodyElement.appendChild(this.element);
+        }
       } else {
         let offsetParentIsBody = true;
         let currentNode = this.element.parentNode;
