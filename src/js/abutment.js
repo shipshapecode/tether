@@ -1,4 +1,4 @@
-/* globals TetherBase */
+import TetherBase from './utils';
 
 const {getBounds, updateClasses, defer} = TetherBase.Utils;
 

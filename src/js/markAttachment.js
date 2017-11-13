@@ -1,4 +1,4 @@
-/* globals Tether */
+import Tether from './tether';
 
 Tether.modules.push({
   initialize() {
