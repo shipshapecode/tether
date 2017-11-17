@@ -8,6 +8,9 @@ let zeroElement = null;
 // Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
 // if the element lies within a nested document (<frame> or <iframe>-like).
 function getActualBoundingClientRect(node) {
+  if(typeof(node.getBoundingClientRect) !== 'function') {
+    return {};
+  }
   let boundingRect = node.getBoundingClientRect();
 
   // The original object returned by getBoundingClientRect is immutable, so we clone it
