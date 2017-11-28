@@ -1,4 +1,4 @@
-/*! tether 1.4.2 */
+/*! tether 1.4.3 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -476,7 +476,7 @@ var position = function position() {
 };
 
 function now() {
-  if (performance && performance.now) {
+  if (typeof performance === 'object' && typeof performance.now === 'function') {
     return performance.now();
   }
   return +new Date();
