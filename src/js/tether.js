@@ -709,9 +709,9 @@ class TetherClass extends Evented {
 
         css[transformKey] = `translateX(${ xPos }px) translateY(${ yPos }px)`;
 
-        let isPixelRationInt = window.devicePixelRatio % 1 === 0;
+        let isPixelRatioInt = window.devicePixelRatio % 1 === 0;
 
-        if (transformKey !== 'msTransform' && isPixelRationInt) {
+        if (transformKey !== 'msTransform' && isPixelRatioInt) {
           // The Z transform will keep this in the GPU (faster, and prevents artifacts),
           // but IE9 doesn't support 3d transforms and will choke.
           css[transformKey] += " translateZ(0)";
