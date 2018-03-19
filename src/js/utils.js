@@ -302,16 +302,18 @@ class Evented {
       this.bindings[event] = [];
     }
     this.bindings[event].push({handler, ctx, once});
+    
+    return this;
   }
 
   once(event, handler, ctx) {
-    this.on(event, handler, ctx, true);
+    return this.on(event, handler, ctx, true);
   }
 
   off(event, handler) {
     if (typeof this.bindings === 'undefined' ||
         typeof this.bindings[event] === 'undefined') {
-      return;
+      return this;
     }
 
     if (typeof handler === 'undefined') {
@@ -326,6 +328,8 @@ class Evented {
         }
       }
     }
+    
+    return this;
   }
 
   trigger(event, ...args) {
@@ -348,6 +352,8 @@ class Evented {
         }
       }
     }
+    
+    return this;
   }
 }
 
