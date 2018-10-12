@@ -765,8 +765,9 @@ class TetherClass extends Evented {
         }
       } else {
         let offsetParentIsBody = true;
+        let d;
         function isFullscreenElement(e) {
-          let d = e.ownerDocument;
+          d = e.ownerDocument;
           let fe = d.fullscreenElement || d.webkitFullscreenElement || d.mozFullScreenElement || d.msFullscreenElement;
           return fe === e;
         }
