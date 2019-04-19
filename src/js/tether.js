@@ -697,14 +697,9 @@ class TetherClass extends Evented {
           xPos = -_pos.right;
         }
 
-        if (window.matchMedia) {
-          // HubSpot/tether#207
-          const retina = window.matchMedia('only screen and (min-resolution: 1.3dppx)').matches ||
-                         window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3)').matches;
-          if (!retina) {
-            xPos = Math.round(xPos);
-            yPos = Math.round(yPos);
-          }
+        if (typeof window.devicePixelRatio === 'number' && devicePixelRatio % 1 === 0) {
+          xPos = Math.round(xPos * devicePixelRatio) / devicePixelRatio;
+          yPos = Math.round(yPos * devicePixelRatio) / devicePixelRatio;
         }
 
         css[transformKey] = `translateX(${ xPos }px) translateY(${ yPos }px)`;
