@@ -697,9 +697,9 @@ class TetherClass extends Evented {
           xPos = -_pos.right;
         }
 
-        if (window.devicePixelRatio && Math.round(window.devicePixelRatio) === window.devicePixelRatio) {
-          xPos = Math.round(xPos * window.devicePixelRatio) / window.devicePixelRatio;
-          yPos = Math.round(yPos * window.devicePixelRatio) / window.devicePixelRatio;
+        if (typeof window.devicePixelRatio === 'number' && devicePixelRatio % 1 === 0) {
+          xPos = Math.round(xPos * devicePixelRatio) / devicePixelRatio;
+          yPos = Math.round(yPos * devicePixelRatio) / devicePixelRatio;
         }
 
         css[transformKey] = `translateX(${ xPos }px) translateY(${ yPos }px)`;
