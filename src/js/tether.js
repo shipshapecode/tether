@@ -725,12 +725,19 @@ class TetherClass extends Evented {
       }
     };
 
+    const hasOptimizations = typeof this.options.optimizations !== 'undefined';
+    let allowPositionFixed = true;
+
+    if (hasOptimizations && this.options.optimizations.allowPositionFixed === false) {
+      allowPositionFixed = false;
+    }
+
     let moved = false;
     if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
       css.position = 'absolute';
       transcribe(same.page, pos.page);
 
-    } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
+    } else if (allowPositionFixed && ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right))) {
       css.position = 'fixed';
       transcribe(same.viewport, pos.viewport);
 
