@@ -17,15 +17,19 @@ function getActualBoundingClientRect(node) {
     rect[k] = boundingRect[k];
   }
 
-  if (node.ownerDocument !== document) {
-    let frameElement = node.ownerDocument.defaultView.frameElement;
-    if (frameElement) {
-      let frameRect = getActualBoundingClientRect(frameElement);
-      rect.top += frameRect.top;
-      rect.bottom += frameRect.top;
-      rect.left += frameRect.left;
-      rect.right += frameRect.left;
+  try {
+    if (node.ownerDocument !== document) {
+      let frameElement = node.ownerDocument.defaultView.frameElement;
+      if (frameElement) {
+        let frameRect = getActualBoundingClientRect(frameElement);
+        rect.top += frameRect.top;
+        rect.bottom += frameRect.top;
+        rect.left += frameRect.left;
+        rect.right += frameRect.left;
+      }
     }
+  } catch (err) {
+    // Ignore "Access is denied" in IE11/Edge
   }
 
   return rect;
