@@ -100,7 +100,7 @@ The css files in the [dist/css](https://github.com/HubSpot/tether/tree/master/di
 
 For more details jump straight in to the detailed [Usage](http://github.hubspot.com/tether/#usage) page.
 
-[![Tether Docs](http://i.imgur.com/YCx8cLr.png)](http://github.hubspot.com/tether/#usage)
+[![Tether Docs](http://i.imgur.com/YCx8cLr.png)](http://github.hubspot.com/tether/#usage) [![Greenkeeper badge](https://badges.greenkeeper.io/shipshapecode/tether.svg)](https://greenkeeper.io/)
 
 [Demo & API Documentation](http://github.hubspot.com/tether/)
 
