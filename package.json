@@ -22,19 +22,19 @@
   "license": "MIT",
   "main": "dist/js/tether.js",
   "devDependencies": {
-    "del": "^2.0.2",
-    "del-cli": "^0.2.0",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.0.1",
-    "gulp-babel": "^5.2.1",
-    "gulp-bump": "^0.3.1",
+    "del": "^5.1.0",
+    "del-cli": "^3.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-bump": "^3.1.3",
     "gulp-concat": "^2.6.0",
-    "gulp-header": "^1.7.1",
+    "gulp-header": "^2.0.9",
     "gulp-minify-css": "^1.2.1",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.0.4",
-    "gulp-uglify": "^1.4.3",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.2",
     "gulp-wrap-umd": "^0.2.1"
   }
 }
