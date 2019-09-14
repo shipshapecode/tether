@@ -1,6 +1,6 @@
 let TetherBase;
 if (typeof TetherBase === 'undefined') {
-  TetherBase = {modules: []};
+  TetherBase = { modules: [] };
 }
 
 let zeroElement = null;
@@ -28,7 +28,7 @@ function getActualBoundingClientRect(node) {
         rect.right += frameRect.left;
       }
     }
-  } catch (err) {
+  } catch(err) {
     // Ignore "Access is denied" in IE11/Edge
   }
 
@@ -51,17 +51,18 @@ function getScrollParents(el) {
     let style;
     try {
       style = getComputedStyle(parent);
-    } catch (err) {}
+    } catch(err) {
+    }
 
     if (typeof style === 'undefined' || style === null) {
       parents.push(parent);
       return parents;
     }
 
-    const {overflow, overflowX, overflowY} = style;
+    const { overflow, overflowX, overflowY } = style;
     if (/(auto|scroll|overlay)/.test(overflow + overflowY + overflowX)) {
       if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
-        parents.push(parent)
+        parents.push(parent);
       }
     }
   }
@@ -160,6 +161,7 @@ function getOffsetParent(el) {
 }
 
 let _scrollBarSize = null;
+
 function getScrollBarSize() {
   if (_scrollBarSize) {
     return _scrollBarSize;
@@ -196,11 +198,11 @@ function getScrollBarSize() {
 
   const width = widthContained - widthScroll;
 
-  _scrollBarSize = {width, height: width};
+  _scrollBarSize = { width, height: width };
   return _scrollBarSize;
 }
 
-function extend(out={}) {
+function extend(out = {}) {
   const args = [];
 
   Array.prototype.push.apply(args, arguments);
@@ -226,7 +228,7 @@ function removeClass(el, name) {
       }
     });
   } else {
-    const regex = new RegExp(`(^| )${ name.split(' ').join('|') }( |$)`, 'gi');
+    const regex = new RegExp(`(^| )${name.split(' ').join('|')}( |$)`, 'gi');
     const className = getClassName(el).replace(regex, ' ');
     setClassName(el, className);
   }
@@ -251,7 +253,7 @@ function hasClass(el, name) {
     return el.classList.contains(name);
   }
   const className = getClassName(el);
-  return new RegExp(`(^| )${ name }( |$)`, 'gi').test(className);
+  return new RegExp(`(^| )${name}( |$)`, 'gi').test(className);
 }
 
 function getClassName(el) {
@@ -292,7 +294,7 @@ const defer = (fn) => {
 
 const flush = () => {
   let fn;
-  while(fn = deferred.pop()) {
+  while (fn = deferred.pop()) {
     fn();
   }
 };
@@ -313,3 +315,5 @@ TetherBase.Utils = {
   getScrollBarSize,
   removeUtilElements
 };
+
+export default TetherBase;

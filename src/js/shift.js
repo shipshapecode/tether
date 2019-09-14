@@ -1,4 +1,4 @@
-/* globals TetherBase */
+import TetherBase from './utils';
 
 TetherBase.modules.push({
   position({top, left}) {

@@ -1,4 +1,4 @@
-class Evented {
+export class Evented {
   on(event, handler, ctx, once=false) {
     if (typeof this.bindings === 'undefined') {
       this.bindings = {};
