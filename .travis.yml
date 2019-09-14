@@ -1,0 +1,37 @@
+language: node_js
+node_js:
+  - '10'
+
+sudo: false
+dist: xenial
+
+addons:
+  chrome: stable
+
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+
+cache:
+  yarn: true
+  directories:
+    # we also need to cache folder with Cypress binary
+    - ~/.cache
+
+install:
+  - yarn install --ignore-engines
+
+stages:
+  - test
+  - name: npm-release
+    if: (tag =~ ^v)
+  - name: github-releases
+    if: (tag =~ ^v)
+  - gh-pages release
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - yarn test

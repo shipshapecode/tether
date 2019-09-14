@@ -11,9 +11,10 @@
     "Trevor Burnham <trevorburnham@gmail.com>"
   ],
   "scripts": {
+    "build": "gulp build",
     "reinstall": "del node_modules && npm install",
-    "watch": "gulp watch",
-    "build": "gulp build"
+    "test": "jest --coverage",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
   "license": "MIT",
   "main": "dist/js/tether.js",
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.1.0",
+    "babel-jest": "^24.9.0",
     "del": "^2.0.2",
     "del-cli": "^0.2.0",
     "gulp": "^3.9.0",
@@ -35,6 +38,9 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.4",
     "gulp-uglify": "^1.4.3",
-    "gulp-wrap-umd": "^0.2.1"
+    "gulp-wrap-umd": "^0.2.1",
+    "jest": "^24.9.0",
+    "jest-expect-message": "^1.0.2",
+    "jest-transform-css": "^2.0.0"
   }
 }
