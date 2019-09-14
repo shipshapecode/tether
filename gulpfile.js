@@ -33,6 +33,7 @@ gulp.task('clean', function() {
 gulp.task('js', function() {
   gulp.src([
     './src/js/utils.js',
+    './src/js/evented.js',
     './src/js/tether.js',
     './src/js/constraint.js',
     './src/js/abutment.js',
@@ -56,7 +57,7 @@ gulp.task('js', function() {
 
 // CSS
 gulp.task('css', function() {
-  gulp.src('./src/css/**/*.sass')
+  gulp.src('./src/css/**/*.scss')
     .pipe(plumber())
     .pipe(sass())
     .pipe(prefixer())
@@ -69,19 +70,6 @@ gulp.task('css', function() {
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(distDir + '/css'));
 });
-
-
-// Version bump
-var VERSIONS = ['patch', 'minor', 'major'];
-for (var i = 0; i < VERSIONS.length; ++i){
-  (function(version) {
-    gulp.task('version:' + version, function() {
-      gulp.src(['package.json', 'bower.json', 'component.json'])
-        .pipe(bump({type: version}))
-        .pipe(gulp.dest('.'));
-    });
-  })(VERSIONS[i]);
-}
 
 
 // Watch

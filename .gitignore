@@ -1,5 +1,6 @@
-.sass-cache
-node_modules/
-deps/
 .DS_Store
+.sass-cache
+coverage/
+deps/
+node_modules/
 npm-debug.log

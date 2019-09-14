@@ -12,7 +12,6 @@
   ],
   "scripts": {
     "build": "gulp build",
-    "reinstall": "del node_modules && npm install",
     "test": "jest --coverage",
     "watch": "gulp watch"
   },
@@ -41,6 +40,7 @@
     "gulp-wrap-umd": "^0.2.1",
     "jest": "^24.9.0",
     "jest-expect-message": "^1.0.2",
-    "jest-transform-css": "^2.0.0"
+    "jest-transform-css": "^2.0.0",
+    "sinon": "^7.4.2"
   }
 }

@@ -1,0 +1,10 @@
+@import "helpers/tether";
+@import "helpers/tether-theme-basic";
+
+$themePrefix: "tether";
+$themeName: "basic";
+$backgroundColor: #fff;
+$color: inherit;
+
+@include tether($themePrefix: $themePrefix);
+@include tether-theme-basic($themePrefix: $themePrefix, $themeName: $themeName, $backgroundColor: $backgroundColor, $color: $color);

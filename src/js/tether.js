@@ -1,4 +1,4 @@
-/* globals TetherBase, performance */
+/* globals Evented, TetherBase, performance */
 
 if (typeof TetherBase === 'undefined') {
   throw new Error('You must include the utils.js file before tether.js');
