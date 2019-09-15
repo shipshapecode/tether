@@ -1,15 +1,15 @@
 describe('simple test', () => {
-  let Tether;
+  // let Tether;
 
   beforeEach(() => {
-    Tether = null;
+    // Tether = null;
 
     cy.visit('/examples/simple/', {
-      onLoad(contentWindow) {
-        if (contentWindow.Tether) {
-          return Tether = contentWindow.Tether;
-        }
-      }
+      // onLoad(contentWindow) {
+      //   if (contentWindow.Tether) {
+      //     return Tether = contentWindow.Tether;
+      //   }
+      // }
     });
   });
 

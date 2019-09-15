@@ -1,4 +1,4 @@
-/* globals TetherBase, performance */
+/* globals TetherBase */
 
 import '../css/tether.scss';
 import '../css/tether-theme-arrows.scss';
@@ -23,6 +23,12 @@ const {
   getScrollBarSize,
   removeUtilElements
 } = TetherBase.Utils;
+
+function isFullscreenElement(e) {
+  let d = e.ownerDocument;
+  let fe = d.fullscreenElement || d.webkitFullscreenElement || d.mozFullScreenElement || d.msFullscreenElement;
+  return fe === e;
+}
 
 function within(a, b, diff = 1) {
   return (a + diff >= b && b >= a - diff);
@@ -132,8 +138,7 @@ const autoToFixedAttachment = (attachment, relativeToAttachment) => {
 };
 
 const attachmentToOffset = (attachment) => {
-  let left = attachment.left;
-  let top = attachment.top;
+  let { left, top } = attachment;
 
   if (typeof OFFSET_MAP[attachment.left] !== 'undefined') {
     left = OFFSET_MAP[attachment.left];
@@ -313,7 +318,7 @@ class TetherClass extends Evented {
         }
       } else if (this.targetModifier === 'scroll-handle') {
         let bounds;
-        let target = this.target;
+        let { target } = this;
         if (target === document.body) {
           target = document.documentElement;
 
@@ -618,8 +623,7 @@ class TetherClass extends Evented {
       if (next.page.top >= (offsetPosition.top + offsetBorder.top) && next.page.bottom >= offsetPosition.bottom) {
         if (next.page.left >= (offsetPosition.left + offsetBorder.left) && next.page.right >= offsetPosition.right) {
           // We're within the visible part of the target's scroll parent
-          const scrollTop = offsetParent.scrollTop;
-          const scrollLeft = offsetParent.scrollLeft;
+          const { scrollLeft, scrollTop } = offsetParent;
 
           // It's position relative to the target's offset parent (absolute positioning when
           // the element is moved to be a child of the target's offset parent).
@@ -766,12 +770,6 @@ class TetherClass extends Evented {
       } else {
         let offsetParentIsBody = true;
 
-        function isFullscreenElement(e) {
-          let d = e.ownerDocument;
-          let fe = d.fullscreenElement || d.webkitFullscreenElement || d.mozFullScreenElement || d.msFullscreenElement;
-          return fe === e;
-        }
-
         let currentNode = this.element.parentNode;
         while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY' && !isFullscreenElement(currentNode)) {
           if (getComputedStyle(currentNode).position !== 'static') {
@@ -823,7 +821,7 @@ Tether.modules.push({
 
     ['target', 'element'].forEach((type) => {
       const el = document.createElement('div');
-      el.className = this.getClass(`${ type }-marker`);
+      el.className = this.getClass(`${type}-marker`);
 
       const dot = document.createElement('div');
       dot.className = this.getClass('marker-dot');

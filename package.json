@@ -17,7 +17,7 @@
     "cy:run": "./node_modules/.bin/cypress run --browser chrome",
     "lint:js": "eslint . --ext js",
     "start-test-server": "http-server -p 9002",
-    "test": "yarn test:ci",
+    "test": "yarn lint:js && yarn test:ci",
     "test:ci": "yarn test:unit:ci && yarn test:cy:ci",
     "test:cy:ci": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:run",
     "test:cy:watch": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:open",

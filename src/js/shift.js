@@ -6,9 +6,9 @@ TetherBase.modules.push({
       return;
     }
 
-    let shift = this.options.shift;
-    if (typeof this.options.shift === 'function') {
-      shift = this.options.shift.call(this, { top, left });
+    let { shift } = this.options;
+    if (typeof shift === 'function') {
+      shift = shift.call(this, { top, left });
     }
 
     let shiftTop, shiftLeft;

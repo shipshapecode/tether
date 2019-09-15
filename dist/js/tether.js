@@ -161,7 +161,8 @@
 
       try {
         style = getComputedStyle(parent);
-      } catch (err) {}
+      } catch (err) {// Intentionally blank
+      }
 
       if (typeof style === 'undefined' || style === null) {
         parents.push(parent);
@@ -405,7 +406,7 @@
   };
 
   var flush = function flush() {
-    var fn;
+    var fn; // eslint-disable-next-line
 
     while (fn = deferred.pop()) {
       fn();
@@ -871,8 +872,8 @@
 
       var shift = this.options.shift;
 
-      if (typeof this.options.shift === 'function') {
-        shift = this.options.shift.call(this, {
+      if (typeof shift === 'function') {
+        shift = shift.call(this, {
           top: top,
           left: left
         });
@@ -915,6 +916,12 @@
       flush$1 = _TetherBase$Utils$2.flush,
       getScrollBarSize$1 = _TetherBase$Utils$2.getScrollBarSize,
       removeUtilElements$1 = _TetherBase$Utils$2.removeUtilElements;
+
+  function isFullscreenElement(e) {
+    var d = e.ownerDocument;
+    var fe = d.fullscreenElement || d.webkitFullscreenElement || d.mozFullScreenElement || d.msFullscreenElement;
+    return fe === e;
+  }
 
   function within(a, b, diff) {
     if (diff === void 0) {
@@ -1032,8 +1039,8 @@
   };
 
   var attachmentToOffset = function attachmentToOffset(attachment) {
-    var left = attachment.left;
-    var top = attachment.top;
+    var left = attachment.left,
+        top = attachment.top;
 
     if (typeof OFFSET_MAP[attachment.left] !== 'undefined') {
       left = OFFSET_MAP[attachment.left];
@@ -1577,8 +1584,8 @@
         if (next.page.top >= offsetPosition.top + offsetBorder.top && next.page.bottom >= offsetPosition.bottom) {
           if (next.page.left >= offsetPosition.left + offsetBorder.left && next.page.right >= offsetPosition.right) {
             // We're within the visible part of the target's scroll parent
-            var scrollTop = offsetParent.scrollTop;
-            var scrollLeft = offsetParent.scrollLeft; // It's position relative to the target's offset parent (absolute positioning when
+            var scrollLeft = offsetParent.scrollLeft,
+                scrollTop = offsetParent.scrollTop; // It's position relative to the target's offset parent (absolute positioning when
             // the element is moved to be a child of the target's offset parent).
 
             next.offset = {
@@ -1731,12 +1738,6 @@
             this.options.bodyElement.appendChild(this.element);
           }
         } else {
-          var isFullscreenElement = function isFullscreenElement(e) {
-            var d = e.ownerDocument;
-            var fe = d.fullscreenElement || d.webkitFullscreenElement || d.mozFullScreenElement || d.msFullscreenElement;
-            return fe === e;
-          };
-
           var offsetParentIsBody = true;
           var currentNode = this.element.parentNode;
 

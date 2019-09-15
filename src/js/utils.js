@@ -19,7 +19,7 @@ function getActualBoundingClientRect(node) {
 
   try {
     if (node.ownerDocument !== document) {
-      let frameElement = node.ownerDocument.defaultView.frameElement;
+      let { frameElement } = node.ownerDocument.defaultView;
       if (frameElement) {
         let frameRect = getActualBoundingClientRect(frameElement);
         rect.top += frameRect.top;
@@ -39,7 +39,7 @@ function getScrollParents(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
   const computedStyle = getComputedStyle(el) || {};
-  const position = computedStyle.position;
+  const { position } = computedStyle;
   let parents = [];
 
   if (position === 'fixed') {
@@ -52,6 +52,7 @@ function getScrollParents(el) {
     try {
       style = getComputedStyle(parent);
     } catch(err) {
+      // Intentionally blank
     }
 
     if (typeof style === 'undefined' || style === null) {
@@ -243,7 +244,7 @@ function addClass(el, name) {
     });
   } else {
     removeClass(el, name);
-    const cls = `${getClassName(el)  } ${name}`;
+    const cls = `${getClassName(el)} ${name}`;
     setClassName(el, cls);
   }
 }
@@ -293,6 +294,7 @@ const defer = (fn) => {
 
 const flush = () => {
   let fn;
+  // eslint-disable-next-line
   while (fn = deferred.pop()) {
     fn();
   }
