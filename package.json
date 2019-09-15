@@ -13,8 +13,16 @@
   "scripts": {
     "build": "yarn clean && rollup -c",
     "clean": "rimraf dist",
-    "test": "jest --coverage",
-    "watch": "gulp watch"
+    "cy:open": "./node_modules/.bin/cypress open",
+    "cy:run": "./node_modules/.bin/cypress run --browser chrome",
+    "start-test-server": "http-server -p 9002",
+    "test": "yarn lint:js && yarn test:ci",
+    "test:ci": "yarn test:unit:ci && yarn test:cy:ci",
+    "test:cy:ci": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:run",
+    "test:cy:watch": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:open",
+    "test:unit:ci": "jest --coverage",
+    "test:unit:watch": "jest --watch",
+    "watch": "rollup --watch"
   },
   "repository": {
     "type": "git",
@@ -31,8 +39,10 @@
     "babel-jest": "^24.9.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "cssnano": "^4.1.10",
+    "cypress": "^3.4.1",
     "del": "^2.0.2",
     "del-cli": "^0.2.0",
+    "http-server": "^0.11.1",
     "jest": "^24.9.0",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^2.0.0",
@@ -46,6 +56,7 @@
     "rollup-plugin-sass": "^1.2.2",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-visualizer": "^2.6.0",
-    "sinon": "^7.4.2"
+    "sinon": "^7.4.2",
+    "start-server-and-test": "^1.10.2"
   }
 }
