@@ -1,6 +1,11 @@
+# Editors
+/.idea/
+/.vscode/
+
 .DS_Store
 .sass-cache
 coverage/
 deps/
 node_modules/
 npm-debug.log
+stats.html
