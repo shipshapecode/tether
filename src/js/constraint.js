@@ -74,7 +74,7 @@ TetherBase.modules.push({
 
     const allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
 
-    this.options.constraints.forEach(constraint => {
+    this.options.constraints.forEach((constraint) => {
       const { outOfBoundsClass, pinnedClass } = constraint;
       if (outOfBoundsClass) {
         allClasses.push(outOfBoundsClass);
@@ -84,8 +84,8 @@ TetherBase.modules.push({
       }
     });
 
-    allClasses.forEach(cls => {
-      ['left', 'top', 'right', 'bottom'].forEach(side => {
+    allClasses.forEach((cls) => {
+      ['left', 'top', 'right', 'bottom'].forEach((side) => {
         allClasses.push(`${cls}-${side}`);
       });
     });
@@ -95,7 +95,7 @@ TetherBase.modules.push({
     const tAttachment = extend({}, targetAttachment);
     const eAttachment = extend({}, this.attachment);
 
-    this.options.constraints.forEach(constraint => {
+    this.options.constraints.forEach((constraint) => {
       let { to, attachment, pin } = constraint;
 
       if (typeof attachment === 'undefined') {
@@ -261,7 +261,7 @@ TetherBase.modules.push({
       }
 
       if (typeof pin === 'string') {
-        pin = pin.split(',').map(p => p.trim());
+        pin = pin.split(',').map((p) => p.trim());
       } else if (pin === true) {
         pin = ['top', 'left', 'right', 'bottom'];
       }
@@ -316,7 +316,7 @@ TetherBase.modules.push({
         }
 
         addClasses.push(pinnedClass);
-        pinned.forEach(side => {
+        pinned.forEach((side) => {
           addClasses.push(`${pinnedClass}-${side}`);
         });
       }
@@ -330,7 +330,7 @@ TetherBase.modules.push({
         }
 
         addClasses.push(oobClass);
-        oob.forEach(side => {
+        oob.forEach((side) => {
           addClasses.push(`${oobClass}-${side}`);
         });
       }

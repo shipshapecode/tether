@@ -355,7 +355,7 @@
       });
     } else {
       removeClass(el, name);
-      var cls = getClassName(el) + (" " + name);
+      var cls = getClassName(el) + " " + name;
       setClassName(el, cls);
     }
   }

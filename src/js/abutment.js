@@ -15,7 +15,7 @@ TetherBase.modules.push({
 
     const abutted = [];
     if (top <= targetPos.bottom && bottom >= targetPos.top) {
-      ['left', 'right'].forEach(side => {
+      ['left', 'right'].forEach((side) => {
         const targetPosSide = targetPos[side];
         if (targetPosSide === left || targetPosSide === right) {
           abutted.push(side);
@@ -24,7 +24,7 @@ TetherBase.modules.push({
     }
 
     if (left <= targetPos.right && right >= targetPos.left) {
-      ['top', 'bottom'].forEach(side => {
+      ['top', 'bottom'].forEach((side) => {
         const targetPosSide = targetPos[side];
         if (targetPosSide === top || targetPosSide === bottom) {
           abutted.push(side);
@@ -37,7 +37,7 @@ TetherBase.modules.push({
 
     const sides = ['left', 'top', 'right', 'bottom'];
     allClasses.push(this.getClass('abutted'));
-    sides.forEach(side => {
+    sides.forEach((side) => {
       allClasses.push(`${this.getClass('abutted')}-${side}`);
     });
 
@@ -45,7 +45,7 @@ TetherBase.modules.push({
       addClasses.push(this.getClass('abutted'));
     }
 
-    abutted.forEach(side => {
+    abutted.forEach((side) => {
       addClasses.push(`${this.getClass('abutted')}-${side}`);
     });
 

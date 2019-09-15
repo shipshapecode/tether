@@ -1,12 +1,12 @@
 export class Evented {
-  on(event, handler, ctx, once=false) {
+  on(event, handler, ctx, once = false) {
     if (typeof this.bindings === 'undefined') {
       this.bindings = {};
     }
     if (typeof this.bindings[event] === 'undefined') {
       this.bindings[event] = [];
     }
-    this.bindings[event].push({handler, ctx, once});
+    this.bindings[event].push({ handler, ctx, once });
   }
 
   once(event, handler, ctx) {
@@ -37,7 +37,7 @@ export class Evented {
     if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
       let i = 0;
       while (i < this.bindings[event].length) {
-        const {handler, ctx, once} = this.bindings[event][i];
+        const { handler, ctx, once } = this.bindings[event][i];
 
         let context = ctx;
         if (typeof context === 'undefined') {

@@ -1,14 +1,14 @@
 import TetherBase from './utils';
 
 TetherBase.modules.push({
-  position({top, left}) {
+  position({ top, left }) {
     if (!this.options.shift) {
       return;
     }
 
     let shift = this.options.shift;
     if (typeof this.options.shift === 'function') {
-      shift = this.options.shift.call(this, {top, left});
+      shift = this.options.shift.call(this, { top, left });
     }
 
     let shiftTop, shiftLeft;
@@ -27,6 +27,6 @@ TetherBase.modules.push({
     top += shiftTop;
     left += shiftLeft;
 
-    return {top, left};
+    return { top, left };
   }
 });

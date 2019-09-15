@@ -46,7 +46,7 @@ const transformKey = (() => {
 const tethers = [];
 
 const position = () => {
-  tethers.forEach(tether => {
+  tethers.forEach((tether) => {
     tether.position(false);
   });
   flush();
@@ -90,7 +90,7 @@ function now() {
   };
 
   if (typeof window !== 'undefined' && typeof window.addEventListener !== 'undefined') {
-    ['resize', 'scroll', 'touchmove'].forEach(event => {
+    ['resize', 'scroll', 'touchmove'].forEach((event) => {
       window.addEventListener(event, tick);
     });
   }
@@ -193,7 +193,7 @@ class TetherClass extends Evented {
 
     this.setOptions(options, false);
 
-    TetherBase.modules.forEach(module => {
+    TetherBase.modules.forEach((module) => {
       if (typeof module.initialize !== 'undefined') {
         module.initialize.call(this);
       }
@@ -236,7 +236,7 @@ class TetherClass extends Evented {
       this.targetModifier = 'scroll-handle';
     }
 
-    ['element', 'target'].forEach(key => {
+    ['element', 'target'].forEach((key) => {
       if (typeof this[key] === 'undefined') {
         throw new Error('Tether Error: Both element and target must be defined');
       }
@@ -465,7 +465,7 @@ class TetherClass extends Evented {
     }
 
     const all = [];
-    sides.forEach(side => {
+    sides.forEach((side) => {
       all.push(`${this.getClass('element-attached')}-${side}`);
       all.push(`${this.getClass('target-attached')}-${side}`);
     });
@@ -565,8 +565,8 @@ class TetherClass extends Evented {
       // It's position relative to the page (absolute positioning when
       // the element is a child of the body)
       page: {
-        top: top,
-        left: left
+        top,
+        left
       },
 
       // It's position relative to the viewport (fixed positioning)
@@ -578,8 +578,8 @@ class TetherClass extends Evented {
       }
     };
 
-    var doc = this.target.ownerDocument;
-    var win = doc.defaultView;
+    let doc = this.target.ownerDocument;
+    let win = doc.defaultView;
 
     let scrollbarSize;
     if (win.innerHeight > doc.documentElement.clientHeight) {
@@ -608,7 +608,7 @@ class TetherClass extends Evented {
       const offsetParentSize = offsetPosition;
 
       const offsetBorder = {};
-      ['Top', 'Left', 'Bottom', 'Right'].forEach(side => {
+      ['Top', 'Left', 'Bottom', 'Right'].forEach((side) => {
         offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle[`border${side}Width`]);
       });
 
@@ -630,7 +630,6 @@ class TetherClass extends Evented {
         }
       }
     }
-
 
     // We could also travel up the DOM and try each containing context, rather than only
     // looking at the body, but we're gonna get diminishing returns.
@@ -822,7 +821,7 @@ Tether.modules.push({
   initialize() {
     this.markers = {};
 
-    ['target', 'element'].forEach(type => {
+    ['target', 'element'].forEach((type) => {
       const el = document.createElement('div');
       el.className = this.getClass(`${ type }-marker`);
 
@@ -832,11 +831,11 @@ Tether.modules.push({
 
       this[type].appendChild(el);
 
-      this.markers[type] = {dot, el};
+      this.markers[type] = { dot, el };
     });
   },
 
-  position({manualOffset, manualTargetOffset}) {
+  position({ manualOffset, manualTargetOffset }) {
     const offsets = {
       element: manualOffset,
       target: manualTargetOffset

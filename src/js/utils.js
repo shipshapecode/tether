@@ -13,7 +13,7 @@ function getActualBoundingClientRect(node) {
   // The original object returned by getBoundingClientRect is immutable, so we clone it
   // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
   let rect = {};
-  for (var k in boundingRect) {
+  for (let k in boundingRect) {
     rect[k] = boundingRect[k];
   }
 
@@ -121,7 +121,7 @@ function removeUtilElements() {
     document.body.removeChild(zeroElement);
   }
   zeroElement = null;
-};
+}
 
 function getBounds(el) {
   let doc;
@@ -207,7 +207,7 @@ function extend(out = {}) {
 
   Array.prototype.push.apply(args, arguments);
 
-  args.slice(1).forEach(obj => {
+  args.slice(1).forEach((obj) => {
     if (obj) {
       for (let key in obj) {
         if ({}.hasOwnProperty.call(obj, key)) {
@@ -222,7 +222,7 @@ function extend(out = {}) {
 
 function removeClass(el, name) {
   if (typeof el.classList !== 'undefined') {
-    name.split(' ').forEach(cls => {
+    name.split(' ').forEach((cls) => {
       if (cls.trim()) {
         el.classList.remove(cls);
       }
@@ -236,14 +236,14 @@ function removeClass(el, name) {
 
 function addClass(el, name) {
   if (typeof el.classList !== 'undefined') {
-    name.split(' ').forEach(cls => {
+    name.split(' ').forEach((cls) => {
       if (cls.trim()) {
         el.classList.add(cls);
       }
     });
   } else {
     removeClass(el, name);
-    const cls = getClassName(el) + ` ${name}`;
+    const cls = `${getClassName(el)  } ${name}`;
     setClassName(el, cls);
   }
 }
@@ -269,17 +269,16 @@ function setClassName(el, className) {
   el.setAttribute('class', className);
 }
 
-
 function updateClasses(el, add, all) {
   // Of the set of 'all' classes, we need the 'add' classes, and only the
   // 'add' classes to be set.
-  all.forEach(cls => {
+  all.forEach((cls) => {
     if (add.indexOf(cls) === -1 && hasClass(el, cls)) {
       removeClass(el, cls);
     }
   });
 
-  add.forEach(cls => {
+  add.forEach((cls) => {
     if (!hasClass(el, cls)) {
       addClass(el, cls);
     }

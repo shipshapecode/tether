@@ -27,13 +27,13 @@ const sassOptions = {
       fs.writeFileSync(`dist/css/${name}.css`, content);
     });
   },
-  processor: css => postcss([
+  processor: (css) => postcss([
     autoprefixer({
       grid: false
     })
   ])
     .process(css)
-    .then(result => result.css)
+    .then((result) => result.css)
 };
 
 const rollupBuilds = [
@@ -79,14 +79,14 @@ const minifiedSassOptions = {
       fs.writeFileSync(`dist/css/${name}.min.css`, content);
     });
   },
-  processor: css => postcss([
+  processor: (css) => postcss([
     autoprefixer({
       grid: false
     }),
     cssnano()
   ])
     .process(css)
-    .then(result => result.css)
+    .then((result) => result.css)
 };
 
 rollupBuilds.push({
