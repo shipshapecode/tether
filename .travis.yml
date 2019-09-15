@@ -6,6 +6,9 @@ sudo: false
 dist: xenial
 
 addons:
+  apt:
+    packages:
+      - libgconf-2-4
   chrome: stable
 
 branches:
