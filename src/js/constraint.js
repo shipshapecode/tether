@@ -1,4 +1,4 @@
-/* globals TetherBase */
+import TetherBase from './utils';
 
 const {
   getBounds,
@@ -27,7 +27,7 @@ function getBoundingRect(tether, to) {
     const style = getComputedStyle(to);
 
     to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
-  
+
     // Account any parent Frames scroll offset
     if (node.ownerDocument !== document) {
       let win = node.ownerDocument.defaultView;
@@ -36,13 +36,13 @@ function getBoundingRect(tether, to) {
       to[2] += win.pageXOffset;
       to[3] += win.pageYOffset;
     }
-  
+
     BOUNDS_FORMAT.forEach((side, i) => {
       side = side[0].toUpperCase() + side.substr(1);
       if (side === 'Top' || side === 'Left') {
-        to[i] += parseFloat(style[`border${ side }Width`]);
+        to[i] += parseFloat(style[`border${side}Width`]);
       } else {
-        to[i] -= parseFloat(style[`border${ side }Width`]);
+        to[i] -= parseFloat(style[`border${side}Width`]);
       }
     });
   }
@@ -51,31 +51,31 @@ function getBoundingRect(tether, to) {
 }
 
 TetherBase.modules.push({
-  position({top, left, targetAttachment}) {
+  position({ top, left, targetAttachment }) {
     if (!this.options.constraints) {
       return true;
     }
 
-    let {height, width} = this.cache('element-bounds', () => {
+    let { height, width } = this.cache('element-bounds', () => {
       return getBounds(this.element);
     });
 
     if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
       // Handle the item getting hidden as a result of our positioning without glitching
       // the classes in and out
-      ({width, height} = this.lastSize);
+      ({ width, height } = this.lastSize);
     }
 
     const targetSize = this.cache('target-bounds', () => {
       return this.getTargetBounds();
     });
 
-    const {height: targetHeight, width: targetWidth} = targetSize;
+    const { height: targetHeight, width: targetWidth } = targetSize;
 
     const allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
 
-    this.options.constraints.forEach(constraint => {
-      const {outOfBoundsClass, pinnedClass} = constraint;
+    this.options.constraints.forEach((constraint) => {
+      const { outOfBoundsClass, pinnedClass } = constraint;
       if (outOfBoundsClass) {
         allClasses.push(outOfBoundsClass);
       }
@@ -84,9 +84,9 @@ TetherBase.modules.push({
       }
     });
 
-    allClasses.forEach(cls => {
-      ['left', 'top', 'right', 'bottom'].forEach(side => {
-        allClasses.push(`${ cls }-${ side }`);
+    allClasses.forEach((cls) => {
+      ['left', 'top', 'right', 'bottom'].forEach((side) => {
+        allClasses.push(`${cls}-${side}`);
       });
     });
 
@@ -95,8 +95,8 @@ TetherBase.modules.push({
     const tAttachment = extend({}, targetAttachment);
     const eAttachment = extend({}, this.attachment);
 
-    this.options.constraints.forEach(constraint => {
-      let {to, attachment, pin} = constraint;
+    this.options.constraints.forEach((constraint) => {
+      let { to, attachment, pin } = constraint;
 
       if (typeof attachment === 'undefined') {
         attachment = '';
@@ -148,7 +148,7 @@ TetherBase.modules.push({
             top -= height;
             eAttachment.top = 'bottom';
 
-          } else if (eAttachment.top === 'bottom'&& top < bounds[1] && top + (height*2 - targetHeight) <= bounds[3]) {
+          } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
             top += height - targetHeight;
             tAttachment.top = 'top';
 
@@ -261,7 +261,7 @@ TetherBase.modules.push({
       }
 
       if (typeof pin === 'string') {
-        pin = pin.split(',').map(p => p.trim());
+        pin = pin.split(',').map((p) => p.trim());
       } else if (pin === true) {
         pin = ['top', 'left', 'right', 'bottom'];
       }
@@ -316,8 +316,8 @@ TetherBase.modules.push({
         }
 
         addClasses.push(pinnedClass);
-        pinned.forEach(side => {
-          addClasses.push(`${ pinnedClass }-${ side }`);
+        pinned.forEach((side) => {
+          addClasses.push(`${pinnedClass}-${side}`);
         });
       }
 
@@ -330,8 +330,8 @@ TetherBase.modules.push({
         }
 
         addClasses.push(oobClass);
-        oob.forEach(side => {
-          addClasses.push(`${ oobClass }-${ side }`);
+        oob.forEach((side) => {
+          addClasses.push(`${oobClass}-${side}`);
         });
       }
 
@@ -343,13 +343,13 @@ TetherBase.modules.push({
       }
 
       if (tAttachment.top !== targetAttachment.top ||
-          tAttachment.left !== targetAttachment.left ||
-          eAttachment.top !== this.attachment.top ||
-          eAttachment.left !== this.attachment.left) {
+        tAttachment.left !== targetAttachment.left ||
+        eAttachment.top !== this.attachment.top ||
+        eAttachment.left !== this.attachment.left) {
         this.updateAttachClasses(eAttachment, tAttachment);
         this.trigger('update', {
           attachment: eAttachment,
-          targetAttachment: tAttachment,
+          targetAttachment: tAttachment
         });
       }
     });
@@ -361,6 +361,6 @@ TetherBase.modules.push({
       updateClasses(this.element, addClasses, allClasses);
     });
 
-    return {top, left};
+    return { top, left };
   }
 });
