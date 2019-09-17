@@ -25,6 +25,9 @@ cache:
 services:
   - xvfb
 
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 --window-size=750,1334 http://localhost &
+
 install:
   - yarn install --ignore-engines
 
@@ -40,4 +43,4 @@ jobs:
   include:
     - stage: test
       script:
-        - xvfb-run --server-args="-screen 0 1440x900x24" yarn test
+        - yarn test
