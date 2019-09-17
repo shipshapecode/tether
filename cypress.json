@@ -4,5 +4,7 @@
   "integrationFolder": "test/cypress/integration",
   "pluginsFile": "test/cypress/plugins/index.js",
   "supportFile": "test/cypress/support/index.js",
-  "video": false
+  "video": false,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080
 }

@@ -16,6 +16,7 @@ module.exports = (on, /* config */) => {
     if (browser.name === 'chrome') {
       args.push('--cast-initial-screen-width=1920');
       args.push('--cast-initial-screen-height=1080');
+      args.push('--force-device-scale-factor=1');
 
       return args;
     }
