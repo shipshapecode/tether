@@ -26,8 +26,7 @@ services:
   - xvfb
 
 before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 --window-size=750,1334 http://localhost &
-
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1921x1080x24"
 install:
   - yarn install --ignore-engines
 
