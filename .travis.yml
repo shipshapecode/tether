@@ -40,4 +40,4 @@ jobs:
   include:
     - stage: test
       script:
-        - yarn test
+        - xvfb-run --server-args="-screen 0 1440x900x24" yarn test
