@@ -13,7 +13,7 @@
 
 module.exports = (on, /* config */) => {
   on('before:browser:launch', (browser = {}, args) => {
-    if (browser.name === 'chrome') {
+    if (browser.name === 'chrome' || browser.name === 'chromium') {
       args.push('--cast-initial-screen-width=1920');
       args.push('--cast-initial-screen-height=1080');
       args.push('--force-device-scale-factor=1');
