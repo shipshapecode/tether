@@ -1,34 +1,39 @@
+import { assert } from 'chai';
+
 describe('enable-disable test', () => {
   beforeEach(() => {
     cy.visit('/examples/enable-disable/');
+    cy.get('.container').scrollTo(0, 0);
   });
 
   describe('enable/disable works', () => {
-    it('enable/disable should apply styles', () => {
-      const isCI = Cypress.env('CI');
-      const x = isCI ? '1157' : '1170';
-      const y = isCI ? '228' : '229';
-      const enabledY = isCI ? '478' : '479';
-      // Tether Enabled
+    it('enable should apply transforms', () => {
       cy.get('.tether-target').should('have.class', 'tether-enabled');
-      cy.get('.tether-element').should('have.attr', 'style')
-        .should('contain', `transform: translateX(${x}px) translateY(${enabledY}px) translateZ(0px)`);
+      cy.get('.tether-element').then((tetherElement) => {
+        const prescrollTransform = tetherElement[0].style.transform;
 
-      cy.get('.container').scrollTo(0, 250);
-      cy.get('.tether-element').should('have.attr', 'style')
-        .should('contain', `transform: translateX(${x}px) translateY(${y}px) translateZ(0px)`);
-      cy.get('.container').scrollTo(0, 0);
+        cy.get('.container').scrollTo(0, 250);
+        cy.wait(500);
+        cy.get('.tether-element').then((tetherElement) => {
+          const postscrollTransform = tetherElement[0].style.transform;
+          assert.notEqual(prescrollTransform, postscrollTransform);
+        });
+      });
+    });
 
+    it('disable should not apply transforms', () => {
       cy.get('.tether-target').click();
-
-      // Tether Disabled
       cy.get('.tether-target').should('not.have.class', 'tether-enabled');
-      cy.get('.tether-element').should('have.attr', 'style')
-        .should('contain', `transform: translateX(${x}px) translateY(${y}px) translateZ(0px)`);
-      cy.get('.container').scrollTo(0, 250);
-      cy.get('.tether-element').should('have.attr', 'style')
-        .should('contain', `transform: translateX(${x}px) translateY(${y}px) translateZ(0px)`);
-      cy.get('.container').scrollTo(0, 0);
+      cy.get('.tether-element').then((tetherElement) => {
+        const prescrollTransform = tetherElement[0].style.transform;
+
+        cy.get('.container').scrollTo(0, 250);
+        cy.wait(500);
+        cy.get('.tether-element').then((tetherElement) => {
+          const postscrollTransform = tetherElement[0].style.transform;
+          assert.equal(prescrollTransform, postscrollTransform);
+        });
+      });
     });
   });
 });

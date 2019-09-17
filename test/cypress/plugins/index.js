@@ -11,21 +11,5 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-module.exports = (on, /* config */) => {
-  on('before:browser:launch', (browser = {}, args) => {
-    if (browser.name === 'chrome' || browser.name === 'chromium') {
-      args.push('--cast-initial-screen-width=1920');
-      args.push('--cast-initial-screen-height=1080');
-      args.push('--force-device-scale-factor=1');
-
-      return args;
-    }
-
-    if (browser.name === 'electron') {
-      args.width = 1920;
-      args.height = 1080;
-
-      return args;
-    }
-  });
+module.exports = (/* on, config */) => {
 };
