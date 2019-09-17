@@ -22,6 +22,9 @@ cache:
     # we also need to cache folder with Cypress binary
     - ~/.cache
 
+services:
+  - xvfb
+
 install:
   - yarn install --ignore-engines
 
