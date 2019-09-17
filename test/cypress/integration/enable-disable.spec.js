@@ -1,7 +1,6 @@
 describe('enable-disable test', () => {
   beforeEach(() => {
     cy.visit('/examples/enable-disable/');
-    cy.viewport('macbook-15');
   });
 
   describe('enable/disable works', () => {
@@ -9,11 +8,11 @@ describe('enable-disable test', () => {
       // Tether Enabled
       cy.get('.tether-target').should('have.class', 'tether-enabled');
       cy.get('.tether-element').should('have.attr', 'style')
-        .should('contain', 'transform: translateX(930px) translateY(479px) translateZ(0px)');
+        .should('contain', 'transform: translateX(710px) translateY(479px) translateZ(0px)');
 
       cy.get('.container').scrollTo(0, 250);
       cy.get('.tether-element').should('have.attr', 'style')
-        .should('contain', 'transform: translateX(930px) translateY(229px) translateZ(0px)');
+        .should('contain', 'transform: translateX(710px) translateY(229px) translateZ(0px)');
       cy.get('.container').scrollTo(0, 0);
 
       cy.get('.tether-target').click();
@@ -21,10 +20,10 @@ describe('enable-disable test', () => {
       // Tether Disabled
       cy.get('.tether-target').should('not.have.class', 'tether-enabled');
       cy.get('.tether-element').should('have.attr', 'style')
-        .should('contain', 'transform: translateX(930px) translateY(229px) translateZ(0px)');
+        .should('contain', 'transform: translateX(710px) translateY(229px) translateZ(0px)');
       cy.get('.container').scrollTo(0, 250);
       cy.get('.tether-element').should('have.attr', 'style')
-        .should('contain', 'transform: translateX(930px) translateY(229px) translateZ(0px)');
+        .should('contain', 'transform: translateX(710px) translateY(229px) translateZ(0px)');
       cy.get('.container').scrollTo(0, 0);
     });
   });

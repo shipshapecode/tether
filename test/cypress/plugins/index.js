@@ -11,7 +11,20 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-module.exports = (/*on, config*/) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+module.exports = (on, /* config */) => {
+  on('before:browser:launch', (browser = {}, args) => {
+    if (browser.name === 'chrome') {
+      args.push('--cast-initial-screen-width=1920');
+      args.push('--cast-initial-screen-height=1080');
+
+      return args;
+    }
+
+    if (browser.name === 'electron') {
+      args.width = 1920;
+      args.height = 1080;
+
+      return args;
+    }
+  });
 };
