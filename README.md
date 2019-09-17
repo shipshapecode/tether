@@ -5,11 +5,7 @@ version](https://badge.fury.io/gh/HubSpot%2Ftether.svg)](http://badge.fury.io/gh
 
 ## :rotating_light: Project status :rotating_light:
 
-We at HubSpot have been thrilled by Tether's success! However, the demands of maintaining such a complex project have outstripped our willingness and ability to do so effectively, as a quick glance at the issue tracker will tell you.
-
-If you're a developer and you're looking for an alternative to Tether, check out [Popper.js](https://popper.js.org/). Its maintainers have put a ton of work into it, and it's constantly getting better.
-
-If you're with an organization would like to take ownership of Tether, reach out to us! We'd be happy to see this project in the hands of a team that can give it the love it deserves.
+We at Ship Shape have recently taken over Tether's maintenance and hope to modernize and revitalize it. Stay tuned for updates!
 
 ## Introduction
 
@@ -88,16 +84,16 @@ $ bower install tether
 
 __download__
 
-Or just download from the [releases](https://github.com/HubSpot/tether/releases).
+Or download from the [releases](https://github.com/HubSpot/tether/releases).
 
 ## Usage
 You only need to include [tether.min.js](https://github.com/HubSpot/tether/blob/master/dist/js/tether.min.js) in your page:
 ```
 <script src="path/to/dist/js/tether.min.js"></script>
 ```
-Or just use a CDN:
+Or use a CDN:
 ```
-<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js"></script>
 ```
 
 The css files in the [dist/css](https://github.com/HubSpot/tether/tree/master/dist/css) folder are not required to get tether running.
