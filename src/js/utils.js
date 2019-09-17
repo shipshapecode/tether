@@ -1,6 +1,6 @@
 let TetherBase;
 if (typeof TetherBase === 'undefined') {
-  TetherBase = {modules: []};
+  TetherBase = { modules: [] };
 }
 
 let zeroElement = null;
@@ -13,19 +13,23 @@ function getActualBoundingClientRect(node) {
   // The original object returned by getBoundingClientRect is immutable, so we clone it
   // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
   let rect = {};
-  for (var k in boundingRect) {
+  for (let k in boundingRect) {
     rect[k] = boundingRect[k];
   }
 
-  if (node.ownerDocument !== document) {
-    let frameElement = node.ownerDocument.defaultView.frameElement;
-    if (frameElement) {
-      let frameRect = getActualBoundingClientRect(frameElement);
-      rect.top += frameRect.top;
-      rect.bottom += frameRect.top;
-      rect.left += frameRect.left;
-      rect.right += frameRect.left;
+  try {
+    if (node.ownerDocument !== document) {
+      let { frameElement } = node.ownerDocument.defaultView;
+      if (frameElement) {
+        let frameRect = getActualBoundingClientRect(frameElement);
+        rect.top += frameRect.top;
+        rect.bottom += frameRect.top;
+        rect.left += frameRect.left;
+        rect.right += frameRect.left;
+      }
     }
+  } catch(err) {
+    // Ignore "Access is denied" in IE11/Edge
   }
 
   return rect;
@@ -35,7 +39,7 @@ function getScrollParents(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
   const computedStyle = getComputedStyle(el) || {};
-  const position = computedStyle.position;
+  const { position } = computedStyle;
   let parents = [];
 
   if (position === 'fixed') {
@@ -47,17 +51,19 @@ function getScrollParents(el) {
     let style;
     try {
       style = getComputedStyle(parent);
-    } catch (err) {}
+    } catch(err) {
+      // Intentionally blank
+    }
 
     if (typeof style === 'undefined' || style === null) {
       parents.push(parent);
       return parents;
     }
 
-    const {overflow, overflowX, overflowY} = style;
-    if (/(auto|scroll)/.test(overflow + overflowY + overflowX)) {
+    const { overflow, overflowX, overflowY } = style;
+    if (/(auto|scroll|overlay)/.test(overflow + overflowY + overflowX)) {
       if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
-        parents.push(parent)
+        parents.push(parent);
       }
     }
   }
@@ -84,7 +90,7 @@ const getOrigin = () => {
   // are equivilant or not.  We place an element at the top left of the page that will
   // get the same jitter, so we can cancel the two out.
   let node = zeroElement;
-  if (!node) {
+  if (!node || !document.body.contains(node)) {
     node = document.createElement('div');
     node.setAttribute('data-tether-id', uniqueId());
     extend(node.style, {
@@ -116,7 +122,7 @@ function removeUtilElements() {
     document.body.removeChild(zeroElement);
   }
   zeroElement = null;
-};
+}
 
 function getBounds(el) {
   let doc;
@@ -156,6 +162,7 @@ function getOffsetParent(el) {
 }
 
 let _scrollBarSize = null;
+
 function getScrollBarSize() {
   if (_scrollBarSize) {
     return _scrollBarSize;
@@ -192,16 +199,16 @@ function getScrollBarSize() {
 
   const width = widthContained - widthScroll;
 
-  _scrollBarSize = {width, height: width};
+  _scrollBarSize = { width, height: width };
   return _scrollBarSize;
 }
 
-function extend(out={}) {
+function extend(out = {}) {
   const args = [];
 
   Array.prototype.push.apply(args, arguments);
 
-  args.slice(1).forEach(obj => {
+  args.slice(1).forEach((obj) => {
     if (obj) {
       for (let key in obj) {
         if ({}.hasOwnProperty.call(obj, key)) {
@@ -216,13 +223,13 @@ function extend(out={}) {
 
 function removeClass(el, name) {
   if (typeof el.classList !== 'undefined') {
-    name.split(' ').forEach(cls => {
+    name.split(' ').forEach((cls) => {
       if (cls.trim()) {
         el.classList.remove(cls);
       }
     });
   } else {
-    const regex = new RegExp(`(^| )${ name.split(' ').join('|') }( |$)`, 'gi');
+    const regex = new RegExp(`(^| )${name.split(' ').join('|')}( |$)`, 'gi');
     const className = getClassName(el).replace(regex, ' ');
     setClassName(el, className);
   }
@@ -230,14 +237,14 @@ function removeClass(el, name) {
 
 function addClass(el, name) {
   if (typeof el.classList !== 'undefined') {
-    name.split(' ').forEach(cls => {
+    name.split(' ').forEach((cls) => {
       if (cls.trim()) {
         el.classList.add(cls);
       }
     });
   } else {
     removeClass(el, name);
-    const cls = getClassName(el) + ` ${name}`;
+    const cls = `${getClassName(el)} ${name}`;
     setClassName(el, cls);
   }
 }
@@ -247,7 +254,7 @@ function hasClass(el, name) {
     return el.classList.contains(name);
   }
   const className = getClassName(el);
-  return new RegExp(`(^| )${ name }( |$)`, 'gi').test(className);
+  return new RegExp(`(^| )${name}( |$)`, 'gi').test(className);
 }
 
 function getClassName(el) {
@@ -263,17 +270,16 @@ function setClassName(el, className) {
   el.setAttribute('class', className);
 }
 
-
 function updateClasses(el, add, all) {
   // Of the set of 'all' classes, we need the 'add' classes, and only the
   // 'add' classes to be set.
-  all.forEach(cls => {
+  all.forEach((cls) => {
     if (add.indexOf(cls) === -1 && hasClass(el, cls)) {
       removeClass(el, cls);
     }
   });
 
-  add.forEach(cls => {
+  add.forEach((cls) => {
     if (!hasClass(el, cls)) {
       addClass(el, cls);
     }
@@ -288,68 +294,11 @@ const defer = (fn) => {
 
 const flush = () => {
   let fn;
-  while(fn = deferred.pop()) {
+  // eslint-disable-next-line
+  while (fn = deferred.pop()) {
     fn();
   }
 };
-
-class Evented {
-  on(event, handler, ctx, once=false) {
-    if (typeof this.bindings === 'undefined') {
-      this.bindings = {};
-    }
-    if (typeof this.bindings[event] === 'undefined') {
-      this.bindings[event] = [];
-    }
-    this.bindings[event].push({handler, ctx, once});
-  }
-
-  once(event, handler, ctx) {
-    this.on(event, handler, ctx, true);
-  }
-
-  off(event, handler) {
-    if (typeof this.bindings === 'undefined' ||
-        typeof this.bindings[event] === 'undefined') {
-      return;
-    }
-
-    if (typeof handler === 'undefined') {
-      delete this.bindings[event];
-    } else {
-      let i = 0;
-      while (i < this.bindings[event].length) {
-        if (this.bindings[event][i].handler === handler) {
-          this.bindings[event].splice(i, 1);
-        } else {
-          ++i;
-        }
-      }
-    }
-  }
-
-  trigger(event, ...args) {
-    if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
-      let i = 0;
-      while (i < this.bindings[event].length) {
-        const {handler, ctx, once} = this.bindings[event][i];
-
-        let context = ctx;
-        if (typeof context === 'undefined') {
-          context = this;
-        }
-
-        handler.apply(context, args);
-
-        if (once) {
-          this.bindings[event].splice(i, 1);
-        } else {
-          ++i;
-        }
-      }
-    }
-  }
-}
 
 TetherBase.Utils = {
   getActualBoundingClientRect,
@@ -364,7 +313,8 @@ TetherBase.Utils = {
   defer,
   flush,
   uniqueId,
-  Evented,
   getScrollBarSize,
   removeUtilElements
 };
+
+export default TetherBase;

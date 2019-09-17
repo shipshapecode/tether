@@ -1,13 +1,19 @@
-## Tether
+# Tether
 
 [![GitHub
 version](https://badge.fury.io/gh/HubSpot%2Ftether.svg)](http://badge.fury.io/gh/HubSpot%2Ftether)
+
+## :rotating_light: Project status :rotating_light:
+
+We at Ship Shape have recently taken over Tether's maintenance and hope to modernize and revitalize it. Stay tuned for updates!
+
+## Introduction
 
 [Tether](http://github.hubspot.com/tether/) is a small, focused JavaScript library for defining and managing the position of user interface (UI) elements in relation to one another on a web page. It is a tool for web developers building features that require certain UI elements to be precisely positioned based on the location of another UI element.
 
 There are often situations in UI development where elements need to be attached to other elements, but placing them right next to each other in the [DOM tree](https://en.wikipedia.org/wiki/Document_Object_Model) can be problematic based on the context. For example, what happens if the element we’re attaching other elements to is fixed to the center of the screen? Or what if the element is inside a scrollable container? How can we prevent the attached element from being clipped as it disappears from view while a user is scrolling? Tether can solve all of these problems and more.
 
-Some common UI elements that have been built with Tether are [tooltips](http://github.hubspot.com/tooltip/docs/welcome), [select menus](http://github.hubspot.com/select/docs/welcome), [dropdown menus](http://github.hubspot.com/drop/docs/welcome), and [guided tours](http://github.hubspot.com/shepherd/docs/welcome). Tether is flexible and can be used to [solve](http://github.hubspot.com/tether/examples/out-of-bounds/) [all](http://github.hubspot.com/tether/examples/content-visible) [kinds](http://github.hubspot.com/tether/examples/element-scroll) [of](http://github.hubspot.com/tether/examples/enable-disable) [interesting]() [problems](http://github.hubspot.com/tether/examples/viewport); it ensures UI elements stay where they need to be, based on the various user interactions (click, scroll, etc) and layout contexts (fixed positioning, inside scrollable containers, etc).
+Some common UI elements that have been built with Tether are [tooltips](http://github.hubspot.com/tooltip/docs/welcome), [select menus](http://github.hubspot.com/select/docs/welcome), [dropdown menus](http://github.hubspot.com/drop/docs/welcome), and [guided tours](http://github.hubspot.com/shepherd/docs/welcome). Tether is flexible and can be used to [solve](http://github.hubspot.com/tether/examples/out-of-bounds/) [all](http://github.hubspot.com/tether/examples/content-visible) [kinds](http://github.hubspot.com/tether/examples/element-scroll) [of](http://github.hubspot.com/tether/examples/enable-disable) interesting [problems](http://github.hubspot.com/tether/examples/viewport); it ensures UI elements stay where they need to be, based on the various user interactions (click, scroll, etc) and layout contexts (fixed positioning, inside scrollable containers, etc).
 
 Please have a look at the [documentation](http://github.hubspot.com/tether/) for a more detailed explanation of why you might need Tether for your next project.
 
@@ -50,7 +56,7 @@ After installing Tether and including it in your project, you can begin using it
     new Tether({
       element: '.comments',
       target: '.picture',
-      attachment: 'top right'
+      attachment: 'top right',
       targetAttachment: 'top left'
     });
     ```
@@ -78,16 +84,16 @@ $ bower install tether
 
 __download__
 
-Or just download from the [releases](https://github.com/HubSpot/tether/releases).
+Or download from the [releases](https://github.com/HubSpot/tether/releases).
 
 ## Usage
 You only need to include [tether.min.js](https://github.com/HubSpot/tether/blob/master/dist/js/tether.min.js) in your page:
 ```
 <script src="path/to/dist/js/tether.min.js"></script>
 ```
-Or just use a CDN:
+Or use a CDN:
 ```
-<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.3.1/js/tether.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js"></script>
 ```
 
 The css files in the [dist/css](https://github.com/HubSpot/tether/tree/master/dist/css) folder are not required to get tether running.
@@ -103,4 +109,4 @@ For more details jump straight in to the detailed [Usage](http://github.hubspot.
 We encourage contributions of all kinds. If you would like to contribute in some way, please review our [guidelines for contributing](CONTRIBUTING.md).
 
 ## License
-Copyright &copy; 2014-2016 HubSpot - [MIT License](LICENSE)
+Copyright &copy; 2014-2017 HubSpot - [MIT License](LICENSE)
