@@ -221,42 +221,6 @@ function extend(out = {}) {
   return out;
 }
 
-function removeClass(el, name) {
-  if (typeof el.classList !== 'undefined') {
-    name.split(' ').forEach((cls) => {
-      if (cls.trim()) {
-        el.classList.remove(cls);
-      }
-    });
-  } else {
-    const regex = new RegExp(`(^| )${name.split(' ').join('|')}( |$)`, 'gi');
-    const className = getClassName(el).replace(regex, ' ');
-    setClassName(el, className);
-  }
-}
-
-function addClass(el, name) {
-  if (typeof el.classList !== 'undefined') {
-    name.split(' ').forEach((cls) => {
-      if (cls.trim()) {
-        el.classList.add(cls);
-      }
-    });
-  } else {
-    removeClass(el, name);
-    const cls = `${getClassName(el)} ${name}`;
-    setClassName(el, cls);
-  }
-}
-
-function hasClass(el, name) {
-  if (typeof el.classList !== 'undefined') {
-    return el.classList.contains(name);
-  }
-  const className = getClassName(el);
-  return new RegExp(`(^| )${name}( |$)`, 'gi').test(className);
-}
-
 function getClassName(el) {
   // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
   // completely separately SVGAnimatedString base classes
@@ -268,22 +232,6 @@ function getClassName(el) {
 
 function setClassName(el, className) {
   el.setAttribute('class', className);
-}
-
-function updateClasses(el, add, all) {
-  // Of the set of 'all' classes, we need the 'add' classes, and only the
-  // 'add' classes to be set.
-  all.forEach((cls) => {
-    if (add.indexOf(cls) === -1 && hasClass(el, cls)) {
-      removeClass(el, cls);
-    }
-  });
-
-  add.forEach((cls) => {
-    if (!hasClass(el, cls)) {
-      addClass(el, cls);
-    }
-  });
 }
 
 const deferred = [];
@@ -306,10 +254,6 @@ TetherBase.Utils = {
   getBounds,
   getOffsetParent,
   extend,
-  addClass,
-  removeClass,
-  hasClass,
-  updateClasses,
   defer,
   flush,
   uniqueId,

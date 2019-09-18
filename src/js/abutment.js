@@ -1,6 +1,7 @@
 import TetherBase from './utils';
+import { updateClasses } from './utils/classes';
 
-const { getBounds, updateClasses, defer } = TetherBase.Utils;
+const { getBounds, defer } = TetherBase.Utils;
 
 TetherBase.modules.push({
   position({ top, left }) {

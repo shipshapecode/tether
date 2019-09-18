@@ -1,9 +1,9 @@
 import TetherBase from './utils';
+import { updateClasses } from './utils/classes';
 
 const {
   getBounds,
   extend,
-  updateClasses,
   defer
 } = TetherBase.Utils;
 
