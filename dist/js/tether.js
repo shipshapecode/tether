@@ -1700,12 +1700,19 @@
         }
       };
 
+      var hasOptimizations = typeof this.options.optimizations !== 'undefined';
+      var allowPositionFixed = true;
+
+      if (hasOptimizations && this.options.optimizations.allowPositionFixed === false) {
+        allowPositionFixed = false;
+      }
+
       var moved = false;
 
       if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
         css.position = 'absolute';
         transcribe(same.page, pos.page);
-      } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
+      } else if (allowPositionFixed && (same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
         css.position = 'fixed';
         transcribe(same.viewport, pos.viewport);
       } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
