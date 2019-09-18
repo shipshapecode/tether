@@ -88,11 +88,6 @@ __npm__
 $ npm install tether
 ```
 
-__bower__
-```sh
-$ bower install tether
-```
-
 __download__
 
 Or download from the [releases](https://github.com/HubSpot/tether/releases).
