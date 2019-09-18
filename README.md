@@ -1,7 +1,18 @@
 # Tether
 
-[![GitHub
-version](https://badge.fury.io/gh/HubSpot%2Ftether.svg)](http://badge.fury.io/gh/HubSpot%2Ftether)
+<div>
+  <a href="https://shipshape.io">
+    <img align="left" src="http://i.imgur.com/DWHQjA5.png" alt="Ship Shape" width="50" height="50"/>
+  </a>
+ 
+  **[Tether is maintained by Ship Shape. Contact us for web app consulting, development, and training for your project](https://shipshape.io/ember-consulting/)**.
+</div>  
+
+[![npm version](https://badge.fury.io/js/tether.svg)](http://badge.fury.io/js/tether)
+![Download count all time](https://img.shields.io/npm/dt/tether.svg)
+[![npm](https://img.shields.io/npm/dm/tether.svg)]()
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/tether.svg)
+[![Build Status](https://travis-ci.com/shipshapecode/tether.svg?branch=master)](https://travis-ci.com/shipshapecode/tether)
 
 ## :rotating_light: Project status :rotating_light:
 
