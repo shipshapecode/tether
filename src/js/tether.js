@@ -6,6 +6,7 @@ import '../css/tether-theme-arrows-dark.scss';
 import '../css/tether-theme-basic.scss';
 import { Evented } from './evented';
 import TetherBase from './utils';
+import { addClass, removeClass, updateClasses } from './utils/classes';
 import './constraint';
 import './abutment';
 import './shift';
@@ -15,9 +16,6 @@ const {
   getBounds,
   getOffsetParent,
   extend,
-  addClass,
-  removeClass,
-  updateClasses,
   defer,
   flush,
   getScrollBarSize,

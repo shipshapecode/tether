@@ -338,72 +338,6 @@
     return out;
   }
 
-  function removeClass(el, name) {
-    if (typeof el.classList !== 'undefined') {
-      name.split(' ').forEach(function (cls) {
-        if (cls.trim()) {
-          el.classList.remove(cls);
-        }
-      });
-    } else {
-      var regex = new RegExp("(^| )" + name.split(' ').join('|') + "( |$)", 'gi');
-      var className = getClassName(el).replace(regex, ' ');
-      setClassName(el, className);
-    }
-  }
-
-  function addClass(el, name) {
-    if (typeof el.classList !== 'undefined') {
-      name.split(' ').forEach(function (cls) {
-        if (cls.trim()) {
-          el.classList.add(cls);
-        }
-      });
-    } else {
-      removeClass(el, name);
-      var cls = getClassName(el) + " " + name;
-      setClassName(el, cls);
-    }
-  }
-
-  function hasClass(el, name) {
-    if (typeof el.classList !== 'undefined') {
-      return el.classList.contains(name);
-    }
-
-    var className = getClassName(el);
-    return new RegExp("(^| )" + name + "( |$)", 'gi').test(className);
-  }
-
-  function getClassName(el) {
-    // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
-    // completely separately SVGAnimatedString base classes
-    if (el.className instanceof el.ownerDocument.defaultView.SVGAnimatedString) {
-      return el.className.baseVal;
-    }
-
-    return el.className;
-  }
-
-  function setClassName(el, className) {
-    el.setAttribute('class', className);
-  }
-
-  function updateClasses(el, add, all) {
-    // Of the set of 'all' classes, we need the 'add' classes, and only the
-    // 'add' classes to be set.
-    all.forEach(function (cls) {
-      if (add.indexOf(cls) === -1 && hasClass(el, cls)) {
-        removeClass(el, cls);
-      }
-    });
-    add.forEach(function (cls) {
-      if (!hasClass(el, cls)) {
-        addClass(el, cls);
-      }
-    });
-  }
-
   var deferred = [];
 
   var defer = function defer(fn) {
@@ -424,10 +358,6 @@
     getBounds: getBounds,
     getOffsetParent: getOffsetParent,
     extend: extend,
-    addClass: addClass,
-    removeClass: removeClass,
-    hasClass: hasClass,
-    updateClasses: updateClasses,
     defer: defer,
     flush: flush,
     uniqueId: uniqueId,
@@ -436,10 +366,38 @@
   };
   var TetherBase$1 = TetherBase;
 
+  function addClass(el, name) {
+    name.split(' ').forEach(function (cls) {
+      if (cls.trim()) {
+        el.classList.add(cls);
+      }
+    });
+  }
+  function removeClass(el, name) {
+    name.split(' ').forEach(function (cls) {
+      if (cls.trim()) {
+        el.classList.remove(cls);
+      }
+    });
+  }
+  function updateClasses(el, add, all) {
+    // Of the set of 'all' classes, we need the 'add' classes, and only the
+    // 'add' classes to be set.
+    all.forEach(function (cls) {
+      if (add.indexOf(cls) === -1 && el.classList.contains(cls)) {
+        removeClass(el, cls);
+      }
+    });
+    add.forEach(function (cls) {
+      if (!el.classList.contains(cls)) {
+        addClass(el, cls);
+      }
+    });
+  }
+
   var _TetherBase$Utils = TetherBase$1.Utils,
       getBounds$1 = _TetherBase$Utils.getBounds,
       extend$1 = _TetherBase$Utils.extend,
-      updateClasses$1 = _TetherBase$Utils.updateClasses,
       defer$1 = _TetherBase$Utils.defer;
   var BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
@@ -786,10 +744,10 @@
       });
       defer$1(function () {
         if (!(_this.options.addTargetClasses === false)) {
-          updateClasses$1(_this.target, addClasses, allClasses);
+          updateClasses(_this.target, addClasses, allClasses);
         }
 
-        updateClasses$1(_this.element, addClasses, allClasses);
+        updateClasses(_this.element, addClasses, allClasses);
       });
       return {
         top: top,
@@ -800,7 +758,6 @@
 
   var _TetherBase$Utils$1 = TetherBase$1.Utils,
       getBounds$2 = _TetherBase$Utils$1.getBounds,
-      updateClasses$2 = _TetherBase$Utils$1.updateClasses,
       defer$2 = _TetherBase$Utils$1.defer;
   TetherBase$1.modules.push({
     position: function position(_ref) {
@@ -857,10 +814,10 @@
       });
       defer$2(function () {
         if (!(_this.options.addTargetClasses === false)) {
-          updateClasses$2(_this.target, addClasses, allClasses);
+          updateClasses(_this.target, addClasses, allClasses);
         }
 
-        updateClasses$2(_this.element, addClasses, allClasses);
+        updateClasses(_this.element, addClasses, allClasses);
       });
       return true;
     }
@@ -914,9 +871,6 @@
       getBounds$3 = _TetherBase$Utils$2.getBounds,
       getOffsetParent$1 = _TetherBase$Utils$2.getOffsetParent,
       extend$2 = _TetherBase$Utils$2.extend,
-      addClass$1 = _TetherBase$Utils$2.addClass,
-      removeClass$1 = _TetherBase$Utils$2.removeClass,
-      updateClasses$3 = _TetherBase$Utils$2.updateClasses,
       defer$3 = _TetherBase$Utils$2.defer,
       flush$1 = _TetherBase$Utils$2.flush,
       getScrollBarSize$1 = _TetherBase$Utils$2.getScrollBarSize,
@@ -1199,10 +1153,10 @@
           _this2[key] = document.querySelector(_this2[key]);
         }
       });
-      addClass$1(this.element, this.getClass('element'));
+      addClass(this.element, this.getClass('element'));
 
       if (!(this.options.addTargetClasses === false)) {
-        addClass$1(this.target, this.getClass('target'));
+        addClass(this.target, this.getClass('target'));
       }
 
       if (!this.options.attachment) {
@@ -1347,10 +1301,10 @@
       }
 
       if (!(this.options.addTargetClasses === false)) {
-        addClass$1(this.target, this.getClass('enabled'));
+        addClass(this.target, this.getClass('enabled'));
       }
 
-      addClass$1(this.element, this.getClass('enabled'));
+      addClass(this.element, this.getClass('enabled'));
       this.enabled = true;
       this.scrollParents.forEach(function (parent) {
         if (parent !== _this3.target.ownerDocument) {
@@ -1366,8 +1320,8 @@
     _proto.disable = function disable() {
       var _this4 = this;
 
-      removeClass$1(this.target, this.getClass('enabled'));
-      removeClass$1(this.element, this.getClass('enabled'));
+      removeClass(this.target, this.getClass('enabled'));
+      removeClass(this.element, this.getClass('enabled'));
       this.enabled = false;
 
       if (typeof this.scrollParents !== 'undefined') {
@@ -1438,10 +1392,10 @@
           return;
         }
 
-        updateClasses$3(_this6.element, _this6._addAttachClasses, all);
+        updateClasses(_this6.element, _this6._addAttachClasses, all);
 
         if (!(_this6.options.addTargetClasses === false)) {
-          updateClasses$3(_this6.target, _this6._addAttachClasses, all);
+          updateClasses(_this6.target, _this6._addAttachClasses, all);
         }
 
         delete _this6._addAttachClasses;
