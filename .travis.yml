@@ -54,7 +54,7 @@ jobs:
         email: rwwagner90@gmail.com
         skip_cleanup: true
         api_key:
-          secure: "Cd1paqDwt2tNcFYudn9lcnVl/wV9DAG9E5YlnbuoXzrFaK3AA8htlblGLYVij0kf4/1mo3ftsLKtoSCM45fWjSPEsZpsjGq0Sx8r6hg/ICkBkQHhm0dKpFy8245sYhEDfiu1jHV5556OUtZ7iNeH1zQ5Vy1t8VwJLJuGw/jrtOw="
+          secure: "P6U27xjFIXElcj4PNG8UTYbl8/Wm5wdqSPLxGYnY+aZ6qNqDMPvEGIjKOIqSK9sHrNB8QtdRmk52ANkd6BW+8qGZLf81k2J5ARLaMGfEf1fya3a/gdrbT39+eZB0KPfsdS7NNph2YB0NONQ0dyW5MN8BpwsPUG9ME5wSOHfv/80="
         on:
           branch: master
           tags: true
@@ -78,7 +78,7 @@ jobs:
       deploy:
         provider: releases
         api_key:
-          secure: "jF72DkLlXj1P6Ro8zJyGKKtEWsJEPrBdh4TOlP//Vbw0kTXH63H7WjRXRSUE1JEZoAWnf6JgJRsJFY2WbEilnnns55p3CHS/gjCFZvpDOKZN4iQ+AgFJn3oC2WTdaBtqMQH72v6PKNV686V3uFOqhGP/Ze6cpTIAISyBwc6Yfyg="
+          secure: "YY00lp8nCbyKrrGgJCMwle+Oiwi0D2dprmZNW9VTXNykriZDcWp/q1/P+OX+FDlp24J9pQngv4irfCD34hSpS7CyDUR1iVPs3Na4BRfdcHWP1OHVvekWYX5ngELERW65QhCv5VrxO7jeSe6ZUIuoQ9DToPNcsQurLXh4jXAe7UI="
         file_glob: true
         file:
           - dist/css/*
