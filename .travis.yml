@@ -30,10 +30,60 @@ stages:
     if: (tag =~ ^v)
   - name: github-releases
     if: (tag =~ ^v)
-  - gh-pages release
 
 jobs:
   include:
     - stage: test
       script:
         - yarn test
+    - stage: npm-release
+      script:
+        - yarn build
+      # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
+      before_deploy: |
+        function npm_dist_tag() {
+          if [[ "$TRAVIS_TAG" = *"-"* ]]; then
+            echo "next"
+          else
+            echo "latest"
+          fi
+        }
+      deploy:
+        provider: npm
+        tag: $(npm_dist_tag)
+        email: rwwagner90@gmail.com
+        skip_cleanup: true
+        api_key:
+          secure: "Cd1paqDwt2tNcFYudn9lcnVl/wV9DAG9E5YlnbuoXzrFaK3AA8htlblGLYVij0kf4/1mo3ftsLKtoSCM45fWjSPEsZpsjGq0Sx8r6hg/ICkBkQHhm0dKpFy8245sYhEDfiu1jHV5556OUtZ7iNeH1zQ5Vy1t8VwJLJuGw/jrtOw="
+        on:
+          branch: master
+          tags: true
+          repo: shipshapecode/tether
+        after_deploy: |
+          if [ "$(npm_dist_tag)" == "latest" ]; then
+            npm dist-tag rm tether next || true
+          fi
+    - stage: github-releases
+      script:
+        - yarn build
+      # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
+      before_deploy: |
+        function gh_prerelease() {
+          if [[ "$TRAVIS_TAG" = *"-"* ]]; then
+            echo true
+          else
+            echo false
+          fi
+        }
+      deploy:
+        provider: releases
+        api_key: $GH_TOKEN
+        file_glob: true
+        file:
+          - dist/css/*
+          - dist/js/*
+        skip_cleanup: true
+        prerelease: $(gh_prerelease)
+        on:
+          tags: true
+

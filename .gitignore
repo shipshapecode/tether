@@ -2,10 +2,16 @@
 /.idea/
 /.vscode/
 
-.DS_Store
-.sass-cache
-coverage/
-deps/
-node_modules/
-npm-debug.log
-stats.html
+/.log/
+/.nyc_output/
+/coverage/
+/cypress/
+/docs/
+/dist/
+/node_modules/
+/test/unit/dist
+/.DS_Store
+/.sass-cache
+/npm-debug.log*
+/stats.html
+/yarn-error.log
