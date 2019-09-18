@@ -14,7 +14,7 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/tether.svg)
 [![Build Status](https://travis-ci.com/shipshapecode/tether.svg?branch=master)](https://travis-ci.com/shipshapecode/tether)
 
-## :rotating_light: Project status :rotating_light:
+## 🐙 Project status 🐙 
 
 We at Ship Shape have recently taken over Tether's maintenance and hope to modernize and revitalize it. Stay tuned for updates!
 
