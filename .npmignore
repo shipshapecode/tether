@@ -4,17 +4,23 @@
 coverage/
 cypress/
 docs/
+examples/
 esdoc/
 jsdoc-template/
 test/
 tests/
 
 .codeclimate.yml
+.eslintignore
 .eslintrc.js
 .gitignore
+.hsdoc
 .stylelintrc.js
 .travis.yml
+babel.config.js
+cypress.json
 index.html
+rollup.config.js
 yarn.lock
 yarn-error.log
 
