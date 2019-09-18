@@ -39,15 +39,16 @@ function () {
       ctx: ctx,
       once: once
     });
+    return this;
   };
 
   _proto.once = function once(event, handler, ctx) {
-    this.on(event, handler, ctx, true);
+    return this.on(event, handler, ctx, true);
   };
 
   _proto.off = function off(event, handler) {
     if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
-      return;
+      return this;
     }
 
     if (typeof handler === 'undefined') {
@@ -63,6 +64,8 @@ function () {
         }
       }
     }
+
+    return this;
   };
 
   _proto.trigger = function trigger(event) {
@@ -93,6 +96,8 @@ function () {
         }
       }
     }
+
+    return this;
   };
 
   return Evented;

@@ -10,6 +10,13 @@ describe('Evented', () => {
     testOnTriggered = false;
   });
 
+  describe('chaining', ()=>{
+    it('allows chaining', () => {
+      const chain = testEvent.on('foo').off('foo').trigger('foo');
+      expect(chain, 'chaining returns evented reference').toEqual(testEvent);
+    });
+  });
+
   describe('on()', () => {
     it('adds a new event binding', () => {
       expect(testEvent.bindings.testOn, 'custom event added').toBeTruthy();
@@ -48,7 +55,7 @@ describe('Evented', () => {
     });
 
     it('does not remove uncreated events', () => {
-      expect(testEvent.off('testBlank'), 'returns false for non created events').toBeFalsy();
+      expect(testEvent.off('testBlank'), 'returns evented reference for non created events').toEqual(testEvent);
     });
   });
 
