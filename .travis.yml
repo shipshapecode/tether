@@ -5,6 +5,10 @@ node_js:
 sudo: false
 dist: xenial
 
+env:
+  global:
+    secure: OjRbwNm+BgFfz7RLuczD2iF6QtTospEH2gnI1IMufxto0uvN8scN4aiGlogQ2iTnTzVqsLISL5FO/OzQ3AjJXGBjeG86ntl5sxFTsIru4NujcF+l0IvJMvrsfq2FTTk+fjZduK7gjIB9Vo+Z1BkoiD73FrDarcORz2onvIJwESs=
+
 addons:
   apt:
     packages:
