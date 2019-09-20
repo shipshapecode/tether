@@ -7,6 +7,7 @@ import '../css/tether-theme-basic.scss';
 import { Evented } from './evented';
 import TetherBase from './utils';
 import { addClass, removeClass, updateClasses } from './utils/classes';
+import { defer, flush } from './utils/deferred';
 import './constraint';
 import './abutment';
 import './shift';
@@ -16,8 +17,6 @@ const {
   getBounds,
   getOffsetParent,
   extend,
-  defer,
-  flush,
   getScrollBarSize,
   removeUtilElements
 } = TetherBase.Utils;

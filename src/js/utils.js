@@ -1,3 +1,5 @@
+import { defer } from './utils/deferred';
+
 let TetherBase;
 if (typeof TetherBase === 'undefined') {
   TetherBase = { modules: [] };
@@ -221,41 +223,11 @@ function extend(out = {}) {
   return out;
 }
 
-function getClassName(el) {
-  // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
-  // completely separately SVGAnimatedString base classes
-  if (el.className instanceof el.ownerDocument.defaultView.SVGAnimatedString) {
-    return el.className.baseVal;
-  }
-  return el.className;
-}
-
-function setClassName(el, className) {
-  el.setAttribute('class', className);
-}
-
-const deferred = [];
-
-const defer = (fn) => {
-  deferred.push(fn);
-};
-
-const flush = () => {
-  let fn;
-  // eslint-disable-next-line
-  while (fn = deferred.pop()) {
-    fn();
-  }
-};
-
 TetherBase.Utils = {
-  getActualBoundingClientRect,
   getScrollParents,
   getBounds,
   getOffsetParent,
   extend,
-  defer,
-  flush,
   uniqueId,
   getScrollBarSize,
   removeUtilElements
