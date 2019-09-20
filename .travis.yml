@@ -5,6 +5,10 @@ node_js:
 sudo: false
 dist: xenial
 
+env:
+  global:
+    - secure: "cQfF2hpLAEqin8kyqGLarmET86eVuOgctPnayWrrtLnWyN23OJ+QF0haqS9TV50D7BleBajPD803Ame9IZ8eSFG93BrTEiV7l+aNdTbO4bpcljtoV2XwIp5NHWg42PvHBYlRNJFBTUNPdIi1GEfFm78A+lFL6ks0cH17P1YrBms="
+
 addons:
   apt:
     packages:
@@ -34,8 +38,14 @@ stages:
 jobs:
   include:
     - stage: test
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
       script:
         - yarn test
+      after_script:
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
     - stage: npm-release
       script:
         - yarn build
