@@ -13,6 +13,7 @@ exclude_patterns:
   - "demo/"
   - "dist/"
   - "docs/"
+  - "examples/"
   - "jsdoc-template/"
   - "**/node_modules/"
   - "**/test/"
