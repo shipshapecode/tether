@@ -34,28 +34,25 @@ TetherBase.modules.push({
       });
     }
 
-    const allClasses = [];
-    const addClasses = [];
-
     const sides = ['left', 'top', 'right', 'bottom'];
-    allClasses.push(this.getClass('abutted'));
+    this.all.push(this.getClass('abutted'));
     sides.forEach((side) => {
-      allClasses.push(`${this.getClass('abutted')}-${side}`);
+      this.all.push(`${this.getClass('abutted')}-${side}`);
     });
 
     if (abutted.length) {
-      addClasses.push(this.getClass('abutted'));
+      this.add.push(this.getClass('abutted'));
     }
 
     abutted.forEach((side) => {
-      addClasses.push(`${this.getClass('abutted')}-${side}`);
+      this.add.push(`${this.getClass('abutted')}-${side}`);
     });
 
     defer(() => {
       if (!(this.options.addTargetClasses === false)) {
-        updateClasses(this.target, addClasses, allClasses);
+        updateClasses(this.target, this.add, this.all);
       }
-      updateClasses(this.element, addClasses, allClasses);
+      updateClasses(this.element, this.add, this.all);
     });
 
     return true;
