@@ -250,10 +250,7 @@ class TetherClass extends Evented {
       }
     });
 
-    addClass(this.element, this.getClass('element'));
-    if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, this.getClass('target'));
-    }
+    this._addClasses();
 
     if (!this.options.attachment) {
       throw new Error('Tether Error: You must provide an attachment');
@@ -424,6 +421,8 @@ class TetherClass extends Evented {
   destroy() {
     this.disable();
 
+    this._removeClasses();
+
     tethers.forEach((tether, i) => {
       if (tether === this) {
         tethers.splice(i, 1);
@@ -451,25 +450,25 @@ class TetherClass extends Evented {
     if (typeof this._addAttachClasses === 'undefined') {
       this._addAttachClasses = [];
     }
-    const add = this._addAttachClasses;
+    this.add = this._addAttachClasses;
 
     if (elementAttach.top) {
-      add.push(`${this.getClass('element-attached')}-${elementAttach.top}`);
+      this.add.push(`${this.getClass('element-attached')}-${elementAttach.top}`);
     }
     if (elementAttach.left) {
-      add.push(`${this.getClass('element-attached')}-${elementAttach.left}`);
+      this.add.push(`${this.getClass('element-attached')}-${elementAttach.left}`);
     }
     if (targetAttach.top) {
-      add.push(`${this.getClass('target-attached')}-${targetAttach.top}`);
+      this.add.push(`${this.getClass('target-attached')}-${targetAttach.top}`);
     }
     if (targetAttach.left) {
-      add.push(`${this.getClass('target-attached')}-${targetAttach.left}`);
+      this.add.push(`${this.getClass('target-attached')}-${targetAttach.left}`);
     }
 
-    const all = [];
+    this.all = [];
     sides.forEach((side) => {
-      all.push(`${this.getClass('element-attached')}-${side}`);
-      all.push(`${this.getClass('target-attached')}-${side}`);
+      this.all.push(`${this.getClass('element-attached')}-${side}`);
+      this.all.push(`${this.getClass('target-attached')}-${side}`);
     });
 
     defer(() => {
@@ -477,9 +476,9 @@ class TetherClass extends Evented {
         return;
       }
 
-      updateClasses(this.element, this._addAttachClasses, all);
+      updateClasses(this.element, this._addAttachClasses, this.all);
       if (!(this.options.addTargetClasses === false)) {
-        updateClasses(this.target, this._addAttachClasses, all);
+        updateClasses(this.target, this._addAttachClasses, this.all);
       }
 
       delete this._addAttachClasses;
@@ -809,6 +808,25 @@ class TetherClass extends Evented {
         this.trigger('repositioned');
       });
     }
+  }
+
+  _addClasses() {
+    addClass(this.element, this.getClass('element'));
+    if (!(this.options.addTargetClasses === false)) {
+      addClass(this.target, this.getClass('target'));
+    }
+  }
+
+  _removeClasses() {
+    removeClass(this.element, this.getClass('element'));
+    if (!(this.options.addTargetClasses === false)) {
+      removeClass(this.target, this.getClass('target'));
+    }
+
+    this.all.forEach((className) => {
+      this.element.classList.remove(className);
+      this.target.classList.remove(className);
+    });
   }
 }
 
