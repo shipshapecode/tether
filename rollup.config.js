@@ -13,31 +13,37 @@ import fs from 'fs';
 const pkg = require('./package.json');
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
-const sassOptions = {
-  output(styles, styleNodes) {
-
-    fs.mkdirSync('dist/css', { recursive: true }, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
-
-    styleNodes.forEach(({ id, content }) => {
-      const scssName = id.substring(id.lastIndexOf('/') + 1, id.length);
-      const [name] = scssName.split('.');
-      fs.writeFileSync(`dist/css/${name}.css`, content);
-    });
-  },
-  processor: (css) => postcss([
+function getSassOptions(minify = false) {
+  const postcssPlugins = [
     autoprefixer({
       grid: false
     })
-  ])
-    .process(css, {
-      from: undefined
-    })
-    .then((result) => result.css)
-};
+  ];
+
+  if (minify) {
+    postcssPlugins.push(cssnano());
+  }
+  return {
+    output(styles, styleNodes) {
+      fs.mkdirSync('dist/css', { recursive: true }, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+
+      styleNodes.forEach(({ id, content }) => {
+        const scssName = id.substring(id.lastIndexOf('/') + 1, id.length);
+        const [name] = scssName.split('.');
+        fs.writeFileSync(`dist/css/${name}.${minify ? 'min.css' : 'css'}`, content);
+      });
+    },
+    processor: (css) => postcss(postcssPlugins)
+      .process(css, {
+        from: undefined
+      })
+      .then((result) => result.css)
+  };
+}
 
 const rollupBuilds = [
   {
@@ -60,7 +66,7 @@ const rollupBuilds = [
         include: '**/*.js'
       }),
       babel(),
-      sass(sassOptions),
+      sass(getSassOptions(false)),
       license({
         banner
       }),
@@ -69,33 +75,6 @@ const rollupBuilds = [
     ]
   }
 ];
-
-const minifiedSassOptions = {
-  output(styles, styleNodes) {
-
-    fs.mkdirSync('dist/css', { recursive: true }, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
-
-    styleNodes.forEach(({ id, content }) => {
-      const scssName = id.substring(id.lastIndexOf('/') + 1, id.length);
-      const [name] = scssName.split('.');
-      fs.writeFileSync(`dist/css/${name}.min.css`, content);
-    });
-  },
-  processor: (css) => postcss([
-    autoprefixer({
-      grid: false
-    }),
-    cssnano()
-  ])
-    .process(css, {
-      from: undefined
-    })
-    .then((result) => result.css)
-};
 
 rollupBuilds.push({
   input: './src/js/tether.js',
@@ -114,7 +93,7 @@ rollupBuilds.push({
   ],
   plugins: [
     babel(),
-    sass(minifiedSassOptions),
+    sass(getSassOptions(true)),
     terser(),
     license({
       banner
