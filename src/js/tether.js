@@ -8,6 +8,7 @@ import { Evented } from './evented';
 import TetherBase from './utils';
 import { addClass, removeClass, updateClasses } from './utils/classes';
 import { defer, flush } from './utils/deferred';
+import { addOffset, offsetToPx, parseTopLeft } from './utils/offset';
 import './constraint';
 import './abutment';
 import './shift';
@@ -56,10 +57,7 @@ const position = () => {
 };
 
 function now() {
-  if (typeof performance === 'object' && typeof performance.now === 'function') {
-    return performance.now();
-  }
-  return +new Date;
+  return performance.now();
 }
 
 (() => {
@@ -148,43 +146,7 @@ const attachmentToOffset = (attachment) => {
   return { left, top };
 };
 
-function addOffset(...offsets) {
-  const out = { top: 0, left: 0 };
-
-  offsets.forEach(({ top, left }) => {
-    if (typeof top === 'string') {
-      top = parseFloat(top, 10);
-    }
-    if (typeof left === 'string') {
-      left = parseFloat(left, 10);
-    }
-
-    out.top += top;
-    out.left += left;
-  });
-
-  return out;
-}
-
-function offsetToPx(offset, size) {
-  if (typeof offset.left === 'string' && offset.left.indexOf('%') !== -1) {
-    offset.left = parseFloat(offset.left, 10) / 100 * size.width;
-  }
-  if (typeof offset.top === 'string' && offset.top.indexOf('%') !== -1) {
-    offset.top = parseFloat(offset.top, 10) / 100 * size.height;
-  }
-
-  return offset;
-}
-
-const parseOffset = (value) => {
-  const [top, left] = value.split(' ');
-  return { top, left };
-};
-const parseAttachment = parseOffset;
-
 class TetherClass extends Evented {
-
   constructor(options) {
     super();
     this.position = this.position.bind(this);
@@ -256,10 +218,10 @@ class TetherClass extends Evented {
       throw new Error('Tether Error: You must provide an attachment');
     }
 
-    this.targetAttachment = parseAttachment(this.options.targetAttachment);
-    this.attachment = parseAttachment(this.options.attachment);
-    this.offset = parseOffset(this.options.offset);
-    this.targetOffset = parseOffset(this.options.targetOffset);
+    this.targetAttachment = parseTopLeft(this.options.targetAttachment);
+    this.attachment = parseTopLeft(this.options.attachment);
+    this.offset = parseTopLeft(this.options.offset);
+    this.targetOffset = parseTopLeft(this.options.targetOffset);
 
     if (typeof this.scrollParents !== 'undefined') {
       this.disable();

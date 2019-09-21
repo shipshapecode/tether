@@ -1,4 +1,4 @@
-import { defer, flush } from '../../src/js/utils/deferred';
+import { defer, flush } from '../../../src/js/utils/deferred';
 import { stub } from 'sinon';
 
 describe('Utils - deferred', () => {
