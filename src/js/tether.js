@@ -8,7 +8,7 @@ import { Evented } from './evented';
 import TetherBase from './utils';
 import { addClass, removeClass, updateClasses } from './utils/classes';
 import { defer, flush } from './utils/deferred';
-import { addOffset, offsetToPx, parseTopLeft } from './utils/offset';
+import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
 import './constraint';
 import './abutment';
 import './shift';
@@ -96,55 +96,6 @@ function now() {
     });
   }
 })();
-
-const MIRROR_LR = {
-  center: 'center',
-  left: 'right',
-  right: 'left'
-};
-
-const MIRROR_TB = {
-  middle: 'middle',
-  top: 'bottom',
-  bottom: 'top'
-};
-
-const OFFSET_MAP = {
-  top: 0,
-  left: 0,
-  middle: '50%',
-  center: '50%',
-  bottom: '100%',
-  right: '100%'
-};
-
-const autoToFixedAttachment = (attachment, relativeToAttachment) => {
-  let { left, top } = attachment;
-
-  if (left === 'auto') {
-    left = MIRROR_LR[relativeToAttachment.left];
-  }
-
-  if (top === 'auto') {
-    top = MIRROR_TB[relativeToAttachment.top];
-  }
-
-  return { left, top };
-};
-
-const attachmentToOffset = (attachment) => {
-  let { left, top } = attachment;
-
-  if (typeof OFFSET_MAP[attachment.left] !== 'undefined') {
-    left = OFFSET_MAP[attachment.left];
-  }
-
-  if (typeof OFFSET_MAP[attachment.top] !== 'undefined') {
-    top = OFFSET_MAP[attachment.top];
-  }
-
-  return { left, top };
-};
 
 class TetherClass extends Evented {
   constructor(options) {
