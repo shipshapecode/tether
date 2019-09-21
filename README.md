@@ -20,6 +20,23 @@
 
 We at Ship Shape have recently taken over Tether's maintenance and hope to modernize and revitalize it. Stay tuned for updates!
 
+## Install
+
+__npm__
+```sh
+npm install tether
+```
+
+For the latest beta:
+
+```sh
+npm install tether@next
+```
+
+__download__
+
+Or download from the [releases](https://github.com/HubSpot/tether/releases).
+
 ## Introduction
 
 [Tether](http://github.hubspot.com/tether/) is a small, focused JavaScript library for defining and managing the position of user interface (UI) elements in relation to one another on a web page. It is a tool for web developers building features that require certain UI elements to be precisely positioned based on the location of another UI element.
@@ -82,17 +99,6 @@ There are tons of other useful features of Tether as well, instead of “comment
 * Dropdown menus,
 * Autocomplete popups for forms,
 * and [more](http://github.hubspot.com/tether/examples/list_of_examples/)!
-
-## Install
-
-__npm__
-```sh
-$ npm install tether
-```
-
-__download__
-
-Or download from the [releases](https://github.com/HubSpot/tether/releases).
 
 ## Usage
 You only need to include [tether.min.js](https://github.com/HubSpot/tether/blob/master/dist/js/tether.min.js) in your page:
