@@ -1,4 +1,4 @@
-import { addClass, removeClass } from '../../src/js/utils/classes';
+import { addClass, removeClass } from '../../../src/js/utils/classes';
 
 describe('Utils - classes', () => {
   describe('addClass/removeClass', () => {
