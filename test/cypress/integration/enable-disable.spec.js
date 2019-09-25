@@ -1,6 +1,4 @@
-import { assert } from 'chai';
-
-describe('enable-disable test', () => {
+describe('enable-disable', () => {
   beforeEach(() => {
     cy.visit('/examples/enable-disable/');
     cy.get('.container').scrollTo(0, 0);
@@ -16,7 +14,7 @@ describe('enable-disable test', () => {
         cy.wait(500);
         cy.get('.tether-element').then((tetherElement) => {
           const postscrollTransform = tetherElement[0].style.transform;
-          assert.notEqual(prescrollTransform, postscrollTransform);
+          expect(prescrollTransform).to.not.equal(postscrollTransform);
         });
       });
     });
@@ -31,7 +29,7 @@ describe('enable-disable test', () => {
         cy.wait(500);
         cy.get('.tether-element').then((tetherElement) => {
           const postscrollTransform = tetherElement[0].style.transform;
-          assert.equal(prescrollTransform, postscrollTransform);
+          expect(prescrollTransform).to.equal(postscrollTransform);
         });
       });
     });

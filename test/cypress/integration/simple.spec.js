@@ -1,4 +1,4 @@
-describe('simple test', () => {
+describe('simple', () => {
   // let Tether;
 
   beforeEach(() => {
