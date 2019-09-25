@@ -1,8 +1,7 @@
 import TetherBase from './utils';
 import { updateClasses } from './utils/classes';
 import { defer } from './utils/deferred';
-
-const { getBounds } = TetherBase.Utils;
+import { getBounds } from './utils/bounds';
 
 TetherBase.modules.push({
   position({ top, left }) {
