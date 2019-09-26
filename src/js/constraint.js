@@ -1,11 +1,8 @@
 import TetherBase from './utils';
 import { updateClasses } from './utils/classes';
 import { defer } from './utils/deferred';
-
-const {
-  getBounds,
-  extend
-} = TetherBase.Utils;
+import { extend } from './utils/general';
+import { getBounds } from './utils/bounds';
 
 const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 

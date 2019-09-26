@@ -1,40 +1,8 @@
-import { defer } from './utils/deferred';
+import { extend } from './utils/general';
 
 let TetherBase;
 if (typeof TetherBase === 'undefined') {
   TetherBase = { modules: [] };
-}
-
-let zeroElement = null;
-
-// Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
-// if the element lies within a nested document (<frame> or <iframe>-like).
-function getActualBoundingClientRect(node) {
-  let boundingRect = node.getBoundingClientRect();
-
-  // The original object returned by getBoundingClientRect is immutable, so we clone it
-  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
-  let rect = {};
-  for (let k in boundingRect) {
-    rect[k] = boundingRect[k];
-  }
-
-  try {
-    if (node.ownerDocument !== document) {
-      let { frameElement } = node.ownerDocument.defaultView;
-      if (frameElement) {
-        let frameRect = getActualBoundingClientRect(frameElement);
-        rect.top += frameRect.top;
-        rect.bottom += frameRect.top;
-        rect.left += frameRect.left;
-        rect.right += frameRect.left;
-      }
-    }
-  } catch(err) {
-    // Ignore "Access is denied" in IE11/Edge
-  }
-
-  return rect;
 }
 
 function getScrollParents(el) {
@@ -78,85 +46,6 @@ function getScrollParents(el) {
   }
 
   return parents;
-}
-
-const uniqueId = (() => {
-  let id = 0;
-  return () => ++id;
-})();
-
-const zeroPosCache = {};
-const getOrigin = () => {
-  // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
-  // jitter as the user scrolls that messes with our ability to detect if two positions
-  // are equivilant or not.  We place an element at the top left of the page that will
-  // get the same jitter, so we can cancel the two out.
-  let node = zeroElement;
-  if (!node || !document.body.contains(node)) {
-    node = document.createElement('div');
-    node.setAttribute('data-tether-id', uniqueId());
-    extend(node.style, {
-      top: 0,
-      left: 0,
-      position: 'absolute'
-    });
-
-    document.body.appendChild(node);
-
-    zeroElement = node;
-  }
-
-  const id = node.getAttribute('data-tether-id');
-  if (typeof zeroPosCache[id] === 'undefined') {
-    zeroPosCache[id] = getActualBoundingClientRect(node);
-
-    // Clear the cache when this position call is done
-    defer(() => {
-      delete zeroPosCache[id];
-    });
-  }
-
-  return zeroPosCache[id];
-};
-
-function removeUtilElements() {
-  if (zeroElement) {
-    document.body.removeChild(zeroElement);
-  }
-  zeroElement = null;
-}
-
-function getBounds(el) {
-  let doc;
-  if (el === document) {
-    doc = document;
-    el = document.documentElement;
-  } else {
-    doc = el.ownerDocument;
-  }
-
-  const docEl = doc.documentElement;
-
-  const box = getActualBoundingClientRect(el);
-
-  const origin = getOrigin();
-
-  box.top -= origin.top;
-  box.left -= origin.left;
-
-  if (typeof box.width === 'undefined') {
-    box.width = document.body.scrollWidth - box.left - box.right;
-  }
-  if (typeof box.height === 'undefined') {
-    box.height = document.body.scrollHeight - box.top - box.bottom;
-  }
-
-  box.top = box.top - docEl.clientTop;
-  box.left = box.left - docEl.clientLeft;
-  box.right = doc.body.clientWidth - box.width - box.left;
-  box.bottom = doc.body.clientHeight - box.height - box.top;
-
-  return box;
 }
 
 function getOffsetParent(el) {
@@ -205,32 +94,10 @@ function getScrollBarSize() {
   return _scrollBarSize;
 }
 
-function extend(out = {}) {
-  const args = [];
-
-  Array.prototype.push.apply(args, arguments);
-
-  args.slice(1).forEach((obj) => {
-    if (obj) {
-      for (let key in obj) {
-        if ({}.hasOwnProperty.call(obj, key)) {
-          out[key] = obj[key];
-        }
-      }
-    }
-  });
-
-  return out;
-}
-
 TetherBase.Utils = {
   getScrollParents,
-  getBounds,
   getOffsetParent,
-  extend,
-  uniqueId,
-  getScrollBarSize,
-  removeUtilElements
+  getScrollBarSize
 };
 
 export default TetherBase;

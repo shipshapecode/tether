@@ -8,18 +8,17 @@ import { Evented } from './evented';
 import TetherBase from './utils';
 import { addClass, removeClass, updateClasses } from './utils/classes';
 import { defer, flush } from './utils/deferred';
+import { extend } from './utils/general';
 import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
+import { getBounds, removeUtilElements } from './utils/bounds';
 import './constraint';
 import './abutment';
 import './shift';
 
 const {
   getScrollParents,
-  getBounds,
   getOffsetParent,
-  extend,
-  getScrollBarSize,
-  removeUtilElements
+  getScrollBarSize
 } = TetherBase.Utils;
 
 function isFullscreenElement(e) {
