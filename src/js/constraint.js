@@ -1,4 +1,3 @@
-import TetherBase from './utils';
 import { updateClasses } from './utils/classes';
 import { defer } from './utils/deferred';
 import { extend } from './utils/general';
@@ -47,7 +46,7 @@ function getBoundingRect(tether, to) {
   return to;
 }
 
-TetherBase.modules.push({
+export default {
   position({ top, left, targetAttachment }) {
     if (!this.options.constraints) {
       return true;
@@ -360,4 +359,4 @@ TetherBase.modules.push({
 
     return { top, left };
   }
-});
+};

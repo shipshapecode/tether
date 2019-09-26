@@ -1,9 +1,8 @@
-import TetherBase from './utils';
 import { updateClasses } from './utils/classes';
 import { defer } from './utils/deferred';
 import { getBounds } from './utils/bounds';
 
-TetherBase.modules.push({
+export default {
   position({ top, left }) {
     const { height, width } = this.cache('element-bounds', () => {
       return getBounds(this.element);
@@ -56,4 +55,4 @@ TetherBase.modules.push({
 
     return true;
   }
-});
+};
