@@ -1,25 +1,19 @@
-/* globals TetherBase */
-
 import '../css/tether.scss';
 import '../css/tether-theme-arrows.scss';
 import '../css/tether-theme-arrows-dark.scss';
 import '../css/tether-theme-basic.scss';
+import Abutment from './abutment';
+import Constraint from './constraint';
+import Shift from './shift';
 import { Evented } from './evented';
-import TetherBase from './utils';
 import { addClass, removeClass, updateClasses } from './utils/classes';
 import { defer, flush } from './utils/deferred';
-import { extend } from './utils/general';
+import { extend, getScrollBarSize } from './utils/general';
 import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
 import { getBounds, removeUtilElements } from './utils/bounds';
-import './constraint';
-import './abutment';
-import './shift';
+import { getOffsetParent, getScrollParents } from './utils/parents';
 
-const {
-  getScrollParents,
-  getOffsetParent,
-  getScrollBarSize
-} = TetherBase.Utils;
+const TetherBase = { modules: [Constraint, Abutment, Shift] };
 
 function isFullscreenElement(e) {
   let d = e.ownerDocument;

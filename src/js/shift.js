@@ -1,6 +1,4 @@
-import TetherBase from './utils';
-
-TetherBase.modules.push({
+export default {
   position({ top, left }) {
     if (!this.options.shift) {
       return;
@@ -29,4 +27,4 @@ TetherBase.modules.push({
 
     return { top, left };
   }
-});
+};
