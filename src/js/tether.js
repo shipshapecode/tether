@@ -112,7 +112,10 @@ class TetherClass extends Evented {
 
   getClass(key = '') {
     const { classes } = this.options;
-    if (typeof classes !== 'undefined' && classes[key]) {
+    if (typeof classes !== 'undefined' && typeof classes[key] !== 'undefined') {
+      if (classes[key] === false) {
+        return '';
+      }
       return this.options.classes[key];
     } else if (this.options.classPrefix) {
       return `${this.options.classPrefix}-${key}`;

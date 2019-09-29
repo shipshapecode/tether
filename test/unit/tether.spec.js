@@ -136,5 +136,39 @@ describe('Tether', () => {
       expect(element.classList.length, 'element - destroy sets classes back to initial state').toEqual(1);
       expect(target.classList.length, 'target - destroy sets classes back to initial state').toEqual(1);
     });
+
+    it('removes classes when false', () => {
+      expect(element.classList.length, 'element - only one class').toEqual(1);
+      expect(target.classList.length, 'target - only one class').toEqual(1);
+      const tether = new Tether({
+        element: '.element',
+        target: '.target',
+        attachment: 'top left',
+        targetAttachment: 'top right',
+        classes: {
+          element: false,
+          enabled: false,
+          target: false
+        }
+      });
+
+      tether.enable();
+
+      expect(element.classList.length, 'element - classes added').toEqual(10);
+      expect(element).not.toHaveClass('tether-element');
+      expect(element).not.toHaveClass('tether-enabled');
+
+      expect(target.classList.length, 'target - classes added').toEqual(10);
+      expect(target).not.toHaveClass('tether-target');
+      expect(element).not.toHaveClass('tether-enabled');
+
+      expect(tether.getClass('element')).toBe('');
+      expect(tether.getClass('target')).toBe('');
+
+      tether.destroy();
+
+      expect(element.classList.length, 'element - destroy sets classes back to initial state').toEqual(1);
+      expect(target.classList.length, 'target - destroy sets classes back to initial state').toEqual(1);
+    });
   });
 });
