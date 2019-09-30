@@ -2,6 +2,7 @@ import { updateClasses } from './utils/classes';
 import { defer } from './utils/deferred';
 import { extend } from './utils/general';
 import { getBounds } from './utils/bounds';
+import { isString, isUndefined } from './utils/type-check';
 
 const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
@@ -16,7 +17,7 @@ function getBoundingRect(tether, to) {
     to = to.documentElement;
   }
 
-  if (typeof to.nodeType !== 'undefined') {
+  if (!isUndefined(to.nodeType)) {
     const node = to;
     const size = getBounds(to);
     const pos = size;
@@ -56,7 +57,7 @@ export default {
       return getBounds(this.element);
     });
 
-    if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
+    if (width === 0 && height === 0 && !isUndefined(this.lastSize)) {
       // Handle the item getting hidden as a result of our positioning without glitching
       // the classes in and out
       ({ width, height } = this.lastSize);
@@ -94,7 +95,7 @@ export default {
     this.options.constraints.forEach((constraint) => {
       let { to, attachment, pin } = constraint;
 
-      if (typeof attachment === 'undefined') {
+      if (isUndefined(attachment)) {
         attachment = '';
       }
 
@@ -256,7 +257,7 @@ export default {
         }
       }
 
-      if (typeof pin === 'string') {
+      if (isString(pin)) {
         pin = pin.split(',').map((p) => p.trim());
       } else if (pin === true) {
         pin = ['top', 'left', 'right', 'bottom'];
@@ -305,7 +306,7 @@ export default {
 
       if (pinned.length) {
         let pinnedClass;
-        if (typeof this.options.pinnedClass !== 'undefined') {
+        if (!isUndefined(this.options.pinnedClass)) {
           pinnedClass = this.options.pinnedClass;
         } else {
           pinnedClass = this.getClass('pinned');
@@ -319,7 +320,7 @@ export default {
 
       if (oob.length) {
         let oobClass;
-        if (typeof this.options.outOfBoundsClass !== 'undefined') {
+        if (!isUndefined(this.options.outOfBoundsClass)) {
           oobClass = this.options.outOfBoundsClass;
         } else {
           oobClass = this.getClass('out-of-bounds');

@@ -1,5 +1,6 @@
 import { defer } from './deferred';
 import { extend, uniqueId } from './general';
+import { isUndefined } from './type-check';
 
 const zeroPosCache = {};
 let zeroElement = null;
@@ -22,10 +23,10 @@ export function getBounds(el) {
   box.top -= origin.top;
   box.left -= origin.left;
 
-  if (typeof box.width === 'undefined') {
+  if (isUndefined(box.width)) {
     box.width = document.body.scrollWidth - box.left - box.right;
   }
-  if (typeof box.height === 'undefined') {
+  if (isUndefined(box.height)) {
     box.height = document.body.scrollHeight - box.top - box.bottom;
   }
 
@@ -98,7 +99,7 @@ function _getOrigin() {
   }
 
   const id = node.getAttribute('data-tether-id');
-  if (typeof zeroPosCache[id] === 'undefined') {
+  if (isUndefined(zeroPosCache[id])) {
     zeroPosCache[id] = _getActualBoundingClientRect(node);
 
     // Clear the cache when this position call is done

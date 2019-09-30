@@ -12,6 +12,7 @@ import { extend, getScrollBarSize } from './utils/general';
 import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
 import { getBounds, removeUtilElements } from './utils/bounds';
 import { getOffsetParent, getScrollParents } from './utils/parents';
+import { isNumber, isObject, isString, isUndefined } from './utils/type-check';
 
 const TetherBase = { modules: [Constraint, Abutment, Shift] };
 
@@ -26,7 +27,7 @@ function within(a, b, diff = 1) {
 }
 
 const transformKey = (() => {
-  if (typeof document === 'undefined') {
+  if (isUndefined(document)) {
     return '';
   }
   const el = document.createElement('div');
@@ -59,7 +60,7 @@ function now() {
   let pendingTimeout = null;
 
   const tick = () => {
-    if (typeof lastDuration !== 'undefined' && lastDuration > 16) {
+    if (!isUndefined(lastDuration) && lastDuration > 16) {
       // We voluntarily throttle ourselves if we can't manage 60fps
       lastDuration = Math.min(lastDuration - 16, 250);
 
@@ -68,7 +69,7 @@ function now() {
       return;
     }
 
-    if (typeof lastCall !== 'undefined' && (now() - lastCall) < 10) {
+    if (!isUndefined(lastCall) && (now() - lastCall) < 10) {
       // Some browsers call events a little too frequently, refuse to run more than is reasonable
       return;
     }
@@ -83,7 +84,7 @@ function now() {
     lastDuration = now() - lastCall;
   };
 
-  if (typeof window !== 'undefined' && typeof window.addEventListener !== 'undefined') {
+  if (!isUndefined(window) && !isUndefined(window.addEventListener)) {
     ['resize', 'scroll', 'touchmove'].forEach((event) => {
       window.addEventListener(event, tick);
     });
@@ -102,7 +103,7 @@ class TetherClass extends Evented {
     this.setOptions(options, false);
 
     TetherBase.modules.forEach((module) => {
-      if (typeof module.initialize !== 'undefined') {
+      if (!isUndefined(module.initialize)) {
         module.initialize.call(this);
       }
     });
@@ -112,7 +113,7 @@ class TetherClass extends Evented {
 
   getClass(key = '') {
     const { classes } = this.options;
-    if (typeof classes !== 'undefined' && typeof classes[key] !== 'undefined') {
+    if (!isUndefined(classes) && !isUndefined(classes[key])) {
       if (classes[key] === false) {
         return '';
       }
@@ -148,13 +149,13 @@ class TetherClass extends Evented {
     }
 
     ['element', 'target'].forEach((key) => {
-      if (typeof this[key] === 'undefined') {
+      if (isUndefined(this[key])) {
         throw new Error('Tether Error: Both element and target must be defined');
       }
 
-      if (typeof this[key].jquery !== 'undefined') {
+      if (!isUndefined(this[key].jquery)) {
         this[key] = this[key][0];
-      } else if (typeof this[key] === 'string') {
+      } else if (isString(this[key])) {
         this[key] = document.querySelector(this[key]);
       }
     });
@@ -170,7 +171,7 @@ class TetherClass extends Evented {
     this.offset = parseTopLeft(this.options.offset);
     this.targetOffset = parseTopLeft(this.options.targetOffset);
 
-    if (typeof this.scrollParents !== 'undefined') {
+    if (!isUndefined(this.scrollParents)) {
       this.disable();
     }
 
@@ -186,7 +187,7 @@ class TetherClass extends Evented {
   }
 
   getTargetBounds() {
-    if (typeof this.targetModifier !== 'undefined') {
+    if (!isUndefined(this.targetModifier)) {
       if (this.targetModifier === 'visible') {
         if (this.target === document.body) {
           return { top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth };
@@ -286,11 +287,11 @@ class TetherClass extends Evented {
   cache(k, getter) {
     // More than one module will often need the same DOM info, so
     // we keep a cache which is cleared on each position call
-    if (typeof this._cache === 'undefined') {
+    if (isUndefined(this._cache)) {
       this._cache = {};
     }
 
-    if (typeof this._cache[k] === 'undefined') {
+    if (isUndefined(this._cache[k])) {
       this._cache[k] = getter.call(this);
     }
 
@@ -320,7 +321,7 @@ class TetherClass extends Evented {
     removeClass(this.element, this.getClass('enabled'));
     this.enabled = false;
 
-    if (typeof this.scrollParents !== 'undefined') {
+    if (!isUndefined(this.scrollParents)) {
       this.scrollParents.forEach((parent) => {
         parent.removeEventListener('scroll', this.position);
       });
@@ -349,14 +350,14 @@ class TetherClass extends Evented {
     targetAttach = targetAttach || this.targetAttachment;
     const sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
 
-    if (typeof this._addAttachClasses !== 'undefined' && this._addAttachClasses.length) {
+    if (!isUndefined(this._addAttachClasses) && this._addAttachClasses.length) {
       // updateAttachClasses can be called more than once in a position call, so
       // we need to clean up after ourselves such that when the last defer gets
       // ran it doesn't add any extra classes from previous calls.
       this._addAttachClasses.splice(0, this._addAttachClasses.length);
     }
 
-    if (typeof this._addAttachClasses === 'undefined') {
+    if (isUndefined(this._addAttachClasses)) {
       this._addAttachClasses = [];
     }
     this.add = this._addAttachClasses;
@@ -381,7 +382,7 @@ class TetherClass extends Evented {
     });
 
     defer(() => {
-      if (!(typeof this._addAttachClasses !== 'undefined')) {
+      if (isUndefined(this._addAttachClasses)) {
         return;
       }
 
@@ -415,7 +416,7 @@ class TetherClass extends Evented {
 
     let { width, height } = elementPos;
 
-    if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
+    if (width === 0 && height === 0 && !isUndefined(this.lastSize)) {
       // We cache the height and width to make it possible to position elements that are
       // getting hidden.
       ({ width, height } = this.lastSize);
@@ -461,7 +462,7 @@ class TetherClass extends Evented {
 
       if (ret === false) {
         return false;
-      } else if (typeof ret === 'undefined' || typeof ret !== 'object') {
+      } else if (isUndefined(ret) || !isObject(ret)) {
         continue;
       } else {
         ({ top, left } = ret);
@@ -509,9 +510,9 @@ class TetherClass extends Evented {
       next.page.right = doc.body.scrollWidth - left - width;
     }
 
-    if (typeof this.options.optimizations !== 'undefined' &&
+    if (!isUndefined(this.options.optimizations) &&
       this.options.optimizations.moveElement !== false &&
-      !(typeof this.targetModifier !== 'undefined')) {
+      !(!isUndefined(this.targetModifier))) {
       const offsetParent = this.cache('target-offsetparent', () => getOffsetParent(this.target));
       const offsetPosition = this.cache('target-offsetparent-bounds', () => getBounds(offsetParent));
       const offsetParentStyle = getComputedStyle(offsetParent);
@@ -560,7 +561,7 @@ class TetherClass extends Evented {
 
   // THE ISSUE
   move(pos) {
-    if (!(typeof this.element.parentNode !== 'undefined')) {
+    if (isUndefined(this.element.parentNode)) {
       return;
     }
 
@@ -574,7 +575,7 @@ class TetherClass extends Evented {
 
         for (let i = 0; i < this.history.length; ++i) {
           const point = this.history[i];
-          if (typeof point[type] !== 'undefined' &&
+          if (!isUndefined(point[type]) &&
             !within(point[type][key], pos[type][key])) {
             found = true;
             break;
@@ -591,7 +592,7 @@ class TetherClass extends Evented {
     let css = { top: '', left: '', right: '', bottom: '' };
 
     const transcribe = (_same, _pos) => {
-      const hasOptimizations = typeof this.options.optimizations !== 'undefined';
+      const hasOptimizations = !isUndefined(this.options.optimizations);
       const gpu = hasOptimizations ? this.options.optimizations.gpu : null;
       if (gpu !== false) {
         let yPos, xPos;
@@ -611,7 +612,7 @@ class TetherClass extends Evented {
           xPos = -_pos.right;
         }
 
-        if (typeof window.devicePixelRatio === 'number' && devicePixelRatio % 1 === 0) {
+        if (isNumber(window.devicePixelRatio) && devicePixelRatio % 1 === 0) {
           xPos = Math.round(xPos * devicePixelRatio) / devicePixelRatio;
           yPos = Math.round(yPos * devicePixelRatio) / devicePixelRatio;
         }
@@ -639,7 +640,7 @@ class TetherClass extends Evented {
       }
     };
 
-    const hasOptimizations = typeof this.options.optimizations !== 'undefined';
+    const hasOptimizations = !isUndefined(this.options.optimizations);
     let allowPositionFixed = true;
 
     if (hasOptimizations && this.options.optimizations.allowPositionFixed === false) {
@@ -654,7 +655,7 @@ class TetherClass extends Evented {
     } else if (allowPositionFixed && (same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
       css.position = 'fixed';
       transcribe(same.viewport, pos.viewport);
-    } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
+    } else if (!isUndefined(same.offset) && same.offset.top && same.offset.left) {
       css.position = 'absolute';
       const offsetParent = this.cache('target-offsetparent', () => getOffsetParent(this.target));
 
@@ -773,8 +774,7 @@ Tether.modules.push({
       const offset = offsets[type];
       for (let side in offset) {
         let val = offset[side];
-        const notString = typeof val !== 'string';
-        if (notString ||
+        if (!isString(val) ||
           val.indexOf('%') === -1 &&
           val.indexOf('px') === -1) {
           val += 'px';

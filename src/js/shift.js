@@ -1,3 +1,5 @@
+import { isFunction, isString } from './utils/type-check';
+
 export default {
   position({ top, left }) {
     if (!this.options.shift) {
@@ -5,12 +7,12 @@ export default {
     }
 
     let { shift } = this.options;
-    if (typeof shift === 'function') {
+    if (isFunction(shift)) {
       shift = shift.call(this, { top, left });
     }
 
     let shiftTop, shiftLeft;
-    if (typeof shift === 'string') {
+    if (isString(shift)) {
       shift = shift.split(' ');
       shift[1] = shift[1] || shift[0];
 
