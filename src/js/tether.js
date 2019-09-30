@@ -512,7 +512,7 @@ class TetherClass extends Evented {
 
     if (!isUndefined(this.options.optimizations) &&
       this.options.optimizations.moveElement !== false &&
-      !(!isUndefined(this.targetModifier))) {
+      isUndefined(this.targetModifier)) {
       const offsetParent = this.cache('target-offsetparent', () => getOffsetParent(this.target));
       const offsetPosition = this.cache('target-offsetparent-bounds', () => getBounds(offsetParent));
       const offsetParentStyle = getComputedStyle(offsetParent);
