@@ -458,6 +458,24 @@ The `Tether` object has these methods:
 - `destroy()` - Disable and remove all references
 - `position()` - Manually trigger a repositioning
 
+Events
+------
+
+The `Tether` object also has events support, since it extends our `Evented` class.
+
+The methods exposed to listen to events are:
+
+- `on(event, handler)` - Adds an event listener that is fired whenever the event is fired
+- `once(event, handler)` - Adds an event listener that is only fired the first time the event is fired
+- `off(event, handler)` - Removes the event listener
+- `trigger(event)` - Manually triggers events
+
+The events fired are:
+
+- `repositioned` - Fired whenever the tether element is moved
+- `update` - Fired whenever the Tether instance runs into a constraint. You could use this
+for things like manually flipping an arrow or other tweaks.
+
 Options
 -------
 
