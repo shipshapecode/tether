@@ -10,7 +10,7 @@ import { addClass, removeClass, updateClasses } from './utils/classes';
 import { defer, flush } from './utils/deferred';
 import { extend, getScrollBarSize } from './utils/general';
 import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
-import { getBounds, removeUtilElements } from './utils/bounds';
+import { getBounds, getScrollHandleBounds, getVisibleBounds, removeUtilElements } from './utils/bounds';
 import { getOffsetParent, getScrollParents } from './utils/parents';
 import { isNumber, isObject, isString, isUndefined } from './utils/type-check';
 
@@ -189,91 +189,9 @@ class TetherClass extends Evented {
   getTargetBounds() {
     if (!isUndefined(this.targetModifier)) {
       if (this.targetModifier === 'visible') {
-        if (this.target === document.body) {
-          return { top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth };
-        } else {
-          const bounds = getBounds(this.target);
-
-          const out = {
-            height: bounds.height,
-            width: bounds.width,
-            top: bounds.top,
-            left: bounds.left
-          };
-
-          out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
-          out.height = Math.min(out.height, bounds.height - ((bounds.top + bounds.height) - (pageYOffset + innerHeight)));
-          out.height = Math.min(innerHeight, out.height);
-          out.height -= 2;
-
-          out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
-          out.width = Math.min(out.width, bounds.width - ((bounds.left + bounds.width) - (pageXOffset + innerWidth)));
-          out.width = Math.min(innerWidth, out.width);
-          out.width -= 2;
-
-          if (out.top < pageYOffset) {
-            out.top = pageYOffset;
-          }
-          if (out.left < pageXOffset) {
-            out.left = pageXOffset;
-          }
-
-          return out;
-        }
+        return getVisibleBounds(this.target);
       } else if (this.targetModifier === 'scroll-handle') {
-        let bounds;
-        let { target } = this;
-        if (target === document.body) {
-          target = document.documentElement;
-
-          bounds = {
-            left: pageXOffset,
-            top: pageYOffset,
-            height: innerHeight,
-            width: innerWidth
-          };
-        } else {
-          bounds = getBounds(target);
-        }
-
-        const style = getComputedStyle(target);
-
-        const hasBottomScroll = (
-          target.scrollWidth > target.clientWidth ||
-          [style.overflow, style.overflowX].indexOf('scroll') >= 0 ||
-          this.target !== document.body
-        );
-
-        let scrollBottom = 0;
-        if (hasBottomScroll) {
-          scrollBottom = 15;
-        }
-
-        const height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - scrollBottom;
-
-        const out = {
-          width: 15,
-          height: height * 0.975 * (height / target.scrollHeight),
-          left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
-        };
-
-        let fitAdj = 0;
-        if (height < 408 && this.target === document.body) {
-          fitAdj = -0.00011 * Math.pow(height, 2) - 0.00727 * height + 22.58;
-        }
-
-        if (this.target !== document.body) {
-          out.height = Math.max(out.height, 24);
-        }
-
-        const scrollPercentage = this.target.scrollTop / (target.scrollHeight - height);
-        out.top = scrollPercentage * (height - out.height - fitAdj) + bounds.top + parseFloat(style.borderTopWidth);
-
-        if (this.target === document.body) {
-          out.height = Math.max(out.height, 24);
-        }
-
-        return out;
+        return getScrollHandleBounds(this.target);
       }
     } else {
       return getBounds(this.target);
