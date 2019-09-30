@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "yarn clean && rollup -c",
+    "changelog": "github_changelog_generator -u shipshapecode -p tether --since-tag v1.4.7",
     "clean": "rimraf dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
