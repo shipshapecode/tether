@@ -1,3 +1,5 @@
+import { isUndefined } from './type-check';
+
 export function getScrollParents(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
   // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
@@ -18,7 +20,7 @@ export function getScrollParents(el) {
       // Intentionally blank
     }
 
-    if (typeof style === 'undefined' || style === null) {
+    if (isUndefined(style) || style === null) {
       parents.push(parent);
       return parents;
     }
