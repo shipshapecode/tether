@@ -37,18 +37,14 @@ function getSassOptions(minify = false) {
       styleNodes.forEach(({ id, content }) => {
         const scssName = id.substring(id.lastIndexOf('/') + 1, id.length);
         const [name] = scssName.split('.');
-        fs.writeFileSync(
-          `dist/css/${name}.${minify ? 'min.css' : 'css'}`,
-          content
-        );
+        fs.writeFileSync(`dist/css/${name}.${minify ? 'min.css' : 'css'}`, content);
       });
     },
-    processor: (css) =>
-      postcss(postcssPlugins)
-        .process(css, {
-          from: undefined
-        })
-        .then((result) => result.css)
+    processor: (css) => postcss(postcssPlugins)
+      .process(css, {
+        from: undefined
+      })
+      .then((result) => result.css)
   };
 }
 
