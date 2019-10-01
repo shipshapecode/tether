@@ -17,6 +17,7 @@
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
     "lint:js": "eslint . --ext js",
+    "start": "yarn watch",
     "start-test-server": "http-server -p 9002",
     "test": "yarn lint:js && yarn test:ci",
     "test:ci": "yarn test:unit:ci && yarn test:cy:ci",
@@ -24,7 +25,7 @@
     "test:cy:watch": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:open",
     "test:unit:ci": "jest --coverage",
     "test:unit:watch": "jest --watch",
-    "watch": "rollup --watch"
+    "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "repository": {
     "type": "git",
@@ -63,5 +64,8 @@
     "rollup-plugin-visualizer": "^2.6.0",
     "sinon": "^7.4.2",
     "start-server-and-test": "^1.10.2"
+  },
+  "dependencies": {
+    "rollup-plugin-browsersync": "^1.0.0"
   }
 }
