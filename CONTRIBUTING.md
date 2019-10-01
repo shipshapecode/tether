@@ -28,7 +28,7 @@ to contribute, we ask that you take the following steps:
 1. Most of the _editable_ code lives in the `src` directory while built code
    will end up in the `dist` directory upon running `yarn build`.
 
-2. The some examples are served out of the `examples` directory. Running `yarn start` will open the list in your browser and initiate a live-reloading session as you make changes.
+2. Some examples are served out of the `examples` directory. Running `yarn start` will open the list in your browser and initiate a live-reloading session as you make changes.
 
 
 ## Opening Pull Requests
