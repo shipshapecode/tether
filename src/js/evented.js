@@ -26,14 +26,11 @@ export class Evented {
     if (isUndefined(handler)) {
       delete this.bindings[event];
     } else {
-      let i = 0;
-      while (i < this.bindings[event].length) {
-        if (this.bindings[event][i].handler === handler) {
-          this.bindings[event].splice(i, 1);
-        } else {
-          ++i;
+      this.bindings[event].forEach((binding, index) => {
+        if (binding.handler === handler) {
+          this.bindings[event].splice(index, 1);
         }
-      }
+      });
     }
 
     return this;
@@ -41,23 +38,17 @@ export class Evented {
 
   trigger(event, ...args) {
     if (!isUndefined(this.bindings) && this.bindings[event]) {
-      let i = 0;
-      while (i < this.bindings[event].length) {
-        const { handler, ctx, once } = this.bindings[event][i];
+      this.bindings[event].forEach((binding, index) => {
+        const { ctx, handler, once } = binding;
 
-        let context = ctx;
-        if (isUndefined(context)) {
-          context = this;
-        }
+        const context = ctx || this;
 
         handler.apply(context, args);
 
         if (once) {
-          this.bindings[event].splice(i, 1);
-        } else {
-          ++i;
+          this.bindings[event].splice(index, 1);
         }
-      }
+      });
     }
 
     return this;
