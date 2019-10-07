@@ -4,9 +4,10 @@ import '../css/tether-theme-arrows-dark.scss';
 import '../css/tether-theme-basic.scss';
 import Abutment from './abutment';
 import Constraint from './constraint';
+import Initialize from './initialize';
 import Shift from './shift';
 import { Evented } from './evented';
-import { addClass, removeClass, updateClasses } from './utils/classes';
+import { addClass, getClass, removeClass, updateClasses } from './utils/classes';
 import { defer, flush } from './utils/deferred';
 import { extend, getScrollBarSize } from './utils/general';
 import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
@@ -14,7 +15,9 @@ import { getBounds, getScrollHandleBounds, getVisibleBounds, removeUtilElements 
 import { getOffsetParent, getScrollParents } from './utils/parents';
 import { isNumber, isObject, isString, isUndefined } from './utils/type-check';
 
-const TetherBase = { modules: [Constraint, Abutment, Shift] };
+const TetherBase = {
+  modules: [Constraint, Abutment, Shift, Initialize]
+};
 
 function isFullscreenElement(e) {
   let d = e.ownerDocument;
@@ -111,20 +114,6 @@ class TetherClass extends Evented {
     this.position();
   }
 
-  getClass(key = '') {
-    const { classes } = this.options;
-    if (!isUndefined(classes) && !isUndefined(classes[key])) {
-      if (classes[key] === false) {
-        return '';
-      }
-      return this.options.classes[key];
-    } else if (this.options.classPrefix) {
-      return `${this.options.classPrefix}-${key}`;
-    } else {
-      return key;
-    }
-  }
-
   setOptions(options, pos = true) {
     const defaults = {
       offset: '0 0',
@@ -134,6 +123,10 @@ class TetherClass extends Evented {
     };
 
     this.options = extend(defaults, options);
+
+    if (!this.options.attachment) {
+      throw new Error('Tether Error: You must provide an attachment');
+    }
 
     let { element, target, targetModifier } = this.options;
     this.element = element;
@@ -161,10 +154,6 @@ class TetherClass extends Evented {
     });
 
     this._addClasses();
-
-    if (!this.options.attachment) {
-      throw new Error('Tether Error: You must provide an attachment');
-    }
 
     this.targetAttachment = parseTopLeft(this.options.targetAttachment);
     this.attachment = parseTopLeft(this.options.attachment);
@@ -218,9 +207,9 @@ class TetherClass extends Evented {
 
   enable(pos = true) {
     if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, this.getClass('enabled'));
+      addClass(this.target, getClass('enabled', this.options));
     }
-    addClass(this.element, this.getClass('enabled'));
+    addClass(this.element, getClass('enabled', this.options));
     this.enabled = true;
 
     this.scrollParents.forEach((parent) => {
@@ -235,8 +224,8 @@ class TetherClass extends Evented {
   }
 
   disable() {
-    removeClass(this.target, this.getClass('enabled'));
-    removeClass(this.element, this.getClass('enabled'));
+    removeClass(this.target, getClass('enabled', this.options));
+    removeClass(this.element, getClass('enabled', this.options));
     this.enabled = false;
 
     if (!isUndefined(this.scrollParents)) {
@@ -281,22 +270,22 @@ class TetherClass extends Evented {
     this.add = this._addAttachClasses;
 
     if (elementAttach.top) {
-      this.add.push(`${this.getClass('element-attached')}-${elementAttach.top}`);
+      this.add.push(`${getClass('element-attached', this.options)}-${elementAttach.top}`);
     }
     if (elementAttach.left) {
-      this.add.push(`${this.getClass('element-attached')}-${elementAttach.left}`);
+      this.add.push(`${getClass('element-attached', this.options)}-${elementAttach.left}`);
     }
     if (targetAttach.top) {
-      this.add.push(`${this.getClass('target-attached')}-${targetAttach.top}`);
+      this.add.push(`${getClass('target-attached', this.options)}-${targetAttach.top}`);
     }
     if (targetAttach.left) {
-      this.add.push(`${this.getClass('target-attached')}-${targetAttach.left}`);
+      this.add.push(`${getClass('target-attached', this.options)}-${targetAttach.left}`);
     }
 
     this.all = [];
     sides.forEach((side) => {
-      this.all.push(`${this.getClass('element-attached')}-${side}`);
-      this.all.push(`${this.getClass('target-attached')}-${side}`);
+      this.all.push(`${getClass('element-attached', this.options)}-${side}`);
+      this.all.push(`${getClass('target-attached', this.options)}-${side}`);
     });
 
     defer(() => {
@@ -535,13 +524,7 @@ class TetherClass extends Evented {
           yPos = Math.round(yPos * devicePixelRatio) / devicePixelRatio;
         }
 
-        css[transformKey] = `translateX(${xPos}px) translateY(${yPos}px)`;
-
-        if (transformKey !== 'msTransform') {
-          // The Z transform will keep this in the GPU (faster, and prevents artifacts),
-          // but IE9 doesn't support 3d transforms and will choke.
-          css[transformKey] += ' translateZ(0)';
-        }
+        css[transformKey] = `translateX(${xPos}px) translateY(${yPos}px) translateZ(0)`;
 
       } else {
         if (_same.top) {
@@ -639,16 +622,16 @@ class TetherClass extends Evented {
   }
 
   _addClasses() {
-    addClass(this.element, this.getClass('element'));
+    addClass(this.element, getClass('element', this.options));
     if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, this.getClass('target'));
+      addClass(this.target, getClass('target', this.options));
     }
   }
 
   _removeClasses() {
-    removeClass(this.element, this.getClass('element'));
+    removeClass(this.element, getClass('element', this.options));
     if (!(this.options.addTargetClasses === false)) {
-      removeClass(this.target, this.getClass('target'));
+      removeClass(this.target, getClass('target', this.options));
     }
 
     this.all.forEach((className) => {
@@ -662,50 +645,6 @@ TetherClass.modules = [];
 
 TetherBase.position = position;
 
-let Tether = extend(TetherClass, TetherBase);
-
-Tether.modules.push({
-  initialize() {
-    this.markers = {};
-
-    ['target', 'element'].forEach((type) => {
-      const el = document.createElement('div');
-      el.className = this.getClass(`${type}-marker`);
-
-      const dot = document.createElement('div');
-      dot.className = this.getClass('marker-dot');
-      el.appendChild(dot);
-
-      this[type].appendChild(el);
-
-      this.markers[type] = { dot, el };
-    });
-  },
-
-  position({ manualOffset, manualTargetOffset }) {
-    const offsets = {
-      element: manualOffset,
-      target: manualTargetOffset
-    };
-
-    for (let type in offsets) {
-      const offset = offsets[type];
-      for (let side in offset) {
-        let val = offset[side];
-        if (!isString(val) ||
-          val.indexOf('%') === -1 &&
-          val.indexOf('px') === -1) {
-          val += 'px';
-        }
-
-        if (this.markers[type].dot.style[side] !== val) {
-          this.markers[type].dot.style[side] = val;
-        }
-      }
-    }
-
-    return true;
-  }
-});
+const Tether = extend(TetherClass, TetherBase);
 
 export default Tether;

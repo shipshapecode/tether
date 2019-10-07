@@ -38,6 +38,49 @@ export function getBounds(el) {
   return box;
 }
 
+export function getBoundingRect(tether, to) {
+  const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
+
+  if (to === 'scrollParent') {
+    to = tether.scrollParents[0];
+  } else if (to === 'window') {
+    to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
+  }
+
+  if (to === document) {
+    to = to.documentElement;
+  }
+
+  if (!isUndefined(to.nodeType)) {
+    const node = to;
+    const size = getBounds(to);
+    const pos = size;
+    const style = getComputedStyle(to);
+
+    to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
+
+    // Account any parent Frames scroll offset
+    if (node.ownerDocument !== document) {
+      let win = node.ownerDocument.defaultView;
+      to[0] += win.pageXOffset;
+      to[1] += win.pageYOffset;
+      to[2] += win.pageXOffset;
+      to[3] += win.pageYOffset;
+    }
+
+    BOUNDS_FORMAT.forEach((side, i) => {
+      side = side[0].toUpperCase() + side.substr(1);
+      if (side === 'Top' || side === 'Left') {
+        to[i] += parseFloat(style[`border${side}Width`]);
+      } else {
+        to[i] -= parseFloat(style[`border${side}Width`]);
+      }
+    });
+  }
+
+  return to;
+}
+
 /**
  * Gets bounds for when target modifiier is 'scroll-handle'
  * @param target
