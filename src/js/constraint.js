@@ -1,4 +1,4 @@
-import { updateClasses } from './utils/classes';
+import { getClass, updateClasses } from './utils/classes';
 import { defer } from './utils/deferred';
 import { extend } from './utils/general';
 import { getBoundingRect, getBounds } from './utils/bounds';
@@ -26,7 +26,7 @@ export default {
 
     const { height: targetHeight, width: targetWidth } = targetSize;
 
-    const allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
+    const allClasses = [getClass('pinned', this.options), getClass('out-of-bounds', this.options)];
 
     this.options.constraints.forEach((constraint) => {
       const { outOfBoundsClass, pinnedClass } = constraint;
@@ -266,7 +266,7 @@ export default {
         if (!isUndefined(this.options.pinnedClass)) {
           pinnedClass = this.options.pinnedClass;
         } else {
-          pinnedClass = this.getClass('pinned');
+          pinnedClass = getClass('pinned', this.options);
         }
 
         addClasses.push(pinnedClass);
@@ -280,7 +280,7 @@ export default {
         if (!isUndefined(this.options.outOfBoundsClass)) {
           oobClass = this.options.outOfBoundsClass;
         } else {
-          oobClass = this.getClass('out-of-bounds');
+          oobClass = getClass('out-of-bounds', this.options);
         }
 
         addClasses.push(oobClass);

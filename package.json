@@ -24,7 +24,7 @@
     "test:cy:ci": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:run",
     "test:cy:watch": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:open",
     "test:unit:ci": "jest --coverage",
-    "test:unit:watch": "jest -i test/unit/initialize.spec.js --watch",
+    "test:unit:watch": "jest --watch",
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "repository": {

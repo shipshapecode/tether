@@ -119,7 +119,8 @@ class TetherClass extends Evented {
       offset: '0 0',
       targetOffset: '0 0',
       targetAttachment: 'auto auto',
-      classPrefix: 'tether'
+      classPrefix: 'tether',
+      classes: {}
     };
 
     this.options = extend(defaults, options);

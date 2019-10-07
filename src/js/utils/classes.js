@@ -14,7 +14,7 @@ export function getClass(key = '', options) {
     if (classes[key] === false) {
       return '';
     }
-    return options.classes[key];
+    return classes[key];
   } else if (options.classPrefix) {
     return `${options.classPrefix}-${key}`;
   } else {

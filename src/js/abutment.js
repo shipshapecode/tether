@@ -1,4 +1,4 @@
-import { updateClasses } from './utils/classes';
+import { getClass, updateClasses } from './utils/classes';
 import { defer } from './utils/deferred';
 import { getBounds } from './utils/bounds';
 
@@ -33,17 +33,17 @@ export default {
     }
 
     const sides = ['left', 'top', 'right', 'bottom'];
-    this.all.push(this.getClass('abutted'));
+    this.all.push(getClass('abutted', this.options));
     sides.forEach((side) => {
-      this.all.push(`${this.getClass('abutted')}-${side}`);
+      this.all.push(`${getClass('abutted', this.options)}-${side}`);
     });
 
     if (abutted.length) {
-      this.add.push(this.getClass('abutted'));
+      this.add.push(getClass('abutted', this.options));
     }
 
     abutted.forEach((side) => {
-      this.add.push(`${this.getClass('abutted')}-${side}`);
+      this.add.push(`${getClass('abutted', this.options)}-${side}`);
     });
 
     defer(() => {
