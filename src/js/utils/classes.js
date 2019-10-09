@@ -8,15 +8,15 @@ export function addClass(el, name) {
   });
 }
 
-export function getClass(key = '', options) {
-  const { classes } = options;
+export function getClass(key = '') {
+  const { classes } = this.options;
   if (!isUndefined(classes) && !isUndefined(classes[key])) {
     if (classes[key] === false) {
       return '';
     }
     return classes[key];
-  } else if (options.classPrefix) {
-    return `${options.classPrefix}-${key}`;
+  } else if (this.options.classPrefix) {
+    return `${this.options.classPrefix}-${key}`;
   } else {
     return key;
   }

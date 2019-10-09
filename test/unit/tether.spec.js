@@ -1,4 +1,5 @@
 import Tether from '../../src/js/tether.js';
+import { getClass } from '../../src/js/utils/classes';
 
 describe('Tether', () => {
   let element, target;
@@ -42,7 +43,7 @@ describe('Tether', () => {
     });
   });
 
-  describe('getClass()', () => {
+  describe('classes are managed', () => {
     it('gets default classes when no options set', () => {
       expect(element.classList.length, 'element - only one class').toEqual(1);
       expect(target.classList.length, 'target - only one class').toEqual(1);
@@ -63,8 +64,8 @@ describe('Tether', () => {
       expect(target).toHaveClass('tether-target');
       expect(target).not.toHaveClass('tether-element');
 
-      expect(tether.getClass('element')).toBe('tether-element');
-      expect(tether.getClass('target')).toBe('tether-target');
+      expect(getClass.call(tether, 'element')).toBe('tether-element');
+      expect(getClass.call(tether, 'target')).toBe('tether-target');
 
       tether.destroy();
 
@@ -93,8 +94,8 @@ describe('Tether', () => {
       expect(target).toHaveClass('foo-target');
       expect(target).not.toHaveClass('foo-element');
 
-      expect(tether.getClass('element')).toBe('foo-element');
-      expect(tether.getClass('target')).toBe('foo-target');
+      expect(getClass.call(tether, 'element')).toBe('foo-element');
+      expect(getClass.call(tether, 'target')).toBe('foo-target');
 
       tether.destroy();
 
@@ -128,8 +129,8 @@ describe('Tether', () => {
       expect(target).not.toHaveClass('my-custom-class');
       expect(target).not.toHaveClass('tether-target');
 
-      expect(tether.getClass('element')).toBe('my-custom-class');
-      expect(tether.getClass('target')).toBe('another-one');
+      expect(getClass.call(tether, 'element')).toBe('my-custom-class');
+      expect(getClass.call(tether, 'target')).toBe('another-one');
 
       tether.destroy();
 
@@ -162,8 +163,8 @@ describe('Tether', () => {
       expect(target).not.toHaveClass('tether-target');
       expect(element).not.toHaveClass('tether-enabled');
 
-      expect(tether.getClass('element')).toBe('');
-      expect(tether.getClass('target')).toBe('');
+      expect(getClass.call(tether, 'element')).toBe('');
+      expect(getClass.call(tether, 'target')).toBe('');
 
       tether.destroy();
 

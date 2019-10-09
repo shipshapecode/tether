@@ -4,7 +4,7 @@ import '../css/tether-theme-arrows-dark.scss';
 import '../css/tether-theme-basic.scss';
 import Abutment from './abutment';
 import Constraint from './constraint';
-import Initialize from './initialize';
+import Marker from './marker';
 import Shift from './shift';
 import { Evented } from './evented';
 import { addClass, getClass, removeClass, updateClasses } from './utils/classes';
@@ -14,10 +14,6 @@ import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parse
 import { getBounds, getScrollHandleBounds, getVisibleBounds, removeUtilElements } from './utils/bounds';
 import { getOffsetParent, getScrollParents } from './utils/parents';
 import { isNumber, isObject, isString, isUndefined } from './utils/type-check';
-
-const TetherBase = {
-  modules: [Constraint, Abutment, Shift, Initialize]
-};
 
 function isFullscreenElement(e) {
   let d = e.ownerDocument;
@@ -105,11 +101,7 @@ class TetherClass extends Evented {
 
     this.setOptions(options, false);
 
-    TetherBase.modules.forEach((module) => {
-      if (!isUndefined(module.initialize)) {
-        module.initialize.call(this);
-      }
-    });
+    Marker.initialize.call(this);
 
     this.position();
   }
@@ -208,9 +200,9 @@ class TetherClass extends Evented {
 
   enable(pos = true) {
     if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, getClass('enabled', this.options));
+      addClass(this.target, getClass.call(this, 'enabled'));
     }
-    addClass(this.element, getClass('enabled', this.options));
+    addClass(this.element, getClass.call(this, 'enabled'));
     this.enabled = true;
 
     this.scrollParents.forEach((parent) => {
@@ -225,8 +217,8 @@ class TetherClass extends Evented {
   }
 
   disable() {
-    removeClass(this.target, getClass('enabled', this.options));
-    removeClass(this.element, getClass('enabled', this.options));
+    removeClass(this.target, getClass.call(this, 'enabled'));
+    removeClass(this.element, getClass.call(this, 'enabled'));
     this.enabled = false;
 
     if (!isUndefined(this.scrollParents)) {
@@ -271,22 +263,22 @@ class TetherClass extends Evented {
     this.add = this._addAttachClasses;
 
     if (elementAttach.top) {
-      this.add.push(`${getClass('element-attached', this.options)}-${elementAttach.top}`);
+      this.add.push(`${getClass.call(this, 'element-attached')}-${elementAttach.top}`);
     }
     if (elementAttach.left) {
-      this.add.push(`${getClass('element-attached', this.options)}-${elementAttach.left}`);
+      this.add.push(`${getClass.call(this, 'element-attached')}-${elementAttach.left}`);
     }
     if (targetAttach.top) {
-      this.add.push(`${getClass('target-attached', this.options)}-${targetAttach.top}`);
+      this.add.push(`${getClass.call(this, 'target-attached')}-${targetAttach.top}`);
     }
     if (targetAttach.left) {
-      this.add.push(`${getClass('target-attached', this.options)}-${targetAttach.left}`);
+      this.add.push(`${getClass.call(this, 'target-attached')}-${targetAttach.left}`);
     }
 
     this.all = [];
     sides.forEach((side) => {
-      this.all.push(`${getClass('element-attached', this.options)}-${side}`);
-      this.all.push(`${getClass('target-attached', this.options)}-${side}`);
+      this.all.push(`${getClass.call(this, 'element-attached')}-${side}`);
+      this.all.push(`${getClass.call(this, 'target-attached')}-${side}`);
     });
 
     defer(() => {
@@ -352,30 +344,10 @@ class TetherClass extends Evented {
     let left = targetPos.left + targetOffset.left - offset.left;
     let top = targetPos.top + targetOffset.top - offset.top;
 
-    for (let i = 0; i < TetherBase.modules.length; ++i) {
-      const module = TetherBase.modules[i];
-      const ret = module.position.call(this, {
-        left,
-        top,
-        targetAttachment,
-        targetPos,
-        elementPos,
-        offset,
-        targetOffset,
-        manualOffset,
-        manualTargetOffset,
-        scrollbarSize,
-        attachment: this.attachment
-      });
-
-      if (ret === false) {
-        return false;
-      } else if (isUndefined(ret) || !isObject(ret)) {
-        continue;
-      } else {
-        ({ top, left } = ret);
-      }
-    }
+    Abutment.position.call(this, { top, left });
+    Constraint.position.call(this, { top, left, targetAttachment });
+    Shift.position.call(this, { top, left });
+    Marker.position.call(this, { manualOffset, manualTargetOffset });
 
     // We describe the position three different ways to give the optimizer
     // a chance to decide the best possible way to position the element
@@ -623,16 +595,16 @@ class TetherClass extends Evented {
   }
 
   _addClasses() {
-    addClass(this.element, getClass('element', this.options));
+    addClass(this.element, getClass.call(this, 'element'));
     if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, getClass('target', this.options));
+      addClass(this.target, getClass.call(this, 'target'));
     }
   }
 
   _removeClasses() {
-    removeClass(this.element, getClass('element', this.options));
+    removeClass(this.element, getClass.call(this, 'element'));
     if (!(this.options.addTargetClasses === false)) {
-      removeClass(this.target, getClass('target', this.options));
+      removeClass(this.target, getClass.call(this, 'target'));
     }
 
     this.all.forEach((className) => {
@@ -642,9 +614,9 @@ class TetherClass extends Evented {
   }
 }
 
-TetherClass.modules = [];
-
-TetherBase.position = position;
+const TetherBase = {
+  position
+};
 
 const Tether = extend(TetherClass, TetherBase);
 

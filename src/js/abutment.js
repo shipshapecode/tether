@@ -33,17 +33,17 @@ export default {
     }
 
     const sides = ['left', 'top', 'right', 'bottom'];
-    this.all.push(getClass('abutted', this.options));
+    this.all.push(getClass.call(this, 'abutted'));
     sides.forEach((side) => {
-      this.all.push(`${getClass('abutted', this.options)}-${side}`);
+      this.all.push(`${getClass.call(this, 'abutted')}-${side}`);
     });
 
     if (abutted.length) {
-      this.add.push(getClass('abutted', this.options));
+      this.add.push(getClass.call(this, 'abutted'));
     }
 
     abutted.forEach((side) => {
-      this.add.push(`${getClass('abutted', this.options)}-${side}`);
+      this.add.push(`${getClass.call(this, 'abutted')}-${side}`);
     });
 
     defer(() => {

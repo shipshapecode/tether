@@ -7,10 +7,11 @@ export default {
 
     ['target', 'element'].forEach((type) => {
       const el = document.createElement('div');
-      el.className = getClass(`${type}-marker`, this.options);
+
+      el.className = getClass.call(this, `${type}-marker`);
 
       const dot = document.createElement('div');
-      dot.className = getClass('marker-dot', this.options);
+      dot.className = getClass.call(this, 'marker-dot');
       el.appendChild(dot);
 
       this[type].appendChild(el);

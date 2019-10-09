@@ -26,7 +26,7 @@ export default {
 
     const { height: targetHeight, width: targetWidth } = targetSize;
 
-    const allClasses = [getClass('pinned', this.options), getClass('out-of-bounds', this.options)];
+    const allClasses = [getClass.call(this, 'pinned'), getClass.call(this, 'out-of-bounds')];
 
     this.options.constraints.forEach((constraint) => {
       const { outOfBoundsClass, pinnedClass } = constraint;
@@ -266,7 +266,7 @@ export default {
         if (!isUndefined(this.options.pinnedClass)) {
           pinnedClass = this.options.pinnedClass;
         } else {
-          pinnedClass = getClass('pinned', this.options);
+          pinnedClass = getClass.call(this, 'pinned');
         }
 
         addClasses.push(pinnedClass);
@@ -280,7 +280,7 @@ export default {
         if (!isUndefined(this.options.outOfBoundsClass)) {
           oobClass = this.options.outOfBoundsClass;
         } else {
-          oobClass = getClass('out-of-bounds', this.options);
+          oobClass = getClass.call(this, 'out-of-bounds');
         }
 
         addClasses.push(oobClass);

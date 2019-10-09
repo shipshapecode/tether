@@ -1,6 +1,6 @@
-import Initialize from '../../src/js/initialize.js';
+import Marker from '../../src/js/marker';
 
-describe('Initialize', () => {
+describe('Marker', () => {
   const tetherInstance = {
     element: document.createElement('div'),
     target: document.createElement('div'),
@@ -10,7 +10,7 @@ describe('Initialize', () => {
 
   describe('Created with base options', () => {
     beforeEach(() => {
-      Initialize.initialize.call(tetherInstance);
+      Marker.initialize.call(tetherInstance);
     });
 
     it('has been initilized with marker elements and correct classes', () => {
@@ -27,7 +27,7 @@ describe('Initialize', () => {
           manualTargetOffset: { top: '10px', left: '10px' }
         };
 
-        Initialize.position.call(tetherInstance, positionObj);
+        Marker.position.call(tetherInstance, positionObj);
       });
       it('has the offset options expected', () => {
         expect(tetherInstance.markers.element.dot.style.top).toBe('0px');
@@ -39,7 +39,7 @@ describe('Initialize', () => {
   describe('Created with classPrefix option', () => {
     beforeEach(() => {
       tetherInstance.options.classPrefix = 'shipshape';
-      initObj = Initialize.initialize.call(tetherInstance);
+      initObj = Marker.initialize.call(tetherInstance);
     });
 
     it('has been initilized with marker elements and correct classes', () => {
