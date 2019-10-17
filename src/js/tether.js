@@ -13,7 +13,7 @@ import { extend, getScrollBarSize } from './utils/general';
 import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
 import { getBounds, getScrollHandleBounds, getVisibleBounds, removeUtilElements } from './utils/bounds';
 import { getOffsetParent, getScrollParents } from './utils/parents';
-import { isNumber, isObject, isString, isUndefined } from './utils/type-check';
+import { isFunction, isNumber, isObject, isString, isUndefined } from './utils/type-check';
 
 function isFullscreenElement(e) {
   let d = e.ownerDocument;
@@ -101,7 +101,12 @@ class TetherClass extends Evented {
 
     this.setOptions(options, false);
 
-    Marker.initialize.call(this);
+    // Run Marker.initialize() and any custom module.initialize()
+    this.modules.forEach((module) => {
+      if (!isUndefined(module.initialize)) {
+        module.initialize.call(this);
+      }
+    });
 
     this.position();
   }
@@ -344,10 +349,28 @@ class TetherClass extends Evented {
     let left = targetPos.left + targetOffset.left - offset.left;
     let top = targetPos.top + targetOffset.top - offset.top;
 
-    Abutment.position.call(this, { top, left });
-    Constraint.position.call(this, { top, left, targetAttachment });
-    Shift.position.call(this, { top, left });
-    Marker.position.call(this, { manualOffset, manualTargetOffset });
+    this.modules.forEach((mod) => {
+      if (isFunction(mod.position)) {
+        const moduleValue = mod.position.call(this, {
+          left,
+          top,
+          targetAttachment,
+          targetPos,
+          elementPos,
+          offset,
+          targetOffset,
+          manualOffset,
+          manualTargetOffset,
+          scrollbarSize,
+          attachment: this.attachment
+        });
+
+        if (isObject(moduleValue)) {
+          // if returning an object, then update position assignment
+          ({ top, left } = ret);
+        }
+      }
+    });
 
     // We describe the position three different ways to give the optimizer
     // a chance to decide the best possible way to position the element
@@ -615,6 +638,7 @@ class TetherClass extends Evented {
 }
 
 const TetherBase = {
+  modules: [Constraint, Abutment, Shift, Marker],
   position
 };
 
