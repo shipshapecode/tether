@@ -63,9 +63,6 @@ describe('Tether', () => {
       expect(target).toHaveClass('tether-target');
       expect(target).not.toHaveClass('tether-element');
 
-      expect(tether.getClass('element')).toBe('tether-element');
-      expect(tether.getClass('target')).toBe('tether-target');
-
       tether.destroy();
 
       expect(element.classList.length, 'element - destroy sets classes back to initial state').toEqual(1);
@@ -92,9 +89,6 @@ describe('Tether', () => {
       expect(target.classList.length, 'target - foo classes added').toEqual(12);
       expect(target).toHaveClass('foo-target');
       expect(target).not.toHaveClass('foo-element');
-
-      expect(tether.getClass('element')).toBe('foo-element');
-      expect(tether.getClass('target')).toBe('foo-target');
 
       tether.destroy();
 
@@ -128,9 +122,6 @@ describe('Tether', () => {
       expect(target).not.toHaveClass('my-custom-class');
       expect(target).not.toHaveClass('tether-target');
 
-      expect(tether.getClass('element')).toBe('my-custom-class');
-      expect(tether.getClass('target')).toBe('another-one');
-
       tether.destroy();
 
       expect(element.classList.length, 'element - destroy sets classes back to initial state').toEqual(1);
@@ -161,9 +152,6 @@ describe('Tether', () => {
       expect(target.classList.length, 'target - classes added').toEqual(10);
       expect(target).not.toHaveClass('tether-target');
       expect(element).not.toHaveClass('tether-enabled');
-
-      expect(tether.getClass('element')).toBe('');
-      expect(tether.getClass('target')).toBe('');
 
       tether.destroy();
 
