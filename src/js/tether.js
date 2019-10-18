@@ -6,7 +6,7 @@ import Abutment from './abutment';
 import Constraint from './constraint';
 import Shift from './shift';
 import { Evented } from './evented';
-import { addClass, removeClass, updateClasses } from './utils/classes';
+import { addClass, getClass, removeClass, updateClasses } from './utils/classes';
 import { defer, flush } from './utils/deferred';
 import { extend, getScrollBarSize } from './utils/general';
 import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
@@ -217,10 +217,11 @@ class TetherClass extends Evented {
   }
 
   enable(pos = true) {
+    const { classes, classPrefix } = this.options;
     if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, this.getClass('enabled'));
+      addClass(this.target, getClass('enabled', classes, classPrefix));
     }
-    addClass(this.element, this.getClass('enabled'));
+    addClass(this.element, getClass('enabled', classes, classPrefix));
     this.enabled = true;
 
     this.scrollParents.forEach((parent) => {
@@ -235,8 +236,9 @@ class TetherClass extends Evented {
   }
 
   disable() {
-    removeClass(this.target, this.getClass('enabled'));
-    removeClass(this.element, this.getClass('enabled'));
+    const { classes, classPrefix } = this.options;
+    removeClass(this.target, getClass('enabled', classes, classPrefix));
+    removeClass(this.element, getClass('enabled', classes, classPrefix));
     this.enabled = false;
 
     if (!isUndefined(this.scrollParents)) {
@@ -267,6 +269,7 @@ class TetherClass extends Evented {
     elementAttach = elementAttach || this.attachment;
     targetAttach = targetAttach || this.targetAttachment;
     const sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
+    const { classes, classPrefix } = this.options;
 
     if (!isUndefined(this._addAttachClasses) && this._addAttachClasses.length) {
       // updateAttachClasses can be called more than once in a position call, so
@@ -281,22 +284,22 @@ class TetherClass extends Evented {
     this.add = this._addAttachClasses;
 
     if (elementAttach.top) {
-      this.add.push(`${this.getClass('element-attached')}-${elementAttach.top}`);
+      this.add.push(`${getClass('element-attached', classes, classPrefix)}-${elementAttach.top}`);
     }
     if (elementAttach.left) {
-      this.add.push(`${this.getClass('element-attached')}-${elementAttach.left}`);
+      this.add.push(`${getClass('element-attached', classes, classPrefix)}-${elementAttach.left}`);
     }
     if (targetAttach.top) {
-      this.add.push(`${this.getClass('target-attached')}-${targetAttach.top}`);
+      this.add.push(`${getClass('target-attached', classes, classPrefix)}-${targetAttach.top}`);
     }
     if (targetAttach.left) {
-      this.add.push(`${this.getClass('target-attached')}-${targetAttach.left}`);
+      this.add.push(`${getClass('target-attached', classes, classPrefix)}-${targetAttach.left}`);
     }
 
     this.all = [];
     sides.forEach((side) => {
-      this.all.push(`${this.getClass('element-attached')}-${side}`);
-      this.all.push(`${this.getClass('target-attached')}-${side}`);
+      this.all.push(`${getClass('element-attached', classes, classPrefix)}-${side}`);
+      this.all.push(`${getClass('target-attached', classes, classPrefix)}-${side}`);
     });
 
     defer(() => {
@@ -639,16 +642,18 @@ class TetherClass extends Evented {
   }
 
   _addClasses() {
-    addClass(this.element, this.getClass('element'));
+    const { classes, classPrefix } = this.options;
+    addClass(this.element, getClass('element', classes, classPrefix));
     if (!(this.options.addTargetClasses === false)) {
-      addClass(this.target, this.getClass('target'));
+      addClass(this.target, getClass('target', classes, classPrefix));
     }
   }
 
   _removeClasses() {
-    removeClass(this.element, this.getClass('element'));
+    const { classes, classPrefix } = this.options;
+    removeClass(this.element, getClass('element', classes, classPrefix));
     if (!(this.options.addTargetClasses === false)) {
-      removeClass(this.target, this.getClass('target'));
+      removeClass(this.target, getClass('target', classes, classPrefix));
     }
 
     this.all.forEach((className) => {
@@ -666,14 +671,15 @@ let Tether = extend(TetherClass, TetherBase);
 
 Tether.modules.push({
   initialize() {
+    const { classes, classPrefix } = this.options;
     this.markers = {};
 
     ['target', 'element'].forEach((type) => {
       const el = document.createElement('div');
-      el.className = this.getClass(`${type}-marker`);
+      el.className = getClass(`${type}-marker`, classes, classPrefix);
 
       const dot = document.createElement('div');
-      dot.className = this.getClass('marker-dot');
+      dot.className = getClass('marker-dot', classes, classPrefix);
       el.appendChild(dot);
 
       this[type].appendChild(el);
