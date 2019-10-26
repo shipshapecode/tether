@@ -6,6 +6,12 @@ import { isString, isUndefined } from './utils/type-check';
 
 const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
+/**
+ * Returns an array of bounds of the format [left, top, right, bottom]
+ * @param tether
+ * @param to
+ * @return {*[]|HTMLElement|ActiveX.IXMLDOMElement}
+ */
 function getBoundingRect(tether, to) {
   if (to === 'scrollParent') {
     to = tether.scrollParents[0];
@@ -49,11 +55,11 @@ function getBoundingRect(tether, to) {
 
 /**
  * Add out of bounds classes to the list of classes we add to tether
- * @param oob
- * @param addClasses
- * @param classes
- * @param {string} classPrefix
- * @param {string} outOfBoundsClass
+ * @param {string[]} oob An array of directions that are out of bounds
+ * @param {string[]} addClasses The array of classes to add to Tether
+ * @param {string[]} classes The array of class types for Tether
+ * @param {string} classPrefix The prefix to add to the front of the class
+ * @param {string} outOfBoundsClass The class to apply when out of bounds
  * @private
  */
 function _addOutOfBoundsClass(oob, addClasses, classes, classPrefix, outOfBoundsClass) {
@@ -72,6 +78,18 @@ function _addOutOfBoundsClass(oob, addClasses, classes, classPrefix, outOfBounds
   }
 }
 
+/**
+ * Calculates if out of bounds or pinned in the X direction.
+ *
+ * @param {number} left
+ * @param {number[]} bounds Array of bounds of the format [left, top, right, bottom]
+ * @param {number} width
+ * @param pin
+ * @param pinned
+ * @param {string[]} oob
+ * @return {number}
+ * @private
+ */
 function _calculateOOBAndPinnedLeft(left, bounds, width, pin, pinned, oob) {
   if (left < bounds[0]) {
     if (pin.indexOf('left') >= 0) {
@@ -94,6 +112,18 @@ function _calculateOOBAndPinnedLeft(left, bounds, width, pin, pinned, oob) {
   return left;
 }
 
+/**
+ * Calculates if out of bounds or pinned in the Y direction.
+ *
+ * @param {number} top
+ * @param {number[]} bounds Array of bounds of the format [left, top, right, bottom]
+ * @param {number} height
+ * @param pin
+ * @param {string[]} pinned
+ * @param {string[]} oob
+ * @return {number}
+ * @private
+ */
 function _calculateOOBAndPinnedTop(top, bounds, height, pin, pinned, oob) {
   if (top < bounds[1]) {
     if (pin.indexOf('top') >= 0) {
@@ -117,13 +147,72 @@ function _calculateOOBAndPinnedTop(top, bounds, height, pin, pinned, oob) {
 }
 
 /**
+ * Flip X "together"
+ * @param {object} tAttachment The target attachment
+ * @param {object} eAttachment The element attachment
+ * @param {number[]} bounds Array of bounds of the format [left, top, right, bottom]
+ * @param {number} width
+ * @param targetWidth
+ * @param {number} left
+ * @private
+ */
+function _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left) {
+  // const [leftBound, topBound, rightBound, bottomBound] = bounds;
+  // const positionedLeftOfLeftBound = left < leftBound;
+  if (left < bounds[0] && tAttachment.left === 'left') {
+    if (eAttachment.left === 'right') {
+      left += targetWidth;
+      tAttachment.left = 'right';
+
+      left += width;
+      eAttachment.left = 'left';
+
+    } else if (eAttachment.left === 'left') {
+      left += targetWidth;
+      tAttachment.left = 'right';
+
+      left -= width;
+      eAttachment.left = 'right';
+    }
+
+  } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+    if (eAttachment.left === 'left') {
+      left -= targetWidth;
+      tAttachment.left = 'left';
+
+      left -= width;
+      eAttachment.left = 'right';
+
+    } else if (eAttachment.left === 'right') {
+      left -= targetWidth;
+      tAttachment.left = 'left';
+
+      left += width;
+      eAttachment.left = 'left';
+    }
+
+  } else if (tAttachment.left === 'center') {
+    if (left + width > bounds[2] && eAttachment.left === 'left') {
+      left -= width;
+      eAttachment.left = 'right';
+
+    } else if (left < bounds[0] && eAttachment.left === 'right') {
+      left += width;
+      eAttachment.left = 'left';
+    }
+  }
+
+  return left;
+}
+
+/**
  * Flip Y "together"
- * @param tAttachment
- * @param eAttachment
- * @param bounds
- * @param height
+ * @param {object} tAttachment The target attachment
+ * @param {object} eAttachment The element attachment
+ * @param {number[]} bounds Array of bounds of the format [left, top, right, bottom]
+ * @param {number} height
  * @param targetHeight
- * @param top
+ * @param {number} top
  * @private
  */
 function _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top) {
@@ -172,63 +261,6 @@ function _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, 
   }
 
   return top;
-}
-
-/**
- * Flip X "together"
- * @param tAttachment
- * @param eAttachment
- * @param bounds
- * @param width
- * @param targetWidth
- * @param left
- * @private
- */
-function _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left) {
-  if (left < bounds[0] && tAttachment.left === 'left') {
-    if (eAttachment.left === 'right') {
-      left += targetWidth;
-      tAttachment.left = 'right';
-
-      left += width;
-      eAttachment.left = 'left';
-
-    } else if (eAttachment.left === 'left') {
-      left += targetWidth;
-      tAttachment.left = 'right';
-
-      left -= width;
-      eAttachment.left = 'right';
-    }
-
-  } else if (left + width > bounds[2] && tAttachment.left === 'right') {
-    if (eAttachment.left === 'left') {
-      left -= targetWidth;
-      tAttachment.left = 'left';
-
-      left -= width;
-      eAttachment.left = 'right';
-
-    } else if (eAttachment.left === 'right') {
-      left -= targetWidth;
-      tAttachment.left = 'left';
-
-      left += width;
-      eAttachment.left = 'left';
-    }
-
-  } else if (tAttachment.left === 'center') {
-    if (left + width > bounds[2] && eAttachment.left === 'left') {
-      left -= width;
-      eAttachment.left = 'right';
-
-    } else if (left < bounds[0] && eAttachment.left === 'right') {
-      left += width;
-      eAttachment.left = 'left';
-    }
-  }
-
-  return left;
 }
 
 /**
