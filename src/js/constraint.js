@@ -47,6 +47,215 @@ function getBoundingRect(tether, to) {
   return to;
 }
 
+/**
+ * Add out of bounds classes to the list of classes we add to tether
+ * @param oob
+ * @param addClasses
+ * @param classes
+ * @param {string} classPrefix
+ * @param {string} outOfBoundsClass
+ * @private
+ */
+function _addOutOfBoundsClass(oob, addClasses, classes, classPrefix, outOfBoundsClass) {
+  if (oob.length) {
+    let oobClass;
+    if (!isUndefined(outOfBoundsClass)) {
+      oobClass = outOfBoundsClass;
+    } else {
+      oobClass = getClass('out-of-bounds', classes, classPrefix);
+    }
+
+    addClasses.push(oobClass);
+    oob.forEach((side) => {
+      addClasses.push(`${oobClass}-${side}`);
+    });
+  }
+}
+
+function _calculateOOBAndPinned(top, left, bounds, height, width, pin) {
+  const pinned = [];
+  const oob = [];
+
+  if (top < bounds[1]) {
+    if (pin.indexOf('top') >= 0) {
+      top = bounds[1];
+      pinned.push('top');
+    } else {
+      oob.push('top');
+    }
+  }
+
+  if (top + height > bounds[3]) {
+    if (pin.indexOf('bottom') >= 0) {
+      top = bounds[3] - height;
+      pinned.push('bottom');
+    } else {
+      oob.push('bottom');
+    }
+  }
+
+  if (left < bounds[0]) {
+    if (pin.indexOf('left') >= 0) {
+      left = bounds[0];
+      pinned.push('left');
+    } else {
+      oob.push('left');
+    }
+  }
+
+  if (left + width > bounds[2]) {
+    if (pin.indexOf('right') >= 0) {
+      left = bounds[2] - width;
+      pinned.push('right');
+    } else {
+      oob.push('right');
+    }
+  }
+
+  return { oob, pinned };
+}
+
+/**
+ * Flip Y "together"
+ * @param tAttachment
+ * @param eAttachment
+ * @param bounds
+ * @param height
+ * @param targetHeight
+ * @param top
+ * @private
+ */
+function _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top) {
+  if (tAttachment.top === 'top') {
+    if (eAttachment.top === 'bottom' && top < bounds[1]) {
+      top += targetHeight;
+      tAttachment.top = 'bottom';
+
+      top += height;
+      eAttachment.top = 'top';
+
+    } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
+      top -= height - targetHeight;
+      tAttachment.top = 'bottom';
+
+      eAttachment.top = 'bottom';
+    }
+  }
+
+  if (tAttachment.top === 'bottom') {
+    if (eAttachment.top === 'top' && top + height > bounds[3]) {
+      top -= targetHeight;
+      tAttachment.top = 'top';
+
+      top -= height;
+      eAttachment.top = 'bottom';
+
+    } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
+      top += height - targetHeight;
+      tAttachment.top = 'top';
+
+      eAttachment.top = 'top';
+
+    }
+  }
+
+  if (tAttachment.top === 'middle') {
+    if (top + height > bounds[3] && eAttachment.top === 'top') {
+      top -= height;
+      eAttachment.top = 'bottom';
+
+    } else if (top < bounds[1] && eAttachment.top === 'bottom') {
+      top += height;
+      eAttachment.top = 'top';
+    }
+  }
+}
+
+/**
+ * Flip X "together"
+ * @param tAttachment
+ * @param eAttachment
+ * @param bounds
+ * @param width
+ * @param targetWidth
+ * @param left
+ * @private
+ */
+function _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left) {
+  if (left < bounds[0] && tAttachment.left === 'left') {
+    if (eAttachment.left === 'right') {
+      left += targetWidth;
+      tAttachment.left = 'right';
+
+      left += width;
+      eAttachment.left = 'left';
+
+    } else if (eAttachment.left === 'left') {
+      left += targetWidth;
+      tAttachment.left = 'right';
+
+      left -= width;
+      eAttachment.left = 'right';
+    }
+
+  } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+    if (eAttachment.left === 'left') {
+      left -= targetWidth;
+      tAttachment.left = 'left';
+
+      left -= width;
+      eAttachment.left = 'right';
+
+    } else if (eAttachment.left === 'right') {
+      left -= targetWidth;
+      tAttachment.left = 'left';
+
+      left += width;
+      eAttachment.left = 'left';
+    }
+
+  } else if (tAttachment.left === 'center') {
+    if (left + width > bounds[2] && eAttachment.left === 'left') {
+      left -= width;
+      eAttachment.left = 'right';
+
+    } else if (left < bounds[0] && eAttachment.left === 'right') {
+      left += width;
+      eAttachment.left = 'left';
+    }
+  }
+}
+
+/**
+ * Get all the initial classes
+ * @param classes
+ * @param {string} classPrefix
+ * @param constraints
+ * @return {[*, *]}
+ * @private
+ */
+function _getAllClasses(classes, classPrefix, constraints) {
+  const allClasses = [getClass('pinned', classes, classPrefix), getClass('out-of-bounds', classes, classPrefix)];
+
+  constraints.forEach((constraint) => {
+    const { outOfBoundsClass, pinnedClass } = constraint;
+    if (outOfBoundsClass) {
+      allClasses.push(outOfBoundsClass);
+    }
+    if (pinnedClass) {
+      allClasses.push(pinnedClass);
+    }
+  });
+
+  allClasses.forEach((cls) => {
+    ['left', 'top', 'right', 'bottom'].forEach((side) => {
+      allClasses.push(`${cls}-${side}`);
+    });
+  });
+
+  return allClasses;
+}
+
 export default {
   position({ top, left, targetAttachment }) {
     if (!this.options.constraints) {
@@ -70,7 +279,7 @@ export default {
     const { height: targetHeight, width: targetWidth } = targetSize;
     const { classes, classPrefix } = this.options;
 
-    const allClasses = this._getAllClasses(classes, classPrefix);
+    const allClasses = _getAllClasses(classes, classPrefix, this.options.constraints);
     const addClasses = [];
 
     const tAttachment = extend({}, targetAttachment);
@@ -105,7 +314,7 @@ export default {
       }
 
       if (changeAttachY === 'together') {
-        this._flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
+        _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
       }
 
       if (changeAttachX === 'target' || changeAttachX === 'both') {
@@ -121,7 +330,7 @@ export default {
       }
 
       if (changeAttachX === 'together') {
-        this._flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left);
+        _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left);
       }
 
       if (changeAttachY === 'element' || changeAttachY === 'both') {
@@ -167,7 +376,7 @@ export default {
       pin = pin || [];
 
       const { oob, pinned } =
-        this._calculateOOBAndPinned(top, left, bounds, height, width, pin);
+        _calculateOOBAndPinned(top, left, bounds, height, width, pin);
 
       if (pinned.length) {
         let pinnedClass;
@@ -183,7 +392,7 @@ export default {
         });
       }
 
-      this._addOutOfBoundsClass(oob, addClasses, classes, classPrefix);
+      _addOutOfBoundsClass(oob, addClasses, classes, classPrefix, this.options.outOfBoundsClass);
 
       if (pinned.indexOf('left') >= 0 || pinned.indexOf('right') >= 0) {
         eAttachment.left = tAttachment.left = false;
@@ -212,212 +421,5 @@ export default {
     });
 
     return { top, left };
-  },
-
-  /**
-   * Add out of bounds classes to the list of classes we add to tether
-   * @param oob
-   * @param addClasses
-   * @param classes
-   * @param {string} classPrefix
-   * @private
-   */
-  _addOutOfBoundsClass(oob, addClasses, classes, classPrefix) {
-    if (oob.length) {
-      let oobClass;
-      if (!isUndefined(this.options.outOfBoundsClass)) {
-        oobClass = this.options.outOfBoundsClass;
-      } else {
-        oobClass = getClass('out-of-bounds', classes, classPrefix);
-      }
-
-      addClasses.push(oobClass);
-      oob.forEach((side) => {
-        addClasses.push(`${oobClass}-${side}`);
-      });
-    }
-  },
-
-  _calculateOOBAndPinned(top, left, bounds, height, width, pin) {
-    const pinned = [];
-    const oob = [];
-
-    if (top < bounds[1]) {
-      if (pin.indexOf('top') >= 0) {
-        top = bounds[1];
-        pinned.push('top');
-      } else {
-        oob.push('top');
-      }
-    }
-
-    if (top + height > bounds[3]) {
-      if (pin.indexOf('bottom') >= 0) {
-        top = bounds[3] - height;
-        pinned.push('bottom');
-      } else {
-        oob.push('bottom');
-      }
-    }
-
-    if (left < bounds[0]) {
-      if (pin.indexOf('left') >= 0) {
-        left = bounds[0];
-        pinned.push('left');
-      } else {
-        oob.push('left');
-      }
-    }
-
-    if (left + width > bounds[2]) {
-      if (pin.indexOf('right') >= 0) {
-        left = bounds[2] - width;
-        pinned.push('right');
-      } else {
-        oob.push('right');
-      }
-    }
-
-    return { oob, pinned };
-  },
-
-  /**
-   * Flip Y "together"
-   * @param tAttachment
-   * @param eAttachment
-   * @param bounds
-   * @param height
-   * @param targetHeight
-   * @param top
-   * @private
-   */
-  _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top) {
-    if (tAttachment.top === 'top') {
-      if (eAttachment.top === 'bottom' && top < bounds[1]) {
-        top += targetHeight;
-        tAttachment.top = 'bottom';
-
-        top += height;
-        eAttachment.top = 'top';
-
-      } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
-        top -= height - targetHeight;
-        tAttachment.top = 'bottom';
-
-        eAttachment.top = 'bottom';
-      }
-    }
-
-    if (tAttachment.top === 'bottom') {
-      if (eAttachment.top === 'top' && top + height > bounds[3]) {
-        top -= targetHeight;
-        tAttachment.top = 'top';
-
-        top -= height;
-        eAttachment.top = 'bottom';
-
-      } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
-        top += height - targetHeight;
-        tAttachment.top = 'top';
-
-        eAttachment.top = 'top';
-
-      }
-    }
-
-    if (tAttachment.top === 'middle') {
-      if (top + height > bounds[3] && eAttachment.top === 'top') {
-        top -= height;
-        eAttachment.top = 'bottom';
-
-      } else if (top < bounds[1] && eAttachment.top === 'bottom') {
-        top += height;
-        eAttachment.top = 'top';
-      }
-    }
-  },
-
-  /**
-   * Flip X "together"
-   * @param tAttachment
-   * @param eAttachment
-   * @param bounds
-   * @param width
-   * @param targetWidth
-   * @param left
-   * @private
-   */
-  _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left) {
-    if (left < bounds[0] && tAttachment.left === 'left') {
-      if (eAttachment.left === 'right') {
-        left += targetWidth;
-        tAttachment.left = 'right';
-
-        left += width;
-        eAttachment.left = 'left';
-
-      } else if (eAttachment.left === 'left') {
-        left += targetWidth;
-        tAttachment.left = 'right';
-
-        left -= width;
-        eAttachment.left = 'right';
-      }
-
-    } else if (left + width > bounds[2] && tAttachment.left === 'right') {
-      if (eAttachment.left === 'left') {
-        left -= targetWidth;
-        tAttachment.left = 'left';
-
-        left -= width;
-        eAttachment.left = 'right';
-
-      } else if (eAttachment.left === 'right') {
-        left -= targetWidth;
-        tAttachment.left = 'left';
-
-        left += width;
-        eAttachment.left = 'left';
-      }
-
-    } else if (tAttachment.left === 'center') {
-      if (left + width > bounds[2] && eAttachment.left === 'left') {
-        left -= width;
-        eAttachment.left = 'right';
-
-      } else if (left < bounds[0] && eAttachment.left === 'right') {
-        left += width;
-        eAttachment.left = 'left';
-      }
-    }
-  },
-
-  /**
-   * Get all the initial classes
-   * @param classes
-   * @param {string} classPrefix
-   * @return {[*, *]}
-   * @private
-   */
-  _getAllClasses(classes, classPrefix) {
-    const allClasses = [getClass('pinned', classes, classPrefix), getClass('out-of-bounds', classes, classPrefix)];
-
-    this.options.constraints.forEach((constraint) => {
-      const { outOfBoundsClass, pinnedClass } = constraint;
-      if (outOfBoundsClass) {
-        allClasses.push(outOfBoundsClass);
-      }
-      if (pinnedClass) {
-        allClasses.push(pinnedClass);
-      }
-    });
-
-    allClasses.forEach((cls) => {
-      ['left', 'top', 'right', 'bottom'].forEach((side) => {
-        allClasses.push(`${cls}-${side}`);
-      });
-    });
-
-    return allClasses;
   }
 };
