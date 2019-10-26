@@ -69,24 +69,8 @@ export default {
 
     const { height: targetHeight, width: targetWidth } = targetSize;
     const { classes, classPrefix } = this.options;
-    const allClasses = [getClass('pinned', classes, classPrefix), getClass('out-of-bounds', classes, classPrefix)];
 
-    this.options.constraints.forEach((constraint) => {
-      const { outOfBoundsClass, pinnedClass } = constraint;
-      if (outOfBoundsClass) {
-        allClasses.push(outOfBoundsClass);
-      }
-      if (pinnedClass) {
-        allClasses.push(pinnedClass);
-      }
-    });
-
-    allClasses.forEach((cls) => {
-      ['left', 'top', 'right', 'bottom'].forEach((side) => {
-        allClasses.push(`${cls}-${side}`);
-      });
-    });
-
+    const allClasses = this._getAllClasses(classes, classPrefix);
     const addClasses = [];
 
     const tAttachment = extend({}, targetAttachment);
@@ -265,44 +249,8 @@ export default {
 
       pin = pin || [];
 
-      const pinned = [];
-      const oob = [];
-
-      if (top < bounds[1]) {
-        if (pin.indexOf('top') >= 0) {
-          top = bounds[1];
-          pinned.push('top');
-        } else {
-          oob.push('top');
-        }
-      }
-
-      if (top + height > bounds[3]) {
-        if (pin.indexOf('bottom') >= 0) {
-          top = bounds[3] - height;
-          pinned.push('bottom');
-        } else {
-          oob.push('bottom');
-        }
-      }
-
-      if (left < bounds[0]) {
-        if (pin.indexOf('left') >= 0) {
-          left = bounds[0];
-          pinned.push('left');
-        } else {
-          oob.push('left');
-        }
-      }
-
-      if (left + width > bounds[2]) {
-        if (pin.indexOf('right') >= 0) {
-          left = bounds[2] - width;
-          pinned.push('right');
-        } else {
-          oob.push('right');
-        }
-      }
+      const { oob, pinned } =
+        this._calculateOOBAndPinned(top, left, bounds, height, width, pin);
 
       if (pinned.length) {
         let pinnedClass;
@@ -318,19 +266,7 @@ export default {
         });
       }
 
-      if (oob.length) {
-        let oobClass;
-        if (!isUndefined(this.options.outOfBoundsClass)) {
-          oobClass = this.options.outOfBoundsClass;
-        } else {
-          oobClass = getClass('out-of-bounds', classes, classPrefix);
-        }
-
-        addClasses.push(oobClass);
-        oob.forEach((side) => {
-          addClasses.push(`${oobClass}-${side}`);
-        });
-      }
+      this._addOutOfBoundsClass(oob, addClasses, classes, classPrefix);
 
       if (pinned.indexOf('left') >= 0 || pinned.indexOf('right') >= 0) {
         eAttachment.left = tAttachment.left = false;
@@ -359,5 +295,101 @@ export default {
     });
 
     return { top, left };
+  },
+
+  /**
+   * Add out of bounds classes to the list of classes we add to tether
+   * @param oob
+   * @param addClasses
+   * @param classes
+   * @param {string} classPrefix
+   * @private
+   */
+  _addOutOfBoundsClass(oob, addClasses, classes, classPrefix) {
+    if (oob.length) {
+      let oobClass;
+      if (!isUndefined(this.options.outOfBoundsClass)) {
+        oobClass = this.options.outOfBoundsClass;
+      } else {
+        oobClass = getClass('out-of-bounds', classes, classPrefix);
+      }
+
+      addClasses.push(oobClass);
+      oob.forEach((side) => {
+        addClasses.push(`${oobClass}-${side}`);
+      });
+    }
+  },
+
+  _calculateOOBAndPinned(top, left, bounds, height, width, pin) {
+    const pinned = [];
+    const oob = [];
+
+    if (top < bounds[1]) {
+      if (pin.indexOf('top') >= 0) {
+        top = bounds[1];
+        pinned.push('top');
+      } else {
+        oob.push('top');
+      }
+    }
+
+    if (top + height > bounds[3]) {
+      if (pin.indexOf('bottom') >= 0) {
+        top = bounds[3] - height;
+        pinned.push('bottom');
+      } else {
+        oob.push('bottom');
+      }
+    }
+
+    if (left < bounds[0]) {
+      if (pin.indexOf('left') >= 0) {
+        left = bounds[0];
+        pinned.push('left');
+      } else {
+        oob.push('left');
+      }
+    }
+
+    if (left + width > bounds[2]) {
+      if (pin.indexOf('right') >= 0) {
+        left = bounds[2] - width;
+        pinned.push('right');
+      } else {
+        oob.push('right');
+      }
+    }
+
+    return { oob, pinned };
+  },
+
+  /**
+   * Get all the initial classes
+   * @param classes
+   * @param {string} classPrefix
+   * @return {[*, *]}
+   * @private
+   */
+  _getAllClasses(classes, classPrefix) {
+    const allClasses = [getClass('pinned', classes, classPrefix), getClass('out-of-bounds', classes, classPrefix)];
+
+    this.options.constraints.forEach((constraint) => {
+      const { outOfBoundsClass, pinnedClass } = constraint;
+      if (outOfBoundsClass) {
+        allClasses.push(outOfBoundsClass);
+      }
+      if (pinnedClass) {
+        allClasses.push(pinnedClass);
+      }
+    });
+
+    allClasses.forEach((cls) => {
+      ['left', 'top', 'right', 'bottom'].forEach((side) => {
+        allClasses.push(`${cls}-${side}`);
+      });
+    });
+
+    return allClasses;
   }
 };
