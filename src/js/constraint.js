@@ -72,28 +72,7 @@ function _addOutOfBoundsClass(oob, addClasses, classes, classPrefix, outOfBounds
   }
 }
 
-function _calculateOOBAndPinned(top, left, bounds, height, width, pin) {
-  const pinned = [];
-  const oob = [];
-
-  if (top < bounds[1]) {
-    if (pin.indexOf('top') >= 0) {
-      top = bounds[1];
-      pinned.push('top');
-    } else {
-      oob.push('top');
-    }
-  }
-
-  if (top + height > bounds[3]) {
-    if (pin.indexOf('bottom') >= 0) {
-      top = bounds[3] - height;
-      pinned.push('bottom');
-    } else {
-      oob.push('bottom');
-    }
-  }
-
+function _calculateOOBAndPinnedLeft(left, bounds, width, pin, pinned, oob) {
   if (left < bounds[0]) {
     if (pin.indexOf('left') >= 0) {
       left = bounds[0];
@@ -112,7 +91,29 @@ function _calculateOOBAndPinned(top, left, bounds, height, width, pin) {
     }
   }
 
-  return { oob, pinned };
+  return left;
+}
+
+function _calculateOOBAndPinnedTop(top, bounds, height, pin, pinned, oob) {
+  if (top < bounds[1]) {
+    if (pin.indexOf('top') >= 0) {
+      top = bounds[1];
+      pinned.push('top');
+    } else {
+      oob.push('top');
+    }
+  }
+
+  if (top + height > bounds[3]) {
+    if (pin.indexOf('bottom') >= 0) {
+      top = bounds[3] - height;
+      pinned.push('bottom');
+    } else {
+      oob.push('bottom');
+    }
+  }
+
+  return top;
 }
 
 /**
@@ -169,6 +170,8 @@ function _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, 
       eAttachment.top = 'top';
     }
   }
+
+  return top;
 }
 
 /**
@@ -224,6 +227,8 @@ function _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, le
       eAttachment.left = 'left';
     }
   }
+
+  return left;
 }
 
 /**
@@ -314,7 +319,7 @@ export default {
       }
 
       if (changeAttachY === 'together') {
-        _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
+        top = _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
       }
 
       if (changeAttachX === 'target' || changeAttachX === 'both') {
@@ -330,7 +335,7 @@ export default {
       }
 
       if (changeAttachX === 'together') {
-        _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left);
+        left = _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left);
       }
 
       if (changeAttachY === 'element' || changeAttachY === 'both') {
@@ -375,8 +380,11 @@ export default {
 
       pin = pin || [];
 
-      const { oob, pinned } =
-        _calculateOOBAndPinned(top, left, bounds, height, width, pin);
+      const pinned = [];
+      const oob = [];
+
+      left = _calculateOOBAndPinnedLeft(left, bounds, width, pin, pinned, oob);
+      top = _calculateOOBAndPinnedTop(top, bounds, height, pin, pinned, oob);
 
       if (pinned.length) {
         let pinnedClass;
