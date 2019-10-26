@@ -105,49 +105,7 @@ export default {
       }
 
       if (changeAttachY === 'together') {
-        if (tAttachment.top === 'top') {
-          if (eAttachment.top === 'bottom' && top < bounds[1]) {
-            top += targetHeight;
-            tAttachment.top = 'bottom';
-
-            top += height;
-            eAttachment.top = 'top';
-
-          } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
-            top -= height - targetHeight;
-            tAttachment.top = 'bottom';
-
-            eAttachment.top = 'bottom';
-          }
-        }
-
-        if (tAttachment.top === 'bottom') {
-          if (eAttachment.top === 'top' && top + height > bounds[3]) {
-            top -= targetHeight;
-            tAttachment.top = 'top';
-
-            top -= height;
-            eAttachment.top = 'bottom';
-
-          } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
-            top += height - targetHeight;
-            tAttachment.top = 'top';
-
-            eAttachment.top = 'top';
-
-          }
-        }
-
-        if (tAttachment.top === 'middle') {
-          if (top + height > bounds[3] && eAttachment.top === 'top') {
-            top -= height;
-            eAttachment.top = 'bottom';
-
-          } else if (top < bounds[1] && eAttachment.top === 'bottom') {
-            top += height;
-            eAttachment.top = 'top';
-          }
-        }
+        this._flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
       }
 
       if (changeAttachX === 'target' || changeAttachX === 'both') {
@@ -163,48 +121,7 @@ export default {
       }
 
       if (changeAttachX === 'together') {
-        if (left < bounds[0] && tAttachment.left === 'left') {
-          if (eAttachment.left === 'right') {
-            left += targetWidth;
-            tAttachment.left = 'right';
-
-            left += width;
-            eAttachment.left = 'left';
-
-          } else if (eAttachment.left === 'left') {
-            left += targetWidth;
-            tAttachment.left = 'right';
-
-            left -= width;
-            eAttachment.left = 'right';
-          }
-
-        } else if (left + width > bounds[2] && tAttachment.left === 'right') {
-          if (eAttachment.left === 'left') {
-            left -= targetWidth;
-            tAttachment.left = 'left';
-
-            left -= width;
-            eAttachment.left = 'right';
-
-          } else if (eAttachment.left === 'right') {
-            left -= targetWidth;
-            tAttachment.left = 'left';
-
-            left += width;
-            eAttachment.left = 'left';
-          }
-
-        } else if (tAttachment.left === 'center') {
-          if (left + width > bounds[2] && eAttachment.left === 'left') {
-            left -= width;
-            eAttachment.left = 'right';
-
-          } else if (left < bounds[0] && eAttachment.left === 'right') {
-            left += width;
-            eAttachment.left = 'left';
-          }
-        }
+        this._flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left);
       }
 
       if (changeAttachY === 'element' || changeAttachY === 'both') {
@@ -362,6 +279,117 @@ export default {
     }
 
     return { oob, pinned };
+  },
+
+  /**
+   * Flip Y "together"
+   * @param tAttachment
+   * @param eAttachment
+   * @param bounds
+   * @param height
+   * @param targetHeight
+   * @param top
+   * @private
+   */
+  _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top) {
+    if (tAttachment.top === 'top') {
+      if (eAttachment.top === 'bottom' && top < bounds[1]) {
+        top += targetHeight;
+        tAttachment.top = 'bottom';
+
+        top += height;
+        eAttachment.top = 'top';
+
+      } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
+        top -= height - targetHeight;
+        tAttachment.top = 'bottom';
+
+        eAttachment.top = 'bottom';
+      }
+    }
+
+    if (tAttachment.top === 'bottom') {
+      if (eAttachment.top === 'top' && top + height > bounds[3]) {
+        top -= targetHeight;
+        tAttachment.top = 'top';
+
+        top -= height;
+        eAttachment.top = 'bottom';
+
+      } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
+        top += height - targetHeight;
+        tAttachment.top = 'top';
+
+        eAttachment.top = 'top';
+
+      }
+    }
+
+    if (tAttachment.top === 'middle') {
+      if (top + height > bounds[3] && eAttachment.top === 'top') {
+        top -= height;
+        eAttachment.top = 'bottom';
+
+      } else if (top < bounds[1] && eAttachment.top === 'bottom') {
+        top += height;
+        eAttachment.top = 'top';
+      }
+    }
+  },
+
+  /**
+   * Flip X "together"
+   * @param tAttachment
+   * @param eAttachment
+   * @param bounds
+   * @param width
+   * @param targetWidth
+   * @param left
+   * @private
+   */
+  _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left) {
+    if (left < bounds[0] && tAttachment.left === 'left') {
+      if (eAttachment.left === 'right') {
+        left += targetWidth;
+        tAttachment.left = 'right';
+
+        left += width;
+        eAttachment.left = 'left';
+
+      } else if (eAttachment.left === 'left') {
+        left += targetWidth;
+        tAttachment.left = 'right';
+
+        left -= width;
+        eAttachment.left = 'right';
+      }
+
+    } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+      if (eAttachment.left === 'left') {
+        left -= targetWidth;
+        tAttachment.left = 'left';
+
+        left -= width;
+        eAttachment.left = 'right';
+
+      } else if (eAttachment.left === 'right') {
+        left -= targetWidth;
+        tAttachment.left = 'left';
+
+        left += width;
+        eAttachment.left = 'left';
+      }
+
+    } else if (tAttachment.left === 'center') {
+      if (left + width > bounds[2] && eAttachment.left === 'left') {
+        left -= width;
+        eAttachment.left = 'right';
+
+      } else if (left < bounds[0] && eAttachment.left === 'right') {
+        left += width;
+        eAttachment.left = 'left';
+      }
+    }
   },
 
   /**
