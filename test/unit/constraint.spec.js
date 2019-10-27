@@ -104,4 +104,48 @@ describe('Constraint', () => {
       expect(top, 'top set to bottomBound - height').toEqual(-80);
     });
   });
+
+  // describe('_flipXTogether', () => {
+  //   const _flipXTogether = Constraint.__get__('_flipXTogether');
+  // });
+
+  describe('_flipYTogether', () => {
+    const _flipYTogether = Constraint.__get__('_flipYTogether');
+    let eAttachment, tAttachment;
+
+    describe('tAttachment.top === "top"', () => {
+      beforeEach(() => {
+        tAttachment = { top: 'top' };
+        eAttachment = { top: 'bottom' };
+      });
+
+      it('eAttachment.top === "bottom" && top < topBounds', () => {
+        const bounds = [10, 10, 75, 75];
+        const height = 10;
+        const targetHeight = 50;
+        let top = 0;
+        top = _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
+        expect(top, 'targetHeight added to top').toEqual(60);
+        expect(tAttachment.top, 'target attachment flipped to bottom').toBe('bottom');
+        expect(eAttachment.top, 'element attachment flipped to top').toBe('top');
+      });
+
+      //TODO figure out what the difference in these cases is
+      it('eAttachment.top === "bottom" && top < topBounds: /shrug', () => {
+        const bounds = [10, 10, 20, 20];
+        const height = 10;
+        const targetHeight = 50;
+        let top = 0;
+        top = _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
+        expect(top, 'targetHeight added to top').toEqual(0);
+        expect(tAttachment.top, 'target attachment kept as top').toBe('top');
+        expect(eAttachment.top, 'element attachment kept as bottom').toBe('bottom');
+      });
+    });
+
+    // describe('tAttachment.top === "bottom"', () => {
+    //   const tAttachment = { top: 'bottom' };
+    //   const eAttachment = { top: 'top' };
+    // });
+  });
 });
