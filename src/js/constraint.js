@@ -157,8 +157,6 @@ function _calculateOOBAndPinnedTop(top, bounds, height, pin, pinned, oob) {
  * @private
  */
 function _flipXTogether(tAttachment, eAttachment, bounds, width, targetWidth, left) {
-  // const [leftBound, topBound, rightBound, bottomBound] = bounds;
-  // const positionedLeftOfLeftBound = left < leftBound;
   if (left < bounds[0] && tAttachment.left === 'left') {
     if (eAttachment.left === 'right') {
       left += targetWidth;
