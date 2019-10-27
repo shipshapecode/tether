@@ -20,6 +20,7 @@ module.exports = function(api) {
           ]
         ],
         plugins: [
+          'babel-plugin-rewire',
           'transform-es2015-modules-commonjs'
         ]
       }
