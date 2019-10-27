@@ -130,8 +130,8 @@ describe('Constraint', () => {
         expect(eAttachment.top, 'element attachment flipped to top').toBe('top');
       });
 
-      //TODO figure out what the difference in these cases is
-      it('eAttachment.top === "bottom" && top < topBounds: /shrug', () => {
+      //TODO figure out better naming for these cases
+      it('eAttachment.top === "bottom" && top < topBounds: and then hits second if too', () => {
         const bounds = [10, 10, 20, 20];
         const height = 10;
         const targetHeight = 50;
@@ -143,9 +143,50 @@ describe('Constraint', () => {
       });
     });
 
-    // describe('tAttachment.top === "bottom"', () => {
-    //   const tAttachment = { top: 'bottom' };
-    //   const eAttachment = { top: 'top' };
-    // });
+    describe('tAttachment.top === "bottom"', () => {
+      beforeEach(() => {
+        tAttachment = { top: 'top' };
+        eAttachment = { top: 'bottom' };
+      });
+
+      it('eAttachment.top === "top" && top + height > bottomBounds', () => {
+        const bounds = [10, 10, 75, 75];
+        const height = 100;
+        const targetHeight = 50;
+        let top = 0;
+        top = _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
+        expect(top, 'targetHeight added to top').toEqual(0);
+        expect(tAttachment.top, 'target attachment kept as top').toBe('top');
+        expect(eAttachment.top, 'element attachment kept as bottom').toBe('bottom');
+      });
+    });
+
+    describe('tAttachment.top === "middle"', () => {
+      let bounds, height, targetHeight, top;
+
+      beforeEach(() => {
+        bounds = [10, 10, 75, 75];
+        height = 100;
+        targetHeight = 50;
+        top = 0;
+        tAttachment = { top: 'middle' };
+      });
+
+      it('top + height > bottomBounds && eAttachment.top === "top"', () => {
+        eAttachment = { top: 'top' };
+        top = _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
+        expect(top, 'targetHeight added to top').toEqual(-100);
+        expect(tAttachment.top, 'target attachment flipped to middle').toBe('middle');
+        expect(eAttachment.top, 'element attachment kept as bottom').toBe('bottom');
+      });
+
+      it('top < topBounds && eAttachment.top === "bottom"', () => {
+        eAttachment = { top: 'bottom' };
+        top = _flipYTogether(tAttachment, eAttachment, bounds, height, targetHeight, top);
+        expect(top, 'targetHeight added to top').toEqual(100);
+        expect(tAttachment.top, 'target attachment flipped to middle').toBe('middle');
+        expect(eAttachment.top, 'element attachment flipped to top').toBe('top');
+      });
+    });
   });
 });
