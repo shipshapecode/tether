@@ -116,15 +116,21 @@ class TetherClass extends Evented {
       offset: '0 0',
       targetOffset: '0 0',
       targetAttachment: 'auto auto',
-      classPrefix: 'tether'
+      classPrefix: 'tether',
+      bodyElement: document.body
     };
 
     this.options = extend(defaults, options);
 
-    let { element, target, targetModifier } = this.options;
+    let { element, target, targetModifier, bodyElement } = this.options;
     this.element = element;
     this.target = target;
     this.targetModifier = targetModifier;
+
+    if (typeof bodyElement === 'string') {
+      bodyElement = document.querySelector(bodyElement);
+    }
+    this.bodyElement = bodyElement;
 
     if (this.target === 'viewport') {
       this.target = document.body;
@@ -175,12 +181,12 @@ class TetherClass extends Evented {
   getTargetBounds() {
     if (!isUndefined(this.targetModifier)) {
       if (this.targetModifier === 'visible') {
-        return getVisibleBounds(this.target);
+        return getVisibleBounds(this.bodyElement, this.target);
       } else if (this.targetModifier === 'scroll-handle') {
-        return getScrollHandleBounds(this.target);
+        return getScrollHandleBounds(this.bodyElement, this.target);
       }
     } else {
-      return getBounds(this.target);
+      return getBounds(this.bodyElement, this.target);
     }
   }
 
@@ -247,7 +253,7 @@ class TetherClass extends Evented {
 
     // Remove any elements we were using for convenience from the DOM
     if (tethers.length === 0) {
-      removeUtilElements();
+      removeUtilElements(this.bodyElement);
     }
   }
 
@@ -318,7 +324,7 @@ class TetherClass extends Evented {
     this.updateAttachClasses(this.attachment, targetAttachment);
 
     const elementPos = this.cache('element-bounds', () => {
-      return getBounds(this.element);
+      return getBounds(this.bodyElement, this.element);
     });
 
     let { width, height } = elementPos;
@@ -421,7 +427,7 @@ class TetherClass extends Evented {
       this.options.optimizations.moveElement !== false &&
       isUndefined(this.targetModifier)) {
       const offsetParent = this.cache('target-offsetparent', () => getOffsetParent(this.target));
-      const offsetPosition = this.cache('target-offsetparent-bounds', () => getBounds(offsetParent));
+      const offsetPosition = this.cache('target-offsetparent-bounds', () => getBounds(this.bodyElement, offsetParent));
       const offsetParentStyle = getComputedStyle(offsetParent);
       const offsetParentSize = offsetPosition;
 
