@@ -5,7 +5,7 @@ import { isUndefined } from './type-check';
 const zeroPosCache = {};
 let zeroElement = null;
 
-export function getBounds(el) {
+export function getBounds(body, el) {
   let doc;
   if (el === document) {
     doc = document;
@@ -18,7 +18,7 @@ export function getBounds(el) {
 
   const box = _getActualBoundingClientRect(el);
 
-  const origin = _getOrigin();
+  const origin = _getOrigin(body);
 
   box.top -= origin.top;
   box.left -= origin.left;
@@ -43,7 +43,7 @@ export function getBounds(el) {
  * @param target
  * @return {{left: number, width: number, height: number}}
  */
-export function getScrollHandleBounds(target) {
+export function getScrollHandleBounds(body, target) {
   let bounds;
   // We have to do the check for the scrollTop and if target === document.body here and set to variables
   // because we may reset target below.
@@ -60,7 +60,7 @@ export function getScrollHandleBounds(target) {
       width: innerWidth
     };
   } else {
-    bounds = getBounds(target);
+    bounds = getBounds(body, target);
   }
 
   const style = getComputedStyle(target);
@@ -108,11 +108,11 @@ export function getScrollHandleBounds(target) {
  * @param target
  * @return {{top: *, left: *, width: *, height: *}}
  */
-export function getVisibleBounds(target) {
+export function getVisibleBounds(body, target) {
   if (target === document.body) {
     return { top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth };
   } else {
-    const bounds = getBounds(target);
+    const bounds = getBounds(body, target);
 
     const out = {
       height: bounds.height,
@@ -142,9 +142,9 @@ export function getVisibleBounds(target) {
   }
 }
 
-export function removeUtilElements() {
+export function removeUtilElements(body) {
   if (zeroElement) {
-    document.body.removeChild(zeroElement);
+    body.removeChild(zeroElement);
   }
   zeroElement = null;
 }
@@ -182,13 +182,13 @@ function _getActualBoundingClientRect(node) {
   return rect;
 }
 
-function _getOrigin() {
+function _getOrigin(body) {
   // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
   // jitter as the user scrolls that messes with our ability to detect if two positions
   // are equivilant or not.  We place an element at the top left of the page that will
   // get the same jitter, so we can cancel the two out.
   let node = zeroElement;
-  if (!node || !document.body.contains(node)) {
+  if (!node || !body.contains(node)) {
     node = document.createElement('div');
     node.setAttribute('data-tether-id', uniqueId());
     extend(node.style, {
@@ -197,7 +197,7 @@ function _getOrigin() {
       position: 'absolute'
     });
 
-    document.body.appendChild(node);
+    body.appendChild(node);
 
     zeroElement = node;
   }

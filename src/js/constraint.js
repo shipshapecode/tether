@@ -12,7 +12,7 @@ const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
  * @param to
  * @return {*[]|HTMLElement|ActiveX.IXMLDOMElement}
  */
-function getBoundingRect(tether, to) {
+function getBoundingRect(body, tether, to) {
   if (to === 'scrollParent') {
     to = tether.scrollParents[0];
   } else if (to === 'window') {
@@ -25,7 +25,7 @@ function getBoundingRect(tether, to) {
 
   if (!isUndefined(to.nodeType)) {
     const node = to;
-    const size = getBounds(to);
+    const size = getBounds(body, to);
     const pos = size;
     const style = getComputedStyle(to);
 
@@ -298,7 +298,7 @@ export default {
     }
 
     let { height, width } = this.cache('element-bounds', () => {
-      return getBounds(this.element);
+      return getBounds(this.bodyElement, this.element);
     });
 
     if (width === 0 && height === 0 && !isUndefined(this.lastSize)) {
@@ -334,7 +334,7 @@ export default {
         changeAttachX = changeAttachY = attachment;
       }
 
-      const bounds = getBoundingRect(this, to);
+      const bounds = getBoundingRect(this.bodyElement, this, to);
 
       if (changeAttachY === 'target' || changeAttachY === 'both') {
         if (top < bounds[1] && tAttachment.top === 'top') {
