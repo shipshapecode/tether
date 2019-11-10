@@ -16,7 +16,6 @@ export function addClass(el, name) {
  */
 export function getClass(key = '', classes, classPrefix) {
   if (!isUndefined(classes) && !isUndefined(classes[key])) {
-
     if (classes[key] === false) {
       return '';
     }

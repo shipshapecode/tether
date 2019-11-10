@@ -1,6 +1,99 @@
 import Constraint from '../../src/js/constraint.js';
+// import { getBounds } from '../../src/js/utils/bounds';
+
+// jest.mock('../../src/js/utils/bounds');
 
 describe('Constraint', () => {
+  describe('getBoundingRect()', () => {
+    const getBoundingRect = Constraint.__get__('getBoundingRect');
+    let element;
+
+    beforeEach(() => {
+      element = document.createElement('div');
+      element.classList.add('element');
+      document.body.appendChild(element);
+    });
+
+    afterEach(() => {
+      document.body.removeChild(element);
+      element = null;
+    });
+
+    it('returns null with no args', () => {
+      expect(getBoundingRect()).toBeNull();
+    });
+
+    it('return bounds from border width when constraint is scrollParent', () => {
+      element.style.borderWidth = '4px';
+      const scrollParentBounds = getBoundingRect(document.body, { scrollParents: [element] }, 'scrollParent');
+
+      expect(scrollParentBounds).toHaveLength(4);
+      expect(scrollParentBounds).toEqual(expect.arrayContaining([4, 4, -4, -4]));
+    });
+
+    it('return bounds from current window when constraint is window', () => {
+      const windowBounds = getBoundingRect(document.body, { scrollParents: [element] }, 'window');
+
+      expect(windowBounds).toHaveLength(4);
+      expect(windowBounds).toEqual(expect.arrayContaining([0, 0, 1024, 768]));
+    });
+
+    it('return bounds from document window when constraint is document', () => {
+      document.documentElement.style.borderWidth = '0';
+      const windowBounds = getBoundingRect(document.body, { scrollParents: [] }, document);
+
+      expect(windowBounds).toHaveLength(4);
+      expect(windowBounds).toEqual(expect.arrayContaining([0, 0, 0, 0]));
+    });
+  });
+
+  describe('_addOutOfBoundsClass()', () => {
+    const _addOutOfBoundsClass = Constraint.__get__('_addOutOfBoundsClass');
+    let oob;
+
+    beforeEach(() => {
+      oob = [];
+    });
+
+
+    it('adds nothing if out of bounds array is empty', () => {
+      _addOutOfBoundsClass(oob, [], [], '', '');
+
+      expect(oob).toHaveLength(0);
+    });
+
+    it('does not add a class if oob class option is false', () => {
+      oob.push('top');
+      const addClasses = [];
+      _addOutOfBoundsClass(oob, addClasses, {
+        'out-of-bounds': false
+      });
+
+      expect(addClasses).toHaveLength(0);
+    });
+    it('adds classes for oob prefix and options classes', () => {
+      oob.push('top');
+      const addClasses = [];
+      _addOutOfBoundsClass(oob, addClasses, {
+        'out-of-bounds': 'added'
+      });
+
+      expect(addClasses).toHaveLength(2);
+      expect(addClasses).toEqual(expect.arrayContaining(['added', 'added-top']));
+    });
+
+    it('uses extra prefix for outOfBoundsClass', () => {
+      oob.push('top');
+      const addClasses = [];
+      _addOutOfBoundsClass(oob, addClasses, {
+        'out-of-bounds': 'added'
+      }, '', 'extra');
+
+      expect(addClasses).toHaveLength(2);
+      expect(addClasses).toEqual(expect.arrayContaining(['extra', 'extra-top']));
+    });
+  });
+
   describe('_calculateOOBAndPinnedLeft', () => {
     const _calculateOOBAndPinnedLeft = Constraint.__get__('_calculateOOBAndPinnedLeft');
     const bounds = [10, 10, 20, 20];
@@ -291,6 +384,70 @@ describe('Constraint', () => {
         expect(tAttachment.top, 'target attachment flipped to middle').toBe('middle');
         expect(eAttachment.top, 'element attachment flipped to top').toBe('top');
       });
+    });
+  });
+
+  describe('_getAllClasses', () => {
+    const _getAllClasses = Constraint.__get__('_getAllClasses');
+
+    it('returns all the base classes when no changes passed', () => {
+      const baseClasses = _getAllClasses({}, '', []);
+
+      expect(baseClasses).toHaveLength(10);
+      expect(baseClasses).toEqual(expect.arrayContaining(['pinned',
+        'out-of-bounds',
+        'pinned-left',
+        'pinned-top',
+        'pinned-right',
+        'pinned-bottom',
+        'out-of-bounds-left',
+        'out-of-bounds-top',
+        'out-of-bounds-right',
+        'out-of-bounds-bottom']));
+    });
+
+    it('returns all the base classes with the passed prefix', () => {
+      const prefixClasses = _getAllClasses({}, 'prefix', []);
+
+      expect(prefixClasses).toHaveLength(10);
+      expect(prefixClasses).toEqual(expect.arrayContaining([
+        'prefix-pinned',
+        'prefix-out-of-bounds',
+        'prefix-pinned-left',
+        'prefix-pinned-top',
+        'prefix-pinned-right',
+        'prefix-pinned-bottom',
+        'prefix-out-of-bounds-left',
+        'prefix-out-of-bounds-top',
+        'prefix-out-of-bounds-right',
+        'prefix-out-of-bounds-bottom']));
+    });
+
+    it('replaces a class when a replacement name is passed', () => {
+      const replaceClass = _getAllClasses({
+        'pinned': 'stuck'
+      }, '', []);
+
+      expect(replaceClass).toHaveLength(10);
+      expect(replaceClass).toEqual(expect.arrayContaining([
+        'stuck',
+        'out-of-bounds',
+        'stuck-left',
+        'stuck-top',
+        'stuck-right',
+        'stuck-bottom',
+        'out-of-bounds-left',
+        'out-of-bounds-top',
+        'out-of-bounds-right',
+        'out-of-bounds-bottom']));
+    });
+
+    it('adds a constraint class and variations for sides', () => {
+      const constraintClasses = _getAllClasses({}, '', [{ outOfBoundsClass: 'constraintOob' }]);
+
+      expect(constraintClasses).toHaveLength(15);
+      expect(constraintClasses).toContain('constraintOob');
+      expect(constraintClasses).toContain('constraintOob-top');
     });
   });
 });
