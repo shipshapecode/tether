@@ -1,7 +1,4 @@
 import Constraint from '../../src/js/constraint.js';
-// import { getBounds } from '../../src/js/utils/bounds';
-
-// jest.mock('../../src/js/utils/bounds');
 
 describe('Constraint', () => {
   describe('getBoundingRect()', () => {
