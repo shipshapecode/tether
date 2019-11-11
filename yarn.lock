@@ -5575,7 +5575,7 @@ onetime@^5.1.0:
   dependencies:
     mimic-fn "^2.1.0"
 
-open@^6.3.0:
+open@^6.0.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/open/-/open-6.4.0.tgz#5c13e96d0dc894686164f18965ecfe889ecfc8a9"
   integrity sha512-IFenVPgF70fSm1keSd2iDBIDIBZkroLeuffXq+wKTzTJlBpesFWojV9lb8mzOfaAzM1sr7HQHuO0vtV0zYekGg==
@@ -6823,13 +6823,13 @@ rollup-plugin-terser@^5.1.2:
     serialize-javascript "^1.7.0"
     terser "^4.1.0"
 
-rollup-plugin-visualizer@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-2.6.0.tgz#a5a1110848347bb00b18ee3a0582fb1b541fa511"
-  integrity sha512-9HjvKAKUNqlcpLszA14njiQJgi+5rZSdMJymKXpFncHMBRPPCRh9jmKzZHqhoq5c1K/+Tjo9flMUcgdlPD397Q==
+rollup-plugin-visualizer@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-2.7.2.tgz#02e34e419d6ad9bcf6d334d4ff302e87a4d612a2"
+  integrity sha512-aJ9GA2mGblEttMmyA2bO8Ce40/VAH3tFYhiXaEJKuJTY6eaU5q744wgE6H8YzM2mc1uLQeejn6A00ldjUSLhyA==
   dependencies:
     mkdirp "^0.5.1"
-    open "^6.3.0"
+    open "^6.0.0"
     pupa "^2.0.0"
     source-map "^0.7.3"
 
