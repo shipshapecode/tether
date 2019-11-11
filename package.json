@@ -36,7 +36,7 @@
   "module": "dist/js/tether.esm.js",
   "devDependencies": {
     "@babel/core": "^7.7.2",
-    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-env": "^7.7.1",
     "@testing-library/jest-dom": "^4.2.3",
     "autoprefixer": "^9.7.1",
     "babel-jest": "^24.9.0",
