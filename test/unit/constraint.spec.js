@@ -66,7 +66,8 @@ describe('Constraint', () => {
         'out-of-bounds': false
       });
 
-      expect(addClasses).toHaveLength(0);
+      expect(addClasses).toHaveLength(2);
+      expect(addClasses).toEqual(expect.arrayContaining(['', '-top']));
     });
     it('adds classes for oob prefix and options classes', () => {
       oob.push('top');

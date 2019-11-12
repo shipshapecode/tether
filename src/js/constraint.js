@@ -8,7 +8,6 @@ const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
 
 /**
  * Returns an array of bounds of the format [left, top, right, bottom]
- * @param body
  * @param tether
  * @param to
  * @return {*[]|HTMLElement|ActiveX.IXMLDOMElement}
@@ -76,12 +75,10 @@ function _addOutOfBoundsClass(oob, addClasses, classes, classPrefix, outOfBounds
       oobClass = getClass('out-of-bounds', classes, classPrefix);
     }
 
-    if (oobClass) {
-      addClasses.push(oobClass);
-      oob.forEach((side) => {
-        addClasses.push(`${oobClass}-${side}`);
-      });
-    }
+    addClasses.push(oobClass);
+    oob.forEach((side) => {
+      addClasses.push(`${oobClass}-${side}`);
+    });
   }
 }
 
