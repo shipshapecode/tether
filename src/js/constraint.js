@@ -13,6 +13,10 @@ const BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
  * @return {*[]|HTMLElement|ActiveX.IXMLDOMElement}
  */
 function getBoundingRect(body, tether, to) {
+  // arg to is required
+  if (!to) {
+    return null;
+  }
   if (to === 'scrollParent') {
     to = tether.scrollParents[0];
   } else if (to === 'window') {
