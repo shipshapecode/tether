@@ -1040,10 +1040,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@testing-library/jest-dom@^4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-4.2.4.tgz#00dfa0cbdd837d9a3c2a7f3f0a248ea6e7b89742"
-  integrity sha512-j31Bn0rQo12fhCWOUWy9fl7wtqkp7In/YP2p5ZFyRuiiB9Qs3g+hS4gAmDWONbAHcRmVooNJ5eOHQDCOmUFXHg==
+"@testing-library/jest-dom@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-5.0.0.tgz#1c7abd55c90d5ea9fc9211e461967010188e186d"
+  integrity sha512-PRrB+Y5hTyp6CSFAPe83aP7rPPgAcO29wPyGYlmHhfE9YUQIYsOigODFhgeq+R3T+AT6WYn6bU9rIKNmRCgvWg==
   dependencies:
     "@babel/runtime" "^7.5.1"
     chalk "^2.4.1"
