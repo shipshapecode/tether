@@ -54,7 +54,7 @@
     "jest-transform-css": "^2.0.0",
     "mutationobserver-shim": "^0.3.3",
     "postcss": "^7.0.26",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.1",
     "rollup": "^1.30.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-browsersync": "^1.1.0",
