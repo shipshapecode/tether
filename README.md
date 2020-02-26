@@ -35,7 +35,7 @@ npm install tether@next
 
 __download__
 
-Or download from the [releases](https://github.com/HubSpot/tether/releases).
+Or download from the [releases](https://github.com/shipshapecode/tether/releases).
 
 ## Introduction
 
@@ -101,16 +101,16 @@ There are tons of other useful features of Tether as well, instead of “comment
 * and [more](http://github.hubspot.com/tether/examples/list_of_examples/)!
 
 ## Usage
-You only need to include [tether.min.js](https://github.com/HubSpot/tether/blob/master/dist/js/tether.min.js) in your page:
+You only need to include `tether.min.js` in your page:
 ```
 <script src="path/to/dist/js/tether.min.js"></script>
 ```
 Or use a CDN:
 ```
-<script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tether@2.0.0-beta.5/js/tether.min.js"></script>
 ```
 
-The css files in the [dist/css](https://github.com/HubSpot/tether/tree/master/dist/css) folder are not required to get tether running.
+The css files are not required to get tether running.
 
 For more details jump straight in to the detailed [Usage](http://github.hubspot.com/tether/#usage) page.
 
@@ -123,4 +123,5 @@ For more details jump straight in to the detailed [Usage](http://github.hubspot.
 We encourage contributions of all kinds. If you would like to contribute in some way, please review our [guidelines for contributing](CONTRIBUTING.md).
 
 ## License
-Copyright &copy; 2014-2017 HubSpot - [MIT License](LICENSE)
+Copyright &copy; 2019-2020 Ship Shape Consulting LLC - [MIT License](LICENSE)
+Copyright &copy; 2014-2018 HubSpot - [MIT License](LICENSE)
