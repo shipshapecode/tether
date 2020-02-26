@@ -410,6 +410,21 @@ to false:</p>
 <li><code>destroy()</code> - Disable and remove all references</li>
 <li><code>position()</code> - Manually trigger a repositioning</li>
 </ul>
+<h2 id="events">Events</h2>
+<p>The <code>Tether</code> object also has events support, since it extends our <code>Evented</code> class.</p>
+<p>The methods exposed to listen to events are:</p>
+<ul>
+<li><code>on(event, handler)</code> - Adds an event listener that is fired whenever the event is fired</li>
+<li><code>once(event, handler)</code> - Adds an event listener that is only fired the first time the event is fired</li>
+<li><code>off(event, handler)</code> - Removes the event listener</li>
+<li><code>trigger(event)</code> - Manually triggers events</li>
+</ul>
+<p>The events fired are:</p>
+<ul>
+<li><code>repositioned</code> - Fired whenever the tether element is moved</li>
+<li><code>update</code> - Fired whenever the Tether instance runs into a constraint. You could use this
+for things like manually flipping an arrow or other tweaks.</li>
+</ul>
 <h2 id="options">Options</h2>
 <p>The full list of options which can be passed to the <code>Tether</code> constructor and
 <code>setOptions</code>:</p>
