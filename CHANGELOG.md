@@ -1,5 +1,93 @@
 # Changelog
 
+## [v2.0.0-beta.5](https://github.com/shipshapecode/tether/tree/v2.0.0-beta.5) (2019-12-05)
+
+[Full Changelog](https://github.com/shipshapecode/tether/compare/v2.0.0-beta.4...v2.0.0-beta.5)
+
+**Implemented enhancements:**
+
+- Allow zeroElement parent to be configurable. [\#374](https://github.com/shipshapecode/tether/pull/374) ([deanmarano](https://github.com/deanmarano))
+
+**Merged pull requests:**
+
+- Bump rollup from 1.27.5 to 1.27.8 [\#403](https://github.com/shipshapecode/tether/pull/403) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup-plugin-visualizer from 3.2.2 to 3.3.0 [\#402](https://github.com/shipshapecode/tether/pull/402) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump autoprefixer from 9.7.2 to 9.7.3 [\#400](https://github.com/shipshapecode/tether/pull/400) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump cypress from 3.6.1 to 3.7.0 [\#399](https://github.com/shipshapecode/tether/pull/399) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint from 6.7.1 to 6.7.2 [\#397](https://github.com/shipshapecode/tether/pull/397) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup-plugin-browsersync from 1.0.0 to 1.1.0 [\#396](https://github.com/shipshapecode/tether/pull/396) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint-plugin-jest from 23.0.4 to 23.1.1 [\#395](https://github.com/shipshapecode/tether/pull/395) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint from 6.6.0 to 6.7.1 [\#394](https://github.com/shipshapecode/tether/pull/394) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump autoprefixer from 9.7.1 to 9.7.2 [\#393](https://github.com/shipshapecode/tether/pull/393) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @babel/preset-env from 7.7.1 to 7.7.4 [\#392](https://github.com/shipshapecode/tether/pull/392) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @babel/core from 7.7.2 to 7.7.4 [\#391](https://github.com/shipshapecode/tether/pull/391) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump postcss from 7.0.21 to 7.0.23 [\#390](https://github.com/shipshapecode/tether/pull/390) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.27.1 to 1.27.5 [\#389](https://github.com/shipshapecode/tether/pull/389) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup-plugin-visualizer from 3.1.1 to 3.2.2 [\#388](https://github.com/shipshapecode/tether/pull/388) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint-plugin-jest from 23.0.3 to 23.0.4 [\#387](https://github.com/shipshapecode/tether/pull/387) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @testing-library/jest-dom from 4.2.3 to 4.2.4 [\#386](https://github.com/shipshapecode/tether/pull/386) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup-plugin-visualizer from 2.7.2 to 3.1.1 [\#385](https://github.com/shipshapecode/tether/pull/385) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.26.5 to 1.27.1 [\#384](https://github.com/shipshapecode/tether/pull/384) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @babel/preset-env from 7.6.3 to 7.7.1 [\#383](https://github.com/shipshapecode/tether/pull/383) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup-plugin-visualizer from 2.6.0 to 2.7.2 [\#382](https://github.com/shipshapecode/tether/pull/382) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.26.0 to 1.26.5 [\#381](https://github.com/shipshapecode/tether/pull/381) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump cypress from 3.5.0 to 3.6.1 [\#380](https://github.com/shipshapecode/tether/pull/380) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @babel/core from 7.6.4 to 7.7.2 [\#379](https://github.com/shipshapecode/tether/pull/379) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @testing-library/jest-dom from 4.2.0 to 4.2.3 [\#378](https://github.com/shipshapecode/tether/pull/378) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump autoprefixer from 9.7.0 to 9.7.1 [\#377](https://github.com/shipshapecode/tether/pull/377) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint-plugin-jest from 23.0.0 to 23.0.3 [\#376](https://github.com/shipshapecode/tether/pull/376) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- test: Add more coverage to the module [\#375](https://github.com/shipshapecode/tether/pull/375) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+## [v2.0.0-beta.4](https://github.com/shipshapecode/tether/tree/v2.0.0-beta.4) (2019-10-29)
+
+[Full Changelog](https://github.com/shipshapecode/tether/compare/v2.0.0-beta.3...v2.0.0-beta.4)
+
+**Implemented enhancements:**
+
+- Simplify Evented code [\#339](https://github.com/shipshapecode/tether/pull/339) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Tether is harder to update due to a missing changelog [\#40](https://github.com/shipshapecode/tether/issues/40)
+
+**Merged pull requests:**
+
+- Bump eslint from 6.5.1 to 6.6.0 [\#372](https://github.com/shipshapecode/tether/pull/372) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump postcss from 7.0.20 to 7.0.21 [\#371](https://github.com/shipshapecode/tether/pull/371) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint-plugin-jest from 22.20.0 to 23.0.0 [\#370](https://github.com/shipshapecode/tether/pull/370) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.25.2 to 1.26.0 [\#369](https://github.com/shipshapecode/tether/pull/369) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @testing-library/jest-dom from 4.1.2 to 4.2.0 [\#368](https://github.com/shipshapecode/tether/pull/368) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Split constraints into smaller functions [\#367](https://github.com/shipshapecode/tether/pull/367) ([rwwagner90](https://github.com/rwwagner90))
+- Add dependabot config [\#366](https://github.com/shipshapecode/tether/pull/366) ([rwwagner90](https://github.com/rwwagner90))
+- Bump postcss from 7.0.18 to 7.0.20 [\#365](https://github.com/shipshapecode/tether/pull/365) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump autoprefixer from 9.6.5 to 9.7.0 [\#364](https://github.com/shipshapecode/tether/pull/364) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump cypress from 3.4.1 to 3.5.0 [\#363](https://github.com/shipshapecode/tether/pull/363) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.25.1 to 1.25.2 [\#362](https://github.com/shipshapecode/tether/pull/362) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint-plugin-jest from 22.19.0 to 22.20.0 [\#361](https://github.com/shipshapecode/tether/pull/361) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.24.0 to 1.25.1 [\#360](https://github.com/shipshapecode/tether/pull/360) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Update getClass to util and add tests [\#359](https://github.com/shipshapecode/tether/pull/359) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Bump start-server-and-test from 1.10.5 to 1.10.6 [\#357](https://github.com/shipshapecode/tether/pull/357) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup-plugin-filesize from 6.2.0 to 6.2.1 [\#356](https://github.com/shipshapecode/tether/pull/356) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.23.1 to 1.24.0 [\#355](https://github.com/shipshapecode/tether/pull/355) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump autoprefixer from 9.6.4 to 9.6.5 [\#354](https://github.com/shipshapecode/tether/pull/354) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint-plugin-jest from 22.17.0 to 22.19.0 [\#353](https://github.com/shipshapecode/tether/pull/353) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @babel/core from 7.6.3 to 7.6.4 [\#352](https://github.com/shipshapecode/tether/pull/352) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump start-server-and-test from 1.10.4 to 1.10.5 [\#350](https://github.com/shipshapecode/tether/pull/350) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @babel/preset-env from 7.6.2 to 7.6.3 [\#349](https://github.com/shipshapecode/tether/pull/349) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @babel/core from 7.6.2 to 7.6.3 [\#348](https://github.com/shipshapecode/tether/pull/348) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @testing-library/jest-dom from 4.1.1 to 4.1.2 [\#347](https://github.com/shipshapecode/tether/pull/347) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump @testing-library/jest-dom from 4.1.0 to 4.1.1 [\#345](https://github.com/shipshapecode/tether/pull/345) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.23.0 to 1.23.1 [\#344](https://github.com/shipshapecode/tether/pull/344) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump autoprefixer from 9.6.1 to 9.6.4 [\#343](https://github.com/shipshapecode/tether/pull/343) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.22.0 to 1.23.0 [\#342](https://github.com/shipshapecode/tether/pull/342) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump start-server-and-test from 1.10.3 to 1.10.4 [\#341](https://github.com/shipshapecode/tether/pull/341) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump start-server-and-test from 1.10.2 to 1.10.3 [\#340](https://github.com/shipshapecode/tether/pull/340) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- chore: Add basic landing page for reloading and contribution [\#338](https://github.com/shipshapecode/tether/pull/338) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Bump eslint from 6.5.0 to 6.5.1 [\#337](https://github.com/shipshapecode/tether/pull/337) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump eslint from 6.4.0 to 6.5.0 [\#336](https://github.com/shipshapecode/tether/pull/336) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rollup from 1.21.4 to 1.22.0 [\#335](https://github.com/shipshapecode/tether/pull/335) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Move some bounds utils [\#334](https://github.com/shipshapecode/tether/pull/334) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v2.0.0-beta.3](https://github.com/shipshapecode/tether/tree/v2.0.0-beta.3) (2019-09-30)
 
 [Full Changelog](https://github.com/shipshapecode/tether/compare/v2.0.0-beta.2...v2.0.0-beta.3)
@@ -100,4 +188,4 @@
 - Provide minified CSS
 
 
-\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
