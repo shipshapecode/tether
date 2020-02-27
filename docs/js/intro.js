@@ -1,7 +1,10 @@
 (function() {
   var OUTPUT_HTML, SETUP_JS, activate, deactivate, getOutput, init, run, setupBlock, tethers, uniqueId;
 
-  uniqueId = Tether.Utils.uniqueId;
+  uniqueId = (function() {
+    var id = 0;
+    return function(){ return ++id };
+  })();
 
   SETUP_JS = "yellowBox = $('.yellow-box', $output);\ngreenBox = $('.green-box', $output);\nscrollBox = $('.scroll-box', $output);";
 
