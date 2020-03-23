@@ -65,6 +65,6 @@
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-visualizer": "^3.3.2",
     "sinon": "^9.0.1",
-    "start-server-and-test": "^1.10.10"
+    "start-server-and-test": "^1.10.11"
   }
 }
