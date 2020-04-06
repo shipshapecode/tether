@@ -52,7 +52,7 @@
     "jest": "^25.2.4",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^2.0.0",
-    "mutationobserver-shim": "^0.3.3",
+    "mutationobserver-shim": "^0.3.5",
     "postcss": "^7.0.27",
     "rimraf": "^3.0.2",
     "rollup": "^1.32.1",
