@@ -5478,10 +5478,10 @@ lower-case@^1.1.1:
   resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-1.1.4.tgz#9a2cabd1b9e8e0ae993a4bf7d5875c39c42e8eac"
   integrity sha1-miyr0bno4K6ZOkv31YdcOcQujqw=
 
-magic-string@0.25.4:
-  version "0.25.4"
-  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.4.tgz#325b8a0a79fc423db109b77fd5a19183b7ba5143"
-  integrity sha512-oycWO9nEVAP2RVPbIoDoA4Y7LFIJ3xRYov93gAyJhZkET1tNuB0u7uWkZS2LpBWTJUWnmau/To8ECWRC+jKNfw==
+magic-string@0.25.7:
+  version "0.25.7"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
+  integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
   dependencies:
     sourcemap-codec "^1.4.4"
 
@@ -5656,6 +5656,11 @@ mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.1:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+mkdirp@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
+  integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
 moment@2.24.0:
   version "2.24.0"
@@ -7289,16 +7294,16 @@ rollup-plugin-filesize@^6.2.0:
     lodash.merge "^4.6.2"
     terser "^4.1.3"
 
-rollup-plugin-license@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-0.13.0.tgz#ee9f000a2e2a95db7934b1a7584651f23e8da8b4"
-  integrity sha512-K1At1InQufYagn1zNTikWG6NorVjdBBoKtJdHqbyV/Z1ksM3wHtWlR/4rqdKxyZjTXNTDzM7mxn7j/HERexLFw==
+rollup-plugin-license@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.0.0.tgz#970f42d99dec95d1f1436be16f37e323b5d4d2b3"
+  integrity sha512-xeCtHPluNFUJPuTdCFJrdNfCR/3yEX2M65s/i47SmEblmJxdxea2m9yodiIKtfVoWUMbosfHTcALgZk+utbrhA==
   dependencies:
     commenting "1.1.0"
     glob "7.1.6"
     lodash "4.17.15"
-    magic-string "0.25.4"
-    mkdirp "0.5.1"
+    magic-string "0.25.7"
+    mkdirp "1.0.4"
     moment "2.24.0"
     spdx-expression-validate "2.0.0"
     spdx-satisfies "5.0.0"
