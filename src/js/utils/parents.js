@@ -16,7 +16,7 @@ export function getScrollParents(el) {
     let style;
     try {
       style = getComputedStyle(parent);
-    } catch(err) {
+    } catch (err) {
       // Intentionally blank
     }
 

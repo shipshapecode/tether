@@ -175,7 +175,7 @@ function _getActualBoundingClientRect(node) {
         rect.right += frameRect.left;
       }
     }
-  } catch(err) {
+  } catch (err) {
     // Ignore "Access is denied" in IE11/Edge
   }
 
