@@ -55,7 +55,7 @@
     "mutationobserver-shim": "^0.3.5",
     "postcss": "^7.0.29",
     "rimraf": "^3.0.2",
-    "rollup": "^2.10.2",
+    "rollup": "^2.10.9",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-browsersync": "^1.1.0",
     "rollup-plugin-eslint": "^7.0.0",
