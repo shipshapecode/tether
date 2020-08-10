@@ -1,6 +1,6 @@
 ### Examples
 
-It's our goal to create a wide variety of example of how Tether
+It's our goal to create a wide variety of examples of how Tether
 can be used.  Here's what we have so far, please send a PR with
 any examples you might create.
 
