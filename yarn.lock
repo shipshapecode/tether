@@ -2925,10 +2925,10 @@ cssstyle@^2.2.0:
   dependencies:
     cssom "~0.3.6"
 
-cypress@4.12.0:
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-4.12.0.tgz#b9d9b16d45be28543edc0e4dc89987bed5bb090b"
-  integrity sha512-ZDngKMwoQ2UYmeSUJikLMZG6t2N7lTHHlzBzh5W0MbPfXSMv36YUgL2ZVD+t4ZLA63WWkvhwxIkDG+WJknBgHw==
+cypress@4.12.1:
+  version "4.12.1"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-4.12.1.tgz#0ead1b9f4c0917d69d8b57f996b6e01fe693b6ec"
+  integrity sha512-9SGIPEmqU8vuRA6xst2CMTYd9sCFCxKSzrHt0wr+w2iAQMCIIsXsQ5Gplns1sT6LDbZcmLv6uehabAOl3fhc9Q==
   dependencies:
     "@cypress/listr-verbose-renderer" "^0.4.1"
     "@cypress/request" "^2.88.5"
