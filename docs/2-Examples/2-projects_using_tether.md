@@ -28,10 +28,6 @@ If you're building something that fits that pattern, Drop can make things a litt
 
 A React UI toolkit for the web.
 
-### [Bootstrap 4](http://getbootstrap.com/)
-
-Tooltip and popovers from Bootstrap 4 are positioned using Tether
-
 ### [Ember Tether](https://github.com/yapplabs/ember-tether)
 
 An Ember.js-friendly interface for tether.
