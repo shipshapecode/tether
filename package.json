@@ -66,5 +66,9 @@
     "rollup-plugin-visualizer": "^4.2.0",
     "sinon": "^9.2.2",
     "start-server-and-test": "^1.11.6"
+  },
+  "volta": {
+    "node": "10.23.0",
+    "yarn": "1.22.10"
   }
 }
