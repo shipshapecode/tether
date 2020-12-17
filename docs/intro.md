@@ -1,5 +1,4 @@
 <script src="dist/js/tether.js"></script>
-<script src="docs/js/markAttachment.js"></script>
 <script src="docs/js/intro.js"></script>
 <link rel="stylesheet" href="docs/css/intro.css"></link>
 
@@ -21,7 +20,7 @@ Tether optimizes its location placement to result in the minimum amount of
 scrolling even with dozens or hundreds of tethers on screen (pop open the
 devtools timeline as you scroll this page).
 
-Tether is 5kb minified and gzipped, and supports IE9+, and all modern
+Tether is 5kb minified and gzipped, and supports IE 10+, and all modern
 browsers.
 
 <h2 class="projects-header">Projects Built With Tether</h2>
