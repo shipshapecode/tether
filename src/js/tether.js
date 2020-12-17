@@ -6,11 +6,27 @@ import Abutment from './abutment';
 import Constraint from './constraint';
 import Shift from './shift';
 import { Evented } from './evented';
-import { addClass, getClass, removeClass, updateClasses } from './utils/classes';
+import {
+  addClass,
+  getClass,
+  removeClass,
+  updateClasses
+} from './utils/classes';
 import { defer, flush } from './utils/deferred';
 import { extend, getScrollBarSize } from './utils/general';
-import { addOffset, attachmentToOffset, autoToFixedAttachment, offsetToPx, parseTopLeft } from './utils/offset';
-import { getBounds, getScrollHandleBounds, getVisibleBounds, removeUtilElements } from './utils/bounds';
+import {
+  addOffset,
+  attachmentToOffset,
+  autoToFixedAttachment,
+  offsetToPx,
+  parseTopLeft
+} from './utils/offset';
+import {
+  getBounds,
+  getScrollHandleBounds,
+  getVisibleBounds,
+  removeUtilElements
+} from './utils/bounds';
 import { getOffsetParent, getScrollParents } from './utils/parents';
 import { isNumber, isObject, isString, isUndefined } from './utils/type-check';
 
@@ -18,12 +34,16 @@ const TetherBase = { modules: [Constraint, Abutment, Shift] };
 
 function isFullscreenElement(e) {
   let d = e.ownerDocument;
-  let fe = d.fullscreenElement || d.webkitFullscreenElement || d.mozFullScreenElement || d.msFullscreenElement;
+  let fe =
+    d.fullscreenElement ||
+    d.webkitFullscreenElement ||
+    d.mozFullScreenElement ||
+    d.msFullscreenElement;
   return fe === e;
 }
 
 function within(a, b, diff = 1) {
-  return (a + diff >= b && b >= a - diff);
+  return a + diff >= b && b >= a - diff;
 }
 
 const transformKey = (() => {
@@ -32,7 +52,13 @@ const transformKey = (() => {
   }
   const el = document.createElement('div');
 
-  const transforms = ['transform', 'WebkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
+  const transforms = [
+    'transform',
+    'WebkitTransform',
+    'OTransform',
+    'MozTransform',
+    'msTransform'
+  ];
   for (let i = 0; i < transforms.length; ++i) {
     const key = transforms[i];
     if (el.style[key] !== undefined) {
@@ -69,7 +95,7 @@ function now() {
       return;
     }
 
-    if (!isUndefined(lastCall) && (now() - lastCall) < 10) {
+    if (!isUndefined(lastCall) && now() - lastCall < 10) {
       // Some browsers call events a little too frequently, refuse to run more than is reasonable
       return;
     }
@@ -142,7 +168,9 @@ class TetherClass extends Evented {
 
     ['element', 'target'].forEach((key) => {
       if (isUndefined(this[key])) {
-        throw new Error('Tether Error: Both element and target must be defined');
+        throw new Error(
+          'Tether Error: Both element and target must be defined'
+        );
       }
 
       if (!isUndefined(this[key].jquery)) {
@@ -276,22 +304,42 @@ class TetherClass extends Evented {
     this.add = this._addAttachClasses;
 
     if (elementAttach.top) {
-      this.add.push(`${getClass('element-attached', classes, classPrefix)}-${elementAttach.top}`);
+      this.add.push(
+        `${getClass('element-attached', classes, classPrefix)}-${
+          elementAttach.top
+        }`
+      );
     }
     if (elementAttach.left) {
-      this.add.push(`${getClass('element-attached', classes, classPrefix)}-${elementAttach.left}`);
+      this.add.push(
+        `${getClass('element-attached', classes, classPrefix)}-${
+          elementAttach.left
+        }`
+      );
     }
     if (targetAttach.top) {
-      this.add.push(`${getClass('target-attached', classes, classPrefix)}-${targetAttach.top}`);
+      this.add.push(
+        `${getClass('target-attached', classes, classPrefix)}-${
+          targetAttach.top
+        }`
+      );
     }
     if (targetAttach.left) {
-      this.add.push(`${getClass('target-attached', classes, classPrefix)}-${targetAttach.left}`);
+      this.add.push(
+        `${getClass('target-attached', classes, classPrefix)}-${
+          targetAttach.left
+        }`
+      );
     }
 
     this.all = [];
     sides.forEach((side) => {
-      this.all.push(`${getClass('element-attached', classes, classPrefix)}-${side}`);
-      this.all.push(`${getClass('target-attached', classes, classPrefix)}-${side}`);
+      this.all.push(
+        `${getClass('element-attached', classes, classPrefix)}-${side}`
+      );
+      this.all.push(
+        `${getClass('target-attached', classes, classPrefix)}-${side}`
+      );
     });
 
     defer(() => {
@@ -319,7 +367,10 @@ class TetherClass extends Evented {
     this.clearCache();
 
     // Turn 'auto' attachments into the appropriate corner or edge
-    const targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
+    const targetAttachment = autoToFixedAttachment(
+      this.targetAttachment,
+      this.attachment
+    );
 
     this.updateAttachClasses(this.attachment, targetAttachment);
 
@@ -343,8 +394,14 @@ class TetherClass extends Evented {
     const targetSize = targetPos;
 
     // Get an actual px offset from the attachment
-    let offset = offsetToPx(attachmentToOffset(this.attachment), { width, height });
-    let targetOffset = offsetToPx(attachmentToOffset(targetAttachment), targetSize);
+    let offset = offsetToPx(attachmentToOffset(this.attachment), {
+      width,
+      height
+    });
+    let targetOffset = offsetToPx(
+      attachmentToOffset(targetAttachment),
+      targetSize
+    );
 
     const manualOffset = offsetToPx(this.offset, { width, height });
     const manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
@@ -416,39 +473,68 @@ class TetherClass extends Evented {
       next.viewport.right -= scrollbarSize.width;
     }
 
-    if (['', 'static'].indexOf(doc.body.style.position) === -1 ||
-      ['', 'static'].indexOf(doc.body.parentElement.style.position) === -1) {
+    if (
+      ['', 'static'].indexOf(doc.body.style.position) === -1 ||
+      ['', 'static'].indexOf(doc.body.parentElement.style.position) === -1
+    ) {
       // Absolute positioning in the body will be relative to the page, not the 'initial containing block'
       next.page.bottom = doc.body.scrollHeight - top - height;
       next.page.right = doc.body.scrollWidth - left - width;
     }
 
-    if (!isUndefined(this.options.optimizations) &&
+    if (
+      !isUndefined(this.options.optimizations) &&
       this.options.optimizations.moveElement !== false &&
-      isUndefined(this.targetModifier)) {
-      const offsetParent = this.cache('target-offsetparent', () => getOffsetParent(this.target));
-      const offsetPosition = this.cache('target-offsetparent-bounds', () => getBounds(this.bodyElement, offsetParent));
+      isUndefined(this.targetModifier)
+    ) {
+      const offsetParent = this.cache('target-offsetparent', () =>
+        getOffsetParent(this.target)
+      );
+      const offsetPosition = this.cache('target-offsetparent-bounds', () =>
+        getBounds(this.bodyElement, offsetParent)
+      );
       const offsetParentStyle = getComputedStyle(offsetParent);
       const offsetParentSize = offsetPosition;
 
       const offsetBorder = {};
       ['Top', 'Left', 'Bottom', 'Right'].forEach((side) => {
-        offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle[`border${side}Width`]);
+        offsetBorder[side.toLowerCase()] = parseFloat(
+          offsetParentStyle[`border${side}Width`]
+        );
       });
 
-      offsetPosition.right = doc.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
-      offsetPosition.bottom = doc.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
+      offsetPosition.right =
+        doc.body.scrollWidth -
+        offsetPosition.left -
+        offsetParentSize.width +
+        offsetBorder.right;
+      offsetPosition.bottom =
+        doc.body.scrollHeight -
+        offsetPosition.top -
+        offsetParentSize.height +
+        offsetBorder.bottom;
 
-      if (next.page.top >= (offsetPosition.top + offsetBorder.top) && next.page.bottom >= offsetPosition.bottom) {
-        if (next.page.left >= (offsetPosition.left + offsetBorder.left) && next.page.right >= offsetPosition.right) {
+      if (
+        next.page.top >= offsetPosition.top + offsetBorder.top &&
+        next.page.bottom >= offsetPosition.bottom
+      ) {
+        if (
+          next.page.left >= offsetPosition.left + offsetBorder.left &&
+          next.page.right >= offsetPosition.right
+        ) {
           // We're within the visible part of the target's scroll parent
           const { scrollLeft, scrollTop } = offsetParent;
 
           // It's position relative to the target's offset parent (absolute positioning when
           // the element is moved to be a child of the target's offset parent).
           next.offset = {
-            top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top,
-            left: next.page.left - offsetPosition.left + scrollLeft - offsetBorder.left
+            top:
+              next.page.top - offsetPosition.top + scrollTop - offsetBorder.top,
+            left:
+              next.page.left -
+              offsetPosition.left +
+              scrollLeft -
+              offsetBorder.left
           };
         }
       }
@@ -488,12 +574,13 @@ class TetherClass extends Evented {
 
         for (let i = 0; i < this.history.length; ++i) {
           const point = this.history[i];
-          if (!isUndefined(point[type]) &&
-            !within(point[type][key], pos[type][key])) {
+          if (
+            !isUndefined(point[type]) &&
+            !within(point[type][key], pos[type][key])
+          ) {
             found = true;
             break;
           }
-
         }
 
         if (!found) {
@@ -537,7 +624,6 @@ class TetherClass extends Evented {
           // but IE9 doesn't support 3d transforms and will choke.
           css[transformKey] += ' translateZ(0)';
         }
-
       } else {
         if (_same.top) {
           css.top = `${_pos.top}px`;
@@ -556,21 +642,36 @@ class TetherClass extends Evented {
     const hasOptimizations = !isUndefined(this.options.optimizations);
     let allowPositionFixed = true;
 
-    if (hasOptimizations && this.options.optimizations.allowPositionFixed === false) {
+    if (
+      hasOptimizations &&
+      this.options.optimizations.allowPositionFixed === false
+    ) {
       allowPositionFixed = false;
     }
 
     let moved = false;
-    if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
+    if (
+      (same.page.top || same.page.bottom) &&
+      (same.page.left || same.page.right)
+    ) {
       css.position = 'absolute';
       transcribe(same.page, pos.page);
-
-    } else if (allowPositionFixed && (same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
+    } else if (
+      allowPositionFixed &&
+      (same.viewport.top || same.viewport.bottom) &&
+      (same.viewport.left || same.viewport.right)
+    ) {
       css.position = 'fixed';
       transcribe(same.viewport, pos.viewport);
-    } else if (!isUndefined(same.offset) && same.offset.top && same.offset.left) {
+    } else if (
+      !isUndefined(same.offset) &&
+      same.offset.top &&
+      same.offset.left
+    ) {
       css.position = 'absolute';
-      const offsetParent = this.cache('target-offsetparent', () => getOffsetParent(this.target));
+      const offsetParent = this.cache('target-offsetparent', () =>
+        getOffsetParent(this.target)
+      );
 
       if (getOffsetParent(this.element) !== offsetParent) {
         defer(() => {
@@ -581,7 +682,6 @@ class TetherClass extends Evented {
 
       transcribe(same.offset, pos.offset);
       moved = true;
-
     } else {
       css.position = 'absolute';
       transcribe({ top: true, left: true }, pos.page);
@@ -596,7 +696,12 @@ class TetherClass extends Evented {
         let offsetParentIsBody = true;
 
         let currentNode = this.element.parentNode;
-        while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY' && !isFullscreenElement(currentNode)) {
+        while (
+          currentNode &&
+          currentNode.nodeType === 1 &&
+          currentNode.tagName !== 'BODY' &&
+          !isFullscreenElement(currentNode)
+        ) {
           if (getComputedStyle(currentNode).position !== 'static') {
             offsetParentIsBody = false;
             break;
@@ -690,9 +795,10 @@ Tether.modules.push({
       const offset = offsets[type];
       for (let side in offset) {
         let val = offset[side];
-        if (!isString(val) ||
-          val.indexOf('%') === -1 &&
-          val.indexOf('px') === -1) {
+        if (
+          !isString(val) ||
+          (val.indexOf('%') === -1 && val.indexOf('px') === -1)
+        ) {
           val += 'px';
         }
 
