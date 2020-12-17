@@ -28,7 +28,7 @@ Tether.modules.push({
 
     var offsets = {
       element: manualOffset,
-      target: manualTargetOffset
+      target: manualTargetOffset,
     };
 
     for (var type in offsets) {
@@ -36,16 +36,23 @@ Tether.modules.push({
       for (var side in offset) {
         var val = offset[side];
         var notString = typeof val !== 'string';
-        if (notString || val.indexOf('%') === -1 && val.indexOf('px') === -1) {
+        if (
+          notString ||
+          (val.indexOf('%') === -1 && val.indexOf('px') === -1)
+        ) {
           val += 'px';
         }
 
-        if (this.markers[type].dot.style[side] !== val) {
+        if (
+          this.markers &&
+          this.markers[type] &&
+          this.markers[type].dot.style[side] !== val
+        ) {
           this.markers[type].dot.style[side] = val;
         }
       }
     }
 
     return true;
-  }
+  },
 });
