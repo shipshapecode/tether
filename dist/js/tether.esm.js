@@ -970,9 +970,7 @@ var Shift = {
   }
 };
 
-var Evented =
-/*#__PURE__*/
-function () {
+var Evented = /*#__PURE__*/function () {
   function Evented() {}
 
   var _proto = Evented.prototype;
@@ -1284,9 +1282,7 @@ function now() {
   }
 })();
 
-var TetherClass =
-/*#__PURE__*/
-function (_Evented) {
+var TetherClass = /*#__PURE__*/function (_Evented) {
   _inheritsLoose(TetherClass, _Evented);
 
   function TetherClass(options) {
@@ -1956,13 +1952,15 @@ Tether.modules.push({
       var offset = offsets[type];
 
       for (var side in offset) {
+        var _this$markers$type$do;
+
         var val = offset[side];
 
         if (!isString(val) || val.indexOf('%') === -1 && val.indexOf('px') === -1) {
           val += 'px';
         }
 
-        if (this.markers[type].dot.style[side] !== val) {
+        if (this.markers[type] && ((_this$markers$type$do = this.markers[type].dot) == null ? void 0 : _this$markers$type$do.style[side]) !== val) {
           this.markers[type].dot.style[side] = val;
         }
       }

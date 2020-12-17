@@ -3,7 +3,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.Tether = factory());
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Tether = factory());
 }(this, (function () { 'use strict';
 
   function _inheritsLoose(subClass, superClass) {
@@ -976,9 +976,7 @@
     }
   };
 
-  var Evented =
-  /*#__PURE__*/
-  function () {
+  var Evented = /*#__PURE__*/function () {
     function Evented() {}
 
     var _proto = Evented.prototype;
@@ -1290,9 +1288,7 @@
     }
   })();
 
-  var TetherClass =
-  /*#__PURE__*/
-  function (_Evented) {
+  var TetherClass = /*#__PURE__*/function (_Evented) {
     _inheritsLoose(TetherClass, _Evented);
 
     function TetherClass(options) {
@@ -1962,13 +1958,15 @@
         var offset = offsets[type];
 
         for (var side in offset) {
+          var _this$markers$type$do;
+
           var val = offset[side];
 
           if (!isString(val) || val.indexOf('%') === -1 && val.indexOf('px') === -1) {
             val += 'px';
           }
 
-          if (this.markers[type].dot.style[side] !== val) {
+          if (this.markers[type] && ((_this$markers$type$do = this.markers[type].dot) == null ? void 0 : _this$markers$type$do.style[side]) !== val) {
             this.markers[type].dot.style[side] = val;
           }
         }
