@@ -696,7 +696,7 @@ Tether.modules.push({
           val += 'px';
         }
 
-        if (this.markers[type].dot.style[side] !== val) {
+        if (this.markers[type] && this.markers[type].dot?.style[side] !== val) {
           this.markers[type].dot.style[side] = val;
         }
       }
