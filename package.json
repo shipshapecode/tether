@@ -65,7 +65,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^4.2.0",
     "sinon": "^9.2.2",
-    "start-server-and-test": "^1.11.6"
+    "start-server-and-test": "^1.11.7"
   },
   "volta": {
     "node": "10.23.0",
