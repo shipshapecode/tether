@@ -263,7 +263,9 @@ class TetherClass extends Evented {
 
     if (!isUndefined(this.scrollParents)) {
       this.scrollParents.forEach((parent) => {
-        parent.removeEventListener('scroll', this.position);
+        if (parent && parent.removeEventListener) {
+          parent.removeEventListener('scroll', this.position);
+        }
       });
     }
   }
