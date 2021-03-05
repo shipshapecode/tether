@@ -1,4 +1,4 @@
-/*! tether 1.4.7 */
+/*! tether 1.4.8 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -880,7 +880,9 @@ var TetherClass = (function (_Evented) {
 
       if (typeof this.scrollParents !== 'undefined') {
         this.scrollParents.forEach(function (parent) {
-          parent.removeEventListener('scroll', _this4.position);
+          if (parent && parent.removeEventListener) {
+            parent.removeEventListener('scroll', _this4.position);
+          }
         });
       }
     }
