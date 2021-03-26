@@ -1,5 +1,26 @@
 # Changelog
 
+Deprecated as of 10.7.0. highlight(lang, code, ...args) has been deprecated.
+Deprecated as of 10.7.0. Please use highlight(code, options) instead.
+https://github.com/highlightjs/highlight.js/issues/2277
+
+## v2.0.0 (2021-03-26)
+
+#### :bug: Bug Fix
+* [#713](https://github.com/shipshapecode/tether/pull/713) Ensure parent still exists when removing event listeners ([@drewjenkins](https://github.com/drewjenkins))
+* [#692](https://github.com/shipshapecode/tether/pull/692) Guard against undefined markers type ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :memo: Documentation
+* [#668](https://github.com/shipshapecode/tether/pull/668) Remove Bootstrap from list ([@MartijnCuppens](https://github.com/MartijnCuppens))
+* [#600](https://github.com/shipshapecode/tether/pull/600) Small Typo Fix ([@SebYLim](https://github.com/SebYLim))
+
+#### Committers: 5
+- Andrew Jenkins ([@drewjenkins](https://github.com/drewjenkins))
+- Martijn Cuppens ([@MartijnCuppens](https://github.com/MartijnCuppens))
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Sebastian Lim ([@SebYLim](https://github.com/SebYLim))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## [v2.0.0-beta.5](https://github.com/shipshapecode/tether/tree/v2.0.0-beta.5) (2019-12-05)
 
 [Full Changelog](https://github.com/shipshapecode/tether/compare/v2.0.0-beta.4...v2.0.0-beta.5)
