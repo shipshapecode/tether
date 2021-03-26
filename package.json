@@ -6,10 +6,17 @@
     "Zack Bloom <zackbloom@gmail.com>",
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shipshapecode/tether.git"
+  },
+  "license": "MIT",
   "maintainers": [
     "Nicholas Hwang <nick.joosung.hwang@gmail.com>",
     "Trevor Burnham <trevorburnham@gmail.com>"
   ],
+  "main": "dist/js/tether.js",
+  "module": "dist/js/tether.esm.js",
   "scripts": {
     "build": "yarn clean && rollup -c",
     "changelog": "github_changelog_generator -u shipshapecode -p tether --since-tag v1.4.7",
@@ -27,13 +34,6 @@
     "test:unit:watch": "jest --watch",
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shipshapecode/tether.git"
-  },
-  "license": "MIT",
-  "main": "dist/js/tether.js",
-  "module": "dist/js/tether.esm.js",
   "devDependencies": {
     "@babel/core": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
@@ -54,6 +54,8 @@
     "jest-transform-css": "^2.1.0",
     "mutationobserver-shim": "^0.3.7",
     "postcss": "^7.0.35",
+    "release-it": "^14.2.1",
+    "release-it-lerna-changelog": "^3.1.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.42.2",
     "rollup-plugin-babel": "^4.4.0",
@@ -66,6 +68,9 @@
     "rollup-plugin-visualizer": "^4.2.0",
     "sinon": "^9.2.4",
     "start-server-and-test": "^1.12.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "volta": {
     "node": "10.23.0",
