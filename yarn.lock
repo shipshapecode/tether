@@ -2577,7 +2577,7 @@ browser-sync-ui@^2.26.14:
     socket.io-client "^2.4.0"
     stream-throttle "^0.1.3"
 
-browser-sync@^2.26.12:
+browser-sync@^2.26.14:
   version "2.26.14"
   resolved "https://registry.yarnpkg.com/browser-sync/-/browser-sync-2.26.14.tgz#716c13ef91e72dfe092ff84bec3ddf62ea9d81fd"
   integrity sha512-3TtpsheGolJT6UFtM2CZWEcGJmI4ZEvoCKiKE2bvcDnPxRkhQT4nIGVtfiyPcoHKXGM0LwMOZmYJNWfiNfVXWA==
@@ -8997,12 +8997,12 @@ rollup-plugin-babel@^4.4.0:
     "@babel/helper-module-imports" "^7.0.0"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-browsersync@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-browsersync/-/rollup-plugin-browsersync-1.3.1.tgz#85342cda8db0c284a0b5a17fe5eb977996ae24d3"
-  integrity sha512-XOBIDkNQHnwJuJ3DO9g7nHHxeBeAydy2Yv+0RBBQ9sn2GdP1W27vK28nU2+RDUV164wUisw0noXx5iEo3uAc8Q==
+rollup-plugin-browsersync@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-browsersync/-/rollup-plugin-browsersync-1.3.3.tgz#5d05c325f2b770c3e8d2d8d7eca0ddbc8dc8823e"
+  integrity sha512-LpNCs4Q2K3WicaMPiNJvihqGAYdndc4BqGhI3VV7IDRJqZYjiLW8e1aX6/XnPIjcNCuIULRhuXcGBQe1ibEyiQ==
   dependencies:
-    browser-sync "^2.26.12"
+    browser-sync "^2.26.14"
 
 rollup-plugin-eslint@^7.0.0:
   version "7.0.0"
