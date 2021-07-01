@@ -47,7 +47,7 @@ function within(a, b, diff = 1) {
 }
 
 const transformKey = (() => {
-  if (isUndefined(document)) {
+  if (typeof document === "undefined") {
     return '';
   }
   const el = document.createElement('div');
