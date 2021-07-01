@@ -47,7 +47,7 @@ function within(a, b, diff = 1) {
 }
 
 const transformKey = (() => {
-  if (typeof document === "undefined") {
+  if (typeof document === 'undefined') {
     return '';
   }
   const el = document.createElement('div');
@@ -110,7 +110,7 @@ function now() {
     lastDuration = now() - lastCall;
   };
 
-  if (!isUndefined(window) && !isUndefined(window.addEventListener)) {
+  if (typeof window !== 'undefined' && !isUndefined(window.addEventListener)) {
     ['resize', 'scroll', 'touchmove'].forEach((event) => {
       window.addEventListener(event, tick);
     });
