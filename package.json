@@ -54,7 +54,7 @@
     "jest-transform-css": "^2.1.0",
     "mutationobserver-shim": "^0.3.7",
     "postcss": "^8.3.6",
-    "release-it": "^14.10.1",
+    "release-it": "^14.11.0",
     "release-it-lerna-changelog": "^3.1.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.56.1",
