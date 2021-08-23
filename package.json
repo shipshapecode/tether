@@ -48,7 +48,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-ship-shape": "^0.8.1",
-    "http-server": "^13.0.0",
+    "http-server": "^13.0.1",
     "jest": "^26.6.3",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^2.1.0",
