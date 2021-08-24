@@ -27,7 +27,7 @@ module.exports = {
         'babel.config.js',
         'jest.config.js',
         'rollup.config.js',
-        '/__mocks__/styleMock.js'
+        '__mocks__/styleMock.js'
       ],
       parserOptions: {
         sourceType: 'module',
