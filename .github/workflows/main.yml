@@ -21,3 +21,10 @@ jobs:
           node-version: 12.x
       - run: yarn
       - run: yarn test
+  automerge:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v2.2.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}      
