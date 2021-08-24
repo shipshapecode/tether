@@ -21,6 +21,7 @@ jobs:
           node-version: 12.x
       - run: yarn
       - run: yarn test
+      
   automerge:
     needs: [test]
     runs-on: ubuntu-latest
