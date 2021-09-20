@@ -46,7 +46,7 @@
     "cssnano": "^5.0.8",
     "cypress": "6.8.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-jest": "^24.4.2",
     "eslint-plugin-ship-shape": "^0.8.1",
     "http-server": "^13.0.2",
     "jest": "^27.2.0",
