@@ -54,7 +54,7 @@
     "jsdom": "^17.0.0",
     "mutationobserver-shim": "^0.3.7",
     "postcss": "^8.3.8",
-    "release-it": "^14.11.5",
+    "release-it": "^14.11.6",
     "release-it-lerna-changelog": "^3.1.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.57.0",
