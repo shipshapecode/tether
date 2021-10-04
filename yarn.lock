@@ -8119,10 +8119,10 @@ rollup-plugin-license@^2.5.0:
     spdx-expression-validate "2.0.0"
     spdx-satisfies "5.0.1"
 
-rollup-plugin-sass@^1.2.8:
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-sass/-/rollup-plugin-sass-1.2.8.tgz#e696ef5d2323f5bddc0596d8d368d3508c777ec4"
-  integrity sha512-y2xFMvxnAn5uYY8Q8zTM4jA7T+Ry3YWwQIlxfhB3YB3P/8Z/2FstHhvRPAcjahrJUZW1wUPRhl5oRkMXKaKuzA==
+rollup-plugin-sass@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-sass/-/rollup-plugin-sass-1.2.9.tgz#0c2609d0f813d68b79d9f3ccda2b96d4f0dc1f39"
+  integrity sha512-ShI0T6tQxvM0B/njgZ35/1RuiNZTo9LtrUYFRupNokmXbresGb6RvYnkQvWbq4a5UBIp57VJ+cjPcsJKthXV8Q==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     resolve "^1.5.0"
