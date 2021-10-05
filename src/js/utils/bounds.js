@@ -143,11 +143,11 @@ export function getVisibleBounds(body, target) {
 }
 
 export function removeUtilElements(body) {
-    if (zeroElements.has(body)) {
-        body.removeChild(zeroElements.get(body));
-    }
+  if (zeroElements.has(body)) {
+    body.removeChild(zeroElements.get(body));
+  }
 
-    zeroElements.delete(body);
+  zeroElements.delete(body);
 }
 
 /**
