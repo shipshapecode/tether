@@ -62,7 +62,7 @@
     "rollup-plugin-browsersync": "^1.3.3",
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-filesize": "^9.1.1",
-    "rollup-plugin-license": "^2.5.0",
+    "rollup-plugin-license": "^2.6.0",
     "rollup-plugin-sass": "^1.2.9",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^5.5.2",
