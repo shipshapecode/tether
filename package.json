@@ -53,7 +53,7 @@
     "jest-expect-message": "^1.0.2",
     "jsdom": "^18.0.0",
     "mutationobserver-shim": "^0.3.7",
-    "postcss": "^8.3.9",
+    "postcss": "^8.3.11",
     "release-it": "^14.11.6",
     "release-it-lerna-changelog": "^4.0.0",
     "rimraf": "^3.0.2",
