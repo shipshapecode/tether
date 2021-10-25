@@ -49,7 +49,7 @@
     "eslint-plugin-jest": "^25.2.2",
     "eslint-plugin-ship-shape": "^0.8.1",
     "http-server": "^14.0.0",
-    "jest": "^27.3.0",
+    "jest": "^27.3.1",
     "jest-expect-message": "^1.0.2",
     "jsdom": "^18.0.0",
     "mutationobserver-shim": "^0.3.7",
