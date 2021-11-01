@@ -7904,10 +7904,10 @@ regjsparser@^0.6.4:
   dependencies:
     jsesc "~0.5.0"
 
-release-it-lerna-changelog@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/release-it-lerna-changelog/-/release-it-lerna-changelog-4.0.0.tgz#7dfcbfa42f5a22acb166c6b5593b109d69e4d5c9"
-  integrity sha512-B7cORodnr5ZNMwSF+hrhrgrzQTkuazTpBhgVOENtuTRFxsitx3HmzQQ0nTJEcPrIKRSdNZEyejf2tqckc6Zx2w==
+release-it-lerna-changelog@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/release-it-lerna-changelog/-/release-it-lerna-changelog-4.0.1.tgz#6e2998d55f9ebf4f5d73eeac059c3b979a0bc42d"
+  integrity sha512-PBE72pVfWLyUp3JN/qyAglhKIiDOPO2zdupT8JQrJmW+wi3ZERtr0IFSGNmczFcMnMnTFnzpuJGpTPAoqQToVg==
   dependencies:
     execa "^5.1.1"
     lerna-changelog "^2.2.0"

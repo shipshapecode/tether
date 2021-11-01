@@ -55,7 +55,7 @@
     "mutationobserver-shim": "^0.3.7",
     "postcss": "^8.3.11",
     "release-it": "^14.11.6",
-    "release-it-lerna-changelog": "^4.0.0",
+    "release-it-lerna-changelog": "^4.0.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.58.1",
     "rollup-plugin-babel": "^4.4.0",
