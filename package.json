@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-env": "^7.16.0",
     "@testing-library/jest-dom": "^5.14.1",
     "autoprefixer": "^10.3.7",
     "babel-jest": "^27.3.1",
