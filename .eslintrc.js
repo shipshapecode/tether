@@ -1,12 +1,11 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module'
   },
   extends: [
-    'eslint:recommended',
-    'plugin:ship-shape/recommended'
+    'eslint:recommended'
   ],
   env: {
     browser: true,
@@ -31,7 +30,7 @@ module.exports = {
       ],
       parserOptions: {
         sourceType: 'module',
-        ecmaVersion: 2015
+        ecmaVersion: 2020
       },
       env: {
         node: true
