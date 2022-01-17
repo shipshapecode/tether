@@ -60,7 +60,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-browsersync": "^1.3.3",
     "rollup-plugin-eslint": "^7.0.0",
-    "rollup-plugin-filesize": "^9.1.1",
+    "rollup-plugin-filesize": "^9.1.2",
     "rollup-plugin-license": "^2.6.1",
     "rollup-plugin-sass": "^1.2.10",
     "rollup-plugin-terser": "^7.0.2",
