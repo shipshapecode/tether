@@ -65,7 +65,7 @@
     "rollup-plugin-sass": "^1.2.10",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^5.5.4",
-    "sinon": "^13.0.0",
+    "sinon": "^13.0.1",
     "start-server-and-test": "^1.14.0"
   },
   "publishConfig": {
