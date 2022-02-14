@@ -48,7 +48,7 @@
     "eslint": "^8.8.0",
     "eslint-plugin-jest": "^26.1.0",
     "http-server": "^14.1.0",
-    "jest": "^27.5.0",
+    "jest": "^27.5.1",
     "jest-expect-message": "^1.0.2",
     "jsdom": "^19.0.0",
     "mutationobserver-shim": "^0.3.7",
