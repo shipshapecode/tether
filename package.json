@@ -56,7 +56,7 @@
     "release-it": "^14.12.4",
     "release-it-lerna-changelog": "^4.0.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.67.1",
+    "rollup": "^2.67.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-browsersync": "^1.3.3",
     "rollup-plugin-eslint": "^7.0.0",
