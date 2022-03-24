@@ -275,6 +275,12 @@ class TetherClass extends Evented {
 
     this._removeClasses();
 
+    TetherBase.modules.forEach((module) => {
+      if (!isUndefined(module.destroy)) {
+        module.destroy.call(this);
+      }
+    });
+
     tethers.forEach((tether, i) => {
       if (tether === this) {
         tethers.splice(i, 1);
@@ -785,6 +791,13 @@ Tether.modules.push({
 
       this.markers[type] = { dot, el };
     });
+  },
+
+  destroy() {
+    ['target', 'element'].forEach((type => {
+      const el = this.markers[type].el;
+      this[type].removeChild(el);
+    }))
   },
 
   position({ manualOffset, manualTargetOffset }) {
