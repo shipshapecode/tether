@@ -107,7 +107,7 @@ You only need to include `tether.min.js` in your page:
 ```
 Or use a CDN:
 ```
-<script src="https://cdn.jsdelivr.net/npm/tether@2.0.0-beta.5/js/tether.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tether@2.0.0-beta.5/dist/js/tether.min.js"></script>
 ```
 
 The css files are not required to get tether running.
