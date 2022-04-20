@@ -43,7 +43,7 @@ Or download from the [releases](https://github.com/shipshapecode/tether/releases
 
 There are often situations in UI development where elements need to be attached to other elements, but placing them right next to each other in the [DOM tree](https://en.wikipedia.org/wiki/Document_Object_Model) can be problematic based on the context. For example, what happens if the element we’re attaching other elements to is fixed to the center of the screen? Or what if the element is inside a scrollable container? How can we prevent the attached element from being clipped as it disappears from view while a user is scrolling? Tether can solve all of these problems and more.
 
-Some common UI elements that have been built with Tether are [tooltips](http://github.hubspot.com/tooltip/docs/welcome), [select menus](http://github.hubspot.com/select/docs/welcome), [dropdown menus](http://github.hubspot.com/drop/docs/welcome), and [guided tours](http://github.hubspot.com/shepherd/docs/welcome). Tether is flexible and can be used to [solve](http://tetherjs.dev/examples/out-of-bounds/) [all](http://tetherjs.dev/examples/content-visible) [kinds](http://tetherjs.dev/examples/element-scroll) [of](http://tetherjs.dev/examples/enable-disable) interesting [problems](http://tetherjs.dev/examples/viewport); it ensures UI elements stay where they need to be, based on the various user interactions (click, scroll, etc) and layout contexts (fixed positioning, inside scrollable containers, etc).
+Some common UI elements that have been built with Tether are [tooltips](http://github.hubspot.com/tooltip/docs/welcome), [select menus](http://github.hubspot.com/select/docs/welcome), and [dropdown menus](http://github.hubspot.com/drop/docs/welcome). Tether is flexible and can be used to [solve](http://tetherjs.dev/examples/out-of-bounds/) [all](http://tetherjs.dev/examples/content-visible) [kinds](http://tetherjs.dev/examples/element-scroll) [of](http://tetherjs.dev/examples/enable-disable) interesting [problems](http://tetherjs.dev/examples/viewport); it ensures UI elements stay where they need to be, based on the various user interactions (click, scroll, etc) and layout contexts (fixed positioning, inside scrollable containers, etc).
 
 Please have a look at the [documentation](http://tetherjs.dev/) for a more detailed explanation of why you might need Tether for your next project.
 
@@ -123,5 +123,5 @@ For more details jump straight in to the detailed [Usage](http://tetherjs.dev/#u
 We encourage contributions of all kinds. If you would like to contribute in some way, please review our [guidelines for contributing](CONTRIBUTING.md).
 
 ## License
-Copyright &copy; 2019-2020 Ship Shape Consulting LLC - [MIT License](LICENSE)
+Copyright &copy; 2019-2022 Ship Shape Consulting LLC - [MIT License](LICENSE)
 Copyright &copy; 2014-2018 HubSpot - [MIT License](LICENSE)
