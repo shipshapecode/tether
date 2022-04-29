@@ -39,13 +39,13 @@ Or download from the [releases](https://github.com/shipshapecode/tether/releases
 
 ## Introduction
 
-[Tether](http://tether.io/) is a small, focused JavaScript library for defining and managing the position of user interface (UI) elements in relation to one another on a web page. It is a tool for web developers building features that require certain UI elements to be precisely positioned based on the location of another UI element.
+[Tether](http://tetherjs.dev/) is a small, focused JavaScript library for defining and managing the position of user interface (UI) elements in relation to one another on a web page. It is a tool for web developers building features that require certain UI elements to be precisely positioned based on the location of another UI element.
 
 There are often situations in UI development where elements need to be attached to other elements, but placing them right next to each other in the [DOM tree](https://en.wikipedia.org/wiki/Document_Object_Model) can be problematic based on the context. For example, what happens if the element we’re attaching other elements to is fixed to the center of the screen? Or what if the element is inside a scrollable container? How can we prevent the attached element from being clipped as it disappears from view while a user is scrolling? Tether can solve all of these problems and more.
 
-Some common UI elements that have been built with Tether are [tooltips](http://github.hubspot.com/tooltip/docs/welcome), [select menus](http://github.hubspot.com/select/docs/welcome), [dropdown menus](http://github.hubspot.com/drop/docs/welcome), and [guided tours](http://github.hubspot.com/shepherd/docs/welcome). Tether is flexible and can be used to [solve](http://tether.io/examples/out-of-bounds/) [all](http://tether.io/examples/content-visible) [kinds](http://tether.io/examples/element-scroll) [of](http://tether.io/examples/enable-disable) interesting [problems](http://tether.io/examples/viewport); it ensures UI elements stay where they need to be, based on the various user interactions (click, scroll, etc) and layout contexts (fixed positioning, inside scrollable containers, etc).
+Some common UI elements that have been built with Tether are [tooltips](http://github.hubspot.com/tooltip/docs/welcome), [select menus](http://github.hubspot.com/select/docs/welcome), and [dropdown menus](http://github.hubspot.com/drop/docs/welcome). Tether is flexible and can be used to [solve](http://tetherjs.dev/examples/out-of-bounds/) [all](http://tetherjs.dev/examples/content-visible) [kinds](http://tetherjs.dev/examples/element-scroll) [of](http://tetherjs.dev/examples/enable-disable) interesting [problems](http://tetherjs.dev/examples/viewport); it ensures UI elements stay where they need to be, based on the various user interactions (click, scroll, etc) and layout contexts (fixed positioning, inside scrollable containers, etc).
 
-Please have a look at the [documentation](http://tether.io/) for a more detailed explanation of why you might need Tether for your next project.
+Please have a look at the [documentation](http://tetherjs.dev/) for a more detailed explanation of why you might need Tether for your next project.
 
 ## What to Use Tether for and When to Use It
 
@@ -80,7 +80,7 @@ After installing Tether and including it in your project, you can begin using it
     new Tether({});
     ```
 
-2. Within the curly braces (`{}`) you can configure the library’s options. Tether’s extensive list of options can be found in the [Tether documentation](http://tether.io/).
+2. Within the curly braces (`{}`) you can configure the library’s options. Tether’s extensive list of options can be found in the [Tether documentation](http://tetherjs.dev/).
 
     ```javascript
     new Tether({
@@ -98,7 +98,7 @@ There are tons of other useful features of Tether as well, instead of “comment
 * Tooltips for useful hints and tricks,
 * Dropdown menus,
 * Autocomplete popups for forms,
-* and [more](http://tether.io/examples/list_of_examples/)!
+* and [more](http://tetherjs.dev/examples/list_of_examples/)!
 
 ## Usage
 You only need to include `tether.min.js` in your page:
@@ -107,21 +107,21 @@ You only need to include `tether.min.js` in your page:
 ```
 Or use a CDN:
 ```
-<script src="https://cdn.jsdelivr.net/npm/tether@2.0.0-beta.5/js/tether.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tether@2.0.0-beta.5/dist/js/tether.min.js"></script>
 ```
 
 The css files are not required to get tether running.
 
-For more details jump straight in to the detailed [Usage](http://tether.io/#usage) page.
+For more details jump straight in to the detailed [Usage](http://tetherjs.dev/#usage) page.
 
-[![Tether Docs](http://i.imgur.com/YCx8cLr.png)](http://tether.io/#usage)
+[![Tether Docs](http://i.imgur.com/YCx8cLr.png)](http://tetherjs.dev/#usage)
 
-[Demo & API Documentation](http://tether.io/)
+[Demo & API Documentation](http://tetherjs.dev/)
 
 ## Contributing
 
 We encourage contributions of all kinds. If you would like to contribute in some way, please review our [guidelines for contributing](CONTRIBUTING.md).
 
 ## License
-Copyright &copy; 2019-2020 Ship Shape Consulting LLC - [MIT License](LICENSE)
+Copyright &copy; 2019-2022 Ship Shape Consulting LLC - [MIT License](LICENSE)
 Copyright &copy; 2014-2018 HubSpot - [MIT License](LICENSE)
