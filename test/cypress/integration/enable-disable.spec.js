@@ -11,7 +11,7 @@ describe('enable-disable', () => {
         const prescrollTransform = tetherElement[0].style.transform;
 
         cy.get('.container').scrollTo(0, 250);
-        cy.wait(500);
+        cy.wait(1000);
         cy.get('.tether-element').then((tetherElement) => {
           const postscrollTransform = tetherElement[0].style.transform;
           expect(prescrollTransform).to.not.equal(postscrollTransform);
