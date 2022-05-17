@@ -2,6 +2,7 @@ describe('enable-disable', () => {
   beforeEach(() => {
     cy.visit('/examples/enable-disable/');
     cy.get('.container').scrollTo(0, 0);
+    cy.viewport(1280, 720)
   });
 
   describe('enable/disable works', () => {
