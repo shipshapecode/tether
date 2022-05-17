@@ -5,6 +5,6 @@
   "pluginsFile": "test/cypress/plugins/index.js",
   "supportFile": "test/cypress/support/index.js",
   "video": false,
-  "viewportHeight": 720,
-  "viewportWidth": 1280
+  "viewportHeight": 660,
+  "viewportWidth": 1000
 }
