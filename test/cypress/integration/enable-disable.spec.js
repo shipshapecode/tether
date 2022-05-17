@@ -2,7 +2,6 @@ describe('enable-disable', () => {
   beforeEach(() => {
     cy.visit('/examples/enable-disable/');
     cy.get('.container').scrollTo(0, 0);
-    cy.viewport(1280, 720)
   });
 
   describe('enable/disable works', () => {
@@ -12,7 +11,7 @@ describe('enable-disable', () => {
         const prescrollTransform = tetherElement[0].style.transform;
 
         cy.get('.container').scrollTo(0, 250);
-        cy.wait(500);
+        cy.wait(1000);
         cy.get('.tether-element').then((tetherElement) => {
           const postscrollTransform = tetherElement[0].style.transform;
           expect(prescrollTransform).to.not.equal(postscrollTransform);
