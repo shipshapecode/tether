@@ -35,7 +35,7 @@
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
+    "@babel/core": "^7.18.0",
     "@babel/preset-env": "^7.17.10",
     "@testing-library/jest-dom": "^5.16.4",
     "autoprefixer": "^10.4.7",
