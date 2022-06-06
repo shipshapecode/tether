@@ -1,6 +1,6 @@
-const { defineConfig } = require('cypress')
+import { defineConfig } from 'cypress';
 
-module.exports = defineConfig({
+export default defineConfig({
   fixturesFolder: 'test/cypress/fixtures',
   video: false,
   e2e: {
