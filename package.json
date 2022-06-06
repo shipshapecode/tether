@@ -47,7 +47,7 @@
     "cypress": "9.7.0",
     "eslint": "^8.17.0",
     "eslint-plugin-jest": "^26.4.5",
-    "http-server": "^14.1.0",
+    "http-server": "^14.1.1",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "jest-expect-message": "^1.0.2",
