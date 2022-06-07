@@ -72,8 +72,11 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
+  "engines": {
+    "node": ">= 16"
+  },
   "volta": {
-    "node": "12.22.1",
+    "node": "16.0.0",
     "yarn": "1.22.10"
   }
 }
