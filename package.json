@@ -45,7 +45,7 @@
     "chai": "^4.3.7",
     "cssnano": "^5.1.14",
     "cypress": "11.2.0",
-    "eslint": "^8.27.0",
+    "eslint": "^8.29.0",
     "eslint-plugin-jest": "^27.1.6",
     "http-server": "^14.1.1",
     "jest": "^29.3.1",
