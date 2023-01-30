@@ -67,7 +67,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^5.9.0",
     "sinon": "^15.0.1",
-    "start-server-and-test": "^1.15.2"
+    "start-server-and-test": "^1.15.3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
