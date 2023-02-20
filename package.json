@@ -39,7 +39,7 @@
     "@babel/preset-env": "^7.20.2",
     "@testing-library/jest-dom": "^5.16.5",
     "autoprefixer": "^10.4.13",
-    "babel-jest": "^29.4.1",
+    "babel-jest": "^29.4.3",
     "babel-plugin-rewire": "^1.2.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "chai": "^4.3.7",
