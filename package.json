@@ -63,7 +63,7 @@
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-filesize": "^9.1.2",
     "rollup-plugin-license": "^3.0.1",
-    "rollup-plugin-sass": "^1.12.17",
+    "rollup-plugin-sass": "^1.12.18",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^5.9.0",
     "sinon": "^15.0.1",
