@@ -42,7 +42,7 @@
     "babel-jest": "^29.7.0",
     "babel-plugin-rewire": "^1.2.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "chai": "^4.3.8",
+    "chai": "^4.3.10",
     "cssnano": "^6.0.1",
     "cypress": "13.2.0",
     "eslint": "^8.49.0",
