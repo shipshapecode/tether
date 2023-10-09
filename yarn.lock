@@ -9111,10 +9111,10 @@ rollup-plugin-license@^3.0.1:
     spdx-expression-validate "~2.0.0"
     spdx-satisfies "~5.0.1"
 
-rollup-plugin-sass@^1.12.20:
-  version "1.12.20"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-sass/-/rollup-plugin-sass-1.12.20.tgz#69223b59fcd8712bb1c3f6c52c09183f982bd7bf"
-  integrity sha512-GL9B6PRkAXFmp1lKKenMBEZCvHP1jaOb7RNgpneQsQXpTk4my9AYYJt6w6f442MMcrGXXVGt7GUvhQMgFXJPqg==
+rollup-plugin-sass@^1.12.21:
+  version "1.12.21"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-sass/-/rollup-plugin-sass-1.12.21.tgz#0605bfafa37d5c07c6d9fb541d3c85b2a576b2cb"
+  integrity sha512-cvHQHwlQ5MJnzgXqm+xcN394UFZY9BvhW9f4T1ZhbRtq+o7crxAnxeM7M+wthcWGxDt+ItqTDlCrf+Qoa4UDsA==
   dependencies:
     "@rollup/pluginutils" "^3 || ^4 || ^5"
     resolve "^1.5.0"
