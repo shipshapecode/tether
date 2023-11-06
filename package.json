@@ -44,7 +44,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "chai": "^4.3.10",
     "cssnano": "^6.0.1",
-    "cypress": "13.3.3",
+    "cypress": "13.4.0",
     "eslint": "^8.52.0",
     "eslint-plugin-jest": "^27.6.0",
     "http-server": "^14.1.1",
