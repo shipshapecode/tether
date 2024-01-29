@@ -3014,15 +3014,15 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-chai@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/chai/-/chai-5.0.0.tgz#da1ae496fdac30e97062cbd59e6e2f7bb4c78cc0"
-  integrity sha512-HO5p0oEKd5M6HEcwOkNAThAE3j960vIZvVcc0t2tI06Dd0ATu69cEnMB2wOhC5/ZyQ6m67w3ePjU/HzXsSsdBA==
+chai@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/chai/-/chai-5.0.3.tgz#db8e109373b86e7fb33d3ef0d0116f0fa8019066"
+  integrity sha512-wKGCtYv2kVY5WEjKqQ3fSIZWtTFveZCtzinhTZbx3/trVkxefiwovhpU9kRVCwxvKKCEjTWXPdM1/T7zPoDgow==
   dependencies:
     assertion-error "^2.0.1"
     check-error "^2.0.0"
     deep-eql "^5.0.1"
-    loupe "^3.0.0"
+    loupe "^3.1.0"
     pathval "^2.0.0"
 
 chalk@5.2.0, chalk@^5.0.0, chalk@^5.0.1, chalk@^5.2.0:
@@ -6847,10 +6847,10 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-loupe@^3.0.0:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/loupe/-/loupe-3.0.2.tgz#13435bc5a2751a4da74c0ec4841f56970a3387d5"
-  integrity sha512-Tzlkbynv7dtqxTROe54Il+J4e/zG2iehtJGZUYpTv8WzlkW9qyEcE83UhGJCeuF3SCfzHuM5VWhBi47phV3+AQ==
+loupe@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/loupe/-/loupe-3.1.0.tgz#46ef1a4ffee73145f5c0a627536d754787c1ea2a"
+  integrity sha512-qKl+FrLXUhFuHUoDJG7f8P8gEMHq9NFS0c6ghXG1J0rldmZFQZoNVv/vyirE9qwCIhWZDsvEFd1sbFu3GvRQFg==
   dependencies:
     get-func-name "^2.0.1"
 
