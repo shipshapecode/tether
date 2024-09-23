@@ -4789,10 +4789,10 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
-fdir@6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.1.1.tgz#316b58145a05223b75c8b371e80bb3bad8f1441e"
-  integrity sha512-QfKBVg453Dyn3mr0Q0O+Tkr1r79lOTAKSi9f/Ot4+qVEwxWhav2Z+SudrG9vQjM2aYRMQQZ2/Q1zdA8ACM1pDg==
+fdir@6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.3.0.tgz#fcca5a23ea20e767b15e081ee13b3e6488ee0bb0"
+  integrity sha512-QOnuT+BOtivR77wYvCWHfGt9s4Pz1VIMbD463vegT5MLqNXy8rYFT/lPVEqf/bhYeT6qmqrNHhsX+rWwe3rOCQ==
 
 fetch-blob@^3.1.2, fetch-blob@^3.1.4:
   version "3.2.0"
@@ -9196,13 +9196,13 @@ rollup-plugin-filesize@^10.0.0:
     pacote "^15.1.1"
     terser "^5.6.0"
 
-rollup-plugin-license@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-3.5.2.tgz#958f52cfde78a38ce328c0e66632a4394ebe7d1d"
-  integrity sha512-NNeXBcE6RyQdZdSC8Vxe8Cheax2aUa/K0Ok6JDZwr9isjkSDer4aMg0sovas1Ua76ojLZX1BrNQ6ZFspztKkZQ==
+rollup-plugin-license@^3.5.3:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-3.5.3.tgz#b02ffa4fd4c81464db450d06478e03e5605d9d5f"
+  integrity sha512-r3wImZSo2d6sEk9BRJtlzeI/upjyjnpthy06Fdl0EzqRrlg3ULb9KQR7xHJI0zuayW/8bchEXSF5dO6dha4OyA==
   dependencies:
     commenting "~1.1.0"
-    fdir "6.1.1"
+    fdir "6.3.0"
     lodash "~4.17.21"
     magic-string "~0.30.0"
     moment "~2.30.1"
