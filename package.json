@@ -46,7 +46,7 @@
     "cssnano": "^6.1.2",
     "cypress": "13.17.0",
     "eslint": "^8.57.1",
-    "eslint-plugin-jest": "^28.3.0",
+    "eslint-plugin-jest": "^28.11.0",
     "http-server": "^14.1.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
