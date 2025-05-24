@@ -3,7 +3,7 @@ import { extend, uniqueId } from './general';
 import { isUndefined } from './type-check';
 
 const zeroPosCache = {};
-let zeroElement = null;
+const zeroElements = new Map();
 
 export function getBounds(body, el) {
   let doc;
@@ -143,10 +143,11 @@ export function getVisibleBounds(body, target) {
 }
 
 export function removeUtilElements(body) {
-  if (zeroElement) {
-    body.removeChild(zeroElement);
+  if (zeroElements.has(body)) {
+    body.removeChild(zeroElements.get(body));
   }
-  zeroElement = null;
+
+  zeroElements.delete(body);
 }
 
 /**
@@ -187,7 +188,7 @@ function _getOrigin(body) {
   // jitter as the user scrolls that messes with our ability to detect if two positions
   // are equivilant or not.  We place an element at the top left of the page that will
   // get the same jitter, so we can cancel the two out.
-  let node = zeroElement;
+  let node = zeroElements.get(body);
   if (!node || !body.contains(node)) {
     node = document.createElement('div');
     node.setAttribute('data-tether-id', uniqueId());
@@ -199,7 +200,7 @@ function _getOrigin(body) {
 
     body.appendChild(node);
 
-    zeroElement = node;
+    zeroElements.set(body, node);
   }
 
   const id = node.getAttribute('data-tether-id');
