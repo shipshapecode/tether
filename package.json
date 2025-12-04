@@ -82,9 +82,5 @@
       "core-js",
       "cypress"
     ]
-  },
-  "volta": {
-    "node": "18.0.0",
-    "pnpm": "10.24.0"
   }
 }
