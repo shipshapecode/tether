@@ -73,7 +73,8 @@
     "registry": "https://registry.npmjs.org"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 18",
+    "pnpm": ">= 10"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
