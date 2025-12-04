@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: volta-cli/action@v1
         with:
-          node-version: 16.x
-      - run: yarn
-      - run: yarn test
+          node-version: 18.x
+      - run: pnpm i
+      - run: pnpm test
       
   automerge:
     needs: [test]

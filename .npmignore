@@ -20,6 +20,7 @@ tests/
 babel.config.js
 cypress.json
 index.html
+pnpm-lock.yaml
 rollup.config.js
 yarn.lock
 yarn-error.log

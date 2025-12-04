@@ -18,21 +18,21 @@
   "main": "dist/js/tether.js",
   "module": "dist/js/tether.esm.js",
   "scripts": {
-    "build": "yarn clean && rollup -c",
+    "build": "pnpm clean && rollup -c",
     "changelog": "github_changelog_generator -u shipshapecode -p tether --since-tag v1.4.7",
     "clean": "rimraf dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
     "lint:js": "eslint . --ext js",
-    "start": "yarn watch",
+    "start": "pnpm watch",
     "start-test-server": "http-server -p 9002",
-    "test": "yarn lint:js && yarn test:ci",
-    "test:ci": "yarn test:unit:ci && yarn test:cy:ci",
-    "test:cy:ci": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:run",
-    "test:cy:watch": "yarn build && start-server-and-test start-test-server http://localhost:9002 cy:open",
+    "test": "pnpm lint:js && pnpm test:ci",
+    "test:ci": "pnpm test:unit:ci && pnpm test:cy:ci",
+    "test:cy:ci": "pnpm build && start-server-and-test start-test-server http://localhost:9002 cy:run",
+    "test:cy:watch": "pnpm build && start-server-and-test start-test-server http://localhost:9002 cy:open",
     "test:unit:ci": "jest --coverage",
     "test:unit:watch": "jest --watch",
-    "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
+    "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.27.4",
@@ -73,10 +73,17 @@
     "registry": "https://registry.npmjs.org"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "core-js",
+      "cypress"
+    ]
   },
   "volta": {
-    "node": "16.0.0",
-    "yarn": "1.22.10"
+    "node": "18.0.0",
+    "pnpm": "10.24.0"
   }
 }

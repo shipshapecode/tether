@@ -2,13 +2,13 @@
 
 You will need:
 
-- [Yarn](https://yarnpkg.com/)
+- [pnpm](https://pnpm.io/)
 
 Windows users will need additional setup to enable build capabilities in NPM.
 From an administrative command window:
 
 ```sh
-    yarn global add windows-build-tools
+    pnpm global add windows-build-tools
 ```
 
 ## Getting started
@@ -16,8 +16,8 @@ From an administrative command window:
 1. Fork the project
 2. Clone your forked project by running `git clone git@github.com:{
    YOUR_USERNAME }/tether.git`
-3. Run `yarn` to install node modules
-4. Test that you can build the source by running `yarn build` and ensure the `dist` directory appears.
+3. Run `pnpm` to install node modules
+4. Test that you can build the source by running `pnpm build` and ensure the `dist` directory appears.
 
 ## Writing code!
 
@@ -26,9 +26,9 @@ you can focus on writing relevant code. If there is a fix or feature you would l
 to contribute, we ask that you take the following steps:
 
 1. Most of the _editable_ code lives in the `src` directory while built code
-   will end up in the `dist` directory upon running `yarn build`.
+   will end up in the `dist` directory upon running `pnpm build`.
 
-2. Some examples are served out of the `examples` directory. Running `yarn start` will open the list in your browser and initiate a live-reloading session as you make changes.
+2. Some examples are served out of the `examples` directory. Running `pnpm start` will open the list in your browser and initiate a live-reloading session as you make changes.
 
 
 ## Opening Pull Requests
@@ -46,7 +46,7 @@ All PRs, that change code functionality, are required to have accompanying tests
 
 ### Acceptance Tests
 
-Acceptance tests are run using [`cypress`](https://github.com/cypress-io/cypress). A number of different testing configurations can be found in [`package.json`](/package.json), but you can simply run `yarn test:ci:watch` to build your latest changes and begin running the tests inside a Chrome browser instance.
+Acceptance tests are run using [`cypress`](https://github.com/cypress-io/cypress). A number of different testing configurations can be found in [`package.json`](/package.json), but you can simply run `pnpm test:ci:watch` to build your latest changes and begin running the tests inside a Chrome browser instance.
 
 ⚠️ The acceptance tests are set up to run on `localhost` port `9002`. If you'd like to change this port, make sure to change the `baseUrl` option inside of [`cypress.json`](/cypress.json), and change any references to port `9002` in [`package.json`](/package.json) accordingly.
 
