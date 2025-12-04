@@ -35,7 +35,7 @@ describe('Shift', () => {
     });
 
     it('shifts position with function value', () => {
-      const shiftFn = jest.fn(({ top, left }) => ({ top: 5, left: 10 }));
+      const shiftFn = jest.fn(() => ({ top: 5, left: 10 }));
       const context = {
         options: { shift: shiftFn }
       };

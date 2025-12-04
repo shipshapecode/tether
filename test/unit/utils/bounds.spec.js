@@ -83,10 +83,8 @@ describe('Utils - bounds', () => {
       const bounds = getScrollHandleBounds(body, smallElement);
       expect(typeof bounds.height).toBe('number');
       expect(isNaN(bounds.height)).toBe(false);
-      // If the calculation works, it should enforce minimum of 24
-      if (!isNaN(bounds.height)) {
-        expect(bounds.height).toBeGreaterThanOrEqual(24);
-      }
+      // The calculation should enforce minimum of 24
+      expect(bounds.height).toBeGreaterThanOrEqual(24);
       
       body.removeChild(smallElement);
     });
