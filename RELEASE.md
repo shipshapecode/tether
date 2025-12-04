@@ -31,7 +31,7 @@ Once the prep work is completed, the actual release is straight forward:
 * First, ensure that you have installed your projects dependencies:
 
 ```sh
-yarn install
+pnpm install
 ```
 
 * Second, ensure that you have obtained a

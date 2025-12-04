@@ -28,5 +28,10 @@ module.exports = {
   // A map from regular expressions to paths to transformers
   transform: {
     '^.+\\.js$': 'babel-jest'
-  }
+  },
+
+  // Transform sinon ESM module (handle pnpm structure)
+  transformIgnorePatterns: [
+    'node_modules/(?!(.pnpm|sinon))'
+  ]
 };

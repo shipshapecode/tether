@@ -24,7 +24,8 @@ describe('Scroll', () => {
       cy.get('.pointer').and(el => {
         const vpOffset = el[0].getBoundingClientRect();
         // we measure from top minus scrolled coords
-        expect(vpOffset.top + window.pageYOffset).to.equal(tetherOffsetTop);
+        // Allow for sub-pixel rounding differences
+        expect(vpOffset.top + window.pageYOffset).to.be.closeTo(tetherOffsetTop, 1);
       });
     });
   });
