@@ -1,5 +1,37 @@
 # Changelog
 
+## Release (2025-12-05)
+
+* tether 3.0.0 (major)
+
+#### :boom: Breaking Change
+* `tether`
+  * [#1114](https://github.com/shipshapecode/tether/pull/1114) Drop support for node < 16 ([@monshan](https://github.com/monshan))
+
+#### :rocket: Enhancement
+* `tether`
+  * [#1075](https://github.com/shipshapecode/tether/pull/1075) Remove the markers when tether is destroyed ([@pieter-v](https://github.com/pieter-v))
+
+#### :bug: Bug Fix
+* `tether`
+  * [#835](https://github.com/shipshapecode/tether/pull/835) Fix "document is not defined" error ([@diegohaz](https://github.com/diegohaz))
+
+#### :memo: Documentation
+* `tether`
+  * [#1052](https://github.com/shipshapecode/tether/pull/1052) docs: update CDN url ([@drl990114](https://github.com/drl990114))
+
+#### :house: Internal
+* `tether`
+  * [#1703](https://github.com/shipshapecode/tether/pull/1703) Add Release plan ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#1702](https://github.com/shipshapecode/tether/pull/1702) Switch to pnpm ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 5
+- Haz ([@diegohaz](https://github.com/diegohaz))
+- Marika Shanahan ([@monshan](https://github.com/monshan))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- [@pieter-v](https://github.com/pieter-v)
+- drl990114 ([@drl990114](https://github.com/drl990114))
+
 Deprecated as of 10.7.0. highlight(lang, code, ...args) has been deprecated.
 Deprecated as of 10.7.0. Please use highlight(code, options) instead.
 https://github.com/highlightjs/highlight.js/issues/2277
