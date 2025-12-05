@@ -65,7 +65,7 @@
     "rollup-plugin-license": "^3.6.0",
     "rollup-plugin-sass": "^1.15.3",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-visualizer": "^5.14.0",
+    "rollup-plugin-visualizer": "^6.0.5",
     "sinon": "^15.2.0",
     "start-server-and-test": "^2.1.3"
   },
