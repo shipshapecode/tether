@@ -2,6 +2,17 @@
 
 ## Release (2025-12-05)
 
+* tether 3.0.1 (patch)
+
+#### :bug: Bug Fix
+* `tether`
+  * [#1705](https://github.com/shipshapecode/tether/pull/1705) Add prepare to ensure dist is published ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+## Release (2025-12-05)
+
 * tether 3.0.0 (major)
 
 #### :boom: Breaking Change

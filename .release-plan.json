@@ -1,34 +1,18 @@
 {
   "solution": {
     "tether": {
-      "impact": "major",
-      "oldVersion": "2.0.0",
-      "newVersion": "3.0.0",
+      "impact": "patch",
+      "oldVersion": "3.0.0",
+      "newVersion": "3.0.1",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-12-05)\n\n* tether 3.0.0 (major)\n\n#### :boom: Breaking Change\n* `tether`\n  * [#1114](https://github.com/shipshapecode/tether/pull/1114) Drop support for node < 16 ([@monshan](https://github.com/monshan))\n\n#### :rocket: Enhancement\n* `tether`\n  * [#1075](https://github.com/shipshapecode/tether/pull/1075) Remove the markers when tether is destroyed ([@pieter-v](https://github.com/pieter-v))\n\n#### :bug: Bug Fix\n* `tether`\n  * [#835](https://github.com/shipshapecode/tether/pull/835) Fix \"document is not defined\" error ([@diegohaz](https://github.com/diegohaz))\n\n#### :memo: Documentation\n* `tether`\n  * [#1052](https://github.com/shipshapecode/tether/pull/1052) docs: update CDN url ([@drl990114](https://github.com/drl990114))\n\n#### :house: Internal\n* `tether`\n  * [#1703](https://github.com/shipshapecode/tether/pull/1703) Add Release plan ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#1702](https://github.com/shipshapecode/tether/pull/1702) Switch to pnpm ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 5\n- Haz ([@diegohaz](https://github.com/diegohaz))\n- Marika Shanahan ([@monshan](https://github.com/monshan))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n- [@pieter-v](https://github.com/pieter-v)\n- drl990114 ([@drl990114](https://github.com/drl990114))\n"
+  "description": "## Release (2025-12-05)\n\n* tether 3.0.1 (patch)\n\n#### :bug: Bug Fix\n* `tether`\n  * [#1705](https://github.com/shipshapecode/tether/pull/1705) Add prepare to ensure dist is published ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }
