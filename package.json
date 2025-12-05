@@ -20,6 +20,7 @@
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
     "lint:js": "eslint . --ext js",
+    "prepare": "pnpm build",
     "start": "pnpm watch",
     "start-test-server": "http-server -p 9002",
     "test": "pnpm lint:js && pnpm test:ci",
