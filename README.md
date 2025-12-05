@@ -12,9 +12,7 @@
 ![Download count all time](https://img.shields.io/npm/dt/tether.svg)
 [![npm](https://img.shields.io/npm/dm/tether.svg)]()
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/tether.svg)
-[![Build Status](https://travis-ci.com/shipshapecode/tether.svg?branch=master)](https://travis-ci.com/shipshapecode/tether)
-[![Maintainability](https://api.codeclimate.com/v1/badges/57016ae28b99490eac30/maintainability)](https://codeclimate.com/github/shipshapecode/tether/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/57016ae28b99490eac30/test_coverage)](https://codeclimate.com/github/shipshapecode/tether/test_coverage)
+[![CI Build](https://github.com/shipshapecode/tether/actions/workflows/main.yml/badge.svg)](https://github.com/shipshapecode/tether/actions/workflows/main.yml)
 
 ## 🐙 Project status 🐙 
 
