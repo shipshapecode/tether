@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-12-07)
+
+* tether 3.0.2 (patch)
+
+#### :bug: Bug Fix
+* `tether`
+  * [#1707](https://github.com/shipshapecode/tether/pull/1707) Guard against invalid removeChild ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2025-12-05)
 
 * tether 3.0.1 (patch)
