@@ -2,8 +2,8 @@
   "solution": {
     "tether": {
       "impact": "patch",
-      "oldVersion": "3.0.0",
-      "newVersion": "3.0.1",
+      "oldVersion": "3.0.1",
+      "newVersion": "3.0.2",
       "tagName": "latest",
       "constraints": [
         {
@@ -14,5 +14,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-12-05)\n\n* tether 3.0.1 (patch)\n\n#### :bug: Bug Fix\n* `tether`\n  * [#1705](https://github.com/shipshapecode/tether/pull/1705) Add prepare to ensure dist is published ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2025-12-07)\n\n* tether 3.0.2 (patch)\n\n#### :bug: Bug Fix\n* `tether`\n  * [#1707](https://github.com/shipshapecode/tether/pull/1707) Guard against invalid removeChild ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }
