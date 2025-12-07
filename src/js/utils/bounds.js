@@ -143,7 +143,7 @@ export function getVisibleBounds(body, target) {
 }
 
 export function removeUtilElements(body) {
-  if (zeroElement) {
+  if (zeroElement && zeroElement?.parentNode === body) {
     body.removeChild(zeroElement);
   }
   zeroElement = null;

@@ -683,7 +683,7 @@ class TetherClass extends Evented {
 
       if (getOffsetParent(this.element) !== offsetParent) {
         defer(() => {
-          this.element.parentNode.removeChild(this.element);
+          this.element?.parentNode?.removeChild(this.element);
           offsetParent.appendChild(this.element);
         });
       }
@@ -719,7 +719,7 @@ class TetherClass extends Evented {
         }
 
         if (!offsetParentIsBody) {
-          this.element.parentNode.removeChild(this.element);
+          this.element?.parentNode?.removeChild(this.element);
           this.element.ownerDocument.body.appendChild(this.element);
         }
       }
@@ -794,10 +794,18 @@ Tether.modules.push({
   },
 
   destroy() {
-    ['target', 'element'].forEach((type => {
+    ['target', 'element'].forEach((type) => {
+      if (!this.markers || !this.markers[type]) {
+        return;
+      }
       const el = this.markers[type].el;
-      this[type].removeChild(el);
-    }))
+      try {
+        el?.parentNode?.removeChild(el);
+      } catch (e) {
+        // Marker elements may have already been removed if the parent was removed from DOM
+        // This is expected behavior in dynamic applications
+      }
+    });
   },
 
   position({ manualOffset, manualTargetOffset }) {
