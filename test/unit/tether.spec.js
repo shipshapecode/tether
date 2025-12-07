@@ -159,4 +159,103 @@ describe('Tether', () => {
       expect(target.classList.length, 'target - destroy sets classes back to initial state').toEqual(1);
     });
   });
+
+  describe('defensive DOM removal', () => {
+    it('should handle destroy when target is removed from DOM', () => {
+      const tether = new Tether({
+        element: '.element',
+        target: '.target',
+        attachment: 'top left',
+        targetAttachment: 'top right'
+      });
+
+      tether.enable();
+      
+      // Disable first to prevent any positioning attempts
+      tether.disable();
+
+      // Remove target from DOM before destroying tether
+      const originalTarget = target;
+      document.body.removeChild(target);
+
+      // This should not throw an error
+      tether.destroy();
+
+      // Clean up element - it might have been moved by tether
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      }
+      
+      // Put element back in body for afterEach
+      if (!element.parentNode) {
+        document.body.appendChild(element);
+      }
+
+      // Reset target to a new one for afterEach
+      target = document.createElement('div');
+      target.classList.add('target');
+      document.body.appendChild(target);
+    });
+
+    it('should handle destroy when element is removed from DOM', () => {
+      const tether = new Tether({
+        element: '.element',
+        target: '.target',
+        attachment: 'top left',
+        targetAttachment: 'top right'
+      });
+
+      tether.enable();
+      
+      // Disable first to prevent any positioning attempts
+      tether.disable();
+
+      // Remove element from DOM before destroying tether
+      const currentParent = element.parentNode;
+      if (currentParent) {
+        currentParent.removeChild(element);
+      }
+
+      // This should not throw an error
+      tether.destroy();
+
+      // Reset element for afterEach
+      element = document.createElement('div');
+      element.classList.add('element');
+      document.body.appendChild(element);
+    });
+
+    it('should handle destroy when both element and target are removed from DOM', () => {
+      const tether = new Tether({
+        element: '.element',
+        target: '.target',
+        attachment: 'top left',
+        targetAttachment: 'top right'
+      });
+
+      tether.enable();
+      
+      // Disable first to prevent any positioning attempts
+      tether.disable();
+
+      // Remove both from DOM before destroying tether
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      }
+      if (target.parentNode) {
+        target.parentNode.removeChild(target);
+      }
+
+      // This should not throw an error
+      tether.destroy();
+
+      // Reset for afterEach
+      element = document.createElement('div');
+      element.classList.add('element');
+      document.body.appendChild(element);
+      target = document.createElement('div');
+      target.classList.add('target');
+      document.body.appendChild(target);
+    });
+  });
 });
