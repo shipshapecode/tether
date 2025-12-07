@@ -162,6 +162,8 @@ describe('Tether', () => {
 
   describe('defensive DOM removal', () => {
     it('should handle destroy when target is removed from DOM', () => {
+      expect.assertions(2);
+
       const tether = new Tether({
         element: '.element',
         target: '.target',
@@ -170,22 +172,26 @@ describe('Tether', () => {
       });
 
       tether.enable();
-      
+
+      // Verify tether is enabled
+      expect(tether.enabled).toBe(true);
+
       // Disable first to prevent any positioning attempts
       tether.disable();
 
       // Remove target from DOM before destroying tether
-      const originalTarget = target;
       document.body.removeChild(target);
 
       // This should not throw an error
-      tether.destroy();
+      expect(() => {
+        tether.destroy();
+      }).not.toThrow();
 
       // Clean up element - it might have been moved by tether
       if (element.parentNode) {
         element.parentNode.removeChild(element);
       }
-      
+
       // Put element back in body for afterEach
       if (!element.parentNode) {
         document.body.appendChild(element);
@@ -198,6 +204,8 @@ describe('Tether', () => {
     });
 
     it('should handle destroy when element is removed from DOM', () => {
+      expect.assertions(2);
+
       const tether = new Tether({
         element: '.element',
         target: '.target',
@@ -206,7 +214,10 @@ describe('Tether', () => {
       });
 
       tether.enable();
-      
+
+      // Verify tether is enabled
+      expect(tether.enabled).toBe(true);
+
       // Disable first to prevent any positioning attempts
       tether.disable();
 
@@ -217,7 +228,9 @@ describe('Tether', () => {
       }
 
       // This should not throw an error
-      tether.destroy();
+      expect(() => {
+        tether.destroy();
+      }).not.toThrow();
 
       // Reset element for afterEach
       element = document.createElement('div');
@@ -226,6 +239,8 @@ describe('Tether', () => {
     });
 
     it('should handle destroy when both element and target are removed from DOM', () => {
+      expect.assertions(2);
+
       const tether = new Tether({
         element: '.element',
         target: '.target',
@@ -234,7 +249,10 @@ describe('Tether', () => {
       });
 
       tether.enable();
-      
+
+      // Verify tether is enabled
+      expect(tether.enabled).toBe(true);
+
       // Disable first to prevent any positioning attempts
       tether.disable();
 
@@ -247,7 +265,9 @@ describe('Tether', () => {
       }
 
       // This should not throw an error
-      tether.destroy();
+      expect(() => {
+        tether.destroy();
+      }).not.toThrow();
 
       // Reset for afterEach
       element = document.createElement('div');
