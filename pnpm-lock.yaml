@@ -30,8 +30,8 @@ importers:
         specifier: ^6.26.2
         version: 6.26.2
       chai:
-        specifier: ^6.2.1
-        version: 6.2.1
+        specifier: ^6.2.2
+        version: 6.2.2
       cssnano:
         specifier: ^7.1.2
         version: 7.1.2(postcss@8.5.6)
@@ -1769,8 +1769,8 @@ packages:
   caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
 
-  chai@6.2.1:
-    resolution: {integrity: sha512-p4Z49OGG5W/WBCPSS/dH3jQ73kD6tiMmUM+bckNK6Jr5JHMG3k9bg/BvKR8lKmtVBKmOiuVaV2ws8s9oSbwysg==}
+  chai@6.2.2:
+    resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
 
   chalk@1.1.3:
@@ -7306,7 +7306,7 @@ snapshots:
 
   caseless@0.12.0: {}
 
-  chai@6.2.1: {}
+  chai@6.2.2: {}
 
   chalk@1.1.3:
     dependencies:
