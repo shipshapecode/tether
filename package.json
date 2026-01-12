@@ -51,7 +51,7 @@
     "jsdom": "^27.4.0",
     "mutationobserver-shim": "^0.3.7",
     "postcss": "^8.5.6",
-    "release-plan": "^0.17.0",
+    "release-plan": "^0.17.4",
     "rimraf": "^6.1.2",
     "rollup": "^2.79.2",
     "rollup-plugin-babel": "^4.4.0",
