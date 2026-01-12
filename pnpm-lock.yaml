@@ -36,8 +36,8 @@ importers:
         specifier: ^7.1.2
         version: 7.1.2(postcss@8.5.6)
       cypress:
-        specifier: 15.8.1
-        version: 15.8.1
+        specifier: 15.8.2
+        version: 15.8.2
       eslint:
         specifier: ^8.57.1
         version: 8.57.1
@@ -740,8 +740,8 @@ packages:
     resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
     engines: {node: '>=18'}
 
-  '@cypress/request@3.0.9':
-    resolution: {integrity: sha512-I3l7FdGRXluAS44/0NguwWlO83J18p0vlr2FYHrJkWdNYhgVoiYo61IXPqaOsL+vNxU1ZqMACzItGK3/KKDsdw==}
+  '@cypress/request@3.0.10':
+    resolution: {integrity: sha512-hauBrOdvu08vOsagkZ/Aju5XuiZx6ldsLfByg1htFeldhex+PeMrYauANzFsMJeAA0+dyPLbDoX2OYuvVoLDkQ==}
     engines: {node: '>= 6'}
 
   '@cypress/xvfb@1.2.4':
@@ -1315,8 +1315,8 @@ packages:
   '@types/node@24.10.1':
     resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
 
-  '@types/node@25.0.3':
-    resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
+  '@types/node@25.0.6':
+    resolution: {integrity: sha512-NNu0sjyNxpoiW3YuVFfNz7mxSQ+S4X2G28uqg2s+CzoqoQjLPsWSbsFFyztIAqt2vb8kfEAsJNepMGPTxFDx3Q==}
 
   '@types/sinonjs__fake-timers@8.1.1':
     resolution: {integrity: sha512-0kSuKjAS0TrGLJ0M/+8MaFkGsQhZpB6pxOmvS3K8FYI72K//YmdfoW9X2qPsAKh1mkwxGD5zib9s1FIFed6E8g==}
@@ -2039,8 +2039,8 @@ packages:
     resolution: {integrity: sha512-GlsEptulso7Jg0VaOZ8BXQi3AkYM5BOJKEO/rjMidSCq70FkIC5y0eawrCXeYzxgt3OCf4Ls+eoxN+/05vN0Ag==}
     engines: {node: '>=20'}
 
-  cypress@15.8.1:
-    resolution: {integrity: sha512-ogc62stTQGh1395ipKxfCE5hQuSApTzeH5e0d9U6m7wYO9HQeCpgnkYtBtd0MbkN2Fnch5Od2mX9u4hoTlrH4Q==}
+  cypress@15.8.2:
+    resolution: {integrity: sha512-KGpuiE8o9l9eyVLPkig574t8zOXkEDKzI0a+RQwy4cfXzpaLipvTOv0t+QEEkLiw/8HbgMNZ0fbPKakJAB3USA==}
     engines: {node: ^20.1.0 || ^22.0.0 || >=24.0.0}
     hasBin: true
 
@@ -4146,6 +4146,10 @@ packages:
     resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
     engines: {node: '>=0.6'}
 
+  qs@6.14.1:
+    resolution: {integrity: sha512-4EK3+xJl8Ts67nLYNwqw/dsFVnCf+qR7RgXSK9jEEm9unao3njwMDdmsdvoKBKHzxd7tCYz5e5M+SnMjdtXGQQ==}
+    engines: {node: '>=0.6'}
+
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -4720,8 +4724,8 @@ packages:
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
-  systeminformation@5.27.14:
-    resolution: {integrity: sha512-3DoNDYSZBLxBwaJtQGWNpq0fonga/VZ47HY1+7/G3YoIPaPz93Df6egSzzTKbEMmlzUpy3eQ0nR9REuYIycXGg==}
+  systeminformation@5.30.3:
+    resolution: {integrity: sha512-NgHJUpA+y7j4asLQa9jgBt+Eb2piyQIXQ+YjOyd2K0cHNwbNJ6I06F5afOqOiaCuV/wrEyGrb0olg4aFLlJD+A==}
     engines: {node: '>=8.0.0'}
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
@@ -5957,7 +5961,7 @@ snapshots:
 
   '@csstools/css-tokenizer@3.0.4': {}
 
-  '@cypress/request@3.0.9':
+  '@cypress/request@3.0.10':
     dependencies:
       aws-sign2: 0.7.0
       aws4: 1.13.2
@@ -5972,7 +5976,7 @@ snapshots:
       json-stringify-safe: 5.0.1
       mime-types: 2.1.35
       performance-now: 2.1.0
-      qs: 6.14.0
+      qs: 6.14.1
       safe-buffer: 5.2.1
       tough-cookie: 5.1.2
       tunnel-agent: 0.6.0
@@ -6131,7 +6135,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
       jest-mock: 29.7.0
 
   '@jest/environment@30.2.0':
@@ -6160,7 +6164,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -6187,7 +6191,7 @@ snapshots:
 
   '@jest/pattern@30.0.1':
     dependencies:
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
       jest-regex-util: 30.0.1
 
   '@jest/reporters@29.7.0':
@@ -6673,7 +6677,7 @@ snapshots:
 
   '@types/cors@2.8.19':
     dependencies:
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
 
   '@types/estree@1.0.8': {}
 
@@ -6706,7 +6710,7 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@types/node@25.0.3':
+  '@types/node@25.0.6':
     dependencies:
       undici-types: 7.16.0
 
@@ -6732,7 +6736,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
     optional: true
 
   '@typescript-eslint/project-service@8.51.0(typescript@5.9.3)':
@@ -7610,9 +7614,9 @@ snapshots:
       '@csstools/css-syntax-patches-for-csstree': 1.0.22
       css-tree: 3.1.0
 
-  cypress@15.8.1:
+  cypress@15.8.2:
     dependencies:
-      '@cypress/request': 3.0.9
+      '@cypress/request': 3.0.10
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
       '@types/sinonjs__fake-timers': 8.1.1
       '@types/sizzle': 2.3.10
@@ -7649,7 +7653,7 @@ snapshots:
       proxy-from-env: 1.0.0
       request-progress: 3.0.0
       supports-color: 8.1.1
-      systeminformation: 5.27.14
+      systeminformation: 5.30.3
       tmp: 0.2.5
       tree-kill: 1.2.2
       untildify: 4.0.0
@@ -7817,7 +7821,7 @@ snapshots:
   engine.io@6.6.4:
     dependencies:
       '@types/cors': 2.8.19
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -8760,7 +8764,7 @@ snapshots:
       '@jest/expect': 29.7.0
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
       chalk: 4.1.2
       co: 4.6.0
       dedent: 1.7.0
@@ -8872,7 +8876,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -8942,7 +8946,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 25.0.3
+      '@types/node': 25.0.6
       jest-util: 29.7.0
 
   jest-mock@30.2.0:
@@ -10113,6 +10117,10 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
+  qs@6.14.1:
+    dependencies:
+      side-channel: 1.1.0
+
   queue-microtask@1.2.3: {}
 
   randombytes@2.1.0:
@@ -10808,7 +10816,7 @@ snapshots:
 
   symbol-tree@3.2.4: {}
 
-  systeminformation@5.27.14: {}
+  systeminformation@5.30.3: {}
 
   table@5.4.6:
     dependencies:
